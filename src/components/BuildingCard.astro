@@ -1,0 +1,170 @@
+---
+import StatsRow from './StatsRow.astro';
+
+interface Props {
+  name: string;
+  slug: string;
+  buildingClass: string;
+  address: string;
+  metro: string;
+  metroMinutes: number;
+  stats: { value: string | number; label: string; unit?: string }[];
+  description: string;
+  image: string;
+  imageAlt: string;
+  reversed?: boolean;
+  presentationUrl?: string;
+}
+
+const {
+  name, slug, buildingClass, address, metro, metroMinutes,
+  stats, description, image, imageAlt, reversed = false, presentationUrl
+} = Astro.props;
+---
+
+<article class:list={['building-card', { 'building-card--reversed': reversed }]}>
+  <div class="building-card__text">
+    <div class="building-card__header">
+      <div>
+        <span class="building-card__label">Бизнес-центр</span>
+        <h2 class="building-card__name text-display">{name}</h2>
+      </div>
+      <a href={`/buildings/${slug}/`} class="building-card__arrow" aria-label={`Подробнее о БЦ ${name}`}>
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M8 4l20 0 0 20M28 4L4 28"/>
+        </svg>
+      </a>
+    </div>
+
+    <div class="building-card__meta">
+      <p class="building-card__address">Адрес: <strong>{address}</strong></p>
+      <p class="building-card__metro">Метро: {metro} <strong>{metroMinutes} мин</strong> пешком</p>
+    </div>
+
+    <StatsRow stats={stats} />
+
+    <p class="building-card__desc">{description}</p>
+
+    <div class="building-card__actions">
+      <a href={`/buildings/${slug}/`} class="btn btn--primary">Подробнее</a>
+      {presentationUrl && (
+        <a href={presentationUrl} class="btn btn--outline" download>
+          Скачать презентацию
+        </a>
+      )}
+    </div>
+  </div>
+
+  <div class="building-card__image-wrap">
+    <div class="building-card__class-badge badge--class">{buildingClass}</div>
+    <img src={image} alt={imageAlt} class="building-card__image" loading="lazy" />
+  </div>
+</article>
+
+<style>
+  .building-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-2xl);
+    align-items: center;
+    padding-block: var(--space-3xl);
+  }
+
+  .building-card--reversed {
+    direction: rtl;
+  }
+
+  .building-card--reversed > * {
+    direction: ltr;
+  }
+
+  .building-card__header {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+  }
+
+  .building-card__label {
+    font-size: var(--text-caption);
+    color: var(--color-text-secondary);
+    display: block;
+    margin-bottom: var(--space-xs);
+  }
+
+  .building-card__name {
+    flex: 1;
+  }
+
+  .building-card__arrow {
+    flex-shrink: 0;
+    color: var(--color-text-primary);
+    transition: color var(--transition-fast);
+  }
+
+  .building-card__arrow:hover {
+    color: var(--color-primary);
+  }
+
+  .building-card__meta {
+    margin-bottom: var(--space-lg);
+  }
+
+  .building-card__address,
+  .building-card__metro {
+    font-size: var(--text-caption);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-xs);
+  }
+
+  .building-card__desc {
+    margin-top: var(--space-lg);
+    color: var(--color-text-secondary);
+    max-width: 32rem;
+  }
+
+  .building-card__actions {
+    display: flex;
+    gap: var(--space-md);
+    margin-top: var(--space-xl);
+    flex-wrap: wrap;
+  }
+
+  .building-card__image-wrap {
+    position: relative;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+
+  .building-card__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    aspect-ratio: 4 / 5;
+  }
+
+  .building-card__class-badge {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    font-size: var(--text-display);
+    padding: var(--space-lg) var(--space-xl);
+    background-color: var(--color-primary);
+    color: var(--color-text-inverse);
+    line-height: 1;
+  }
+
+  @media (max-width: 767px) {
+    .building-card {
+      grid-template-columns: 1fr;
+    }
+
+    .building-card--reversed {
+      direction: ltr;
+    }
+
+    .building-card__image {
+      aspect-ratio: 16 / 10;
+    }
+  }
+</style>

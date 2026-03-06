@@ -1,0 +1,49 @@
+---
+interface Props {
+  title: string;
+  subtitle?: string;
+  align?: 'left' | 'center';
+  tag?: 'h2' | 'h3';
+  inverted?: boolean;
+}
+
+const { title, subtitle, align = 'left', tag = 'h2', inverted = false } = Astro.props;
+const Tag = tag;
+---
+
+<div class:list={['section-heading', `section-heading--${align}`, { 'section-heading--inverted': inverted }]}>
+  <Tag class="section-heading__title">{title}</Tag>
+  {subtitle && <p class="section-heading__subtitle">{subtitle}</p>}
+</div>
+
+<style>
+  .section-heading {
+    margin-bottom: var(--space-2xl);
+  }
+
+  .section-heading--center {
+    text-align: center;
+  }
+
+  .section-heading__title {
+    margin-bottom: var(--space-sm);
+  }
+
+  .section-heading__subtitle {
+    font-size: var(--text-body);
+    color: var(--color-text-secondary);
+    max-width: 40rem;
+  }
+
+  .section-heading--center .section-heading__subtitle {
+    margin-inline: auto;
+  }
+
+  .section-heading--inverted .section-heading__title {
+    color: var(--color-text-inverse);
+  }
+
+  .section-heading--inverted .section-heading__subtitle {
+    color: rgba(255, 255, 255, 0.7);
+  }
+</style>

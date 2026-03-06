@@ -1,0 +1,93 @@
+---
+import BuildingLayout from '@layouts/BuildingLayout.astro';
+import SectionHeading from '@components/SectionHeading.astro';
+import ContactCTA from '@components/ContactCTA.astro';
+import { getBuildingBySlug } from '@data/buildings';
+import { getOfficesByBuilding } from '@data/offices';
+import { contactInfo } from '@data/navigation';
+
+const building = getBuildingBySlug('anm')!;
+const offices = getOfficesByBuilding('anm');
+
+const title = `Аренда офисов в БЦ ${building.name} — свободные помещения | УК АНМ`;
+const description = offices.length > 0
+  ? `Свободные офисы в бизнес-центре ${building.name}. Площади от ${Math.min(...offices.map(o => o.area))} до ${Math.max(...offices.map(o => o.area))} м².`
+  : `Аренда офисов в бизнес-центре ${building.name}. Свяжитесь с нами для обсуждения вариантов.`;
+---
+
+<BuildingLayout
+  title={title}
+  description={description}
+  buildingName={building.name}
+  buildingSlug={building.slug}
+>
+  <section class="section">
+    <div class="container">
+      <SectionHeading
+        title={`Аренда офисов в БЦ ${building.name}`}
+        subtitle={offices.length > 0
+          ? `${offices.length} помещений доступно для аренды`
+          : 'Свободных помещений нет'
+        }
+      />
+
+      {offices.length > 0 ? (
+        <div id="building-office-filter-root" data-building={building.slug}>
+          <noscript>
+            <p>Для просмотра доступных офисов включите JavaScript или свяжитесь с нами по телефону {contactInfo.phone}.</p>
+          </noscript>
+        </div>
+      ) : (
+        <div class="offices-empty">
+          <div class="offices-empty__content">
+            <h3>В данный момент свободных помещений нет</h3>
+            <p>Обратитесь с запросом — мы подберём подходящий вариант.</p>
+            <div class="offices-empty__contacts">
+              <a href={contactInfo.commercialHref} class="offices-empty__phone">{contactInfo.commercial}</a>
+              <a href={contactInfo.emailHref} class="offices-empty__email">{contactInfo.email}</a>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <ContactCTA />
+</BuildingLayout>
+
+<style>
+  .offices-empty {
+    background-color: var(--color-accent-yellow);
+    border-radius: var(--radius-md);
+    padding: var(--space-3xl);
+    text-align: center;
+  }
+
+  .offices-empty h3 {
+    margin-bottom: var(--space-md);
+  }
+
+  .offices-empty p {
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-xl);
+  }
+
+  .offices-empty__contacts {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-2xl);
+    flex-wrap: wrap;
+  }
+
+  .offices-empty__phone {
+    font-family: var(--font-heading);
+    font-size: var(--text-h3);
+    font-weight: var(--weight-bold);
+    color: var(--color-text-primary);
+  }
+
+  .offices-empty__email {
+    font-size: var(--text-h4);
+    color: var(--color-text-primary);
+  }
+</style>

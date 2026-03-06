@@ -1,0 +1,202 @@
+@import './variables.css';
+@import './typography.css';
+
+/* ── Reset ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  background-color: var(--color-surface-white);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+/* ── Utility classes ── */
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
+}
+
+.container-wide {
+  width: 100%;
+  max-width: var(--max-width-wide);
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
+}
+
+.section {
+  padding-block: var(--space-4xl);
+}
+
+.section--cream {
+  background-color: var(--color-surface-cream);
+}
+
+.section--dark {
+  background-color: var(--color-surface-dark);
+  color: var(--color-text-inverse);
+}
+
+.section--dark a {
+  color: var(--color-text-inverse);
+}
+
+.section--yellow {
+  background-color: var(--color-accent-yellow);
+}
+
+.grid {
+  display: grid;
+  gap: var(--grid-gap);
+}
+
+.grid--2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.grid--3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.grid--4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+@media (max-width: 1023px) {
+  .grid--3, .grid--4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 767px) {
+  .grid--2, .grid--3, .grid--4 {
+    grid-template-columns: 1fr;
+  }
+
+  .section {
+    padding-block: var(--space-3xl);
+  }
+
+  :root {
+    --container-padding: var(--space-md);
+  }
+}
+
+/* ── Button styles ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-md) var(--space-xl);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-weight: var(--weight-medium);
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-base);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.btn--primary {
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse);
+}
+
+.btn--primary:hover {
+  background-color: var(--color-primary-dark);
+  color: var(--color-text-inverse);
+}
+
+.btn--outline {
+  border: 2px solid var(--color-primary);
+  color: var(--color-primary);
+  background: transparent;
+}
+
+.btn--outline:hover {
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse);
+}
+
+.btn--dark {
+  background-color: var(--color-surface-dark);
+  color: var(--color-text-inverse);
+}
+
+.btn--dark:hover {
+  background-color: #2a2a3e;
+  color: var(--color-text-inverse);
+}
+
+.btn--link {
+  padding: 0;
+  color: var(--color-primary);
+  font-weight: var(--weight-medium);
+  background: none;
+}
+
+.btn--link:hover {
+  color: var(--color-primary-dark);
+}
+
+.btn--link::after {
+  content: ' →';
+}
+
+/* ── Badge ── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-xs) var(--space-sm);
+  font-size: var(--text-caption);
+  font-weight: var(--weight-semibold);
+  border-radius: var(--radius-sm);
+}
+
+.badge--class {
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse);
+  font-size: var(--text-h3);
+  padding: var(--space-md) var(--space-lg);
+}
+
+/* ── Visually hidden (for accessibility) ── */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

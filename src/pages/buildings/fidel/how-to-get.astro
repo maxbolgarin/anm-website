@@ -1,0 +1,132 @@
+---
+import BuildingLayout from '@layouts/BuildingLayout.astro';
+import SectionHeading from '@components/SectionHeading.astro';
+import ContactCTA from '@components/ContactCTA.astro';
+import { getBuildingBySlug } from '@data/buildings';
+
+const building = getBuildingBySlug('fidel')!;
+
+const title = `Как добраться до БЦ ${building.name} — схема проезда | УК АНМ`;
+const description = `Как добраться до бизнес-центра ${building.name}. Метро ${building.metro[0].name} — ${building.metro[0].walkingMinutes} мин пешком. Схема проезда на автомобиле.`;
+---
+
+<BuildingLayout
+  title={title}
+  description={description}
+  buildingName={building.name}
+  buildingSlug={building.slug}
+>
+  <section class="section">
+    <div class="container">
+      <SectionHeading
+        title={`Как добраться до БЦ ${building.name}`}
+        subtitle={building.address}
+      />
+
+      <div class="how-to-get-grid">
+        <!-- Left: directions -->
+        <div class="how-to-get-grid__info">
+          <div class="direction-block">
+            <h3>На метро</h3>
+            {building.metro.map((m) => (
+              <div class="direction-item">
+                <span class="direction-dot" style={`background-color: ${m.lineColor}`}></span>
+                <div>
+                  <strong>{m.name}</strong>
+                  <span class="text-caption"> — {m.line}</span>
+                  <p class="text-caption">{m.walkingMinutes} минут пешком от станции</p>
+                </div>
+              </div>
+            ))}
+            <p class="direction-detail">
+              Выйдите из метро, поверните направо и идите по Пр. Обуховской Обороны в сторону увеличения нумерации домов. Через 5 минут вы увидите вход на территорию бизнес-центра.
+            </p>
+          </div>
+
+          <div class="direction-block">
+            <h3>На автомобиле</h3>
+            <div class="direction-item">
+              <strong>От Невского проспекта</strong>
+              <p class="text-caption">~5 минут. Двигайтесь по Невскому проспекту в сторону Александро-Невской Лавры, далее по Пр. Обуховской Обороны.</p>
+            </div>
+            <div class="direction-item">
+              <strong>От КАД</strong>
+              <p class="text-caption">~10 минут. Съезд на Пр. Обуховской Обороны.</p>
+            </div>
+          </div>
+
+          <div class="direction-block">
+            <h3>Парковка</h3>
+            <p>Закрытая охраняемая парковка на 500 автомобилей. Въезд со стороны Пр. Обуховской Обороны. Также доступна крытая велопарковка на 50 мест.</p>
+          </div>
+        </div>
+
+        <!-- Right: map -->
+        <div class="how-to-get-grid__map" id="directions-map">
+          <div class="map-section__placeholder">
+            <p>Загрузка карты...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <ContactCTA />
+</BuildingLayout>
+
+<style>
+  .how-to-get-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: var(--space-2xl);
+  }
+
+  .direction-block {
+    margin-bottom: var(--space-2xl);
+  }
+
+  .direction-block h3 {
+    margin-bottom: var(--space-md);
+  }
+
+  .direction-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+  }
+
+  .direction-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+
+  .direction-detail {
+    color: var(--color-text-secondary);
+    line-height: var(--leading-relaxed);
+    margin-top: var(--space-md);
+  }
+
+  .how-to-get-grid__map {
+    height: 500px;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background-color: var(--color-surface-cream);
+    position: sticky;
+    top: 8rem;
+  }
+
+  @media (max-width: 767px) {
+    .how-to-get-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .how-to-get-grid__map {
+      height: 350px;
+      position: static;
+    }
+  }
+</style>

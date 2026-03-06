@@ -1,0 +1,64 @@
+---
+interface Props {
+  name: string;
+  description: string;
+  image: string;
+  imageAlt: string;
+}
+
+const { name, description, image, imageAlt } = Astro.props;
+---
+
+<div class="facility-card">
+  <div class="facility-card__image-wrap">
+    <img src={image} alt={imageAlt} class="facility-card__image" loading="lazy" />
+  </div>
+  <div class="facility-card__content">
+    <h3 class="facility-card__name">{name}</h3>
+    <p class="facility-card__desc">{description}</p>
+  </div>
+</div>
+
+<style>
+  .facility-card {
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background-color: var(--color-surface-white);
+    border: 1px solid var(--color-border);
+    transition: box-shadow var(--transition-base);
+  }
+
+  .facility-card:hover {
+    box-shadow: var(--shadow-md);
+  }
+
+  .facility-card__image-wrap {
+    overflow: hidden;
+  }
+
+  .facility-card__image {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    transition: transform var(--transition-slow);
+  }
+
+  .facility-card:hover .facility-card__image {
+    transform: scale(1.03);
+  }
+
+  .facility-card__content {
+    padding: var(--space-lg);
+  }
+
+  .facility-card__name {
+    font-size: var(--text-h4);
+    margin-bottom: var(--space-sm);
+  }
+
+  .facility-card__desc {
+    font-size: var(--text-caption);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-relaxed);
+  }
+</style>

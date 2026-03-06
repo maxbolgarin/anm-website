@@ -1,0 +1,47 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import BuildingCard from '@components/BuildingCard.astro';
+import SectionHeading from '@components/SectionHeading.astro';
+import ContactCTA from '@components/ContactCTA.astro';
+import Breadcrumbs from '@components/Breadcrumbs.astro';
+import { buildings } from '@data/buildings';
+
+const title = 'Бизнес-центры Санкт-Петербурга — УК АНМ';
+const description = 'Бизнес-центры класса B+ на территории Александро-Невской Мануфактуры. Аренда офисов от УК АНМ.';
+
+const breadcrumbs = [
+  { label: 'Главная', href: '/' },
+  { label: 'Бизнес-центры' },
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <Breadcrumbs items={breadcrumbs} />
+
+  <section class="section">
+    <div class="container">
+      <SectionHeading
+        title="Бизнес-центры"
+        subtitle="Современные офисные пространства на территории Александро-Невской Мануфактуры"
+      />
+      {buildings.map((building, index) => (
+        <BuildingCard
+          name={building.name}
+          slug={building.slug}
+          buildingClass={building.class}
+          address={building.address}
+          metro={building.metro[0].name}
+          metroMinutes={building.metro[0].walkingMinutes}
+          stats={building.stats}
+          description={building.description}
+          image={building.heroImage}
+          imageAlt={`Бизнес-центр ${building.name}`}
+          reversed={index % 2 !== 0}
+          presentationUrl={building.presentationUrl}
+        />
+      ))}
+    </div>
+  </section>
+
+  <ContactCTA />
+</BaseLayout>

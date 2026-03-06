@@ -1,0 +1,28 @@
+---
+import InteractiveMap from './islands/InteractiveMap';
+
+interface MapMarker {
+  lat: number;
+  lng: number;
+  title: string;
+  address: string;
+  href: string;
+}
+
+interface Props {
+  markers: MapMarker[];
+  center?: { lat: number; lng: number };
+  zoom?: number;
+  height?: string;
+}
+
+const { markers, center, zoom, height } = Astro.props;
+---
+
+<InteractiveMap
+  client:visible
+  markers={markers}
+  center={center}
+  zoom={zoom}
+  height={height}
+/>

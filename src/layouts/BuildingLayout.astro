@@ -1,0 +1,26 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumbs from '@components/Breadcrumbs.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  buildingName: string;
+  buildingSlug: string;
+  ogImage?: string;
+  jsonLd?: object;
+}
+
+const { title, description, buildingName, buildingSlug, ogImage, jsonLd } = Astro.props;
+
+const breadcrumbs = [
+  { label: 'Главная', href: '/' },
+  { label: 'Бизнес-центры', href: '/buildings/' },
+  { label: buildingName, href: `/buildings/${buildingSlug}/` },
+];
+---
+
+<BaseLayout title={title} description={description} ogImage={ogImage} jsonLd={jsonLd}>
+  <Breadcrumbs items={breadcrumbs} />
+  <slot />
+</BaseLayout>

@@ -1,0 +1,108 @@
+---
+interface Props {
+  title: string;
+  subtitle?: string;
+  ctaText?: string;
+  ctaHref?: string;
+  backgroundImage: string;
+}
+
+const { title, subtitle, ctaText, ctaHref, backgroundImage } = Astro.props;
+---
+
+<section class="hero" style={`--bg-image: url(${backgroundImage})`}>
+  <div class="hero__overlay"></div>
+  <div class="hero__content container">
+    <h1 class="hero__title">{title}</h1>
+    {subtitle && <p class="hero__subtitle">{subtitle}</p>}
+    {ctaText && ctaHref && (
+      <a href={ctaHref} class="btn btn--primary hero__cta">{ctaText}</a>
+    )}
+  </div>
+  <div class="hero__scroll-indicator" aria-hidden="true">
+    <span>Scroll</span>
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M12 5v14M5 12l7 7 7-7"/>
+    </svg>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-end;
+    background-image: var(--bg-image);
+    background-size: cover;
+    background-position: center;
+    padding-bottom: var(--space-4xl);
+  }
+
+  .hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.7) 0%,
+      rgba(0, 0, 0, 0.3) 40%,
+      rgba(0, 0, 0, 0.1) 100%
+    );
+  }
+
+  .hero__content {
+    position: relative;
+    z-index: 1;
+    max-width: 50rem;
+  }
+
+  .hero__title {
+    font-size: var(--text-display);
+    color: var(--color-text-inverse);
+    margin-bottom: var(--space-lg);
+    text-wrap: balance;
+  }
+
+  .hero__subtitle {
+    font-size: var(--text-h3);
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: var(--space-xl);
+    max-width: 36rem;
+  }
+
+  .hero__cta {
+    font-size: var(--text-body);
+    padding: var(--space-md) var(--space-2xl);
+  }
+
+  .hero__scroll-indicator {
+    position: absolute;
+    bottom: var(--space-xl);
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-xs);
+    color: rgba(255, 255, 255, 0.5);
+    font-size: var(--text-small);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    animation: bounce 2s infinite;
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(8px); }
+  }
+
+  @media (max-width: 767px) {
+    .hero {
+      min-height: 80vh;
+    }
+
+    .hero__scroll-indicator {
+      display: none;
+    }
+  }
+</style>

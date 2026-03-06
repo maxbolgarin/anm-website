@@ -1,0 +1,100 @@
+---
+import { buildingNav } from '@data/navigation';
+
+interface Props {
+  currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+---
+
+<div class="subnav">
+  <div class="subnav__inner container-wide">
+    <span class="subnav__label">Бизнес-центры Санкт-Петербурга</span>
+    <nav class="subnav__links" aria-label="Бизнес-центры">
+      {buildingNav.map((building) => (
+        <a
+          href={building.href}
+          class:list={[
+            'subnav__link',
+            { 'subnav__link--active': currentPath.startsWith(`/buildings/${building.slug}`) }
+          ]}
+        >
+          <span class="subnav__class">{building.class}</span>
+          <span class="subnav__name">{building.name}</span>
+        </a>
+      ))}
+    </nav>
+  </div>
+</div>
+
+<style>
+  .subnav {
+    position: sticky;
+    top: 4.5rem;
+    z-index: var(--z-subnav);
+    background-color: var(--color-surface-white);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .subnav__inner {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xl);
+    height: 3rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .subnav__inner::-webkit-scrollbar {
+    display: none;
+  }
+
+  .subnav__label {
+    font-size: var(--text-caption);
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .subnav__links {
+    display: flex;
+    gap: var(--space-xl);
+  }
+
+  .subnav__link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    white-space: nowrap;
+    font-weight: var(--weight-medium);
+    color: var(--color-text-primary);
+    padding-block: var(--space-sm);
+    border-bottom: 2px solid transparent;
+    transition: all var(--transition-fast);
+  }
+
+  .subnav__link:hover,
+  .subnav__link--active {
+    color: var(--color-primary);
+    border-bottom-color: var(--color-primary);
+  }
+
+  .subnav__class {
+    font-size: var(--text-small);
+    font-weight: var(--weight-bold);
+    color: var(--color-primary);
+  }
+
+  .subnav__name {
+    font-size: var(--text-caption);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  @media (max-width: 767px) {
+    .subnav__label {
+      display: none;
+    }
+  }
+</style>

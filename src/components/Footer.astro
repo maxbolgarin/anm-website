@@ -1,0 +1,173 @@
+---
+import { mainNav, buildingNav, contactInfo } from '@data/navigation';
+---
+
+<footer class="footer section--dark">
+  <div class="footer__inner container">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <a href="/" aria-label="УК АНМ — Главная">
+          <img
+            src="/images/common/logo-white.png"
+            alt="Александро-Невская Мануфактура"
+            width="200"
+            height="40"
+            loading="lazy"
+          />
+        </a>
+        <p class="footer__desc">
+          Управляющая компания. Аренда офисов в бизнес-центрах Санкт-Петербурга.
+        </p>
+      </div>
+
+      <div class="footer__col">
+        <h4 class="footer__heading">Навигация</h4>
+        <ul class="footer__list">
+          {mainNav.map((item) => (
+            <li><a href={item.href} class="footer__link">{item.label}</a></li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="footer__col">
+        <h4 class="footer__heading">Бизнес-центры</h4>
+        <ul class="footer__list">
+          {buildingNav.map((b) => (
+            <li><a href={b.href} class="footer__link">БЦ {b.name}</a></li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="footer__col">
+        <h4 class="footer__heading">Контакты</h4>
+        <ul class="footer__list footer__list--contacts">
+          <li>
+            <span class="footer__contact-label">Приемная</span>
+            <a href={contactInfo.receptionHref} class="footer__link">{contactInfo.reception}</a>
+          </li>
+          <li>
+            <span class="footer__contact-label">Коммерческий отдел</span>
+            <a href={contactInfo.commercialHref} class="footer__link">{contactInfo.commercial}</a>
+          </li>
+          <li>
+            <span class="footer__contact-label">Email</span>
+            <a href={contactInfo.emailHref} class="footer__link">{contactInfo.email}</a>
+          </li>
+        </ul>
+        <p class="footer__address">{contactInfo.address}</p>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <span class="footer__copyright">&copy; {new Date().getFullYear()} УК АНМ. Все права защищены.</span>
+      <div class="footer__legal">
+        <a href="/legal/" class="footer__link">Раскрытие информации</a>
+        <a href="/legal/#requisites" class="footer__link">Реквизиты</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    padding-block: var(--space-3xl) var(--space-xl);
+  }
+
+  .footer__grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1.5fr;
+    gap: var(--space-2xl);
+    padding-bottom: var(--space-2xl);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  .footer__brand img {
+    height: 2rem;
+    width: auto;
+    margin-bottom: var(--space-md);
+  }
+
+  .footer__desc {
+    font-size: var(--text-caption);
+    color: rgba(255, 255, 255, 0.6);
+    line-height: var(--leading-relaxed);
+  }
+
+  .footer__heading {
+    font-size: var(--text-caption);
+    font-weight: var(--weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: var(--space-lg);
+  }
+
+  .footer__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .footer__list--contacts li {
+    margin-bottom: var(--space-md);
+  }
+
+  .footer__contact-label {
+    display: block;
+    font-size: var(--text-small);
+    color: rgba(255, 255, 255, 0.4);
+    margin-bottom: var(--space-xs);
+  }
+
+  .footer__link {
+    font-size: var(--text-caption);
+    color: rgba(255, 255, 255, 0.8);
+    transition: color var(--transition-fast);
+  }
+
+  .footer__link:hover {
+    color: var(--color-text-inverse);
+  }
+
+  .footer__address {
+    font-size: var(--text-small);
+    color: rgba(255, 255, 255, 0.5);
+    margin-top: var(--space-md);
+    line-height: var(--leading-relaxed);
+  }
+
+  .footer__bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: var(--space-lg);
+  }
+
+  .footer__copyright {
+    font-size: var(--text-small);
+    color: rgba(255, 255, 255, 0.4);
+  }
+
+  .footer__legal {
+    display: flex;
+    gap: var(--space-lg);
+  }
+
+  @media (max-width: 1023px) {
+    .footer__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .footer__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .footer__bottom {
+      flex-direction: column;
+      gap: var(--space-md);
+      text-align: center;
+    }
+  }
+</style>

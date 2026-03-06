@@ -1,0 +1,275 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Breadcrumbs from '@components/Breadcrumbs.astro';
+import SectionHeading from '@components/SectionHeading.astro';
+import ContactCTA from '@components/ContactCTA.astro';
+import { contactInfo } from '@data/navigation';
+
+const title = 'Контакты УК АНМ — телефон, адрес, карта | Аренда офисов СПб';
+const description = 'Контакты управляющей компании АНМ. Телефон: +7 (812) 313-18-04. Адрес: СПб, Пр. Обуховской Обороны, 70.';
+
+const breadcrumbs = [
+  { label: 'Главная', href: '/' },
+  { label: 'Контакты' },
+];
+
+const departments = [
+  {
+    name: 'Коммерческий отдел',
+    subtitle: 'Аренда офисов',
+    phone: contactInfo.commercial,
+    phoneHref: contactInfo.commercialHref,
+    additionalPhone: contactInfo.phone,
+    additionalPhoneHref: contactInfo.phoneHref,
+    email: contactInfo.email,
+    emailHref: contactInfo.emailHref,
+  },
+  {
+    name: 'Приемная',
+    subtitle: 'Общие вопросы',
+    phone: contactInfo.reception,
+    phoneHref: contactInfo.receptionHref,
+    email: contactInfo.email,
+    emailHref: contactInfo.emailHref,
+  },
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <Breadcrumbs items={breadcrumbs} />
+
+  <!-- ===== SECTION 1: HEADING ===== -->
+  <section class="contacts-header section">
+    <div class="container">
+      <h1 class="contacts-header__title">Хотите задать вопрос или обсудить сотрудничество?</h1>
+      <p class="contacts-header__subtitle">Мы готовы помочь. Свяжитесь с нами удобным способом.</p>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 2: MAP ===== -->
+  <section class="contacts-map-section">
+    <div id="contacts-map" class="contacts-map">
+      <div class="map-section__placeholder">
+        <p>Загрузка карты...</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 3: CONTACT INFORMATION ===== -->
+  <section class="section">
+    <div class="container">
+      <div class="contacts-grid">
+        {departments.map((dept) => (
+          <div class="contact-card">
+            <h3 class="contact-card__name">{dept.name}</h3>
+            <p class="contact-card__subtitle">{dept.subtitle}</p>
+            <div class="contact-card__phones">
+              <a href={dept.phoneHref} class="contact-card__phone">{dept.phone}</a>
+              {dept.additionalPhone && (
+                <a href={dept.additionalPhoneHref} class="contact-card__phone">{dept.additionalPhone}</a>
+              )}
+            </div>
+            <a href={dept.emailHref} class="contact-card__email">{dept.email}</a>
+          </div>
+        ))}
+
+        <div class="contact-card contact-card--address">
+          <h3 class="contact-card__name">Адрес</h3>
+          <p class="contact-card__address">{contactInfo.address}</p>
+          <p class="contact-card__hours">Круглосуточный доступ</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 4: REQUISITES ===== -->
+  <section class="section section--cream" id="requisites">
+    <div class="container">
+      <details class="requisites">
+        <summary class="requisites__summary">
+          <h2 class="requisites__heading">Реквизиты</h2>
+          <span class="requisites__toggle">Показать</span>
+        </summary>
+        <div class="requisites__content">
+          <div class="requisites__grid">
+            <div class="requisites__item">
+              <span class="requisites__label">Полное наименование</span>
+              <span class="requisites__value">ООО «Управляющая компания «Александро-Невская Мануфактура»</span>
+            </div>
+            <div class="requisites__item">
+              <span class="requisites__label">ИНН</span>
+              <span class="requisites__value">7811XXXXXXX</span>
+            </div>
+            <div class="requisites__item">
+              <span class="requisites__label">КПП</span>
+              <span class="requisites__value">7811XXXXX</span>
+            </div>
+            <div class="requisites__item">
+              <span class="requisites__label">ОГРН</span>
+              <span class="requisites__value">1XXXXXXXXXXXX</span>
+            </div>
+            <div class="requisites__item">
+              <span class="requisites__label">Юридический адрес</span>
+              <span class="requisites__value">{contactInfo.address}</span>
+            </div>
+          </div>
+          <p class="text-caption" style="margin-top: var(--space-lg);">
+            Полные банковские реквизиты предоставляются по запросу. <a href="/legal/">Подробнее</a>
+          </p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 5: CTA ===== -->
+  <ContactCTA />
+</BaseLayout>
+
+<style>
+  .contacts-header {
+    padding-bottom: var(--space-xl);
+  }
+
+  .contacts-header__title {
+    font-size: var(--text-h1);
+    max-width: 36rem;
+    margin-bottom: var(--space-md);
+  }
+
+  .contacts-header__subtitle {
+    font-size: var(--text-h4);
+    color: var(--color-text-secondary);
+  }
+
+  .contacts-map-section {
+    width: 100%;
+  }
+
+  .contacts-map {
+    width: 100%;
+    height: 450px;
+    background-color: var(--color-surface-cream);
+  }
+
+  .contacts-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-2xl);
+  }
+
+  .contact-card {
+    padding: var(--space-xl);
+    background-color: var(--color-surface-cream);
+    border-radius: var(--radius-md);
+  }
+
+  .contact-card__name {
+    margin-bottom: var(--space-xs);
+  }
+
+  .contact-card__subtitle {
+    font-size: var(--text-caption);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-lg);
+  }
+
+  .contact-card__phones {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-md);
+  }
+
+  .contact-card__phone {
+    font-family: var(--font-heading);
+    font-size: var(--text-h3);
+    font-weight: var(--weight-bold);
+    color: var(--color-text-primary);
+  }
+
+  .contact-card__phone:hover {
+    color: var(--color-primary);
+  }
+
+  .contact-card__email {
+    color: var(--color-primary);
+    font-weight: var(--weight-medium);
+  }
+
+  .contact-card__address {
+    font-size: var(--text-body);
+    line-height: var(--leading-relaxed);
+    margin-bottom: var(--space-md);
+  }
+
+  .contact-card__hours {
+    font-size: var(--text-caption);
+    color: var(--color-text-secondary);
+  }
+
+  /* Requisites */
+  .requisites__summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .requisites__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .requisites__heading {
+    margin: 0;
+  }
+
+  .requisites__toggle {
+    font-size: var(--text-caption);
+    color: var(--color-primary);
+    font-weight: var(--weight-medium);
+  }
+
+  .requisites[open] .requisites__toggle {
+    display: none;
+  }
+
+  .requisites__content {
+    margin-top: var(--space-xl);
+  }
+
+  .requisites__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-lg);
+  }
+
+  .requisites__item {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .requisites__label {
+    font-size: var(--text-small);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-xs);
+  }
+
+  .requisites__value {
+    font-weight: var(--weight-medium);
+  }
+
+  @media (max-width: 767px) {
+    .contacts-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .contacts-map {
+      height: 300px;
+    }
+
+    .requisites__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

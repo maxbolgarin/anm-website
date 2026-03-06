@@ -1,0 +1,442 @@
+---
+import BuildingLayout from '@layouts/BuildingLayout.astro';
+import SectionHeading from '@components/SectionHeading.astro';
+import StatsRow from '@components/StatsRow.astro';
+import FeatureBlock from '@components/FeatureBlock.astro';
+import ParameterGrid from '@components/ParameterGrid.astro';
+import FacilityCard from '@components/FacilityCard.astro';
+import ContactCTA from '@components/ContactCTA.astro';
+import { getBuildingBySlug } from '@data/buildings';
+import { getOfficesByBuilding } from '@data/offices';
+import { contactInfo } from '@data/navigation';
+
+const building = getBuildingBySlug('fidel')!;
+const offices = getOfficesByBuilding('fidel');
+
+const title = `Бизнес-центр ${building.name} — аренда офисов класса ${building.class} | УК АНМ`;
+const description = `Бизнес-центр ${building.name} на ${building.shortAddress}. ${building.stats[1].value} м², ${building.stats[0].value} этажей, метро ${building.metro[0].name} ${building.metro[0].walkingMinutes} мин пешком. Аренда офисов от УК АНМ.`;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "OfficeSpace",
+  "name": `Бизнес-центр ${building.name}`,
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": building.address,
+    "addressLocality": "Санкт-Петербург",
+    "addressCountry": "RU"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": building.coordinates.lat,
+    "longitude": building.coordinates.lng
+  },
+  "openingHours": "Mo-Su 00:00-23:59"
+};
+
+const faqJsonLd = building.faq.length > 0 ? {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": building.faq.map(f => ({
+    "@type": "Question",
+    "name": f.question,
+    "acceptedAnswer": { "@type": "Answer", "text": f.answer }
+  }))
+} : null;
+---
+
+<BuildingLayout
+  title={title}
+  description={description}
+  buildingName={building.name}
+  buildingSlug={building.slug}
+  ogImage={building.heroImage}
+  jsonLd={jsonLd}
+>
+
+  <!-- ===== SECTION 1: BUILDING HERO ===== -->
+  <section class="building-hero">
+    <div class="container">
+      <div class="building-hero__grid">
+        <div class="building-hero__text">
+          <span class="building-hero__label">Бизнес-центр</span>
+          <h1 class="building-hero__name text-display">{building.name}</h1>
+          <div class="building-hero__meta">
+            <p class="building-hero__address">{building.address}</p>
+            <p class="building-hero__metro">
+              <span class="building-hero__metro-dot" style={`background-color: ${building.metro[0].lineColor}`}></span>
+              {building.metro[0].name} — {building.metro[0].walkingMinutes} мин пешком
+            </p>
+          </div>
+          <StatsRow stats={building.stats} />
+          <p class="building-hero__desc">{building.description}</p>
+          <div class="building-hero__actions">
+            <a href={`/buildings/${building.slug}/offices/`} class="btn btn--primary">Аренда офисов</a>
+            {building.presentationUrl && (
+              <a href={building.presentationUrl} class="btn btn--outline" download>Скачать презентацию</a>
+            )}
+          </div>
+        </div>
+        <div class="building-hero__image-wrap">
+          <div class="building-hero__class-badge badge--class">{building.class}</div>
+          <img src={building.heroImage} alt={`Бизнес-центр ${building.name}`} class="building-hero__image" loading="eager" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 2: BUILDING DETAILS ("В деталях") ===== -->
+  <section class="section" id="details">
+    <div class="container">
+      <SectionHeading
+        title={`${building.name} в деталях`}
+        subtitle="Архитектура, инженерные системы, сервис"
+      />
+      {building.features.map((feature, index) => (
+        <FeatureBlock
+          title={feature.title}
+          description={feature.description}
+          image={feature.image}
+          imageAlt={feature.imageAlt}
+          reversed={index % 2 !== 0}
+        />
+      ))}
+    </div>
+  </section>
+
+  <!-- ===== SECTION 3: KEY PARAMETERS GRID ===== -->
+  <ParameterGrid parameters={building.parameters} />
+
+  <!-- ===== SECTION 4: LOCATION AND TRANSPORT ===== -->
+  <section class="section" id="location">
+    <div class="container">
+      <SectionHeading
+        title="Расположение"
+        subtitle="Удобная транспортная доступность"
+      />
+      <div class="location-grid">
+        <div class="location-grid__info">
+          <h3>Как добраться</h3>
+          <ul class="location-list">
+            {building.metro.map((m) => (
+              <li class="location-list__item">
+                <span class="location-list__dot" style={`background-color: ${m.lineColor}`}></span>
+                <div>
+                  <strong>{m.name}</strong> ({m.line})
+                  <br />
+                  <span class="text-caption">{m.walkingMinutes} мин пешком</span>
+                </div>
+              </li>
+            ))}
+          </ul>
+          <div class="location-driving">
+            <h4>На автомобиле</h4>
+            <p class="text-caption">Невский проспект — 5 мин</p>
+            <p class="text-caption">Кольцевая автодорога — 10 мин</p>
+          </div>
+          <a href={`/buildings/${building.slug}/how-to-get/`} class="btn btn--link">Подробная схема проезда</a>
+        </div>
+        <div class="location-grid__map" id="building-map">
+          <!-- InteractiveMap React island for this building -->
+          <div class="map-section__placeholder">
+            <p>Загрузка карты...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 5: INFRASTRUCTURE ===== -->
+  <section class="section section--cream" id="infrastructure">
+    <div class="container">
+      <SectionHeading
+        title="Инфраструктура на территории"
+        subtitle="Всё необходимое для комфортной работы"
+      />
+      <div class="grid grid--3">
+        {building.infrastructure.map((item) => (
+          <FacilityCard
+            name={item.name}
+            description={item.description}
+            image={item.image}
+            imageAlt={item.imageAlt}
+          />
+        ))}
+      </div>
+      <div style="text-align: center; margin-top: var(--space-2xl);">
+        <a href={`/buildings/${building.slug}/infrastructure/`} class="btn btn--outline">Вся инфраструктура</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 6: OFFICE RENTAL LISTINGS (INTERNAL TAB) ===== -->
+  <section class="section" id="offices">
+    <div class="container">
+      <SectionHeading
+        title="Аренда офисов"
+        subtitle={`Свободные помещения в БЦ ${building.name}`}
+      />
+      {offices.length > 0 ? (
+        <div id="building-office-filter-root" data-building={building.slug}>
+          <!-- OfficeFilter React island scoped to this building -->
+          <noscript>
+            <p>Для просмотра доступных офисов включите JavaScript или свяжитесь с нами по телефону {contactInfo.phone}.</p>
+          </noscript>
+        </div>
+      ) : (
+        <div class="offices-empty">
+          <div class="offices-empty__content">
+            <h3>В данный момент свободных помещений нет</h3>
+            <p>Обратитесь с запросом — мы подберём подходящий вариант.</p>
+            <div class="offices-empty__contacts">
+              <a href={contactInfo.commercialHref} class="offices-empty__phone">{contactInfo.commercial}</a>
+              <a href={contactInfo.emailHref} class="offices-empty__email">{contactInfo.email}</a>
+            </div>
+          </div>
+        </div>
+      )}
+      <div style="text-align: center; margin-top: var(--space-xl);">
+        <a href={`/buildings/${building.slug}/offices/`} class="btn btn--link">Все предложения</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 7: FAQ ===== -->
+  {building.faq.length > 0 && (
+    <section class="section section--cream" id="faq">
+      <div class="container">
+        <SectionHeading title="Частые вопросы" />
+        <div class="faq-list">
+          {building.faq.map((item) => (
+            <details class="faq-item">
+              <summary class="faq-item__question">{item.question}</summary>
+              <div class="faq-item__answer">
+                <p>{item.answer}</p>
+              </div>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- ===== SECTION 8: CONTACT CTA ===== -->
+  <ContactCTA />
+
+</BuildingLayout>
+
+<style>
+  /* Building Hero */
+  .building-hero {
+    padding-top: var(--space-xl);
+    padding-bottom: var(--space-3xl);
+  }
+
+  .building-hero__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-2xl);
+    align-items: start;
+  }
+
+  .building-hero__label {
+    font-size: var(--text-caption);
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    display: block;
+    margin-bottom: var(--space-sm);
+  }
+
+  .building-hero__name {
+    margin-bottom: var(--space-lg);
+  }
+
+  .building-hero__meta {
+    margin-bottom: var(--space-xl);
+  }
+
+  .building-hero__address {
+    font-size: var(--text-caption);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-xs);
+  }
+
+  .building-hero__metro {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: var(--text-caption);
+    color: var(--color-text-secondary);
+  }
+
+  .building-hero__metro-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .building-hero__desc {
+    margin-top: var(--space-xl);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-relaxed);
+    max-width: 32rem;
+  }
+
+  .building-hero__actions {
+    display: flex;
+    gap: var(--space-md);
+    margin-top: var(--space-xl);
+    flex-wrap: wrap;
+  }
+
+  .building-hero__image-wrap {
+    position: relative;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+
+  .building-hero__image {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+  }
+
+  .building-hero__class-badge {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+
+  /* Location */
+  .location-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: var(--space-2xl);
+  }
+
+  .location-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    margin-bottom: var(--space-xl);
+  }
+
+  .location-list__item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-md);
+  }
+
+  .location-list__dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+
+  .location-driving {
+    margin-bottom: var(--space-xl);
+  }
+
+  .location-driving h4 {
+    margin-bottom: var(--space-sm);
+  }
+
+  .location-grid__map {
+    height: 400px;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background-color: var(--color-surface-cream);
+  }
+
+  /* Offices empty state */
+  .offices-empty {
+    background-color: var(--color-accent-yellow);
+    border-radius: var(--radius-md);
+    padding: var(--space-3xl);
+    text-align: center;
+  }
+
+  .offices-empty h3 {
+    margin-bottom: var(--space-md);
+  }
+
+  .offices-empty p {
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-xl);
+  }
+
+  .offices-empty__contacts {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-2xl);
+    flex-wrap: wrap;
+  }
+
+  .offices-empty__phone {
+    font-family: var(--font-heading);
+    font-size: var(--text-h3);
+    font-weight: var(--weight-bold);
+    color: var(--color-text-primary);
+  }
+
+  .offices-empty__email {
+    font-size: var(--text-h4);
+    color: var(--color-text-primary);
+  }
+
+  /* FAQ */
+  .faq-list {
+    max-width: 48rem;
+  }
+
+  .faq-item {
+    border-bottom: 1px solid var(--color-border);
+    padding-block: var(--space-lg);
+  }
+
+  .faq-item__question {
+    cursor: pointer;
+    font-size: var(--text-h4);
+    font-weight: var(--weight-semibold);
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .faq-item__question::after {
+    content: '+';
+    font-size: var(--text-h3);
+    font-weight: var(--weight-regular);
+    color: var(--color-text-secondary);
+    transition: transform var(--transition-base);
+  }
+
+  .faq-item[open] .faq-item__question::after {
+    content: '−';
+  }
+
+  .faq-item__answer {
+    padding-top: var(--space-md);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-relaxed);
+  }
+
+  @media (max-width: 767px) {
+    .building-hero__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .location-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .location-grid__map {
+      height: 300px;
+    }
+  }
+</style>

@@ -1,0 +1,259 @@
+.office-filter__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  background-color: var(--color-surface-white, #fff);
+  border: 1px solid var(--color-border, #e0e0e0);
+  border-radius: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.office-filter__group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.office-filter__label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #6b6b6b;
+}
+
+.office-filter__toggles {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.office-filter__toggle {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: 1px solid #e0e0e0;
+  border-radius: 0.25rem;
+  background: #fff;
+  color: #1a1a1a;
+  cursor: pointer;
+  transition: all 150ms ease-out;
+}
+
+.office-filter__toggle:hover {
+  border-color: #B71C1C;
+  color: #B71C1C;
+}
+
+.office-filter__toggle--active {
+  background-color: #B71C1C;
+  border-color: #B71C1C;
+  color: #fff;
+}
+
+.office-filter__range {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.office-filter__input {
+  width: 6rem;
+  padding: 0.5rem;
+  font-size: 0.875rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 0.25rem;
+  font-family: inherit;
+}
+
+.office-filter__input:focus {
+  outline: none;
+  border-color: #B71C1C;
+}
+
+.office-filter__range-sep {
+  color: #6b6b6b;
+}
+
+.office-filter__results-count {
+  font-size: 0.875rem;
+  color: #6b6b6b;
+  margin-bottom: 1rem;
+}
+
+.office-filter__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+  gap: 1.5rem;
+}
+
+.office-filter__no-results {
+  text-align: center;
+  padding: 3rem;
+  background-color: #F5F0E8;
+  border-radius: 0.5rem;
+  color: #6b6b6b;
+}
+
+.office-filter__no-results a {
+  color: #B71C1C;
+  font-weight: 600;
+  font-size: 1.25rem;
+}
+
+.office-filter__empty {
+  text-align: center;
+  padding: 3rem;
+  background-color: #F5D45E;
+  border-radius: 0.5rem;
+}
+
+.office-filter__empty h3 {
+  margin-bottom: 0.5rem;
+}
+
+.office-filter__empty p {
+  color: #6b6b6b;
+  margin-bottom: 1.5rem;
+}
+
+.office-filter__empty-contacts {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.office-filter__empty-phone {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  text-decoration: none;
+}
+
+.office-filter__empty-email {
+  font-size: 1.125rem;
+  color: #1a1a1a;
+  text-decoration: none;
+}
+
+.office-filter__loading {
+  text-align: center;
+  padding: 3rem;
+  color: #6b6b6b;
+}
+
+/* Office Card styles */
+.office-card {
+  padding: 1.5rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 0.5rem;
+  background: #fff;
+  transition: box-shadow 250ms ease-out;
+}
+
+.office-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.office-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.office-card__building {
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.office-card__class {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #B71C1C;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid #B71C1C;
+  border-radius: 0.25rem;
+}
+
+.office-card__stats {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 1rem;
+}
+
+.office-card__stat {
+  display: flex;
+  align-items: baseline;
+  gap: 0.25rem;
+}
+
+.office-card__stat-value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.office-card__stat-unit,
+.office-card__stat-label {
+  font-size: 0.75rem;
+  color: #6b6b6b;
+}
+
+.office-card__meta {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+  color: #6b6b6b;
+}
+
+.office-card__pricing {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-top: 1rem;
+  border-top: 1px solid #e0e0e0;
+}
+
+.office-card__price-main {
+  display: flex;
+  align-items: baseline;
+  gap: 0.25rem;
+}
+
+.office-card__price-value {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.office-card__price-unit {
+  font-size: 0.75rem;
+  color: #6b6b6b;
+}
+
+.office-card__price-total {
+  font-size: 0.875rem;
+  color: #6b6b6b;
+}
+
+.office-card__photos {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-top: 0.75rem;
+  font-size: 0.75rem;
+  color: #6b6b6b;
+}
+
+@media (max-width: 767px) {
+  .office-filter__controls {
+    flex-direction: column;
+  }
+
+  .office-filter__grid {
+    grid-template-columns: 1fr;
+  }
+}

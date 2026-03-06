@@ -1,0 +1,64 @@
+---
+import { contactInfo } from '@data/navigation';
+---
+
+<section class="cta section--dark">
+  <div class="cta__inner container">
+    <h2 class="cta__heading">Давайте обсудим детали</h2>
+    <div class="cta__contacts">
+      <a href={contactInfo.phoneHref} class="cta__phone">{contactInfo.phone}</a>
+      <a href={contactInfo.emailHref} class="cta__email">{contactInfo.email}</a>
+    </div>
+    <p class="cta__address">{contactInfo.address}</p>
+  </div>
+</section>
+
+<style>
+  .cta {
+    padding-block: var(--space-4xl);
+    text-align: center;
+  }
+
+  .cta__heading {
+    font-size: var(--text-h1);
+    color: var(--color-text-inverse);
+    margin-bottom: var(--space-xl);
+  }
+
+  .cta__contacts {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-2xl);
+    flex-wrap: wrap;
+    margin-bottom: var(--space-lg);
+  }
+
+  .cta__phone {
+    font-family: var(--font-heading);
+    font-size: var(--text-h2);
+    font-weight: var(--weight-bold);
+    color: var(--color-text-inverse);
+  }
+
+  .cta__phone:hover {
+    color: var(--color-accent-yellow);
+  }
+
+  .cta__email {
+    font-size: var(--text-h3);
+    color: rgba(255, 255, 255, 0.8);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    padding-bottom: 2px;
+  }
+
+  .cta__email:hover {
+    color: var(--color-text-inverse);
+    border-bottom-color: var(--color-text-inverse);
+  }
+
+  .cta__address {
+    font-size: var(--text-caption);
+    color: rgba(255, 255, 255, 0.5);
+  }
+</style>

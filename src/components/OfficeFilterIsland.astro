@@ -1,0 +1,17 @@
+---
+import OfficeFilter from './islands/OfficeFilter';
+import './islands/OfficeFilter.css';
+
+interface Props {
+  buildingSlug?: string;
+}
+
+const { buildingSlug } = Astro.props;
+---
+
+<OfficeFilter
+  client:visible
+  buildingSlug={buildingSlug}
+  contactPhone="+7 (812) 336-55-64"
+  contactEmail="mail@ukanm.ru"
+/>

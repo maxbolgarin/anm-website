@@ -1,0 +1,82 @@
+:root {
+  /* ── Colors ── */
+  --color-primary: #B71C1C;
+  --color-primary-dark: #7F0000;
+  --color-primary-light: #E53935;
+  --color-surface-cream: #F5F0E8;
+  --color-surface-white: #FFFFFF;
+  --color-surface-dark: #1A1A2E;
+  --color-accent-yellow: #F5D45E;
+  --color-text-primary: #1A1A1A;
+  --color-text-secondary: #6B6B6B;
+  --color-text-inverse: #FFFFFF;
+  --color-border: #E0E0E0;
+
+  /* ── Typography ── */
+  --font-heading: 'Manrope', 'Inter', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+
+  --text-display: clamp(2.5rem, 5vw + 1rem, 6rem);
+  --text-h1: clamp(2rem, 3vw + 0.5rem, 3.5rem);
+  --text-h2: clamp(1.5rem, 2.5vw + 0.25rem, 2.5rem);
+  --text-h3: clamp(1.25rem, 1.5vw + 0.25rem, 1.75rem);
+  --text-h4: clamp(1.125rem, 1vw + 0.25rem, 1.375rem);
+  --text-body: clamp(1rem, 0.5vw + 0.75rem, 1.125rem);
+  --text-caption: 0.875rem;
+  --text-small: 0.75rem;
+
+  --leading-tight: 1.1;
+  --leading-snug: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --weight-extrabold: 800;
+
+  /* ── Spacing (8px base) ── */
+  --space-xs: 0.25rem;   /* 4px */
+  --space-sm: 0.5rem;    /* 8px */
+  --space-md: 1rem;      /* 16px */
+  --space-lg: 1.5rem;    /* 24px */
+  --space-xl: 2rem;      /* 32px */
+  --space-2xl: 3rem;     /* 48px */
+  --space-3xl: 4rem;     /* 64px */
+  --space-4xl: 6rem;     /* 96px */
+  --space-5xl: 8rem;     /* 128px */
+
+  /* ── Layout ── */
+  --max-width: 80rem;        /* 1280px */
+  --max-width-wide: 90rem;   /* 1440px */
+  --grid-columns: 12;
+  --grid-gap: var(--space-lg);
+  --container-padding: var(--space-lg);
+
+  /* ── Borders ── */
+  --radius-sm: 0.25rem;   /* 4px */
+  --radius-md: 0.5rem;    /* 8px */
+  --radius-lg: 1rem;      /* 16px */
+
+  /* ── Shadows ── */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+
+  /* ── Transitions ── */
+  --transition-fast: 150ms ease-out;
+  --transition-base: 250ms ease-out;
+  --transition-slow: 400ms ease-out;
+
+  /* ── Z-index scale ── */
+  --z-header: 100;
+  --z-subnav: 90;
+  --z-overlay: 200;
+  --z-lightbox: 300;
+
+  /* ── Breakpoints (for reference in JS; CSS uses media queries) ── */
+  --bp-mobile: 768px;
+  --bp-tablet: 1024px;
+  --bp-desktop: 1440px;
+}

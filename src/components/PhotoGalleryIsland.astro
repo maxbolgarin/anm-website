@@ -1,0 +1,12 @@
+---
+import PhotoGallery from './islands/PhotoGallery';
+import './islands/PhotoGallery.css';
+
+interface Props {
+  images: { src: string; alt: string }[];
+}
+
+const { images } = Astro.props;
+---
+
+<PhotoGallery client:visible images={images} />

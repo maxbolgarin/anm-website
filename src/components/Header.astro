@@ -1,0 +1,262 @@
+---
+import { mainNav, contactInfo } from '@data/navigation';
+
+interface Props {
+  currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+---
+
+<header class="header" id="header">
+  <div class="header__inner container-wide">
+    <a href="/" class="header__logo" aria-label="УК АНМ — Главная">
+      <img
+        src="/images/common/logo.png"
+        alt="Александро-Невская Мануфактура"
+        width="200"
+        height="40"
+        loading="eager"
+      />
+    </a>
+
+    <nav class="header__nav" aria-label="Основная навигация">
+      <ul class="header__nav-list">
+        {mainNav.map((item) => (
+          <li class="header__nav-item">
+            <a
+              href={item.href}
+              class:list={[
+                'header__nav-link',
+                { 'header__nav-link--active': currentPath === item.href || currentPath.startsWith(item.href.replace(/\/$/, '') + '/') }
+              ]}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="header__right">
+      <a href={contactInfo.phoneHref} class="header__phone">
+        {contactInfo.phone}
+      </a>
+
+      <div class="header__lang">
+        <a href="/" class="header__lang-link header__lang-link--active">RU</a>
+        <span class="header__lang-sep">|</span>
+        <a href="/en/" class="header__lang-link">EN</a>
+      </div>
+
+      <button class="header__burger" aria-label="Открыть меню" aria-expanded="false" id="burger-btn">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="header__mobile-menu" id="mobile-menu" aria-hidden="true">
+    <nav aria-label="Мобильная навигация">
+      <ul class="header__mobile-list">
+        {mainNav.map((item) => (
+          <li>
+            <a href={item.href} class="header__mobile-link">{item.label}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+    <a href={contactInfo.phoneHref} class="header__mobile-phone">
+      {contactInfo.phone}
+    </a>
+    <a href={contactInfo.emailHref} class="header__mobile-email">
+      {contactInfo.email}
+    </a>
+  </div>
+</header>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-header);
+    background-color: var(--color-surface-white);
+    border-bottom: 1px solid var(--color-border);
+    transition: box-shadow var(--transition-base);
+  }
+
+  .header--scrolled {
+    box-shadow: var(--shadow-md);
+  }
+
+  .header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 4.5rem;
+    gap: var(--space-xl);
+  }
+
+  .header__logo img {
+    height: 2rem;
+    width: auto;
+  }
+
+  .header__nav-list {
+    display: flex;
+    gap: var(--space-xl);
+  }
+
+  .header__nav-link {
+    font-size: var(--text-caption);
+    font-weight: var(--weight-medium);
+    color: var(--color-text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding-block: var(--space-sm);
+    border-bottom: 2px solid transparent;
+    transition: all var(--transition-fast);
+  }
+
+  .header__nav-link:hover,
+  .header__nav-link--active {
+    color: var(--color-primary);
+    border-bottom-color: var(--color-primary);
+  }
+
+  .header__right {
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
+  }
+
+  .header__phone {
+    font-weight: var(--weight-semibold);
+    color: var(--color-text-primary);
+    white-space: nowrap;
+  }
+
+  .header__phone:hover {
+    color: var(--color-primary);
+  }
+
+  .header__lang {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-size: var(--text-caption);
+  }
+
+  .header__lang-link {
+    color: var(--color-text-secondary);
+    font-weight: var(--weight-medium);
+  }
+
+  .header__lang-link--active {
+    color: var(--color-text-primary);
+    font-weight: var(--weight-bold);
+  }
+
+  .header__lang-sep {
+    color: var(--color-border);
+  }
+
+  .header__burger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    width: 28px;
+    padding: 4px 0;
+  }
+
+  .header__burger span {
+    display: block;
+    height: 2px;
+    background-color: var(--color-text-primary);
+    border-radius: 1px;
+    transition: all var(--transition-base);
+  }
+
+  .header__mobile-menu {
+    display: none;
+    position: fixed;
+    top: 4.5rem;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--color-surface-white);
+    padding: var(--space-2xl) var(--container-padding);
+    z-index: var(--z-overlay);
+    overflow-y: auto;
+  }
+
+  .header__mobile-menu[aria-hidden="false"] {
+    display: block;
+  }
+
+  .header__mobile-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+  }
+
+  .header__mobile-link {
+    font-size: var(--text-h3);
+    font-weight: var(--weight-semibold);
+    color: var(--color-text-primary);
+  }
+
+  .header__mobile-phone {
+    display: block;
+    margin-top: var(--space-2xl);
+    font-size: var(--text-h3);
+    font-weight: var(--weight-bold);
+    color: var(--color-primary);
+  }
+
+  .header__mobile-email {
+    display: block;
+    margin-top: var(--space-md);
+    color: var(--color-text-secondary);
+  }
+
+  @media (max-width: 1023px) {
+    .header__nav {
+      display: none;
+    }
+
+    .header__phone {
+      display: none;
+    }
+
+    .header__lang {
+      display: none;
+    }
+
+    .header__burger {
+      display: flex;
+    }
+  }
+</style>
+
+<script>
+  const burger = document.getElementById('burger-btn');
+  const menu = document.getElementById('mobile-menu');
+
+  burger?.addEventListener('click', () => {
+    const isOpen = menu?.getAttribute('aria-hidden') === 'false';
+    menu?.setAttribute('aria-hidden', isOpen ? 'true' : 'false');
+    burger?.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
+    document.body.style.overflow = isOpen ? '' : 'hidden';
+  });
+
+  const header = document.getElementById('header');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 10) {
+      header?.classList.add('header--scrolled');
+    } else {
+      header?.classList.remove('header--scrolled');
+    }
+  });
+</script>

@@ -1,0 +1,121 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Breadcrumbs from '@components/Breadcrumbs.astro';
+import { contactInfo } from '@data/navigation';
+
+const title = 'Раскрытие информации — УК АНМ';
+const description = 'Юридическая информация, реквизиты и раскрытие информации управляющей компании АНМ.';
+
+const breadcrumbs = [
+  { label: 'Главная', href: '/' },
+  { label: 'Раскрытие информации' },
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <Breadcrumbs items={breadcrumbs} />
+
+  <section class="section legal-page">
+    <div class="container legal-content">
+      <h1>Раскрытие информации</h1>
+
+      <h2>Общие сведения</h2>
+      <p>
+        ООО «Управляющая компания «Александро-Невская Мануфактура» осуществляет деятельность по управлению коммерческой недвижимостью на территории Санкт-Петербурга.
+      </p>
+
+      <h2 id="requisites">Реквизиты</h2>
+      <table class="legal-table">
+        <tbody>
+          <tr>
+            <td>Полное наименование</td>
+            <td>ООО «Управляющая компания «Александро-Невская Мануфактура»</td>
+          </tr>
+          <tr>
+            <td>Сокращённое наименование</td>
+            <td>ООО «УК АНМ»</td>
+          </tr>
+          <tr>
+            <td>ИНН</td>
+            <td>7811XXXXXXX</td>
+          </tr>
+          <tr>
+            <td>КПП</td>
+            <td>7811XXXXX</td>
+          </tr>
+          <tr>
+            <td>ОГРН</td>
+            <td>1XXXXXXXXXXXX</td>
+          </tr>
+          <tr>
+            <td>Юридический адрес</td>
+            <td>{contactInfo.address}</td>
+          </tr>
+          <tr>
+            <td>Телефон</td>
+            <td><a href={contactInfo.phoneHref}>{contactInfo.phone}</a></td>
+          </tr>
+          <tr>
+            <td>Email</td>
+            <td><a href={contactInfo.emailHref}>{contactInfo.email}</a></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>Политика конфиденциальности</h2>
+      <p>
+        Настоящий сайт не собирает персональные данные посетителей. На сайте отсутствуют формы сбора персональных данных, системы авторизации и личные кабинеты. Все контактные данные, размещённые на сайте, являются публичными контактами компании.
+      </p>
+
+      <h2>Правовая информация</h2>
+      <p>
+        Информация, размещённая на данном сайте, носит информационный характер и не является публичной офертой. Для получения актуальных условий аренды обращайтесь в коммерческий отдел по телефону <a href={contactInfo.commercialHref}>{contactInfo.commercial}</a>.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal-content {
+    max-width: 48rem;
+  }
+
+  .legal-content h1 {
+    margin-bottom: var(--space-2xl);
+  }
+
+  .legal-content h2 {
+    margin-top: var(--space-2xl);
+    margin-bottom: var(--space-md);
+  }
+
+  .legal-content p {
+    color: var(--color-text-secondary);
+    line-height: var(--leading-relaxed);
+  }
+
+  .legal-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-block: var(--space-lg);
+  }
+
+  .legal-table td {
+    padding: var(--space-md);
+    border-bottom: 1px solid var(--color-border);
+    vertical-align: top;
+  }
+
+  .legal-table td:first-child {
+    font-weight: var(--weight-medium);
+    white-space: nowrap;
+    width: 40%;
+    color: var(--color-text-secondary);
+  }
+
+  @media (max-width: 767px) {
+    .legal-table td:first-child {
+      white-space: normal;
+    }
+  }
+</style>
