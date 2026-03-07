@@ -108,7 +108,7 @@ const faqJsonLd = building.faq.length > 0 ? {
   <ParameterGrid parameters={building.parameters} />
 
   <!-- ===== SECTION 4: LOCATION AND TRANSPORT ===== -->
-  <section class="section" id="location">
+  <section class="section location-section" id="location">
     <div class="container">
       <SectionHeading
         title="Расположение"
@@ -304,6 +304,18 @@ const faqJsonLd = building.faq.length > 0 ? {
     position: absolute;
     bottom: 0;
     right: 0;
+  }
+
+  .location-section {
+    padding-top: var(--space-2xl);
+  }
+
+  .location-section :global(.section-heading) {
+    margin-bottom: var(--space-lg);
+  }
+
+  .location-grid__info h3 {
+    margin-bottom: var(--space-md);
   }
 
   .location-grid {

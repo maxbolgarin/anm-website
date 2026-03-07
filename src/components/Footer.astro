@@ -1,5 +1,5 @@
 ---
-import { mainNav, buildingNav, contactInfo } from '@data/navigation';
+import { buildingNav, contactInfo } from '@data/navigation';
 ---
 
 <footer class="footer section--dark">
@@ -8,33 +8,33 @@ import { mainNav, buildingNav, contactInfo } from '@data/navigation';
       <div class="footer__brand">
         <a href="/" aria-label="УК АНМ — Главная">
           <img
-            src="/images/common/logo-white.png"
+            src="/logo/logo vert2.svg"
             alt="Александро-Невская Мануфактура"
-            width="200"
-            height="40"
+            class="footer__logo-img"
             loading="lazy"
           />
         </a>
         <p class="footer__desc">
-          Управляющая компания. Аренда офисов в бизнес-центрах Санкт-Петербурга.
+          Управляющая компания. Аренда офисов в бизнес-центрах Санкт-Петербурга на территории Александро-Невской Мануфактуры.
         </p>
-      </div>
-
-      <div class="footer__col">
-        <h4 class="footer__heading">Навигация</h4>
-        <ul class="footer__list">
-          {mainNav.map((item) => (
-            <li><a href={item.href} class="footer__link">{item.label}</a></li>
-          ))}
-        </ul>
       </div>
 
       <div class="footer__col">
         <h4 class="footer__heading">Бизнес-центры</h4>
         <ul class="footer__list">
           {buildingNav.map((b) => (
-            <li><a href={b.href} class="footer__link">БЦ {b.name}</a></li>
+            <li><a href={b.href} class="footer__link">{b.name}</a></li>
           ))}
+        </ul>
+      </div>
+
+      <div class="footer__col">
+        <h4 class="footer__heading">Навигация</h4>
+        <ul class="footer__list">
+          <li><a href="/about/" class="footer__link">О компании</a></li>
+          <li><a href="/about/#territory" class="footer__link">Территория</a></li>
+          <li><a href="/contacts/" class="footer__link">Контакты</a></li>
+          <li><a href="/legal/" class="footer__link">Раскрытие информации</a></li>
         </ul>
       </div>
 
@@ -42,8 +42,8 @@ import { mainNav, buildingNav, contactInfo } from '@data/navigation';
         <h4 class="footer__heading">Контакты</h4>
         <ul class="footer__list footer__list--contacts">
           <li>
-            <span class="footer__contact-label">Приемная</span>
-            <a href={contactInfo.receptionHref} class="footer__link">{contactInfo.reception}</a>
+            <span class="footer__contact-label">Основной</span>
+            <a href={contactInfo.phoneHref} class="footer__link footer__link--phone">{contactInfo.phone}</a>
           </li>
           <li>
             <span class="footer__contact-label">Коммерческий отдел</span>
@@ -71,6 +71,7 @@ import { mainNav, buildingNav, contactInfo } from '@data/navigation';
 <style>
   .footer {
     padding-block: var(--space-3xl) var(--space-xl);
+    background-color: #161616;
   }
 
   .footer__grid {
@@ -82,14 +83,14 @@ import { mainNav, buildingNav, contactInfo } from '@data/navigation';
   }
 
   .footer__brand img {
-    height: 2rem;
+    height: 180px;
     width: auto;
-    margin-bottom: var(--space-md);
+    margin-bottom: var(--space-lg);
   }
 
   .footer__desc {
     font-size: var(--text-caption);
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.65);
     line-height: var(--leading-relaxed);
   }
 
@@ -98,7 +99,7 @@ import { mainNav, buildingNav, contactInfo } from '@data/navigation';
     font-weight: var(--weight-bold);
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.6);
     margin-bottom: var(--space-lg);
   }
 
@@ -115,18 +116,23 @@ import { mainNav, buildingNav, contactInfo } from '@data/navigation';
   .footer__contact-label {
     display: block;
     font-size: var(--text-small);
-    color: rgba(255, 255, 255, 0.4);
+    color: rgba(255, 255, 255, 0.45);
     margin-bottom: var(--space-xs);
   }
 
   .footer__link {
     font-size: var(--text-caption);
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(255, 255, 255, 0.85);
     transition: color var(--transition-fast);
   }
 
   .footer__link:hover {
     color: var(--color-text-inverse);
+  }
+
+  .footer__link--phone {
+    font-size: var(--text-body);
+    font-weight: var(--weight-semibold);
   }
 
   .footer__address {

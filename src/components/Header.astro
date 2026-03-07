@@ -12,7 +12,7 @@ const { currentPath } = Astro.props;
   <div class="header__inner container-wide">
     <a href="/" class="header__logo" aria-label="УК АНМ — Главная">
       <img
-        src="/images/common/logo.png"
+        src="/images/common/logo.svg"
         alt="Александро-Невская Мануфактура"
         width="200"
         height="40"
@@ -23,7 +23,7 @@ const { currentPath } = Astro.props;
     <nav class="header__nav" aria-label="Основная навигация">
       <ul class="header__nav-list">
         {mainNav.map((item) => (
-          <li class="header__nav-item">
+          <li class:list={['header__nav-item', { 'header__nav-item--has-dropdown': item.children?.length }]}>
             <a
               href={item.href}
               class:list={[
@@ -32,7 +32,29 @@ const { currentPath } = Astro.props;
               ]}
             >
               {item.label}
+              {item.children?.length && (
+                <svg class="header__nav-arrow" width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              )}
             </a>
+            {item.children?.length && (
+              <ul class="header__dropdown">
+                {item.children.map((child) => (
+                  <li>
+                    <a
+                      href={child.href}
+                      class:list={[
+                        'header__dropdown-link',
+                        { 'header__dropdown-link--active': currentPath === child.href }
+                      ]}
+                    >
+                      {child.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )}
           </li>
         ))}
       </ul>
@@ -61,18 +83,41 @@ const { currentPath } = Astro.props;
     <nav aria-label="Мобильная навигация">
       <ul class="header__mobile-list">
         {mainNav.map((item) => (
-          <li>
-            <a href={item.href} class="header__mobile-link">{item.label}</a>
+          <li class="header__mobile-item">
+            {item.children?.length ? (
+              <details class="header__mobile-details">
+                <summary class="header__mobile-link header__mobile-link--parent">
+                  {item.label}
+                  <svg class="header__mobile-arrow" width="12" height="7" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </summary>
+                <ul class="header__mobile-sublist">
+                  <li>
+                    <a href={item.href} class="header__mobile-sublink">Все {item.label.toLowerCase()}</a>
+                  </li>
+                  {item.children.map((child) => (
+                    <li>
+                      <a href={child.href} class="header__mobile-sublink">{child.label}</a>
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            ) : (
+              <a href={item.href} class="header__mobile-link">{item.label}</a>
+            )}
           </li>
         ))}
       </ul>
     </nav>
-    <a href={contactInfo.phoneHref} class="header__mobile-phone">
-      {contactInfo.phone}
-    </a>
-    <a href={contactInfo.emailHref} class="header__mobile-email">
-      {contactInfo.email}
-    </a>
+    <div class="header__mobile-contacts">
+      <a href={contactInfo.phoneHref} class="header__mobile-phone">
+        {contactInfo.phone}
+      </a>
+      <a href={contactInfo.emailHref} class="header__mobile-email">
+        {contactInfo.email}
+      </a>
+    </div>
   </div>
 </header>
 
@@ -94,21 +139,29 @@ const { currentPath } = Astro.props;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 4.5rem;
+    height: 5rem;
     gap: var(--space-xl);
   }
 
   .header__logo img {
-    height: 2rem;
+    height: 2.75rem;
     width: auto;
   }
 
+  /* Desktop Nav */
   .header__nav-list {
     display: flex;
     gap: var(--space-xl);
   }
 
+  .header__nav-item {
+    position: relative;
+  }
+
   .header__nav-link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
     font-size: var(--text-caption);
     font-weight: var(--weight-medium);
     color: var(--color-text-primary);
@@ -125,6 +178,52 @@ const { currentPath } = Astro.props;
     border-bottom-color: var(--color-primary);
   }
 
+  .header__nav-arrow {
+    transition: transform var(--transition-fast);
+    flex-shrink: 0;
+  }
+
+  .header__nav-item--has-dropdown:hover .header__nav-arrow {
+    transform: rotate(180deg);
+  }
+
+  /* Dropdown */
+  .header__dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: -var(--space-md);
+    min-width: 14rem;
+    background-color: var(--color-surface-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    padding: var(--space-sm) 0;
+    z-index: var(--z-dropdown, 200);
+    margin-top: var(--space-xs);
+  }
+
+  .header__nav-item--has-dropdown:hover .header__dropdown,
+  .header__nav-item--has-dropdown:focus-within .header__dropdown {
+    display: block;
+  }
+
+  .header__dropdown-link {
+    display: block;
+    padding: var(--space-sm) var(--space-lg);
+    font-size: var(--text-caption);
+    color: var(--color-text-primary);
+    white-space: nowrap;
+    transition: all var(--transition-fast);
+  }
+
+  .header__dropdown-link:hover,
+  .header__dropdown-link--active {
+    color: var(--color-primary);
+    background-color: var(--color-surface-cream);
+  }
+
+  /* Right section */
   .header__right {
     display: flex;
     align-items: center;
@@ -162,6 +261,7 @@ const { currentPath } = Astro.props;
     color: var(--color-border);
   }
 
+  /* Burger */
   .header__burger {
     display: none;
     flex-direction: column;
@@ -178,10 +278,11 @@ const { currentPath } = Astro.props;
     transition: all var(--transition-base);
   }
 
+  /* Mobile Menu */
   .header__mobile-menu {
     display: none;
     position: fixed;
-    top: 4.5rem;
+    top: 5rem;
     left: 0;
     right: 0;
     bottom: 0;
@@ -198,18 +299,65 @@ const { currentPath } = Astro.props;
   .header__mobile-list {
     display: flex;
     flex-direction: column;
-    gap: var(--space-lg);
+    gap: var(--space-sm);
   }
 
   .header__mobile-link {
+    display: block;
     font-size: var(--text-h3);
     font-weight: var(--weight-semibold);
     color: var(--color-text-primary);
+    padding: var(--space-sm) 0;
+  }
+
+  .header__mobile-link--parent {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    list-style: none;
+    width: 100%;
+  }
+
+  .header__mobile-link--parent::-webkit-details-marker {
+    display: none;
+  }
+
+  .header__mobile-arrow {
+    transition: transform var(--transition-fast);
+  }
+
+  .header__mobile-details[open] .header__mobile-arrow {
+    transform: rotate(180deg);
+  }
+
+  .header__mobile-sublist {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    padding: var(--space-sm) 0 var(--space-md) var(--space-lg);
+  }
+
+  .header__mobile-sublink {
+    display: block;
+    font-size: var(--text-body);
+    color: var(--color-text-secondary);
+    padding: var(--space-xs) 0;
+    transition: color var(--transition-fast);
+  }
+
+  .header__mobile-sublink:hover {
+    color: var(--color-primary);
+  }
+
+  .header__mobile-contacts {
+    margin-top: var(--space-2xl);
+    padding-top: var(--space-lg);
+    border-top: 1px solid var(--color-border);
   }
 
   .header__mobile-phone {
     display: block;
-    margin-top: var(--space-2xl);
     font-size: var(--text-h3);
     font-weight: var(--weight-bold);
     color: var(--color-primary);

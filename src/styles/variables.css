@@ -1,20 +1,27 @@
 :root {
   /* ── Colors ── */
-  --color-primary: #B71C1C;
-  --color-primary-dark: #7F0000;
-  --color-primary-light: #E53935;
+  /* Brand palette (from brandbook) */
+  --color-burgundy: #78004F;          /* Бордовый — Pantone 209 C, CMYK 0/100/34/53 */
+  --color-red: #B8003C;               /* Темно-красный — Pantone 7427 C, CMYK 0/100/65/28 */
+  --color-gold: #B38026;              /* Золотой — Pantone 876 C, CMYK 30/50/85/0 */
+  --color-dark-grey: #3F4F55;         /* Темно-серый — CMYK 60/50/46/38 */
+  --color-silver: #9EA8AD;            /* Серебряный — Pantone 877 C */
+
+  --color-primary: #B8003C;
+  --color-primary-dark: #8C002E;
+  --color-primary-light: #D4004A;
   --color-surface-cream: #F5F0E8;
   --color-surface-white: #FFFFFF;
-  --color-surface-dark: #1A1A2E;
-  --color-accent-yellow: #F5D45E;
+  --color-surface-dark: #78004F;      /* Brand burgundy — replaces off-brand navy */
+  --color-accent-yellow: #B38026;     /* Brand gold — replaces generic yellow */
   --color-text-primary: #1A1A1A;
   --color-text-secondary: #6B6B6B;
   --color-text-inverse: #FFFFFF;
   --color-border: #E0E0E0;
 
   /* ── Typography ── */
-  --font-heading: 'Manrope', 'Inter', system-ui, sans-serif;
-  --font-body: 'Inter', system-ui, sans-serif;
+  --font-heading: 'Tahoma', 'Geneva', 'Verdana', sans-serif;
+  --font-body: 'Tahoma', 'Geneva', 'Verdana', sans-serif;
 
   --text-display: clamp(2.5rem, 5vw + 1rem, 6rem);
   --text-h1: clamp(2rem, 3vw + 0.5rem, 3.5rem);

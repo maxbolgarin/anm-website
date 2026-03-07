@@ -1,0 +1,164 @@
+---
+import { contactInfo } from '@data/navigation';
+---
+
+<section class="location-contacts section">
+  <div class="container">
+    <div class="location-contacts__grid">
+      <div class="location-contacts__contacts">
+        <h2 class="location-contacts__heading">Контакты</h2>
+        <div class="location-contacts__items">
+          <div class="location-contacts__item">
+            <span class="location-contacts__label">Основной телефон</span>
+            <a href={contactInfo.phoneHref} class="location-contacts__value location-contacts__value--phone">
+              {contactInfo.phone}
+            </a>
+          </div>
+          <div class="location-contacts__item">
+            <span class="location-contacts__label">Коммерческий отдел</span>
+            <a href={contactInfo.commercialHref} class="location-contacts__value">
+              {contactInfo.commercial}
+            </a>
+          </div>
+          <div class="location-contacts__item">
+            <span class="location-contacts__label">Приемная</span>
+            <a href={contactInfo.receptionHref} class="location-contacts__value">
+              {contactInfo.reception}
+            </a>
+          </div>
+          <div class="location-contacts__item">
+            <span class="location-contacts__label">Email</span>
+            <a href={contactInfo.emailHref} class="location-contacts__value">
+              {contactInfo.email}
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="location-contacts__location">
+        <h2 class="location-contacts__heading">Как добраться</h2>
+        <div class="location-contacts__metro">
+          <span class="location-contacts__metro-dot" style="background-color: #009A49;"></span>
+          <span class="location-contacts__metro-name">м. Елизаровская</span>
+          <span class="location-contacts__metro-time">5 мин пешком</span>
+        </div>
+        <p class="location-contacts__address">
+          {contactInfo.address}
+        </p>
+        <p class="location-contacts__directions">
+          Территория Александро-Невской Мануфактуры расположена на набережной Невы, в 5 минутах ходьбы от станции метро Елизаровская (зелёная линия). Удобный подъезд с Пр. Обуховской Обороны.
+        </p>
+        <div class="location-contacts__links">
+          <a href="/buildings/fidel/how-to-get/" class="btn btn--link">
+            Маршрут до БЦ Фидель →
+          </a>
+          <a href="/buildings/anm/how-to-get/" class="btn btn--link">
+            Маршрут до АБК →
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .location-contacts__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3xl);
+  }
+
+  .location-contacts__heading {
+    font-size: var(--text-h2);
+    font-weight: var(--weight-bold);
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-xl);
+  }
+
+  .location-contacts__items {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+  }
+
+  .location-contacts__item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .location-contacts__label {
+    font-size: var(--text-small);
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .location-contacts__value {
+    font-size: var(--text-body);
+    color: var(--color-text-primary);
+    font-weight: var(--weight-medium);
+    transition: color var(--transition-fast);
+  }
+
+  .location-contacts__value:hover {
+    color: var(--color-primary);
+  }
+
+  .location-contacts__value--phone {
+    font-size: var(--text-h3);
+    font-weight: var(--weight-bold);
+  }
+
+  .location-contacts__metro {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-lg);
+    padding: var(--space-md) var(--space-lg);
+    background-color: var(--color-surface-cream);
+    border-radius: var(--radius-md);
+  }
+
+  .location-contacts__metro-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .location-contacts__metro-name {
+    font-weight: var(--weight-semibold);
+    color: var(--color-text-primary);
+  }
+
+  .location-contacts__metro-time {
+    color: var(--color-text-secondary);
+    font-size: var(--text-caption);
+  }
+
+  .location-contacts__address {
+    font-weight: var(--weight-medium);
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-md);
+  }
+
+  .location-contacts__directions {
+    color: var(--color-text-secondary);
+    line-height: var(--leading-relaxed);
+    margin-bottom: var(--space-lg);
+  }
+
+  .location-contacts__links {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  @media (max-width: 767px) {
+    .location-contacts__grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-2xl);
+    }
+  }
+</style>

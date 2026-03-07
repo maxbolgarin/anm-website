@@ -2,13 +2,15 @@
 import { contactInfo } from '@data/navigation';
 ---
 
-<section class="cta section--dark">
+<section class="cta">
   <div class="cta__inner container">
-    <h2 class="cta__heading">Давайте обсудим детали</h2>
+    <h2 class="cta__heading">Узнайте о свободных площадях</h2>
+    <p class="cta__subtitle">Свяжитесь с нами, чтобы узнать о доступных офисах или обсудить условия аренды</p>
     <div class="cta__contacts">
       <a href={contactInfo.phoneHref} class="cta__phone">{contactInfo.phone}</a>
       <a href={contactInfo.emailHref} class="cta__email">{contactInfo.email}</a>
     </div>
+    <a href="/contacts/" class="btn btn--primary cta__btn">Связаться с нами</a>
     <p class="cta__address">{contactInfo.address}</p>
   </div>
 </section>
@@ -17,11 +19,25 @@ import { contactInfo } from '@data/navigation';
   .cta {
     padding-block: var(--space-4xl);
     text-align: center;
+    background-color: var(--color-surface-cream);
   }
 
   .cta__heading {
     font-size: var(--text-h1);
-    color: var(--color-text-inverse);
+    color: var(--color-red);
+    margin-bottom: var(--space-md);
+  }
+
+  .cta__subtitle {
+    font-size: var(--text-body);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-xl);
+    max-width: 32rem;
+    margin-inline: auto;
+    line-height: var(--leading-relaxed);
+  }
+
+  .cta__btn {
     margin-bottom: var(--space-xl);
   }
 
@@ -35,30 +51,31 @@ import { contactInfo } from '@data/navigation';
   }
 
   .cta__phone {
-    font-family: var(--font-heading);
-    font-size: var(--text-h2);
-    font-weight: var(--weight-bold);
-    color: var(--color-text-inverse);
+    font-size: var(--text-h3);
+    color: var(--color-text-secondary);
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 2px;
   }
 
   .cta__phone:hover {
-    color: var(--color-accent-yellow);
+    color: var(--color-red);
+    border-bottom-color: var(--color-red);
   }
 
   .cta__email {
     font-size: var(--text-h3);
-    color: rgba(255, 255, 255, 0.8);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    color: var(--color-text-secondary);
+    border-bottom: 1px solid var(--color-border);
     padding-bottom: 2px;
   }
 
   .cta__email:hover {
-    color: var(--color-text-inverse);
-    border-bottom-color: var(--color-text-inverse);
+    color: var(--color-red);
+    border-bottom-color: var(--color-red);
   }
 
   .cta__address {
     font-size: var(--text-caption);
-    color: rgba(255, 255, 255, 0.5);
+    color: var(--color-text-secondary);
   }
 </style>

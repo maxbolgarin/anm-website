@@ -1,0 +1,38 @@
+---
+const keywords = [
+  { label: 'Офисы у м. Елизаровская', href: '/buildings/' },
+  { label: 'Офисы в Невском районе', href: '/buildings/' },
+  { label: 'Лофт-офисы СПб', href: '/buildings/fidel/' },
+  { label: 'Офисы 50–100 м²', href: '/buildings/' },
+  { label: 'Офисы 100–300 м²', href: '/buildings/' },
+  { label: 'Офисы 300+ м²', href: '/buildings/' },
+  { label: 'Аренда офисов класса B+', href: '/buildings/' },
+  { label: 'Офисы с паркингом', href: '/buildings/' },
+];
+---
+
+<section class="seo-keywords" aria-hidden="true">
+  <div class="container">
+    <div class="seo-keywords__list">
+      {keywords.map((kw) => (
+        <a href={kw.href} class="seo-keywords__pill" tabindex="-1">
+          {kw.label}
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .seo-keywords {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+</style>

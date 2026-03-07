@@ -13,7 +13,7 @@ const { title, subtitle, ctaText, ctaHref, backgroundImage } = Astro.props;
 <section class="hero" style={`--bg-image: url(${backgroundImage})`}>
   <div class="hero__overlay"></div>
   <div class="hero__content container">
-    <h1 class="hero__title">{title}</h1>
+    <h1 class="hero__title" set:html={title} />
     {subtitle && <p class="hero__subtitle">{subtitle}</p>}
     {ctaText && ctaHref && (
       <a href={ctaHref} class="btn btn--primary hero__cta">{ctaText}</a>
@@ -32,35 +32,41 @@ const { title, subtitle, ctaText, ctaHref, backgroundImage } = Astro.props;
     position: relative;
     min-height: 100vh;
     display: flex;
-    align-items: flex-end;
+    align-items: flex-start;
     background-image: var(--bg-image);
     background-size: cover;
     background-position: center;
-    padding-bottom: var(--space-4xl);
+    padding-top: 120px;
   }
 
   .hero__overlay {
     position: absolute;
     inset: 0;
     background: linear-gradient(
-      to top,
-      rgba(0, 0, 0, 0.7) 0%,
-      rgba(0, 0, 0, 0.3) 40%,
-      rgba(0, 0, 0, 0.1) 100%
+      to bottom right,
+      rgba(0, 0, 0, 0.55) 0%,
+      rgba(0, 0, 0, 0.3) 35%,
+      rgba(0, 0, 0, 0.05) 65%,
+      rgba(0, 0, 0, 0) 100%
     );
   }
 
   .hero__content {
     position: relative;
     z-index: 1;
-    max-width: 50rem;
+    max-width: none;
+    width: 100%;
+    padding-left: var(--space-2xl);
+    padding-right: var(--space-2xl);
+    margin-inline: 0;
   }
 
   .hero__title {
     font-size: var(--text-display);
     color: var(--color-text-inverse);
     margin-bottom: var(--space-lg);
-    text-wrap: balance;
+    text-align: left;
+    max-width: 50rem;
   }
 
   .hero__subtitle {
@@ -68,6 +74,7 @@ const { title, subtitle, ctaText, ctaHref, backgroundImage } = Astro.props;
     color: rgba(255, 255, 255, 0.85);
     margin-bottom: var(--space-xl);
     max-width: 36rem;
+    text-align: left;
   }
 
   .hero__cta {

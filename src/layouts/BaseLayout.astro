@@ -1,6 +1,5 @@
 ---
 import Header from '@components/Header.astro';
-import SubNav from '@components/SubNav.astro';
 import Footer from '@components/Footer.astro';
 import '@styles/global.css';
 
@@ -67,13 +66,7 @@ const orgJsonLd = {
   <!-- Favicon -->
   <link rel="icon" type="image/x-icon" href="/favicon.ico" />
 
-  <!-- Fonts (fallback if local files are missing) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@600;700;800&display=swap"
-    rel="stylesheet"
-  />
+  <!-- Fonts: Tahoma loaded via @font-face in typography.css -->
 
   <!-- JSON-LD: Organization -->
   <script type="application/ld+json" set:html={JSON.stringify(orgJsonLd)} />
@@ -85,7 +78,6 @@ const orgJsonLd = {
 </head>
 <body>
   <Header currentPath={currentPath} />
-  <SubNav currentPath={currentPath} />
 
   <main>
     <slot />

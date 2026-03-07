@@ -12,16 +12,28 @@ export interface BuildingNavItem {
 }
 
 export const mainNav: NavItem[] = [
-  { label: 'Главная', href: '/' },
-  { label: 'Бизнес-центры', href: '/buildings/' },
-  { label: 'Аренда офисов', href: '/#offices' },
-  { label: 'О компании', href: '/about/' },
+  {
+    label: 'Бизнес-Центры',
+    href: '/buildings/',
+    children: [
+      { label: 'Бизнес-лофт Фидель', href: '/buildings/fidel/' },
+      { label: 'АБК Мануфактура', href: '/buildings/anm/' },
+    ],
+  },
+  {
+    label: 'О компании',
+    href: '/about/',
+    children: [
+      { label: 'Территория и инфраструктура', href: '/about/#territory' },
+      { label: 'Компания и история', href: '/about/#company' },
+    ],
+  },
   { label: 'Контакты', href: '/contacts/' },
 ];
 
 export const buildingNav: BuildingNavItem[] = [
   { name: 'Фидель', slug: 'fidel', class: 'B+', href: '/buildings/fidel/' },
-  { name: 'АНМ', slug: 'anm', class: 'B+', href: '/buildings/anm/' },
+  { name: 'АБК', slug: 'anm', class: 'C', href: '/buildings/anm/' },
 ];
 
 export const contactInfo = {

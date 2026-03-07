@@ -1,0 +1,22 @@
+---
+import BuildingTabs from '@islands/BuildingTabs';
+import '@islands/BuildingTabs.css';
+import { buildings } from '@data/buildings';
+
+const buildingTabData = buildings.map((b) => ({
+  name: b.name,
+  fullName: b.slug === 'fidel' ? 'Бизнес-лофт Фидель' : 'АБК Мануфактура',
+  slug: b.slug,
+  buildingClass: b.class,
+  description: b.description,
+  heroImage: b.heroImage,
+  galleryImages: b.galleryImages,
+  stats: b.stats,
+}));
+---
+
+<BuildingTabs
+  client:load
+  buildings={buildingTabData}
+  contactHref="/contacts/"
+/>

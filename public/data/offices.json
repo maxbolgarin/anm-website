@@ -10,7 +10,7 @@
     "address": "Пр. Обуховской Обороны, 70",
     "pricePerSqm": 1200,
     "totalPrice": 54000,
-    "photos": ["/images/buildings/fidel/interior-1.jpg"],
+    "photos": ["/images/buildings/fidel/interior-1.jpg", "/images/buildings/fidel/corridor.jpg"],
     "available": true
   },
   {
@@ -24,7 +24,7 @@
     "address": "Пр. Обуховской Обороны, 70",
     "pricePerSqm": 1100,
     "totalPrice": 132000,
-    "photos": ["/images/buildings/fidel/interior-2.jpg"],
+    "photos": ["/images/buildings/fidel/interior-creative.jpg", "/images/buildings/fidel/interior-lounge.jpg"],
     "available": true
   },
   {
@@ -38,7 +38,7 @@
     "address": "Пр. Обуховской Обороны, 70",
     "pricePerSqm": 1250,
     "totalPrice": 97500,
-    "photos": ["/images/buildings/fidel/interior-1.jpg"],
+    "photos": ["/images/buildings/fidel/interior-nordic.jpg", "/images/buildings/fidel/interior-mountain.jpg"],
     "available": true
   },
   {
@@ -52,35 +52,35 @@
     "address": "Пр. Обуховской Обороны, 70",
     "pricePerSqm": 1050,
     "totalPrice": 210000,
-    "photos": ["/images/buildings/fidel/interior-2.jpg"],
+    "photos": ["/images/buildings/fidel/interior-orange.jpg", "/images/buildings/fidel/interior-colorful.jpg"],
     "available": true
   },
   {
     "id": "anm-201",
     "buildingSlug": "anm",
-    "buildingName": "АНМ",
+    "buildingName": "АБК",
     "area": 55,
     "floor": 2,
-    "class": "B+",
+    "class": "C",
     "type": "cabinet",
     "address": "Пр. Обуховской Обороны, 70к2",
     "pricePerSqm": 1100,
     "totalPrice": 60500,
-    "photos": ["/images/buildings/anm/interior-1.jpg"],
+    "photos": ["/images/buildings/anm/reception.jpg", "/images/buildings/anm/lobby.jpg"],
     "available": true
   },
   {
     "id": "anm-301",
     "buildingSlug": "anm",
-    "buildingName": "АНМ",
+    "buildingName": "АБК",
     "area": 95,
     "floor": 3,
-    "class": "B+",
+    "class": "C",
     "type": "open-space",
     "address": "Пр. Обуховской Обороны, 70к2",
     "pricePerSqm": 1000,
     "totalPrice": 95000,
-    "photos": ["/images/buildings/anm/interior-1.jpg"],
+    "photos": ["/images/buildings/anm/lobby.jpg", "/images/buildings/anm/lift.jpg"],
     "available": true
   }
 ]
