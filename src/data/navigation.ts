@@ -24,8 +24,8 @@ export const mainNav: NavItem[] = [
     label: 'О компании',
     href: '/about/',
     children: [
-      { label: 'Территория и инфраструктура', href: '/about/#territory' },
-      { label: 'Компания и история', href: '/about/#company' },
+      { label: 'Территория и инфраструктура', href: '/territory/' },
+      { label: 'Компания и история', href: '/about/company/' },
     ],
   },
   { label: 'Контакты', href: '/contacts/' },

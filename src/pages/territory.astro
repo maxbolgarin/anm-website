@@ -1,0 +1,343 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Breadcrumbs from '@components/Breadcrumbs.astro';
+import SectionHeading from '@components/SectionHeading.astro';
+import FacilityCard from '@components/FacilityCard.astro';
+import InteractiveMapIsland from '@components/InteractiveMapIsland.astro';
+import ContactCTA from '@components/ContactCTA.astro';
+import { buildings } from '@data/buildings';
+
+const title = 'Территория и инфраструктура — УК АНМ';
+const description = 'Территория Александро-Невской Мануфактуры: два бизнес-центра, развитая инфраструктура, парковка на 500 мест, кафе, фитнес, охрана 24/7. Всё для комфортной работы.';
+
+const breadcrumbs = [
+  { label: 'Главная', href: '/' },
+  { label: 'О компании', href: '/about/' },
+  { label: 'Территория и инфраструктура' },
+];
+
+const mapMarkers = buildings.map((b) => ({
+  lat: b.coordinates.lat,
+  lng: b.coordinates.lng,
+  title: `БЦ ${b.name}`,
+  address: b.shortAddress,
+  href: `/buildings/${b.slug}/`,
+}));
+
+const facilityItems = [
+  {
+    name: '2 столовые',
+    description: 'Комплексные обеды от 250₽. Домашняя кухня и разнообразное меню каждый день.',
+    image: '/images/infrastructure/cafe.jpg',
+    imageAlt: 'Столовая на территории Александро-Невской Мануфактуры',
+    icon: '🍽',
+  },
+  {
+    name: '2 кафе',
+    description: 'Свежий кофе, выпечка и лёгкие перекусы. Идеально для деловых встреч.',
+    image: '/images/infrastructure/cafe.jpg',
+    imageAlt: 'Кафе на территории Александро-Невской Мануфактуры',
+    icon: '☕',
+  },
+  {
+    name: 'Фитнес-студия',
+    description: 'Современный тренажёрный зал. Специальные условия для арендаторов.',
+    image: '/images/infrastructure/reception.jpg',
+    imageAlt: 'Фитнес-студия на территории',
+    icon: '💪',
+  },
+  {
+    name: '550 машиномест',
+    description: 'Наземный и подземный паркинг. Гостевые места и абонементы.',
+    image: '/images/infrastructure/parking.jpg',
+    imageAlt: 'Паркинг на территории Александро-Невской Мануфактуры',
+    icon: '🅿️',
+  },
+  {
+    name: 'Высокоскоростной интернет',
+    description: 'Оптоволокно от ведущих провайдеров. До 10 Гбит/с для вашего бизнеса.',
+    image: '/images/infrastructure/security.jpg',
+    imageAlt: 'Серверное оборудование и сетевая инфраструктура',
+    icon: '📡',
+  },
+  {
+    name: 'Охрана 24/7',
+    description: 'Видеонаблюдение, контроль доступа и профессиональная служба безопасности.',
+    image: '/images/infrastructure/security.jpg',
+    imageAlt: 'Система охраны и видеонаблюдения',
+    icon: '🔒',
+  },
+];
+
+const managementServices = [
+  { icon: '🔧', name: 'Техническое обслуживание', description: 'Собственная служба эксплуатации. Электрики, сантехники, инженеры — на месте 24/7.' },
+  { icon: '✨', name: 'Клининг', description: 'Профессиональная уборка общих зон и офисов. Ежедневно и по запросу.' },
+  { icon: '🛡', name: 'Охрана и безопасность', description: 'Круглосуточная охрана, видеонаблюдение, контроль доступа по картам.' },
+  { icon: '🔑', name: 'Пропускная система', description: 'Электронные пропуска для сотрудников и гостей. Заказ через личный кабинет.' },
+  { icon: '📞', name: 'Единая диспетчерская', description: 'Одна точка контакта для всех вопросов. Быстрое решение любых задач.' },
+  { icon: '📅', name: 'Бронирование переговорных', description: 'Современные переговорные комнаты. Онлайн-бронирование для арендаторов.' },
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <Breadcrumbs items={breadcrumbs} />
+
+  <!-- ===== SECTION 1: TERRITORY MAP ===== -->
+  <section class="section territory-map" id="map">
+    <div class="container">
+      <SectionHeading
+        title="Территория и инфраструктура"
+        subtitle="Александро-Невская Мануфактура — это два бизнес-центра на исторической территории у набережной Невы с развитой инфраструктурой для комфортной работы."
+      />
+    </div>
+    <div class="map-section">
+      <InteractiveMapIsland
+        markers={mapMarkers}
+        center={{ lat: 59.9076, lng: 30.427 }}
+        zoom={16}
+        height="480px"
+      />
+    </div>
+  </section>
+
+  <!-- ===== SECTION 3: INFRASTRUCTURE ===== -->
+  <section class="section section--cream" id="infrastructure">
+    <div class="container">
+      <div class="infra-header">
+        <span class="infra-header__label">Life-Work Balance</span>
+        <h2 class="infra-header__title">Всё необходимое на территории</h2>
+        <p class="infra-header__subtitle">
+          Вашим сотрудникам не нужно выходить за территорию. Питание, спорт, парковка — всё в шаговой доступности.
+        </p>
+      </div>
+      <div class="infra-grid">
+        {facilityItems.map((item) => (
+          <div class="infra-card">
+            <div class="infra-card__image-wrap">
+              <img src={item.image} alt={item.imageAlt} class="infra-card__image" loading="lazy" />
+              <span class="infra-card__icon">{item.icon}</span>
+            </div>
+            <div class="infra-card__content">
+              <h3 class="infra-card__name">{item.name}</h3>
+              <p class="infra-card__desc">{item.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 4: MANAGEMENT COMPANY ===== -->
+  <section class="section" id="management">
+    <div class="container">
+      <div class="mgmt-header">
+        <span class="mgmt-header__label">Управляющая компания</span>
+        <p class="mgmt-header__subtitle">
+          Собственная управляющая компания с 20-летним опытом. Мы знаем, что нужно вашему бизнесу.
+        </p>
+      </div>
+      <div class="mgmt-grid">
+        {managementServices.map((svc) => (
+          <div class="mgmt-card">
+            <span class="mgmt-card__icon">{svc.icon}</span>
+            <h3 class="mgmt-card__name">{svc.name}</h3>
+            <p class="mgmt-card__desc">{svc.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 5: CONTACT CTA ===== -->
+  <ContactCTA />
+</BaseLayout>
+
+<style>
+  /* Map section */
+  .territory-map {
+    padding-top: var(--space-xl);
+  }
+
+  .map-section {
+    margin-top: var(--space-xl);
+  }
+
+  /* Infrastructure header */
+  .infra-header {
+    text-align: center;
+    margin-bottom: var(--space-3xl);
+  }
+
+  .infra-header__label {
+    display: inline-block;
+    font-size: var(--text-caption);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-sm);
+  }
+
+  .infra-header__title {
+    font-size: var(--text-h1);
+    font-weight: var(--weight-bold);
+    margin-bottom: var(--space-md);
+  }
+
+  .infra-header__subtitle {
+    font-size: var(--text-body);
+    color: var(--color-text-secondary);
+    max-width: 36rem;
+    margin-inline: auto;
+    line-height: var(--leading-relaxed);
+  }
+
+  /* Infrastructure grid — 3 columns */
+  .infra-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-xl);
+  }
+
+  /* Infrastructure card */
+  .infra-card {
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background-color: var(--color-surface-white);
+    border: none;
+    transition: box-shadow var(--transition-base);
+  }
+
+  .infra-card:hover {
+    box-shadow: var(--shadow-md);
+  }
+
+  .infra-card__image-wrap {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .infra-card__image {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    transition: transform var(--transition-slow);
+  }
+
+  .infra-card:hover .infra-card__image {
+    transform: scale(1.03);
+  }
+
+  .infra-card__icon {
+    position: absolute;
+    bottom: var(--space-md);
+    left: var(--space-md);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-surface-white);
+    border-radius: var(--radius-sm);
+    font-size: 1.25rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  }
+
+  .infra-card__content {
+    padding: var(--space-lg);
+  }
+
+  .infra-card__name {
+    font-size: var(--text-h4);
+    margin-bottom: var(--space-sm);
+  }
+
+  .infra-card__desc {
+    font-size: var(--text-caption);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-relaxed);
+  }
+
+  /* Management company section */
+  .mgmt-header {
+    text-align: center;
+    margin-bottom: var(--space-3xl);
+  }
+
+  .mgmt-header__label {
+    display: inline-block;
+    font-size: var(--text-caption);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-primary);
+    font-weight: var(--weight-bold);
+    margin-bottom: var(--space-lg);
+  }
+
+  .mgmt-header__subtitle {
+    font-size: var(--text-h3);
+    color: var(--color-text-primary);
+    max-width: 36rem;
+    margin-inline: auto;
+    line-height: var(--leading-relaxed);
+  }
+
+  .mgmt-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-lg);
+  }
+
+  .mgmt-card {
+    background-color: var(--color-surface-cream);
+    border-radius: var(--radius-md);
+    padding: var(--space-xl);
+    transition: box-shadow 0.2s ease;
+  }
+
+  .mgmt-card:hover {
+    box-shadow: var(--shadow-md);
+  }
+
+  .mgmt-card__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background-color: var(--color-surface-cream);
+    border-radius: var(--radius-sm);
+    font-size: 1.5rem;
+    margin-bottom: var(--space-lg);
+  }
+
+  .mgmt-card__name {
+    font-size: var(--text-h4);
+    margin-bottom: var(--space-sm);
+  }
+
+  .mgmt-card__desc {
+    font-size: var(--text-caption);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-relaxed);
+  }
+
+  @media (max-width: 1023px) {
+    .infra-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .mgmt-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .infra-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .mgmt-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -23,6 +23,21 @@ const statsData = [
   { value: '6', label: 'Телеком-операторов' },
 ];
 
+const advantagesData = [
+  { icon: '/advantages/allday.svg', label: 'Круглосуточный доступ к офисам' },
+  { icon: '/advantages/power.svg', label: 'Надежность электроснабжения' },
+  { icon: '/advantages/light.svg', label: 'Энергосберегающие технологии' },
+  { icon: '/advantages/wifi.svg', label: '6 операторов связи на ваш выбор' },
+  { icon: '/advantages/park.svg', label: 'Парковка на 500 машиномест' },
+  { icon: '/advantages/bike.svg', label: 'Велопарковка на\u00a050\u00a0мест' },
+  { icon: '/advantages/transport.svg', label: 'Транспортная доступность' },
+  { icon: '/advantages/gas.svg', label: 'Собственная газовая котельня' },
+  { icon: '/advantages/dine.svg', label: 'Кафе и столовые с выбором блюд' },
+  { icon: '/advantages/lock.svg', label: 'Охраняемая территория' },
+  { icon: '/advantages/direction (1).svg', label: 'Удобная внутренняя логистика' },
+  { icon: '/advantages/secure.svg', label: 'Системы безопасности' },
+];
+
 const mapMarkers = buildings.map((b) => ({
   lat: b.coordinates.lat,
   lng: b.coordinates.lng,
@@ -57,8 +72,8 @@ const mapMarkers = buildings.map((b) => ({
   <!-- ===== SECTION 3: STATS "ПОЧЕМУ У НАС" ===== -->
   <StatsGrid
     title="Почему выбирают нас"
-    subtitle="Цифры, которые говорят сами за себя"
-    stats={statsData}
+    stats={[]}
+    advantages={advantagesData}
   />
 
   <!-- ===== SECTION 5: INTERACTIVE MAP ===== -->

@@ -1,0 +1,278 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Breadcrumbs from '@components/Breadcrumbs.astro';
+import SectionHeading from '@components/SectionHeading.astro';
+import StatsRow from '@components/StatsRow.astro';
+import InteractiveMapIsland from '@components/InteractiveMapIsland.astro';
+import ContactCTA from '@components/ContactCTA.astro';
+import { buildings } from '@data/buildings';
+
+const title = 'О компании УК АНМ — управляющая компания в Санкт-Петербурге';
+const description = 'УК АНМ — девелоперская компания с 15-летним опытом. Два бизнес-центра, 22 000 м² под управлением, 100+ арендаторов в Санкт-Петербурге.';
+
+const breadcrumbs = [
+  { label: 'Главная', href: '/' },
+  { label: 'О компании' },
+];
+
+const companyStats = [
+  { value: '15+', label: 'лет на рынке' },
+  { value: '22 000', label: 'м² под управлением', unit: 'м²' },
+  { value: '100+', label: 'арендаторов' },
+];
+
+const mapMarkers = buildings.map((b) => ({
+  lat: b.coordinates.lat,
+  lng: b.coordinates.lng,
+  title: `БЦ ${b.name}`,
+  address: b.shortAddress,
+  href: `/buildings/${b.slug}/`,
+}));
+
+const trustStats = [
+  { value: '100+', label: 'арендаторов' },
+  { value: '10+', label: 'лет средний срок аренды' },
+  { value: '98%', label: 'продлевают договор' },
+];
+
+const tenants = [
+  { name: 'Газпром Нефть', initials: 'ГН' },
+  { name: 'Сбербанк', initials: 'СБ' },
+  { name: 'Ростелеком', initials: 'РТ' },
+  { name: 'МТС', initials: 'МТС' },
+  { name: 'Мегафон', initials: 'МФ' },
+  { name: 'Deloitte', initials: 'DL' },
+  { name: 'Балтика', initials: 'БЛ' },
+  { name: 'Петербургтеплоэнерго', initials: 'ПТЭ' },
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <Breadcrumbs items={breadcrumbs} />
+
+  <!-- ===== SECTION 1: COMPANY HERO (condensed from company page) ===== -->
+  <section class="about-hero section">
+    <div class="container">
+      <div class="about-hero__grid">
+        <div class="about-hero__text">
+          <h1 class="about-hero__name text-display">Александро-Невская Мануфактура</h1>
+          <p class="about-hero__tagline">Управляющая компания. Создаём качественные бизнес-пространства в Санкт-Петербурге.</p>
+          <StatsRow stats={companyStats} />
+          <a href="/about/company/" class="btn--link about-hero__link">Подробнее →</a>
+        </div>
+        <div class="about-hero__image-wrap">
+          <img src="/images/about/territory-panorama.jpg" alt="Панорама территории Александро-Невской Мануфактуры" class="about-hero__image" loading="eager" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 2: TERRITORY MAP (condensed from territory page) ===== -->
+  <section class="section section--cream" id="territory">
+    <div class="container">
+      <SectionHeading
+        title="Территория и инфраструктура"
+        subtitle="Александро-Невская Мануфактура — это два бизнес-центра на исторической территории у набережной Невы с развитой инфраструктурой для комфортной работы."
+      />
+    </div>
+    <div class="map-section">
+      <InteractiveMapIsland
+        markers={mapMarkers}
+        center={{ lat: 59.9076, lng: 30.427 }}
+        zoom={16}
+        height="400px"
+      />
+    </div>
+    <div class="container territory-link-wrap">
+      <a href="/territory/" class="btn--link">Подробнее →</a>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 3: TRUST / TENANTS ===== -->
+  <section class="section trust-section" id="trust">
+    <div class="container">
+      <SectionHeading
+        title="Нам доверяют"
+        subtitle="Более 120 компаний выбрали наши бизнес-центры для размещения своих офисов"
+        align="center"
+      />
+      <div class="trust-stats">
+        {trustStats.map((stat) => (
+          <div class="trust-stats__item">
+            <span class="trust-stats__value">{stat.value}</span>
+            <span class="trust-stats__label">{stat.label}</span>
+          </div>
+        ))}
+      </div>
+      <div class="tenants-grid">
+        {tenants.map((tenant) => (
+          <div class="tenant-card">
+            <div class="tenant-card__logo">{tenant.initials}</div>
+            <span class="tenant-card__name">{tenant.name}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 4: CONTACT CTA ===== -->
+  <ContactCTA />
+</BaseLayout>
+
+<style>
+  /* Hero */
+  .about-hero__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-2xl);
+    align-items: center;
+  }
+
+  .about-hero__name {
+    margin-bottom: var(--space-lg);
+  }
+
+  .about-hero__tagline {
+    font-size: var(--text-h3);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-2xl);
+    max-width: 28rem;
+  }
+
+  .about-hero__link {
+    display: inline-block;
+    margin-top: var(--space-xl);
+  }
+
+  .about-hero__image-wrap {
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+
+  .about-hero__image {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+
+  /* Link button style */
+  .btn--link {
+    font-size: var(--text-body);
+    font-weight: var(--weight-medium);
+    color: var(--color-primary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .btn--link:hover {
+    color: var(--color-primary-dark);
+  }
+
+  /* Territory section */
+  .map-section {
+    margin-top: var(--space-xl);
+  }
+
+  .territory-link-wrap {
+    margin-top: var(--space-lg);
+  }
+
+  /* Trust section — wider subtitle */
+  .trust-section :global(.section-heading__subtitle) {
+    max-width: none;
+  }
+
+  /* Trust stats */
+  .trust-stats {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-3xl);
+    margin-bottom: var(--space-3xl);
+    flex-wrap: wrap;
+  }
+
+  .trust-stats__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .trust-stats__value {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: var(--weight-bold);
+    color: var(--color-primary);
+    line-height: 1.1;
+  }
+
+  .trust-stats__label {
+    font-size: var(--text-caption);
+    color: var(--color-text-secondary);
+    margin-top: var(--space-xs);
+  }
+
+  /* Tenants grid */
+  .tenants-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-lg);
+  }
+
+  .tenant-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-xl) var(--space-md);
+    background-color: var(--color-surface-cream);
+    border-radius: var(--radius-md);
+    text-align: center;
+    transition: box-shadow 0.2s ease;
+  }
+
+  .tenant-card:hover {
+    box-shadow: var(--shadow-md);
+  }
+
+  .tenant-card__logo {
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-surface-white);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-heading);
+    font-size: var(--text-h4);
+    font-weight: var(--weight-bold);
+    color: var(--color-text-secondary);
+    border: 1px solid var(--color-border);
+  }
+
+  .tenant-card__name {
+    font-size: var(--text-small);
+    color: var(--color-text-primary);
+    font-weight: var(--weight-medium);
+  }
+
+  @media (max-width: 1023px) {
+    .tenants-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .about-hero__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .trust-stats {
+      gap: var(--space-xl);
+    }
+
+    .tenants-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>

@@ -4,13 +4,19 @@ interface Stat {
   label: string;
 }
 
+interface Advantage {
+  icon: string;
+  label: string;
+}
+
 interface Props {
   title?: string;
   subtitle?: string;
   stats: Stat[];
+  advantages?: Advantage[];
 }
 
-const { title = 'Почему выбирают нас', subtitle, stats } = Astro.props;
+const { title = 'Почему выбирают нас', subtitle, stats, advantages = [] } = Astro.props;
 ---
 
 <section class="stats-grid section section--cream">
@@ -19,14 +25,34 @@ const { title = 'Почему выбирают нас', subtitle, stats } = Astr
       <h2 class="stats-grid__title">{title}</h2>
       {subtitle && <p class="stats-grid__subtitle">{subtitle}</p>}
     </div>
-    <div class="stats-grid__items">
-      {stats.map((stat) => (
-        <div class="stats-grid__item">
-          <span class="stats-grid__value">{stat.value}</span>
-          <span class="stats-grid__label">{stat.label}</span>
+
+    <!-- Stats row -->
+    {stats.length > 0 && (
+      <div class="stats-grid__items">
+        {stats.map((stat) => (
+          <div class="stats-grid__item">
+            <span class="stats-grid__value">{stat.value}</span>
+            <span class="stats-grid__label">{stat.label}</span>
+          </div>
+        ))}
+      </div>
+    )}
+
+    <!-- Advantages grid with icons -->
+    {advantages.length > 0 && (
+      <div class:list={["advantages", { "advantages--no-stats": stats.length === 0 }]}>
+        <div class="advantages__grid">
+          {advantages.map((adv) => (
+            <div class="advantages__item">
+              <div class="advantages__icon-wrapper">
+                <img src={adv.icon} alt={adv.label} class="advantages__icon" loading="lazy" />
+              </div>
+              <span class="advantages__label">{adv.label}</span>
+            </div>
+          ))}
         </div>
-      ))}
-    </div>
+      </div>
+    )}
   </div>
 </section>
 
@@ -81,9 +107,86 @@ const { title = 'Почему выбирают нас', subtitle, stats } = Astr
     line-height: var(--leading-normal);
   }
 
+  /* Advantages */
+  .advantages {
+    margin-top: var(--space-3xl);
+  }
+
+  .advantages--no-stats {
+    margin-top: 0;
+  }
+
+  .advantages__grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: var(--space-xl) var(--space-lg);
+  }
+
+  .advantages__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--space-md);
+    padding: var(--space-md) var(--space-xs);
+    border-radius: var(--radius-md);
+    transition: transform 0.2s ease;
+  }
+
+  .advantages__item:hover {
+    transform: translateY(-4px);
+  }
+
+  .advantages__icon-wrapper {
+    width: 96px;
+    height: 96px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: transparent;
+    border: 2px solid var(--color-primary);
+    flex-shrink: 0;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .advantages__item:hover .advantages__icon-wrapper {
+    background-color: rgba(183, 28, 28, 0.04);
+    border-color: var(--color-primary-dark);
+  }
+
+  .advantages__icon {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+  }
+
+  .advantages__label {
+    font-size: var(--text-caption);
+    font-weight: var(--weight-medium);
+    color: var(--color-text-primary);
+    line-height: var(--leading-normal);
+    max-width: 140px;
+  }
+
   @media (max-width: 1023px) {
     .stats-grid__items {
       grid-template-columns: repeat(2, 1fr);
+    }
+
+    .advantages__grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-lg);
+    }
+
+    .advantages__icon-wrapper {
+      width: 80px;
+      height: 80px;
+    }
+
+    .advantages__icon {
+      width: 40px;
+      height: 40px;
     }
   }
 
@@ -95,6 +198,21 @@ const { title = 'Почему выбирают нас', subtitle, stats } = Astr
 
     .stats-grid__item {
       padding: var(--space-lg) var(--space-sm);
+    }
+
+    .advantages__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-md);
+    }
+
+    .advantages__icon-wrapper {
+      width: 64px;
+      height: 64px;
+    }
+
+    .advantages__icon {
+      width: 36px;
+      height: 36px;
     }
   }
 </style>
