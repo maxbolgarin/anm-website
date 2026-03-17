@@ -9,33 +9,51 @@ import SEOKeywords from '@components/SEOKeywords.astro';
 import ContactCTA from '@components/ContactCTA.astro';
 import { buildings } from '@data/buildings';
 
-const title = 'Аренда офисов в бизнес-центрах Санкт-Петербурга — УК АНМ';
-const description = 'Офисы в аренду в бизнес-центрах класса B+ в Санкт-Петербурге. Рядом с метро, развитая инфраструктура, круглосуточный доступ. УК АНМ — 15+ лет на рынке.';
+const title = 'Аренда офисов в бизнес-центрах Санкт-Петербурга — АНМ';
+const description = 'Офисы в аренду в бизнес-центрах класса B+ в Санкт-Петербурге. Рядом с метро, развитая инфраструктура, круглосуточный доступ. АНМ — 20+ лет на рынке.';
 
 const statsData = [
-  { value: '22 000 м²', label: 'Под управлением' },
+  { value: '21 376 м²', label: 'Под управлением' },
   { value: '2', label: 'Бизнес-центра' },
-  { value: '15+', label: 'Лет на рынке' },
+  { value: '20+', label: 'Лет на рынке' },
   { value: '100+', label: 'Арендаторов' },
-  { value: '500', label: 'Машиномест' },
+  { value: '328', label: 'Машиномест' },
   { value: '24/7', label: 'Охрана и доступ' },
-  { value: '9', label: 'Этажей суммарно' },
+  { value: '11', label: 'Этажей суммарно' },
   { value: '6', label: 'Телеком-операторов' },
 ];
 
 const advantagesData = [
   { icon: '/advantages/allday.svg', label: 'Круглосуточный доступ к офисам' },
-  { icon: '/advantages/power.svg', label: 'Надежность электроснабжения' },
   { icon: '/advantages/light.svg', label: 'Энергосберегающие технологии' },
   { icon: '/advantages/wifi.svg', label: '6 операторов связи на ваш выбор' },
-  { icon: '/advantages/park.svg', label: 'Парковка на 500 машиномест' },
-  { icon: '/advantages/bike.svg', label: 'Велопарковка на\u00a050\u00a0мест' },
-  { icon: '/advantages/transport.svg', label: 'Транспортная доступность' },
   { icon: '/advantages/gas.svg', label: 'Собственная газовая котельня' },
-  { icon: '/advantages/dine.svg', label: 'Кафе и столовые с выбором блюд' },
-  { icon: '/advantages/lock.svg', label: 'Охраняемая территория' },
   { icon: '/advantages/direction (1).svg', label: 'Удобная внутренняя логистика' },
   { icon: '/advantages/secure.svg', label: 'Системы безопасности' },
+];
+
+const facilityItems = [
+  {
+    name: 'Охраняемый паркинг',
+    description: 'Охраняемый освещённый паркинг. Гостевые места и абонементы.',
+    image: '/images/infrastructure/parking-aerial.jpg',
+    imageAlt: 'Паркинг на территории Александро-Невской Мануфактуры',
+    icon: '🅿️',
+  },
+  {
+    name: 'Фитнес-студия',
+    description: 'Современный тренажёрный зал. Специальные условия для арендаторов.',
+    image: '/images/infrastructure/fitness-studio.jpg',
+    imageAlt: 'Фитнес-студия на территории бизнес-центра',
+    icon: '💪',
+  },
+  {
+    name: 'Столовые и кафе',
+    description: '2 столовые с комплексными обедами от 250₽ и 2 кафе со свежим кофе, выпечкой и лёгкими перекусами.',
+    image: '/images/buildings/anm/abk-cafe-new.jpg',
+    imageAlt: 'Кафе на территории Александро-Невской Мануфактуры',
+    icon: '🍽',
+  },
 ];
 
 const mapMarkers = buildings.map((b) => ({
@@ -57,7 +75,7 @@ const mapMarkers = buildings.map((b) => ({
         Аренда офисов<br>в&nbsp;бизнес-центрах Санкт&#8209;Петербурга
       </h1>
       <p class="hero-title__subtitle">
-        УК Александро-Невская Мануфактура&nbsp;—<br>два бизнес-центра на исторической территории у&nbsp;набережной Невы
+        Александро-Невская Мануфактура&nbsp;—<br>два бизнес-центра на исторической территории у&nbsp;набережной Невы
       </p>
     </div>
   </section>
@@ -69,12 +87,44 @@ const mapMarkers = buildings.map((b) => ({
     </div>
   </section>
 
-  <!-- ===== SECTION 3: STATS "ПОЧЕМУ У НАС" ===== -->
-  <StatsGrid
-    title="Почему выбирают нас"
-    stats={[]}
-    advantages={advantagesData}
-  />
+  <!-- ===== SECTION 3: INFRASTRUCTURE ===== -->
+  <section class="section section--cream" id="infrastructure">
+    <div class="container">
+      <div class="infra-header">
+        <span class="infra-header__label">Life-Work Balance</span>
+        <h2 class="infra-header__title">Всё необходимое на территории</h2>
+        <p class="infra-header__subtitle">
+          Вашим сотрудникам не нужно выходить за территорию. Питание, спорт, парковка — всё в шаговой доступности.
+        </p>
+      </div>
+      <div class="infra-grid">
+        {facilityItems.map((item) => (
+          <div class="infra-card">
+            <div class="infra-card__image-wrap">
+              <img src={item.image} alt={item.imageAlt} class="infra-card__image" loading="lazy" />
+              <span class="infra-card__icon">{item.icon}</span>
+            </div>
+            <div class="infra-card__content">
+              <h3 class="infra-card__name">{item.name}</h3>
+              <p class="infra-card__desc">{item.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <h3 class="infra-header__subtitle infra-header__subtitle--advantages">Почему выбирают нас</h3>
+      <div class="advantages__grid">
+        {advantagesData.map((adv) => (
+          <div class="advantages__item">
+            <div class="advantages__icon-wrapper">
+              <img src={adv.icon} alt={adv.label} class="advantages__icon" loading="lazy" />
+            </div>
+            <span class="advantages__label">{adv.label}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
 
   <!-- ===== SECTION 5: INTERACTIVE MAP ===== -->
   <section class="section" id="map">
@@ -171,6 +221,196 @@ const mapMarkers = buildings.map((b) => ({
     text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
   }
 
+  /* Infrastructure header */
+  .infra-header {
+    text-align: center;
+    margin-bottom: var(--space-3xl);
+  }
+
+  .infra-header__label {
+    display: inline-block;
+    font-size: var(--text-caption);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-sm);
+  }
+
+  .infra-header__title {
+    font-size: var(--text-h1);
+    font-weight: var(--weight-bold);
+    margin-bottom: var(--space-md);
+  }
+
+  .infra-header__subtitle {
+    font-size: var(--text-body);
+    color: var(--color-text-secondary);
+    max-width: 36rem;
+    margin-inline: auto;
+    line-height: var(--leading-relaxed);
+  }
+
+  /* Infrastructure grid — 3 columns */
+  .infra-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-xl);
+  }
+
+  /* Infrastructure card */
+  .infra-card {
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background-color: var(--color-surface-white);
+    border: none;
+    transition: box-shadow var(--transition-base);
+  }
+
+  .infra-card:hover {
+    box-shadow: var(--shadow-md);
+  }
+
+  .infra-card__image-wrap {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .infra-card__image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    transition: transform var(--transition-slow);
+  }
+
+  .infra-card:hover .infra-card__image {
+    transform: scale(1.03);
+  }
+
+  .infra-card__icon {
+    position: absolute;
+    bottom: var(--space-md);
+    left: var(--space-md);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-surface-white);
+    border-radius: var(--radius-sm);
+    font-size: 1.25rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  }
+
+  .infra-card__content {
+    padding: var(--space-lg);
+  }
+
+  .infra-card__name {
+    font-size: var(--text-h4);
+    margin-bottom: var(--space-sm);
+  }
+
+  .infra-card__desc {
+    font-size: var(--text-caption);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-relaxed);
+  }
+
+  /* Advantages subtitle */
+  .infra-header__subtitle--advantages {
+    margin-top: var(--space-3xl);
+    margin-bottom: var(--space-xl);
+    text-align: center;
+  }
+
+  /* Advantages grid */
+  .advantages__grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: var(--space-xl) var(--space-lg);
+  }
+
+  .advantages__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--space-md);
+    padding: var(--space-md) var(--space-xs);
+    transition: transform 0.2s ease;
+  }
+
+  .advantages__item:hover {
+    transform: translateY(-4px);
+  }
+
+  .advantages__icon-wrapper {
+    width: 96px;
+    height: 96px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: transparent;
+    border: 2px solid var(--color-primary);
+    flex-shrink: 0;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .advantages__item:hover .advantages__icon-wrapper {
+    background-color: rgba(183, 28, 28, 0.04);
+    border-color: var(--color-primary-dark);
+  }
+
+  .advantages__icon {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+  }
+
+  .advantages__label {
+    font-size: var(--text-caption);
+    font-weight: var(--weight-medium);
+    color: var(--color-text-primary);
+    line-height: var(--leading-normal);
+    max-width: 140px;
+  }
+
+  @media (max-width: 1023px) {
+    .advantages__grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-lg);
+    }
+
+    .advantages__icon-wrapper {
+      width: 80px;
+      height: 80px;
+    }
+
+    .advantages__icon {
+      width: 40px;
+      height: 40px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .advantages__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-md);
+    }
+
+    .advantages__icon-wrapper {
+      width: 64px;
+      height: 64px;
+    }
+
+    .advantages__icon {
+      width: 32px;
+      height: 32px;
+    }
+  }
+
   /* Map */
   .map-section {
     width: 100%;
@@ -202,6 +442,12 @@ const mapMarkers = buildings.map((b) => ({
     color: var(--color-text-secondary);
   }
 
+  @media (max-width: 1023px) {
+    .infra-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
   @media (max-width: 767px) {
     .hero-title {
       padding-top: var(--space-3xl);
@@ -211,6 +457,10 @@ const mapMarkers = buildings.map((b) => ({
 
     .map-section {
       height: 350px;
+    }
+
+    .infra-grid {
+      grid-template-columns: 1fr;
     }
   }
 </style>

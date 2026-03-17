@@ -17,7 +17,7 @@ export const mainNav: NavItem[] = [
     href: '/buildings/',
     children: [
       { label: 'Бизнес-лофт Фидель', href: '/buildings/fidel/' },
-      { label: 'АБК Мануфактура', href: '/buildings/anm/' },
+      { label: 'Бизнес-Центр АНМ', href: '/buildings/anm/' },
     ],
   },
   {
@@ -28,12 +28,13 @@ export const mainNav: NavItem[] = [
       { label: 'Компания и история', href: '/about/company/' },
     ],
   },
+  { label: 'Аренда', href: '/arenda/' },
   { label: 'Контакты', href: '/contacts/' },
 ];
 
 export const buildingNav: BuildingNavItem[] = [
   { name: 'Фидель', slug: 'fidel', class: 'B+', href: '/buildings/fidel/' },
-  { name: 'АБК', slug: 'anm', class: 'C', href: '/buildings/anm/' },
+  { name: 'БЦ АНМ', slug: 'anm', class: 'B', href: '/buildings/anm/' },
 ];
 
 export const contactInfo = {
@@ -43,7 +44,7 @@ export const contactInfo = {
   receptionHref: 'tel:+78127035009',
   commercial: '+7 (812) 336-55-64',
   commercialHref: 'tel:+78123365564',
-  email: 'mail@ukanm.ru',
-  emailHref: 'mailto:mail@ukanm.ru',
+  email: 'arenda@ukanm.ru',
+  emailHref: 'mailto:arenda@ukanm.ru',
   address: 'Санкт-Петербург, Пр. Обуховской Обороны д. 70, корпус 2, лит А',
 };

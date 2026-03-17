@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 interface MapMarker {
   lat: number;
@@ -17,17 +17,20 @@ interface InteractiveMapProps {
 
 declare global {
   interface Window {
-    ymaps: any;
+    mapgl: any;
   }
 }
+
+const API_KEY = '48f2d592-d4f4-4319-b6fe-22bc96e6bb10';
 
 export default function InteractiveMap({
   markers,
   center,
-  zoom = 15,
+  zoom = 16,
   height = '100%',
 }: InteractiveMapProps) {
   const mapRef = useRef<HTMLDivElement>(null);
+  const mapInstanceRef = useRef<any>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
 
   const mapCenter = center || (markers.length > 0
@@ -38,55 +41,67 @@ export default function InteractiveMap({
     : { lat: 59.9075, lng: 30.4267 });
 
   useEffect(() => {
-    if (!window.ymaps) {
-      const script = document.createElement('script');
-      script.src = 'https://api-maps.yandex.ru/2.1/?apikey=YOUR_API_KEY&lang=ru_RU';
-      script.async = true;
-      script.onload = () => {
-        window.ymaps.ready(() => setMapLoaded(true));
-      };
-      document.head.appendChild(script);
-    } else {
-      window.ymaps.ready(() => setMapLoaded(true));
+    if (window.mapgl) {
+      setMapLoaded(true);
+      return;
     }
+
+    const script = document.createElement('script');
+    script.src = 'https://mapgl.2gis.com/api/js/v1';
+    script.async = true;
+    script.onload = () => {
+      setMapLoaded(true);
+    };
+    document.head.appendChild(script);
   }, []);
 
   useEffect(() => {
-    if (!mapLoaded || !mapRef.current) return;
+    if (!mapLoaded || !mapRef.current || !window.mapgl) return;
 
-    const map = new window.ymaps.Map(mapRef.current, {
-      center: [mapCenter.lat, mapCenter.lng],
-      zoom: zoom,
-      controls: ['zoomControl', 'fullscreenControl'],
-    });
-
-    markers.forEach((marker) => {
-      const placemark = new window.ymaps.Placemark(
-        [marker.lat, marker.lng],
-        {
-          balloonContentHeader: `<strong>${marker.title}</strong>`,
-          balloonContentBody: `
-            <p>${marker.address}</p>
-            <a href="${marker.href}" style="color: #B71C1C; font-weight: 600;">Подробнее</a>
-          `,
-          hintContent: marker.title,
-        },
-        {
-          preset: 'islands#redDotIcon',
-        }
-      );
-      map.geoObjects.add(placemark);
-    });
-
-    if (markers.length > 1) {
-      map.setBounds(map.geoObjects.getBounds(), {
-        checkZoomRange: true,
-        zoomMargin: 50,
-      });
+    // Destroy previous instance if any
+    if (mapInstanceRef.current) {
+      mapInstanceRef.current.destroy();
     }
 
+    const map = new window.mapgl.Map(mapRef.current, {
+      center: [mapCenter.lng, mapCenter.lat],
+      zoom: zoom,
+      key: API_KEY,
+      pitch: 45,
+      style: 'c080bb6a-8134-4993-93a1-5b4d8c36a59b',
+    });
+
+    mapInstanceRef.current = map;
+
+    // Add markers
+    markers.forEach((marker) => {
+      const markerInstance = new window.mapgl.Marker(map, {
+        coordinates: [marker.lng, marker.lat],
+        label: {
+          text: marker.title,
+          offset: [0, -60],
+          image: {
+            url: '',
+            size: [0, 0],
+            padding: [6, 12, 6, 12],
+          },
+          color: '#B71C1C',
+          fontSize: 14,
+          haloRadius: 2,
+          haloColor: '#ffffff',
+        },
+      });
+
+      markerInstance.on('click', () => {
+        window.location.href = marker.href;
+      });
+    });
+
     return () => {
-      map.destroy();
+      if (mapInstanceRef.current) {
+        mapInstanceRef.current.destroy();
+        mapInstanceRef.current = null;
+      }
     };
   }, [mapLoaded, markers, mapCenter, zoom]);
 

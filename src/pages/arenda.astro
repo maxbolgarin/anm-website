@@ -1,0 +1,176 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Breadcrumbs from '@components/Breadcrumbs.astro';
+import SectionHeading from '@components/SectionHeading.astro';
+import OfficeFilterIsland from '@components/OfficeFilterIsland.astro';
+import ContactCTA from '@components/ContactCTA.astro';
+import { buildings } from '@data/buildings';
+import { getAllAvailableOffices } from '@data/offices';
+import { contactInfo } from '@data/navigation';
+
+const title = 'Аренда офисов — свободные помещения в бизнес-центрах АНМ';
+const description = 'Актуальные предложения аренды офисов в бизнес-центрах Фидель и БЦ АНМ на территории Александро-Невской Мануфактуры. Подберите офис по площади, этажу и бюджету.';
+
+const breadcrumbs = [
+  { label: 'Главная', href: '/' },
+  { label: 'Аренда' },
+];
+
+const offices = getAllAvailableOffices();
+---
+
+<BaseLayout title={title} description={description}>
+  <Breadcrumbs items={breadcrumbs} />
+
+  <!-- ===== SECTION 1: HEADING ===== -->
+  <section class="arenda-header section">
+    <div class="container">
+      <h1 class="arenda-header__title">Аренда офисов</h1>
+      <p class="arenda-header__subtitle">
+        Свободные помещения в бизнес-центрах на территории Александро-Невской Мануфактуры
+      </p>
+
+      <div class="arenda-buildings">
+        {buildings.map((b) => (
+          <a href={`/buildings/${b.slug}/`} class="arenda-building">
+            <span class="arenda-building__name">{b.name}</span>
+            <span class="arenda-building__meta">Класс {b.class} · {b.stats[1].value} м²</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 2: OFFICE FILTER ===== -->
+  <section class="section section--cream">
+    <div class="container">
+      <SectionHeading
+        title="Свободные помещения"
+        subtitle={offices.length > 0
+          ? `${offices.length} помещений доступно для аренды`
+          : 'Актуальные предложения по запросу'
+        }
+      />
+
+      {offices.length > 0 ? (
+        <OfficeFilterIsland />
+      ) : (
+        <div class="arenda-empty">
+          <div class="arenda-empty__content">
+            <h3>Подберём офис под ваши задачи</h3>
+            <p>Свяжитесь с коммерческим отделом — мы предложим варианты, подходящие по площади и бюджету.</p>
+            <div class="arenda-empty__contacts">
+              <a href={contactInfo.commercialHref} class="arenda-empty__phone">{contactInfo.commercial}</a>
+              <a href={contactInfo.emailHref} class="arenda-empty__email">{contactInfo.email}</a>
+            </div>
+            <a href="/contacts/" class="btn btn--primary">Связаться с нами</a>
+          </div>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <!-- ===== SECTION 3: CONTACT CTA ===== -->
+  <ContactCTA />
+</BaseLayout>
+
+<style>
+  .arenda-header {
+    padding-bottom: var(--space-xl);
+  }
+
+  .arenda-header__title {
+    font-size: var(--text-display);
+    margin-bottom: var(--space-md);
+  }
+
+  .arenda-header__subtitle {
+    font-size: var(--text-h4);
+    color: var(--color-text-secondary);
+    max-width: 36rem;
+    margin-bottom: var(--space-2xl);
+  }
+
+  .arenda-buildings {
+    display: flex;
+    gap: var(--space-lg);
+    flex-wrap: wrap;
+  }
+
+  .arenda-building {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-lg) var(--space-xl);
+    background-color: var(--color-surface-cream);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    transition: box-shadow var(--transition-base), border-color var(--transition-base);
+    min-width: 200px;
+  }
+
+  .arenda-building:hover {
+    box-shadow: var(--shadow-md);
+    border-color: var(--color-primary);
+  }
+
+  .arenda-building__name {
+    font-family: var(--font-heading);
+    font-size: var(--text-h3);
+    font-weight: var(--weight-bold);
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-xs);
+  }
+
+  .arenda-building__meta {
+    font-size: var(--text-caption);
+    color: var(--color-text-secondary);
+  }
+
+  .arenda-empty {
+    background-color: var(--color-accent-yellow);
+    border-radius: var(--radius-md);
+    padding: var(--space-3xl);
+    text-align: center;
+  }
+
+  .arenda-empty h3 {
+    margin-bottom: var(--space-md);
+  }
+
+  .arenda-empty p {
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-xl);
+    max-width: 32rem;
+    margin-inline: auto;
+  }
+
+  .arenda-empty__contacts {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-2xl);
+    flex-wrap: wrap;
+    margin-bottom: var(--space-xl);
+  }
+
+  .arenda-empty__phone {
+    font-family: var(--font-heading);
+    font-size: var(--text-h3);
+    font-weight: var(--weight-bold);
+    color: var(--color-text-primary);
+  }
+
+  .arenda-empty__email {
+    font-size: var(--text-h4);
+    color: var(--color-text-primary);
+  }
+
+  @media (max-width: 767px) {
+    .arenda-buildings {
+      flex-direction: column;
+    }
+
+    .arenda-building {
+      min-width: auto;
+    }
+  }
+</style>

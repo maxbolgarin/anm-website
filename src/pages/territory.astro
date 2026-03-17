@@ -7,8 +7,8 @@ import InteractiveMapIsland from '@components/InteractiveMapIsland.astro';
 import ContactCTA from '@components/ContactCTA.astro';
 import { buildings } from '@data/buildings';
 
-const title = 'Территория и инфраструктура — УК АНМ';
-const description = 'Территория Александро-Невской Мануфактуры: два бизнес-центра, развитая инфраструктура, парковка на 500 мест, кафе, фитнес, охрана 24/7. Всё для комфортной работы.';
+const title = 'Территория и инфраструктура — АНМ';
+const description = 'Территория Александро-Невской Мануфактуры: два бизнес-центра, развитая инфраструктура, паркинг, кафе, фитнес, охрана 24/7. Всё для комфортной работы.';
 
 const breadcrumbs = [
   { label: 'Главная', href: '/' },
@@ -26,46 +26,25 @@ const mapMarkers = buildings.map((b) => ({
 
 const facilityItems = [
   {
-    name: '2 столовые',
-    description: 'Комплексные обеды от 250₽. Домашняя кухня и разнообразное меню каждый день.',
-    image: '/images/infrastructure/cafe.jpg',
-    imageAlt: 'Столовая на территории Александро-Невской Мануфактуры',
-    icon: '🍽',
-  },
-  {
-    name: '2 кафе',
-    description: 'Свежий кофе, выпечка и лёгкие перекусы. Идеально для деловых встреч.',
-    image: '/images/infrastructure/cafe.jpg',
-    imageAlt: 'Кафе на территории Александро-Невской Мануфактуры',
-    icon: '☕',
-  },
-  {
-    name: 'Фитнес-студия',
-    description: 'Современный тренажёрный зал. Специальные условия для арендаторов.',
-    image: '/images/infrastructure/reception.jpg',
-    imageAlt: 'Фитнес-студия на территории',
-    icon: '💪',
-  },
-  {
-    name: '550 машиномест',
-    description: 'Наземный и подземный паркинг. Гостевые места и абонементы.',
-    image: '/images/infrastructure/parking.jpg',
+    name: 'Охраняемый паркинг',
+    description: 'Охраняемый освещённый паркинг. Гостевые места и абонементы.',
+    image: '/images/infrastructure/parking-aerial.jpg',
     imageAlt: 'Паркинг на территории Александро-Невской Мануфактуры',
     icon: '🅿️',
   },
   {
-    name: 'Высокоскоростной интернет',
-    description: 'Оптоволокно от ведущих провайдеров. До 10 Гбит/с для вашего бизнеса.',
-    image: '/images/infrastructure/security.jpg',
-    imageAlt: 'Серверное оборудование и сетевая инфраструктура',
-    icon: '📡',
+    name: 'Фитнес-студия',
+    description: 'Современный тренажёрный зал. Специальные условия для арендаторов.',
+    image: '/images/infrastructure/fitness-studio.jpg',
+    imageAlt: 'Фитнес-студия на территории бизнес-центра',
+    icon: '💪',
   },
   {
-    name: 'Охрана 24/7',
-    description: 'Видеонаблюдение, контроль доступа и профессиональная служба безопасности.',
-    image: '/images/infrastructure/security.jpg',
-    imageAlt: 'Система охраны и видеонаблюдения',
-    icon: '🔒',
+    name: 'Столовые и кафе',
+    description: '2 столовые с комплексными обедами от 250₽ и 2 кафе со свежим кофе, выпечкой и лёгкими перекусами.',
+    image: '/images/buildings/anm/abk-cafe-new.jpg',
+    imageAlt: 'Кафе на территории Александро-Невской Мануфактуры',
+    icon: '🍽',
   },
 ];
 
@@ -217,6 +196,7 @@ const managementServices = [
   }
 
   .infra-card__image {
+    display: block;
     width: 100%;
     aspect-ratio: 16 / 9;
     object-fit: cover;

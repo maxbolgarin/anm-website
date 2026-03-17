@@ -2,11 +2,12 @@
 import BuildingLayout from '@layouts/BuildingLayout.astro';
 import SectionHeading from '@components/SectionHeading.astro';
 import ContactCTA from '@components/ContactCTA.astro';
+import InteractiveMapIsland from '@components/InteractiveMapIsland.astro';
 import { getBuildingBySlug } from '@data/buildings';
 
 const building = getBuildingBySlug('anm')!;
 
-const title = `Как добраться до БЦ ${building.name} — схема проезда | УК АНМ`;
+const title = `Как добраться до БЦ ${building.name} — схема проезда | АНМ`;
 const description = `Как добраться до бизнес-центра ${building.name}. Метро ${building.metro[0].name} — ${building.metro[0].walkingMinutes} мин пешком. Схема проезда на автомобиле.`;
 ---
 
@@ -60,10 +61,19 @@ const description = `Как добраться до бизнес-центра ${
           </div>
         </div>
 
-        <div class="how-to-get-grid__map" id="directions-map">
-          <div class="map-section__placeholder">
-            <p>Загрузка карты...</p>
-          </div>
+        <div class="how-to-get-grid__map">
+          <InteractiveMapIsland
+            markers={[{
+              lat: building.coordinates.lat,
+              lng: building.coordinates.lng,
+              title: `БЦ ${building.name}`,
+              address: building.shortAddress,
+              href: `/buildings/${building.slug}/`,
+            }]}
+            center={building.coordinates}
+            zoom={16}
+            height="100%"
+          />
         </div>
       </div>
     </div>

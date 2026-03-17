@@ -6,6 +6,7 @@ import FeatureBlock from '@components/FeatureBlock.astro';
 import ParameterGrid from '@components/ParameterGrid.astro';
 import FacilityCard from '@components/FacilityCard.astro';
 import ContactCTA from '@components/ContactCTA.astro';
+import InteractiveMapIsland from '@components/InteractiveMapIsland.astro';
 import { getBuildingBySlug } from '@data/buildings';
 import { getOfficesByBuilding } from '@data/offices';
 import { contactInfo } from '@data/navigation';
@@ -13,8 +14,8 @@ import { contactInfo } from '@data/navigation';
 const building = getBuildingBySlug('anm')!;
 const offices = getOfficesByBuilding('anm');
 
-const title = `Бизнес-центр ${building.name} — аренда офисов класса ${building.class} | УК АНМ`;
-const description = `Бизнес-центр ${building.name} на ${building.shortAddress}. ${building.stats[1].value} м², ${building.stats[0].value} этажей, метро ${building.metro[0].name} ${building.metro[0].walkingMinutes} мин пешком. Аренда офисов от УК АНМ.`;
+const title = `Бизнес-центр ${building.name} — аренда офисов класса ${building.class} | АНМ`;
+const description = `Бизнес-центр ${building.name} на ${building.shortAddress}. ${building.stats[1].value} м², ${building.stats[0].value} этажей, метро ${building.metro[0].name} ${building.metro[0].walkingMinutes} мин пешком. Аренда офисов от АНМ.`;
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -136,10 +137,19 @@ const faqJsonLd = building.faq.length > 0 ? {
           </div>
           <a href={`/buildings/${building.slug}/how-to-get/`} class="btn btn--link">Подробная схема проезда</a>
         </div>
-        <div class="location-grid__map" id="building-map">
-          <div class="map-section__placeholder">
-            <p>Загрузка карты...</p>
-          </div>
+        <div class="location-grid__map">
+          <InteractiveMapIsland
+            markers={[{
+              lat: building.coordinates.lat,
+              lng: building.coordinates.lng,
+              title: `БЦ ${building.name}`,
+              address: building.shortAddress,
+              href: `/buildings/${building.slug}/`,
+            }]}
+            center={building.coordinates}
+            zoom={17}
+            height="400px"
+          />
         </div>
       </div>
     </div>

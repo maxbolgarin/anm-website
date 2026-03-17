@@ -2,10 +2,12 @@
 import BaseLayout from '@layouts/BaseLayout.astro';
 import Breadcrumbs from '@components/Breadcrumbs.astro';
 import SectionHeading from '@components/SectionHeading.astro';
+import InteractiveMapIsland from '@components/InteractiveMapIsland.astro';
 import ContactCTA from '@components/ContactCTA.astro';
 import { contactInfo } from '@data/navigation';
+import { buildings } from '@data/buildings';
 
-const title = 'Контакты УК АНМ — телефон, адрес, карта | Аренда офисов СПб';
+const title = 'Контакты АНМ — телефон, адрес, карта | Аренда офисов СПб';
 const description = 'Контакты управляющей компании АНМ. Телефон: +7 (812) 313-18-04. Адрес: СПб, Пр. Обуховской Обороны, 70.';
 
 const breadcrumbs = [
@@ -33,6 +35,14 @@ const departments = [
     emailHref: contactInfo.emailHref,
   },
 ];
+
+const mapMarkers = buildings.map((b) => ({
+  lat: b.coordinates.lat,
+  lng: b.coordinates.lng,
+  title: `БЦ ${b.name}`,
+  address: b.shortAddress,
+  href: `/buildings/${b.slug}/`,
+}));
 ---
 
 <BaseLayout title={title} description={description}>
@@ -75,10 +85,13 @@ const departments = [
 
   <!-- ===== SECTION 3: MAP ===== -->
   <section class="contacts-map-section">
-    <div id="contacts-map" class="contacts-map">
-      <div class="map-section__placeholder">
-        <p>Загрузка карты...</p>
-      </div>
+    <div class="contacts-map">
+      <InteractiveMapIsland
+        markers={mapMarkers}
+        center={{ lat: 59.9076, lng: 30.4270 }}
+        zoom={16}
+        height="450px"
+      />
     </div>
   </section>
 
@@ -94,23 +107,23 @@ const departments = [
           <div class="requisites__grid">
             <div class="requisites__item">
               <span class="requisites__label">Полное наименование</span>
-              <span class="requisites__value">ООО «Управляющая компания «Александро-Невская Мануфактура»</span>
+              <span class="requisites__value">ООО «Александро-Невская Мануфактура»</span>
             </div>
             <div class="requisites__item">
               <span class="requisites__label">ИНН</span>
-              <span class="requisites__value">7811XXXXXXX</span>
+              <span class="requisites__value">7811185789</span>
             </div>
             <div class="requisites__item">
               <span class="requisites__label">КПП</span>
-              <span class="requisites__value">7811XXXXX</span>
+              <span class="requisites__value">781101001</span>
             </div>
             <div class="requisites__item">
-              <span class="requisites__label">ОГРН</span>
-              <span class="requisites__value">1XXXXXXXXXXXX</span>
+              <span class="requisites__label">ОКПО</span>
+              <span class="requisites__value">74770280</span>
             </div>
             <div class="requisites__item">
               <span class="requisites__label">Юридический адрес</span>
-              <span class="requisites__value">{contactInfo.address}</span>
+              <span class="requisites__value">192029, г. Санкт-Петербург, пр. Обуховской Обороны, дом 70, корпус 2, литер А</span>
             </div>
           </div>
           <p class="text-caption" style="margin-top: var(--space-lg);">

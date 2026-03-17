@@ -17,7 +17,7 @@ interface Props {
   contactHref?: string;
 }
 
-export default function BuildingTabs({ buildings, contactHref = '/contacts/' }: Props) {
+export default function BuildingTabs({ buildings, contactHref = '/arenda/' }: Props) {
   const [activeIndex, setActiveIndex] = useState(0);
   const active = buildings[activeIndex];
 

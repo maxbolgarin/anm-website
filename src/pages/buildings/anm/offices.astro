@@ -9,7 +9,7 @@ import { contactInfo } from '@data/navigation';
 const building = getBuildingBySlug('anm')!;
 const offices = getOfficesByBuilding('anm');
 
-const title = `Аренда офисов в БЦ ${building.name} — свободные помещения | УК АНМ`;
+const title = `Аренда офисов в БЦ ${building.name} — свободные помещения | АНМ`;
 const description = offices.length > 0
   ? `Свободные офисы в бизнес-центре ${building.name}. Площади от ${Math.min(...offices.map(o => o.area))} до ${Math.max(...offices.map(o => o.area))} м².`
   : `Аренда офисов в бизнес-центре ${building.name}. Свяжитесь с нами для обсуждения вариантов.`;
