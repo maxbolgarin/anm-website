@@ -51,7 +51,7 @@ const tenants = [
   <Breadcrumbs items={breadcrumbs} />
 
   <!-- ===== SECTION 1: COMPANY HERO (condensed from company page) ===== -->
-  <section class="about-hero section">
+  <section class="about-hero">
     <div class="container">
       <div class="about-hero__grid">
         <div class="about-hero__text">
@@ -71,14 +71,14 @@ const tenants = [
   <section class="section section--cream" id="territory">
     <div class="container">
       <SectionHeading
-        title="Территория и инфраструктура"
+        title="Локация"
         subtitle="Александро-Невская Мануфактура — это два бизнес-центра на исторической территории у набережной Невы с развитой инфраструктурой для комфортной работы."
       />
     </div>
     <div class="map-section">
       <InteractiveMapIsland
         markers={mapMarkers}
-        center={{ lat: 59.9076, lng: 30.427 }}
+        center={{ lat: 59.9010, lng: 30.4295 }}
         zoom={16}
         height="400px"
       />
@@ -121,6 +121,11 @@ const tenants = [
 
 <style>
   /* Hero */
+  .about-hero {
+    padding-top: var(--space-xl);
+    padding-bottom: var(--space-3xl);
+  }
+
   .about-hero__grid {
     display: grid;
     grid-template-columns: 1fr 1fr;

@@ -16,7 +16,7 @@ export const mainNav: NavItem[] = [
     label: 'Бизнес-Центры',
     href: '/buildings/',
     children: [
-      { label: 'Бизнес-лофт Фидель', href: '/buildings/fidel/' },
+      { label: 'Бизнес-Лофт Фидель', href: '/buildings/fidel/' },
       { label: 'Бизнес-Центр АНМ', href: '/buildings/anm/' },
     ],
   },
@@ -24,7 +24,7 @@ export const mainNav: NavItem[] = [
     label: 'О компании',
     href: '/about/',
     children: [
-      { label: 'Территория и инфраструктура', href: '/territory/' },
+      { label: 'Локация', href: '/territory/' },
       { label: 'Компания и история', href: '/about/company/' },
     ],
   },
@@ -34,7 +34,7 @@ export const mainNav: NavItem[] = [
 
 export const buildingNav: BuildingNavItem[] = [
   { name: 'Фидель', slug: 'fidel', class: 'B+', href: '/buildings/fidel/' },
-  { name: 'БЦ АНМ', slug: 'anm', class: 'B', href: '/buildings/anm/' },
+  { name: 'АНМ', slug: 'anm', class: 'B', href: '/buildings/anm/' },
 ];
 
 export const contactInfo = {

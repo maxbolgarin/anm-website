@@ -7,19 +7,19 @@ import InteractiveMapIsland from '@components/InteractiveMapIsland.astro';
 import ContactCTA from '@components/ContactCTA.astro';
 import { buildings } from '@data/buildings';
 
-const title = 'Территория и инфраструктура — АНМ';
-const description = 'Территория Александро-Невской Мануфактуры: два бизнес-центра, развитая инфраструктура, паркинг, кафе, фитнес, охрана 24/7. Всё для комфортной работы.';
+const title = 'Локация — АНМ';
+const description = 'Локация Александро-Невской Мануфактуры: два бизнес-центра на набережной Невы, развитая инфраструктура, паркинг, кафе, фитнес, охрана 24/7.';
 
 const breadcrumbs = [
   { label: 'Главная', href: '/' },
   { label: 'О компании', href: '/about/' },
-  { label: 'Территория и инфраструктура' },
+  { label: 'Локация' },
 ];
 
 const mapMarkers = buildings.map((b) => ({
   lat: b.coordinates.lat,
   lng: b.coordinates.lng,
-  title: `БЦ ${b.name}`,
+  title: b.name.startsWith('БЦ') ? b.name : `БЦ ${b.name}`,
   address: b.shortAddress,
   href: `/buildings/${b.slug}/`,
 }));
@@ -41,7 +41,7 @@ const facilityItems = [
   },
   {
     name: 'Столовые и кафе',
-    description: '2 столовые с комплексными обедами от 250₽ и 2 кафе со свежим кофе, выпечкой и лёгкими перекусами.',
+    description: '2 столовые с комплексными обедами, 2 кафе со свежим кофе и лёгкими перекусами.',
     image: '/images/buildings/anm/abk-cafe-new.jpg',
     imageAlt: 'Кафе на территории Александро-Невской Мануфактуры',
     icon: '🍽',
@@ -65,14 +65,14 @@ const managementServices = [
   <section class="section territory-map" id="map">
     <div class="container">
       <SectionHeading
-        title="Территория и инфраструктура"
+        title="Локация"
         subtitle="Александро-Невская Мануфактура — это два бизнес-центра на исторической территории у набережной Невы с развитой инфраструктурой для комфортной работы."
       />
     </div>
     <div class="map-section">
       <InteractiveMapIsland
         markers={mapMarkers}
-        center={{ lat: 59.9076, lng: 30.427 }}
+        center={{ lat: 59.9010, lng: 30.4295 }}
         zoom={16}
         height="480px"
       />

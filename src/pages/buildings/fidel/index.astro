@@ -60,7 +60,7 @@ const faqJsonLd = building.faq.length > 0 ? {
     <div class="container">
       <div class="building-hero__grid">
         <div class="building-hero__text">
-          <span class="building-hero__label">Бизнес-центр</span>
+          <span class="building-hero__label">Бизнес-Лофт</span>
           <h1 class="building-hero__name text-display">{building.name}</h1>
           <div class="building-hero__meta">
             <p class="building-hero__address">{building.address}</p>
@@ -73,9 +73,6 @@ const faqJsonLd = building.faq.length > 0 ? {
           <p class="building-hero__desc">{building.description}</p>
           <div class="building-hero__actions">
             <a href={`/buildings/${building.slug}/offices/`} class="btn btn--primary">Аренда офисов</a>
-            {building.presentationUrl && (
-              <a href={building.presentationUrl} class="btn btn--outline" download>Скачать презентацию</a>
-            )}
           </div>
         </div>
         <div class="building-hero__image-wrap">
@@ -132,7 +129,7 @@ const faqJsonLd = building.faq.length > 0 ? {
           </ul>
           <div class="location-driving">
             <h4>На автомобиле</h4>
-            <p class="text-caption">Невский проспект — 5 мин</p>
+            <p class="text-caption">Невский проспект — 15 мин</p>
             <p class="text-caption">Кольцевая автодорога — 10 мин</p>
           </div>
           <a href={`/buildings/${building.slug}/how-to-get/`} class="btn btn--link">Подробная схема проезда</a>
@@ -172,9 +169,6 @@ const faqJsonLd = building.faq.length > 0 ? {
           />
         ))}
       </div>
-      <div style="text-align: center; margin-top: var(--space-2xl);">
-        <a href={`/buildings/${building.slug}/infrastructure/`} class="btn btn--outline">Вся инфраструктура</a>
-      </div>
     </div>
   </section>
 
@@ -209,25 +203,6 @@ const faqJsonLd = building.faq.length > 0 ? {
       </div>
     </div>
   </section>
-
-  <!-- ===== SECTION 7: FAQ ===== -->
-  {building.faq.length > 0 && (
-    <section class="section section--cream" id="faq">
-      <div class="container">
-        <SectionHeading title="Частые вопросы" />
-        <div class="faq-list">
-          {building.faq.map((item) => (
-            <details class="faq-item">
-              <summary class="faq-item__question">{item.question}</summary>
-              <div class="faq-item__answer">
-                <p>{item.answer}</p>
-              </div>
-            </details>
-          ))}
-        </div>
-      </div>
-    </section>
-  )}
 
   <!-- ===== SECTION 8: CONTACT CTA ===== -->
   <ContactCTA />

@@ -7,6 +7,27 @@ interface Props {
 }
 
 const { buildingSlug } = Astro.props;
+
+const typicalOffices = [
+  {
+    label: 'Пример типового офиса в бизнес-лофте Фидель',
+    planImage: '',
+    area: 'от 45 до 200 м²',
+    buildingClass: 'B+',
+    type: 'Кабинет / Open Space',
+    pricePerSqm: 'от 1 050 ₽/м²',
+    href: '/buildings/fidel/',
+  },
+  {
+    label: 'Пример типового офиса в бизнес-центре АНМ',
+    planImage: '',
+    area: 'от 55 до 95 м²',
+    buildingClass: 'B',
+    type: 'Кабинет / Open Space',
+    pricePerSqm: 'от 1 000 ₽/м²',
+    href: '/buildings/anm/',
+  },
+];
 ---
 
 <OfficeFilter
@@ -14,4 +35,5 @@ const { buildingSlug } = Astro.props;
   buildingSlug={buildingSlug}
   contactPhone="+7 (812) 336-55-64"
   contactEmail="arenda@ukanm.ru"
+  typicalOffices={typicalOffices}
 />

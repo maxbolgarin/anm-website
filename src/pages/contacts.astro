@@ -39,7 +39,7 @@ const departments = [
 const mapMarkers = buildings.map((b) => ({
   lat: b.coordinates.lat,
   lng: b.coordinates.lng,
-  title: `БЦ ${b.name}`,
+  title: b.name.startsWith('БЦ') ? b.name : `БЦ ${b.name}`,
   address: b.shortAddress,
   href: `/buildings/${b.slug}/`,
 }));
@@ -49,7 +49,7 @@ const mapMarkers = buildings.map((b) => ({
   <Breadcrumbs items={breadcrumbs} />
 
   <!-- ===== SECTION 1: HEADING ===== -->
-  <section class="contacts-header section">
+  <section class="contacts-header">
     <div class="container">
       <h1 class="contacts-header__title">Хотите задать вопрос или обсудить сотрудничество?</h1>
       <p class="contacts-header__subtitle">Мы готовы помочь. Свяжитесь с нами удобным способом.</p>
@@ -88,7 +88,7 @@ const mapMarkers = buildings.map((b) => ({
     <div class="contacts-map">
       <InteractiveMapIsland
         markers={mapMarkers}
-        center={{ lat: 59.9076, lng: 30.4270 }}
+        center={{ lat: 59.9010, lng: 30.4295 }}
         zoom={16}
         height="450px"
       />
@@ -140,7 +140,8 @@ const mapMarkers = buildings.map((b) => ({
 
 <style>
   .contacts-header {
-    padding-bottom: var(--space-xl);
+    padding-top: var(--space-xl);
+    padding-bottom: var(--space-lg);
   }
 
   .contacts-header__title {

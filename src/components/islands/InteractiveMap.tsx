@@ -38,7 +38,7 @@ export default function InteractiveMap({
         lat: markers.reduce((sum, m) => sum + m.lat, 0) / markers.length,
         lng: markers.reduce((sum, m) => sum + m.lng, 0) / markers.length,
       }
-    : { lat: 59.9075, lng: 30.4267 });
+    : { lat: 59.9010, lng: 30.4295 });
 
   useEffect(() => {
     if (window.mapgl) {

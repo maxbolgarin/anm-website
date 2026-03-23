@@ -11,7 +11,7 @@
     "pricePerSqm": 1200,
     "totalPrice": 54000,
     "photos": ["/images/buildings/fidel/office-brick-loft.jpg", "/images/buildings/fidel/office-flexible.jpg"],
-    "available": true
+    "available": false
   },
   {
     "id": "fidel-302",
@@ -25,7 +25,7 @@
     "pricePerSqm": 1100,
     "totalPrice": 132000,
     "photos": ["/images/buildings/fidel/openspace-loft.jpg", "/images/buildings/fidel/openspace-mezzanine.jpg"],
-    "available": true
+    "available": false
   },
   {
     "id": "fidel-401",
@@ -39,7 +39,7 @@
     "pricePerSqm": 1250,
     "totalPrice": 97500,
     "photos": ["/images/buildings/fidel/meeting-mountain.jpg", "/images/buildings/fidel/office-layout.jpg"],
-    "available": true
+    "available": false
   },
   {
     "id": "fidel-501",
@@ -53,7 +53,7 @@
     "pricePerSqm": 1050,
     "totalPrice": 210000,
     "photos": ["/images/buildings/fidel/openspace-modern.jpg", "/images/buildings/fidel/interior-topfloor.jpg"],
-    "available": true
+    "available": false
   },
   {
     "id": "anm-201",
@@ -67,7 +67,7 @@
     "pricePerSqm": 1100,
     "totalPrice": 60500,
     "photos": ["/images/buildings/anm/corridor-green.jpg", "/images/buildings/anm/lobby-glass.jpg"],
-    "available": true
+    "available": false
   },
   {
     "id": "anm-301",
@@ -81,6 +81,6 @@
     "pricePerSqm": 1000,
     "totalPrice": 95000,
     "photos": ["/images/buildings/anm/staircase-panoramic.jpg", "/images/buildings/anm/corridor-offices.jpg"],
-    "available": true
+    "available": false
   }
 ]

@@ -73,7 +73,7 @@ const managementBlocks = [
   <Breadcrumbs items={breadcrumbs} />
 
   <!-- ===== SECTION 1: COMPANY HERO ===== -->
-  <section class="about-hero section">
+  <section class="about-hero">
     <div class="container">
       <div class="about-hero__grid">
         <div class="about-hero__text">
@@ -170,6 +170,11 @@ const managementBlocks = [
 </BaseLayout>
 
 <style>
+  .about-hero {
+    padding-top: var(--space-xl);
+    padding-bottom: var(--space-3xl);
+  }
+
   .about-hero__grid {
     display: grid;
     grid-template-columns: 1fr 1fr;

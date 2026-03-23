@@ -3,7 +3,7 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import BuildingTabsIsland from '@components/BuildingTabsIsland.astro';
 import SectionHeading from '@components/SectionHeading.astro';
 import StatsGrid from '@components/StatsGrid.astro';
-import InteractiveMapIsland from '@components/InteractiveMapIsland.astro';
+import TerritoryMapIsland from '@components/TerritoryMapIsland.astro';
 import LocationContacts from '@components/LocationContacts.astro';
 import SEOKeywords from '@components/SEOKeywords.astro';
 import ContactCTA from '@components/ContactCTA.astro';
@@ -49,20 +49,13 @@ const facilityItems = [
   },
   {
     name: 'Столовые и кафе',
-    description: '2 столовые с комплексными обедами от 250₽ и 2 кафе со свежим кофе, выпечкой и лёгкими перекусами.',
+    description: '2 столовые с комплексными обедами, 2 кафе со свежим кофе и лёгкими перекусами.',
     image: '/images/buildings/anm/abk-cafe-new.jpg',
     imageAlt: 'Кафе на территории Александро-Невской Мануфактуры',
     icon: '🍽',
   },
 ];
 
-const mapMarkers = buildings.map((b) => ({
-  lat: b.coordinates.lat,
-  lng: b.coordinates.lng,
-  title: `БЦ ${b.name}`,
-  address: b.shortAddress,
-  link: `/buildings/${b.slug}/`,
-}));
 ---
 
 <BaseLayout title={title} description={description}>
@@ -126,25 +119,16 @@ const mapMarkers = buildings.map((b) => ({
     </div>
   </section>
 
-  <!-- ===== SECTION 5: INTERACTIVE MAP ===== -->
-  <section class="section" id="map">
+  <!-- ===== SECTION 5: TERRITORY MAP ===== -->
+  <section class="section" id="territory-map">
     <div class="container">
       <SectionHeading
         title="Территория"
-        subtitle="Бизнес-центры на территории Александро-Невской Мануфактуры"
+        subtitle="Инфраструктура бизнес-центров Александро-Невской Мануфактуры"
       />
-    </div>
-    <div class="map-section">
-      <InteractiveMapIsland
-        markers={mapMarkers}
-        center={{ lat: 59.9076, lng: 30.4270 }}
-        zoom={16}
-        height="500px"
-      />
-    </div>
-    <div class="container">
+      <TerritoryMapIsland />
       <div class="map-section__cta">
-        <a href="/about/#territory" class="btn btn--link">Подробнее о территории и инфраструктуре →</a>
+        <a href="/territory/" class="btn btn--link">Подробнее о локации →</a>
       </div>
     </div>
   </section>

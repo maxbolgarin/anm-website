@@ -1,5 +1,12 @@
 ---
 import { contactInfo } from '@data/navigation';
+import { buildings } from '@data/buildings';
+
+const routeLinks = buildings.map((b) => ({
+  name: b.name,
+  twogis: `https://2gis.ru/spb/directions/points/~${b.coordinates.lng},${b.coordinates.lat}`,
+  yandex: `https://yandex.ru/maps/?rtext=~${b.coordinates.lat},${b.coordinates.lng}&rtt=auto`,
+}));
 ---
 
 <section class="location-contacts section">
@@ -40,21 +47,35 @@ import { contactInfo } from '@data/navigation';
         <div class="location-contacts__metro">
           <span class="location-contacts__metro-dot" style="background-color: #009A49;"></span>
           <span class="location-contacts__metro-name">м. Елизаровская</span>
-          <span class="location-contacts__metro-time">5 мин пешком</span>
+          <span class="location-contacts__metro-time">9 мин пешком</span>
         </div>
         <p class="location-contacts__address">
           {contactInfo.address}
         </p>
         <p class="location-contacts__directions">
-          Территория Александро-Невской Мануфактуры расположена на набережной Невы, в 5 минутах ходьбы от станции метро Елизаровская (зелёная линия). Удобный подъезд с Пр. Обуховской Обороны.
+          Территория Александро-Невской Мануфактуры расположена на набережной Невы, в 9 минутах ходьбы от станции метро Елизаровская (зелёная линия). Удобный подъезд с&nbsp;Пр.&nbsp;Обуховской&nbsp;Обороны.
         </p>
-        <div class="location-contacts__links">
-          <a href="/buildings/fidel/how-to-get/" class="btn btn--link">
-            Маршрут до БЦ Фидель →
-          </a>
-          <a href="/buildings/anm/how-to-get/" class="btn btn--link">
-            Маршрут до БЦ АНМ →
-          </a>
+        <div class="location-contacts__routes">
+          {routeLinks.map((r) => (
+            <div class="route-group">
+              <span class="route-group__label">Маршрут до {r.name.startsWith('БЦ') ? r.name : `БЦ ${r.name}`}</span>
+              <div class="route-group__buttons">
+                <a href={r.twogis} target="_blank" rel="noopener noreferrer" class="route-btn route-btn--2gis">
+                  <svg class="route-btn__icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                    <circle cx="12" cy="10" r="3"/>
+                  </svg>
+                  2ГИС
+                </a>
+                <a href={r.yandex} target="_blank" rel="noopener noreferrer" class="route-btn route-btn--yandex">
+                  <svg class="route-btn__icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="3 11 22 2 13 21 11 13 3 11"/>
+                  </svg>
+                  Яндекс Карты
+                </a>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
@@ -149,10 +170,64 @@ import { contactInfo } from '@data/navigation';
     margin-bottom: var(--space-lg);
   }
 
-  .location-contacts__links {
+  .location-contacts__routes {
     display: flex;
     flex-direction: column;
+    gap: var(--space-lg);
+  }
+
+  .route-group__label {
+    display: block;
+    font-size: var(--text-caption);
+    font-weight: var(--weight-medium);
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-sm);
+  }
+
+  .route-group__buttons {
+    display: flex;
     gap: var(--space-sm);
+  }
+
+  .route-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-small);
+    font-weight: var(--weight-medium);
+    transition: background-color var(--transition-fast), color var(--transition-fast);
+    text-decoration: none;
+    border: 1px solid var(--color-border);
+  }
+
+  .route-btn__icon {
+    flex-shrink: 0;
+  }
+
+  .route-btn--2gis {
+    color: #1a7640;
+    background-color: #e8f5ee;
+    border-color: #c3e6d1;
+  }
+
+  .route-btn--2gis:hover {
+    background-color: #1a7640;
+    color: #ffffff;
+    border-color: #1a7640;
+  }
+
+  .route-btn--yandex {
+    color: #cc0000;
+    background-color: #fff3f3;
+    border-color: #ffd6d6;
+  }
+
+  .route-btn--yandex:hover {
+    background-color: #cc0000;
+    color: #ffffff;
+    border-color: #cc0000;
   }
 
   @media (max-width: 767px) {
