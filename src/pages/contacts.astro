@@ -6,6 +6,7 @@ import InteractiveMapIsland from '@components/InteractiveMapIsland.astro';
 import ContactCTA from '@components/ContactCTA.astro';
 import { contactInfo } from '@data/navigation';
 import { buildings } from '@data/buildings';
+import { withBase } from '@utils/withBase';
 
 const title = 'Контакты АНМ — телефон, адрес, карта | Аренда офисов СПб';
 const description = 'Контакты управляющей компании АНМ. Телефон: +7 (812) 313-18-04. Адрес: СПб, Пр. Обуховской Обороны, 70.';
@@ -127,7 +128,7 @@ const mapMarkers = buildings.map((b) => ({
             </div>
           </div>
           <p class="text-caption" style="margin-top: var(--space-lg);">
-            Полные банковские реквизиты предоставляются по запросу. <a href="/legal/">Подробнее</a>
+            Полные банковские реквизиты предоставляются по запросу. <a href={withBase('/legal/')}>Подробнее</a>
           </p>
         </div>
       </details>

@@ -1,18 +1,23 @@
 ---
 import { mainNav, contactInfo } from '@data/navigation';
+import { withBase } from '@utils/withBase';
 
 interface Props {
   currentPath: string;
 }
 
 const { currentPath } = Astro.props;
+const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
+const normalizedCurrentPath = basePath && currentPath.startsWith(basePath)
+  ? (currentPath.slice(basePath.length) || '/')
+  : currentPath;
 ---
 
 <header class="header" id="header">
   <div class="header__inner container-wide">
-    <a href="/" class="header__logo" aria-label="АНМ — Главная">
+    <a href={withBase('/')} class="header__logo" aria-label="АНМ — Главная">
       <img
-        src="/images/common/logo.svg"
+        src={withBase('/images/common/logo.svg')}
         alt="Александро-Невская Мануфактура"
         width="200"
         height="40"
@@ -25,10 +30,10 @@ const { currentPath } = Astro.props;
         {mainNav.map((item) => (
           <li class:list={['header__nav-item', { 'header__nav-item--has-dropdown': item.children?.length }]}>
             <a
-              href={item.href}
+              href={withBase(item.href)}
               class:list={[
                 'header__nav-link',
-                { 'header__nav-link--active': currentPath === item.href || currentPath.startsWith(item.href.replace(/\/$/, '') + '/') }
+                { 'header__nav-link--active': normalizedCurrentPath === item.href || normalizedCurrentPath.startsWith(item.href.replace(/\/$/, '') + '/') }
               ]}
             >
               {item.label}
@@ -43,10 +48,10 @@ const { currentPath } = Astro.props;
                 {item.children.map((child) => (
                   <li>
                     <a
-                      href={child.href}
+                      href={withBase(child.href)}
                       class:list={[
                         'header__dropdown-link',
-                        { 'header__dropdown-link--active': currentPath === child.href }
+                        { 'header__dropdown-link--active': normalizedCurrentPath === child.href }
                       ]}
                     >
                       {child.label}
@@ -66,9 +71,9 @@ const { currentPath } = Astro.props;
       </a>
 
       <div class="header__lang">
-        <a href="/" class="header__lang-link header__lang-link--active">RU</a>
+        <a href={withBase('/')} class="header__lang-link header__lang-link--active">RU</a>
         <span class="header__lang-sep">|</span>
-        <a href="/en/" class="header__lang-link">EN</a>
+        <a href={withBase('/en/')} class="header__lang-link">EN</a>
       </div>
 
       <button class="header__burger" aria-label="Открыть меню" aria-expanded="false" id="burger-btn">
@@ -94,17 +99,17 @@ const { currentPath } = Astro.props;
                 </summary>
                 <ul class="header__mobile-sublist">
                   <li>
-                    <a href={item.href} class="header__mobile-sublink">Все {item.label.toLowerCase()}</a>
+                    <a href={withBase(item.href)} class="header__mobile-sublink">Все {item.label.toLowerCase()}</a>
                   </li>
                   {item.children.map((child) => (
                     <li>
-                      <a href={child.href} class="header__mobile-sublink">{child.label}</a>
+                      <a href={withBase(child.href)} class="header__mobile-sublink">{child.label}</a>
                     </li>
                   ))}
                 </ul>
               </details>
             ) : (
-              <a href={item.href} class="header__mobile-link">{item.label}</a>
+              <a href={withBase(item.href)} class="header__mobile-link">{item.label}</a>
             )}
           </li>
         ))}

@@ -1,5 +1,6 @@
 ---
 import { contactInfo } from '@data/navigation';
+import { withBase } from '@utils/withBase';
 ---
 
 <section class="cta">
@@ -10,7 +11,7 @@ import { contactInfo } from '@data/navigation';
       <a href={contactInfo.phoneHref} class="cta__phone">{contactInfo.phone}</a>
       <a href={contactInfo.emailHref} class="cta__email">{contactInfo.email}</a>
     </div>
-    <a href="/contacts/" class="btn btn--primary cta__btn">Связаться с нами</a>
+    <a href={withBase('/contacts/')} class="btn btn--primary cta__btn">Связаться с нами</a>
     <p class="cta__address">{contactInfo.address}</p>
   </div>
 </section>

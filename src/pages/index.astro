@@ -8,6 +8,7 @@ import LocationContacts from '@components/LocationContacts.astro';
 import SEOKeywords from '@components/SEOKeywords.astro';
 import ContactCTA from '@components/ContactCTA.astro';
 import { buildings } from '@data/buildings';
+import { withBase } from '@utils/withBase';
 
 const title = 'Аренда офисов в бизнес-центрах Санкт-Петербурга — АНМ';
 const description = 'Офисы в аренду в бизнес-центрах класса B+ в Санкт-Петербурге. Рядом с метро, развитая инфраструктура, круглосуточный доступ. АНМ — 20+ лет на рынке.';
@@ -128,7 +129,7 @@ const facilityItems = [
       />
       <TerritoryMapIsland />
       <div class="map-section__cta">
-        <a href="/territory/" class="btn btn--link">Подробнее о локации →</a>
+        <a href={withBase('/territory/')} class="btn btn--link">Подробнее о локации →</a>
       </div>
     </div>
   </section>
@@ -148,7 +149,7 @@ const facilityItems = [
       <details class="disclosure__details">
         <summary class="disclosure__summary">Раскрытие информации</summary>
         <div class="disclosure__content">
-          <p>Информация, подлежащая раскрытию в соответствии с законодательством Российской Федерации. <a href="/legal/">Полная информация</a></p>
+          <p>Информация, подлежащая раскрытию в соответствии с законодательством Российской Федерации. <a href={withBase('/legal/')}>Полная информация</a></p>
         </div>
       </details>
     </div>

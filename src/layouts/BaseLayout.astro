@@ -2,6 +2,7 @@
 import Header from '@components/Header.astro';
 import Footer from '@components/Footer.astro';
 import '@styles/global.css';
+import { withBase } from '@utils/withBase';
 
 interface Props {
   title: string;
@@ -59,12 +60,12 @@ const orgJsonLd = {
   <meta property="og:type" content="website" />
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
-  <meta property="og:image" content={`${siteUrl}${ogImage}`} />
+  <meta property="og:image" content={`${siteUrl}${withBase(ogImage)}`} />
   <meta property="og:url" content={canonical} />
   <meta property="og:locale" content="ru_RU" />
 
   <!-- Favicon -->
-  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/x-icon" href={withBase('/favicon.ico')} />
 
   <!-- Fonts: Tahoma loaded via @font-face in typography.css -->
 

@@ -1,5 +1,6 @@
 ---
 import StatsRow from './StatsRow.astro';
+import { withBase } from '@utils/withBase';
 
 interface Props {
   name: string;
@@ -29,7 +30,7 @@ const {
         <span class="building-card__label">Бизнес-центр</span>
         <h2 class="building-card__name text-display">{name}</h2>
       </div>
-      <a href={`/buildings/${slug}/`} class="building-card__arrow" aria-label={`Подробнее о БЦ ${name}`}>
+      <a href={withBase(`/buildings/${slug}/`)} class="building-card__arrow" aria-label={`Подробнее о БЦ ${name}`}>
         <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M8 4l20 0 0 20M28 4L4 28"/>
         </svg>
@@ -46,8 +47,8 @@ const {
     <p class="building-card__desc">{description}</p>
 
     <div class="building-card__actions">
-      <a href={`/buildings/${slug}/`} class="btn btn--primary">Подробнее</a>
-      <a href="/arenda/" class="btn btn--outline">Узнать о наличии</a>
+      <a href={withBase(`/buildings/${slug}/`)} class="btn btn--primary">Подробнее</a>
+      <a href={withBase('/arenda/')} class="btn btn--outline">Узнать о наличии</a>
     </div>
   </div>
 

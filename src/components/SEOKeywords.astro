@@ -1,4 +1,6 @@
 ---
+import { withBase } from '@utils/withBase';
+
 const keywords = [
   { label: 'Офисы у м. Елизаровская', href: '/buildings/' },
   { label: 'Офисы в Невском районе', href: '/buildings/' },
@@ -15,7 +17,7 @@ const keywords = [
   <div class="container">
     <div class="seo-keywords__list">
       {keywords.map((kw) => (
-        <a href={kw.href} class="seo-keywords__pill" tabindex="-1">
+        <a href={withBase(kw.href)} class="seo-keywords__pill" tabindex="-1">
           {kw.label}
         </a>
       ))}

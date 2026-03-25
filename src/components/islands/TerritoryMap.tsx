@@ -100,6 +100,9 @@ const categoryLabels: Record<string, string> = {
 };
 
 export default function TerritoryMap() {
+  const baseUrl = import.meta.env.BASE_URL || '/';
+  const territoryMapImage = `${baseUrl}territory/territory-map.jpg`;
+
   const containerRef = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
   const [activePin, setActivePin] = useState<string | null>(null);
@@ -196,7 +199,7 @@ export default function TerritoryMap() {
       }}>
         <img
           ref={imgRef}
-          src="/territory/territory-map.jpg"
+          src={territoryMapImage}
           alt="Аэрофотоснимок территории Александро-Невской Мануфактуры"
           style={{
             width: '100%',

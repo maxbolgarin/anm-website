@@ -1,6 +1,7 @@
 ---
 import OfficeFilter from './islands/OfficeFilter';
 import './islands/OfficeFilter.css';
+import { withBase } from '@utils/withBase';
 
 interface Props {
   buildingSlug?: string;
@@ -28,6 +29,12 @@ const typicalOffices = [
     href: '/buildings/anm/',
   },
 ];
+
+const typicalOfficesWithBase = typicalOffices.map((office) => ({
+  ...office,
+  planImage: withBase(office.planImage),
+  href: withBase(office.href),
+}));
 ---
 
 <OfficeFilter
@@ -35,5 +42,5 @@ const typicalOffices = [
   buildingSlug={buildingSlug}
   contactPhone="+7 (812) 336-55-64"
   contactEmail="arenda@ukanm.ru"
-  typicalOffices={typicalOffices}
+  typicalOffices={typicalOfficesWithBase}
 />

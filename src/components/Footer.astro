@@ -1,14 +1,15 @@
 ---
 import { buildingNav, contactInfo } from '@data/navigation';
+import { withBase } from '@utils/withBase';
 ---
 
 <footer class="footer section--dark">
   <div class="footer__inner container">
     <div class="footer__grid">
       <div class="footer__brand">
-        <a href="/" aria-label="АНМ — Главная">
+        <a href={withBase('/')} aria-label="АНМ — Главная">
           <img
-            src="/logo/logo vert2.svg"
+            src={withBase('/logo/logo vert2.svg')}
             alt="Александро-Невская Мануфактура"
             class="footer__logo-img"
             loading="lazy"
@@ -23,7 +24,7 @@ import { buildingNav, contactInfo } from '@data/navigation';
         <h4 class="footer__heading">Бизнес-центры</h4>
         <ul class="footer__list">
           {buildingNav.map((b) => (
-            <li><a href={b.href} class="footer__link">{b.name}</a></li>
+            <li><a href={withBase(b.href)} class="footer__link">{b.name}</a></li>
           ))}
         </ul>
       </div>
@@ -31,10 +32,10 @@ import { buildingNav, contactInfo } from '@data/navigation';
       <div class="footer__col">
         <h4 class="footer__heading">Навигация</h4>
         <ul class="footer__list">
-          <li><a href="/about/" class="footer__link">О компании</a></li>
-          <li><a href="/about/#territory" class="footer__link">Локация</a></li>
-          <li><a href="/contacts/" class="footer__link">Контакты</a></li>
-          <li><a href="/legal/" class="footer__link">Раскрытие информации</a></li>
+          <li><a href={withBase('/about/')} class="footer__link">О компании</a></li>
+          <li><a href={withBase('/about/#territory')} class="footer__link">Локация</a></li>
+          <li><a href={withBase('/contacts/')} class="footer__link">Контакты</a></li>
+          <li><a href={withBase('/legal/')} class="footer__link">Раскрытие информации</a></li>
         </ul>
       </div>
 
@@ -61,8 +62,8 @@ import { buildingNav, contactInfo } from '@data/navigation';
     <div class="footer__bottom">
       <span class="footer__copyright">&copy; {new Date().getFullYear()} АНМ. Все права защищены.</span>
       <div class="footer__legal">
-        <a href="/legal/" class="footer__link">Раскрытие информации</a>
-        <a href="/legal/#requisites" class="footer__link">Реквизиты</a>
+        <a href={withBase('/legal/')} class="footer__link">Раскрытие информации</a>
+        <a href={withBase('/legal/#requisites')} class="footer__link">Реквизиты</a>
       </div>
     </div>
   </div>

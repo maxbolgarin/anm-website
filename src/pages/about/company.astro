@@ -5,6 +5,7 @@ import SectionHeading from '@components/SectionHeading.astro';
 import StatsRow from '@components/StatsRow.astro';
 import FeatureBlock from '@components/FeatureBlock.astro';
 import ContactCTA from '@components/ContactCTA.astro';
+import { withBase } from '@utils/withBase';
 
 const title = 'Компания и история — АНМ';
 const description = 'АНМ — девелоперская компания с 20-летним опытом. Редевелопмент промышленных территорий, управление бизнес-центрами в СПб.';
@@ -83,7 +84,7 @@ const managementBlocks = [
           <StatsRow stats={companyStats} />
         </div>
         <div class="about-hero__image-wrap">
-          <img src="/territory/DJI_0739 (1) (1).jpg" alt="Панорама территории Александро-Невской Мануфактуры" class="about-hero__image" loading="eager" />
+          <img src={withBase('/territory/DJI_0739 (1) (1).jpg')} alt="Панорама территории Александро-Невской Мануфактуры" class="about-hero__image" loading="eager" />
         </div>
       </div>
     </div>

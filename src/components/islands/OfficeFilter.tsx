@@ -39,6 +39,9 @@ export default function OfficeFilter({
   contactEmail = 'arenda@ukanm.ru',
   typicalOffices = [],
 }: OfficeFilterProps) {
+  const baseUrl = import.meta.env.BASE_URL || '/';
+  const officesDataUrl = `${baseUrl}data/offices.json`;
+
   const [offices, setOffices] = useState<Office[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -51,7 +54,7 @@ export default function OfficeFilter({
   const [selectedType, setSelectedType] = useState<string>('all');
 
   useEffect(() => {
-    fetch('/data/offices.json')
+    fetch(officesDataUrl)
       .then((res) => res.json())
       .then((data: Office[]) => {
         const available = data.filter((o) => o.available);
@@ -70,7 +73,7 @@ export default function OfficeFilter({
         setLoading(false);
       })
       .catch(() => setLoading(false));
-  }, [buildingSlug]);
+  }, [buildingSlug, officesDataUrl]);
 
   const buildingOptions = useMemo(() => {
     const slugs = [...new Set(offices.map((o) => o.buildingSlug))];

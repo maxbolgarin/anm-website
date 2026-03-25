@@ -1,4 +1,6 @@
 ---
+import { withBase } from '@utils/withBase';
+
 interface BreadcrumbItem {
   label: string;
   href?: string;
@@ -17,7 +19,7 @@ const { items } = Astro.props;
       <li class="breadcrumbs__item">
         {index < items.length - 1 ? (
           <>
-            <a href={item.href} class="breadcrumbs__link">{item.label}</a>
+            <a href={item.href ? withBase(item.href) : undefined} class="breadcrumbs__link">{item.label}</a>
             <span class="breadcrumbs__sep" aria-hidden="true">/</span>
           </>
         ) : (
