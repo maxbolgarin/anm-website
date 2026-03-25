@@ -123,16 +123,46 @@
   align-items: center;
 }
 
+/* ─── Split layout: capacity card left, typical office right ─── */
+.office-capacity--split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  align-items: stretch;
+}
+
+.office-capacity--split .office-capacity__card {
+  margin-bottom: 0;
+  max-width: none;
+  justify-content: center;
+}
+
+.office-capacity--split .office-typical--single {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+}
+
+.office-capacity--split .office-typical--single .office-typical__title {
+  text-align: left;
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.office-capacity--split .office-typical__card {
+  flex: 1;
+}
+
 .office-capacity__card {
   background-color: var(--color-surface-cream, #F5F0E8);
   border: 2px solid var(--color-accent-yellow, #F5D45E);
   border-radius: 0.75rem;
-  padding: 2rem 2rem;
-  margin-bottom: 3rem;
+  padding: 1.75rem 1.75rem;
+  margin-bottom: 2rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 1.25rem;
+  gap: 1rem;
   width: 100%;
   max-width: 40rem;
 }
@@ -244,15 +274,21 @@
 }
 
 .office-typical__image-wrap {
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 16 / 11;
   overflow: hidden;
-  background-color: #eae5dc;
+  background-color: #fff;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.office-capacity--split .office-typical__image-wrap {
+  aspect-ratio: 4 / 3;
 }
 
 .office-typical__image {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  padding: 0.75rem;
 }
 
 .office-typical__image-placeholder {
@@ -268,15 +304,15 @@
 }
 
 .office-typical__info {
-  padding: 1.25rem;
+  padding: 1rem 1.25rem 1.25rem;
   text-align: left;
 }
 
 .office-typical__label {
-  font-size: 0.9375rem;
+  font-size: 0.875rem;
   font-weight: 700;
   color: var(--color-text-primary, #1a1a1a);
-  margin: 0 0 1rem;
+  margin: 0 0 0.75rem;
   line-height: 1.3;
 }
 
@@ -439,12 +475,16 @@
     grid-template-columns: 1fr;
   }
 
+  .office-capacity--split {
+    grid-template-columns: 1fr;
+  }
+
   .office-typical__grid {
     grid-template-columns: 1fr;
   }
 
   .office-capacity__card {
-    padding: 1.75rem 1.25rem;
+    padding: 1.5rem 1.25rem;
   }
 
   .office-capacity__contacts {

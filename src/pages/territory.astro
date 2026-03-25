@@ -4,6 +4,7 @@ import Breadcrumbs from '@components/Breadcrumbs.astro';
 import SectionHeading from '@components/SectionHeading.astro';
 import FacilityCard from '@components/FacilityCard.astro';
 import InteractiveMapIsland from '@components/InteractiveMapIsland.astro';
+import TerritoryMapIsland from '@components/TerritoryMapIsland.astro';
 import ContactCTA from '@components/ContactCTA.astro';
 import { buildings } from '@data/buildings';
 
@@ -89,6 +90,9 @@ const managementServices = [
           Вашим сотрудникам не нужно выходить за территорию. Питание, спорт, парковка — всё в шаговой доступности.
         </p>
       </div>
+      <div class="territory-scheme">
+        <TerritoryMapIsland />
+      </div>
       <div class="infra-grid">
         {facilityItems.map((item) => (
           <div class="infra-card">
@@ -168,6 +172,11 @@ const managementServices = [
     max-width: 36rem;
     margin-inline: auto;
     line-height: var(--leading-relaxed);
+  }
+
+  /* Territory scheme */
+  .territory-scheme {
+    margin-bottom: var(--space-3xl);
   }
 
   /* Infrastructure grid — 3 columns */

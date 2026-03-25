@@ -17,17 +17,18 @@ const breadcrumbs = [
 
 const companyStats = [
   { value: '20+', label: 'лет на рынке' },
-  { value: '21 376', label: 'м² под управлением', unit: 'м²' },
+  { value: '21 376', label: 'м² под управлением' },
   { value: '100+', label: 'арендаторов' },
 ];
 
 const historyEvents = [
-  { year: '2008', title: 'Основание компании', description: 'Создание управляющей компании «Александро-Невская Мануфактура» для редевелопмента промышленной территории на Пр. Обуховской Обороны.' },
-  { year: '2010', title: 'Начало реконструкции', description: 'Старт масштабной реконструкции промышленных зданий по концепции британского архитектурного бюро Horan Keoghan Ryan Limited.' },
-  { year: '2012', title: 'Открытие БЦ Фидель', description: 'Ввод в эксплуатацию бизнес-лофта «Фидель» класса B+ — первого объекта на территории.' },
-  { year: '2015', title: 'Развитие инфраструктуры', description: 'Создание полноценной инфраструктуры территории: кафе, паркинг, зона отдыха на набережной Невы.' },
-  { year: '2023', title: 'Расширение', description: 'Запуск новых площадей и модернизация инженерных систем.' },
-  { year: '2026', title: 'Новый проект', description: 'Начало нового этапа развития территории Александро-Невской Мануфактуры.' },
+  { year: '1837', title: 'Основание фабрики', description: 'На территории нынешнего имущественного комплекса основана ситце-печатная фабрика Паля — одно из крупнейших текстильных производств Санкт-Петербурга.', image: '/history/photo_2026-03-17 08.56.54.jpeg' },
+  { year: '1855', title: 'Строительство главного здания', description: 'Построено здание нынешнего БЦ «Фидель» (Литер А, корп. 3) как часть производственных помещений ткацкой фабрики Паля.', image: '/history/company-2.jpg' },
+  { year: '1976', title: 'Строительство АБК', description: 'Возведено шестиэтажное административное здание «АБК» (Литер А, корп. 2), которое впоследствии стало бизнес-центром.', image: '/history/3D_Isometric_Map_MoUcVrn8.png' },
+  { year: '2004', title: 'Создание компании', description: 'Основано ЗАО «Александро-Невская мануфактура». Приобретён имущественный комплекс на Пр. Обуховской Обороны для редевелопмента территории.', image: '/history/3D_Isometric_Map_O2kABsaQ.png' },
+  { year: '2006', title: 'Начало реконструкции', description: 'Принято решение о сохранении исторического здания 1855 года. Совместно с Архитектурным Бюро «INTERCOLUMNIUM» разработан проект реконструкции бизнес-лофта.', image: '/history/007.jpg' },
+  { year: '2009', title: 'Открытие бизнес-лофта «Фидель»', description: 'Завершена реконструкция и введён в эксплуатацию бизнес-лофт «Фидель» класса B+. С момента открытия заполняемость поддерживается на уровне 100%.', image: '/history/вид слева.JPG' },
+  { year: '2019', title: 'Новый этап редевелопмента', description: 'Начало работ по редевелопменту территории с целью возведения новых объектов коммерческой недвижимости. Реконструкция и модернизация инженерных систем.', image: '/history/image_2026-03-24_17-51-39.png' },
 ];
 
 const trustStats = [
@@ -51,14 +52,14 @@ const managementBlocks = [
   {
     title: 'Европейский уровень обслуживания',
     description: 'Профессиональная служба эксплуатации обеспечивает высокий уровень комфорта для арендаторов. Круглосуточная поддержка, оперативное решение вопросов, индивидуальный подход к каждому клиенту.',
-    image: '/images/buildings/fidel/lobby-mountain.jpg',
+    image: '/images/buildings/fidel/interior-1.jpg',
     imageAlt: 'Дизайнерский ресепшн в бизнес-центре Фидель',
   },
   {
     title: 'Инженерные решения',
     description: 'Современные инженерные системы обеспечивают надёжность и энергоэффективность. Электроснабжение II категории, централизованное кондиционирование, собственная газовая котельная, 6 телеком-операторов.',
-    image: '/images/buildings/fidel/exterior-tower.jpg',
-    imageAlt: 'Фасад бизнес-центра Фидель с современной надстройкой',
+    image: '/фото бц/web (27).jpg',
+    imageAlt: 'Инженерные системы бизнес-центра',
   },
   {
     title: 'Редевелопмент промышленных территорий',
@@ -82,7 +83,7 @@ const managementBlocks = [
           <StatsRow stats={companyStats} />
         </div>
         <div class="about-hero__image-wrap">
-          <img src="/images/about/territory-panorama-new.jpg" alt="Панорама территории Александро-Невской Мануфактуры" class="about-hero__image" loading="eager" />
+          <img src="/territory/DJI_0739 (1) (1).jpg" alt="Панорама территории Александро-Невской Мануфактуры" class="about-hero__image" loading="eager" />
         </div>
       </div>
     </div>
@@ -99,7 +100,7 @@ const managementBlocks = [
         Основной проект компании — развитие и управление территорией бывшей промышленной зоны на Проспекте Обуховской Обороны. Концепция редевелопмента разработана британским архитектурным бюро Horan Keoghan Ryan Limited и предусматривает превращение исторических промышленных зданий в современные бизнес-центры с сохранением их уникального характера.
       </p>
       <p>
-        Сегодня на территории Александро-Невской Мануфактуры работают бизнес-центры класса B+, обеспечивающие арендаторам все уровни комфорта: от современных инженерных систем до развитой инфраструктуры и прогулочной зоны на набережной Невы.
+        Сегодня на территории Александро-Невской Мануфактуры работают бизнес-центры класса B+, обеспечивающие арендаторам все уровни комфорта: от современных инженерных систем до развитой инфраструктуры и прогулочной зоны на набережной Невы. Управляющая компания берет на себя решение всех хозяйственных вопросов и обеспечивает максимально комфортные условия для ведения бизнеса.
       </p>
     </div>
   </section>
@@ -109,10 +110,16 @@ const managementBlocks = [
     <div class="container">
       <SectionHeading title="История компании" subtitle="Ключевые этапы развития" />
       <div class="timeline">
-        {historyEvents.map((event, index) => (
-          <div class:list={['timeline__item', { 'timeline__item--right': index % 2 !== 0 }]}>
-            <div class="timeline__year">{event.year}</div>
+        {historyEvents.map((event) => (
+          <div class="timeline__item">
+            <div class="timeline__image-wrap">
+              {event.image && <img src={event.image} alt={event.title} class="timeline__image" loading="lazy" />}
+            </div>
+            <div class="timeline__line">
+              <span class="timeline__dot"></span>
+            </div>
             <div class="timeline__content">
+              <div class="timeline__year">{event.year}</div>
               <h3 class="timeline__title">{event.title}</h3>
               <p class="timeline__desc">{event.description}</p>
             </div>
@@ -219,37 +226,60 @@ const managementBlocks = [
 
   /* Timeline */
   .timeline {
-    position: relative;
-    max-width: 48rem;
-    margin-inline: auto;
-    padding-left: var(--space-3xl);
+    display: flex;
+    flex-direction: column;
   }
 
-  .timeline::before {
+  .timeline__item {
+    display: grid;
+    grid-template-columns: 14rem 2.5rem 1fr;
+    gap: 0;
+    align-items: start;
+  }
+
+  .timeline__image-wrap {
+    padding-right: var(--space-lg);
+    padding-bottom: var(--space-2xl);
+  }
+
+  .timeline__image {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: var(--radius-md, 0.5rem);
+  }
+
+  .timeline__line {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    height: 100%;
+  }
+
+  .timeline__line::before {
     content: '';
     position: absolute;
-    left: 0;
     top: 0;
     bottom: 0;
     width: 2px;
     background-color: var(--color-primary);
   }
 
-  .timeline__item {
+  .timeline__dot {
     position: relative;
-    padding-bottom: var(--space-2xl);
-    padding-left: var(--space-xl);
-  }
-
-  .timeline__item::before {
-    content: '';
-    position: absolute;
-    left: calc(-1 * var(--space-3xl) - 5px);
-    top: 4px;
+    z-index: 1;
     width: 12px;
     height: 12px;
     border-radius: 50%;
     background-color: var(--color-primary);
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+
+  .timeline__content {
+    padding-left: var(--space-lg);
+    padding-bottom: var(--space-2xl);
   }
 
   .timeline__year {
@@ -257,16 +287,39 @@ const managementBlocks = [
     font-size: var(--text-h2);
     font-weight: var(--weight-bold);
     color: var(--color-primary);
-    margin-bottom: var(--space-sm);
+    margin-bottom: var(--space-xs);
+    line-height: 1;
   }
 
   .timeline__title {
     margin-bottom: var(--space-sm);
+    font-size: var(--text-h4);
   }
 
   .timeline__desc {
     color: var(--color-text-secondary);
     line-height: var(--leading-relaxed);
+    font-size: var(--text-caption);
+    max-width: 28rem;
+  }
+
+  @media (max-width: 767px) {
+    .timeline__item {
+      grid-template-columns: 2rem 1fr;
+    }
+
+    .timeline__image-wrap {
+      display: none;
+    }
+
+    .timeline__line {
+      grid-column: 1;
+    }
+
+    .timeline__content {
+      grid-column: 2;
+      padding-left: var(--space-md);
+    }
   }
 
   /* Trust section */

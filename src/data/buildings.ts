@@ -17,7 +17,7 @@ export const buildings: Building[] = [
     ],
     stats: [
       { value: 5, label: 'Этажей' },
-      { value: '12 205,5', label: 'Общая площадь', unit: 'м²' },
+      { value: '12 205,5', label: 'Общая площадь, м²' },
       { value: 218, label: 'Машиномест' },
       { value: 'B+', label: 'Класс' },
     ],
@@ -78,7 +78,7 @@ export const buildings: Building[] = [
       {
         name: 'Кафе и столовая',
         description: 'Уютное кафе с широким меню на территории бизнес-центра. Горячие обеды, бизнес-ланчи, выпечка и напитки.',
-        image: '/images/infrastructure/cafe.jpg',
+        image: '/fidel/3D_Isometric_Map_QIz-MPRJ.png',
         imageAlt: 'Кафе на территории бизнес-центра Фидель',
       },
       {
@@ -136,7 +136,7 @@ export const buildings: Building[] = [
     ],
     stats: [
       { value: 6, label: 'Этажей' },
-      { value: '9 170,7', label: 'Общая площадь', unit: 'м²' },
+      { value: '9 170,7', label: 'Общая площадь, м²' },
       { value: 110, label: 'Машиномест' },
       { value: 'B', label: 'Класс' },
     ],

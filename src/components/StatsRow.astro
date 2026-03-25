@@ -7,12 +7,13 @@ interface StatItem {
 
 interface Props {
   stats: StatItem[];
+  columns?: number;
 }
 
-const { stats } = Astro.props;
+const { stats, columns } = Astro.props;
 ---
 
-<div class="stats-row">
+<div class="stats-row" data-columns={columns}>
   {stats.map((stat) => (
     <div class="stats-row__item">
       <span class="stats-row__value">
@@ -25,10 +26,17 @@ const { stats } = Astro.props;
 </div>
 
 <style>
+  /* Default: all items in one flexible row */
   .stats-row {
-    display: flex;
-    gap: var(--space-2xl);
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(0, auto));
+    gap: var(--space-lg) var(--space-2xl);
+    justify-content: start;
+  }
+
+  /* Fixed 2-column grid (for building pages with 4 stats) */
+  .stats-row[data-columns="2"] {
+    grid-template-columns: auto auto;
   }
 
   .stats-row__item {
@@ -53,5 +61,6 @@ const { stats } = Astro.props;
     font-size: var(--text-caption);
     color: var(--color-text-secondary);
     margin-top: var(--space-xs);
+    white-space: nowrap;
   }
 </style>

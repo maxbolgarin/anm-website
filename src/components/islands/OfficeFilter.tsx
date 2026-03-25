@@ -112,6 +112,80 @@ export default function OfficeFilter({
 
   // ─── FULL CAPACITY STATE ───
   if (offices.length === 0) {
+    const isSingleBuilding = typicalOffices.length === 1;
+
+    const typicalCard = (office: TypicalOffice) => (
+      <div key={office.label} className="office-typical__card">
+        <div className="office-typical__image-wrap">
+          {office.planImage ? (
+            <img src={office.planImage} alt={office.label} className="office-typical__image" />
+          ) : (
+            <div className="office-typical__image-placeholder">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ccc" strokeWidth="1.5">
+                <rect x="3" y="3" width="7" height="7" rx="1" />
+                <rect x="14" y="3" width="7" height="7" rx="1" />
+                <rect x="3" y="14" width="7" height="7" rx="1" />
+                <rect x="14" y="14" width="7" height="7" rx="1" />
+              </svg>
+              <span>План помещения</span>
+            </div>
+          )}
+        </div>
+        <div className="office-typical__info">
+          <h4 className="office-typical__label">{office.label}</h4>
+          <div className="office-typical__params">
+            <div className="office-typical__param">
+              <span className="office-typical__param-label">Площадь</span>
+              <span className="office-typical__param-value">{office.area}</span>
+            </div>
+            <div className="office-typical__param">
+              <span className="office-typical__param-label">Класс</span>
+              <span className="office-typical__param-value">{office.buildingClass}</span>
+            </div>
+            <div className="office-typical__param">
+              <span className="office-typical__param-label">Тип</span>
+              <span className="office-typical__param-value">{office.type}</span>
+            </div>
+            <div className="office-typical__param">
+              <span className="office-typical__param-label">Стоимость</span>
+              <span className="office-typical__param-value">{office.pricePerSqm}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+
+    // ─── SINGLE BUILDING: side-by-side layout ───
+    if (isSingleBuilding && typicalOffices.length > 0) {
+      return (
+        <div className="office-capacity office-capacity--split">
+          <div className="office-capacity__card">
+            <div className="office-capacity__header">
+              <span className="office-capacity__badge">Заполняемость 100%</span>
+              <h2 className="office-capacity__title">Все помещения заняты</h2>
+              <p className="office-capacity__text">
+                Оставьте заявку — мы свяжемся с вами при появлении свободных помещений
+              </p>
+            </div>
+
+            <div className="office-capacity__contacts">
+              <a href={`tel:${contactPhone.replace(/[\s()-]/g, '')}`} className="office-capacity__phone">
+                {contactPhone}
+              </a>
+              <a href={`mailto:${contactEmail}`} className="office-capacity__email">
+                {contactEmail}
+              </a>
+            </div>
+          </div>
+
+          <div className="office-typical office-typical--single">
+            {typicalCard(typicalOffices[0])}
+          </div>
+        </div>
+      );
+    }
+
+    // ─── MULTIPLE BUILDINGS: stacked layout ───
     return (
       <div className="office-capacity">
         <div className="office-capacity__card">
@@ -133,7 +207,6 @@ export default function OfficeFilter({
           </div>
         </div>
 
-        {/* Typical office examples */}
         {typicalOffices.length > 0 && (
           <div className="office-typical">
             <h3 className="office-typical__title">Примеры типовых офисов</h3>

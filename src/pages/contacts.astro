@@ -57,7 +57,7 @@ const mapMarkers = buildings.map((b) => ({
   </section>
 
   <!-- ===== SECTION 2: CONTACT INFORMATION ===== -->
-  <section class="section">
+  <section class="contacts-info">
     <div class="container">
       <div class="contacts-grid">
         {departments.map((dept) => (
@@ -141,7 +141,12 @@ const mapMarkers = buildings.map((b) => ({
 <style>
   .contacts-header {
     padding-top: var(--space-xl);
-    padding-bottom: var(--space-lg);
+    padding-bottom: var(--space-sm);
+  }
+
+  .contacts-info {
+    padding-top: var(--space-xl);
+    padding-bottom: var(--space-3xl);
   }
 
   .contacts-header__title {
