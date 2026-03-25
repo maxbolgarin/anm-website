@@ -26,7 +26,8 @@ jobs:
       - run: pnpm run build
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: dist/
+          name: github-pages
+          path: dist
 
   deploy:
     needs: build
@@ -34,6 +35,10 @@ jobs:
     environment:
       name: "github-pages"
       url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     steps:
-      - id: deployment  
+      - id: deployment
         uses: actions/deploy-pages@v4
