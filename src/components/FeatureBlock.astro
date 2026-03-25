@@ -1,4 +1,6 @@
 ---
+import { withBase } from '@utils/withBase';
+
 interface Props {
   title: string;
   description: string;
@@ -12,7 +14,7 @@ const { title, description, image, imageAlt, reversed = false } = Astro.props;
 
 <div class:list={['feature-block', { 'feature-block--reversed': reversed }]}>
   <div class="feature-block__image-wrap">
-    <img src={image} alt={imageAlt} class="feature-block__image" loading="lazy" />
+    <img src={withBase(image)} alt={imageAlt} class="feature-block__image" loading="lazy" />
   </div>
   <div class="feature-block__content">
     <h3 class="feature-block__title">{title}</h3>

@@ -1,4 +1,6 @@
 ---
+import { withBase } from '@utils/withBase';
+
 interface Props {
   buildingName: string;
   buildingLabel: string;
@@ -17,7 +19,7 @@ const { buildingName, buildingLabel, planImage, area, buildingClass, type, price
   <div class="container">
     <div class="typical-promo__card">
       <div class="typical-promo__image-wrap">
-        <img src={planImage} alt={`Типовой офис — ${buildingName}`} class="typical-promo__image" />
+        <img src={withBase(planImage)} alt={`Типовой офис — ${buildingName}`} class="typical-promo__image" />
       </div>
       <div class="typical-promo__content">
         <span class="typical-promo__badge">Типовой офис</span>
@@ -40,7 +42,7 @@ const { buildingName, buildingLabel, planImage, area, buildingClass, type, price
             <span class="typical-promo__param-value">{pricePerSqm}</span>
           </div>
         </div>
-        <a href={href} class="btn btn--primary typical-promo__btn">Узнать подробнее</a>
+        <a href={withBase(href)} class="btn btn--primary typical-promo__btn">Узнать подробнее</a>
       </div>
     </div>
   </div>

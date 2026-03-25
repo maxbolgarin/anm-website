@@ -33,6 +33,11 @@ const advantagesData = [
   { icon: '/advantages/secure.svg', label: 'Системы безопасности' },
 ];
 
+const advantagesDataWithBase = advantagesData.map((item) => ({
+  ...item,
+  icon: withBase(item.icon),
+}));
+
 const facilityItems = [
   {
     name: 'Охраняемый паркинг',
@@ -57,12 +62,19 @@ const facilityItems = [
   },
 ];
 
+const facilityItemsWithBase = facilityItems.map((item) => ({
+  ...item,
+  image: withBase(item.image),
+}));
+
+const heroBackgroundImage = withBase('/images/common/territory-aerial-hero.png');
+
 ---
 
 <BaseLayout title={title} description={description}>
 
   <!-- ===== SECTION 1: HERO TITLE ===== -->
-  <section class="hero-title">
+  <section class="hero-title" style={`background-image: url('${heroBackgroundImage}')`}>
     <div class="hero-title__overlay"></div>
     <div class="container hero-title__content">
       <h1 class="hero-title__heading">
@@ -92,7 +104,7 @@ const facilityItems = [
         </p>
       </div>
       <div class="infra-grid">
-        {facilityItems.map((item) => (
+        {facilityItemsWithBase.map((item) => (
           <div class="infra-card">
             <div class="infra-card__image-wrap">
               <img src={item.image} alt={item.imageAlt} class="infra-card__image" loading="lazy" />
@@ -108,7 +120,7 @@ const facilityItems = [
 
       <h3 class="infra-header__subtitle infra-header__subtitle--advantages">Почему выбирают нас</h3>
       <div class="advantages__grid">
-        {advantagesData.map((adv) => (
+        {advantagesDataWithBase.map((adv) => (
           <div class="advantages__item">
             <div class="advantages__icon-wrapper">
               <img src={adv.icon} alt={adv.label} class="advantages__icon" loading="lazy" />
@@ -163,7 +175,6 @@ const facilityItems = [
     position: relative;
     padding-top: var(--space-5xl);
     padding-bottom: var(--space-5xl);
-    background-image: url('/images/common/territory-aerial-hero.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

@@ -18,6 +18,12 @@ interface Props {
 }
 
 export default function BuildingTabs({ buildings, contactHref = '/arenda/' }: Props) {
+  const baseUrl = import.meta.env.BASE_URL || '/';
+  const withBase = (path: string) => {
+    if (!path.startsWith('/')) return path;
+    return `${baseUrl}${path.replace(/^\/+/, '')}`;
+  };
+
   const [activeIndex, setActiveIndex] = useState(0);
   const active = buildings[activeIndex];
 
@@ -59,17 +65,17 @@ export default function BuildingTabs({ buildings, contactHref = '/arenda/' }: Pr
               ))}
             </div>
             <div className="building-tabs__actions">
-              <a href={`/buildings/${active.slug}/`} className="btn btn--primary">
+              <a href={withBase(`/buildings/${active.slug}/`)} className="btn btn--primary">
                 Подробнее
               </a>
-              <a href={contactHref} className="btn btn--outline">
+              <a href={withBase(contactHref)} className="btn btn--outline">
                 Узнать о свободных площадях
               </a>
             </div>
           </div>
           <div className="building-tabs__hero">
             <img
-              src={active.heroImage}
+              src={withBase(active.heroImage)}
               alt={`Бизнес-центр ${active.name}`}
               className="building-tabs__hero-img"
               loading="eager"
@@ -81,7 +87,7 @@ export default function BuildingTabs({ buildings, contactHref = '/arenda/' }: Pr
           {displayImages.map((img, i) => (
             <div key={i} className="building-tabs__gallery-item">
               <img
-                src={img}
+                src={withBase(img)}
                 alt={`${active.name} — фото ${i + 1}`}
                 loading="lazy"
               />

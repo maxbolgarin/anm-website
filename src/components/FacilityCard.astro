@@ -1,4 +1,6 @@
 ---
+import { withBase } from '@utils/withBase';
+
 interface Props {
   name: string;
   description: string;
@@ -11,7 +13,7 @@ const { name, description, image, imageAlt } = Astro.props;
 
 <div class="facility-card">
   <div class="facility-card__image-wrap">
-    <img src={image} alt={imageAlt} class="facility-card__image" loading="lazy" />
+    <img src={withBase(image)} alt={imageAlt} class="facility-card__image" loading="lazy" />
   </div>
   <div class="facility-card__content">
     <h3 class="facility-card__name">{name}</h3>

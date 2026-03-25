@@ -7,6 +7,12 @@ interface PhotoGalleryProps {
 }
 
 export default function PhotoGallery({ images }: PhotoGalleryProps) {
+  const baseUrl = import.meta.env.BASE_URL || '/';
+  const withBase = (path: string) => {
+    if (!path.startsWith('/')) return path;
+    return `${baseUrl}${path.replace(/^\/+/, '')}`;
+  };
+
   const [open, setOpen] = useState(false);
   const [index, setIndex] = useState(0);
 
@@ -25,7 +31,7 @@ export default function PhotoGallery({ images }: PhotoGalleryProps) {
             onClick={() => openLightbox(i)}
             aria-label={`Открыть фото: ${img.alt}`}
           >
-            <img src={img.src} alt={img.alt} loading="lazy" />
+            <img src={withBase(img.src)} alt={img.alt} loading="lazy" />
           </button>
         ))}
       </div>
@@ -34,7 +40,7 @@ export default function PhotoGallery({ images }: PhotoGalleryProps) {
         open={open}
         close={() => setOpen(false)}
         index={index}
-        slides={images.map((img) => ({ src: img.src, alt: img.alt }))}
+        slides={images.map((img) => ({ src: withBase(img.src), alt: img.alt }))}
       />
     </>
   );

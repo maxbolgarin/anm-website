@@ -10,6 +10,7 @@ import TypicalOfficePromo from '@components/TypicalOfficePromo.astro';
 import InteractiveMapIsland from '@components/InteractiveMapIsland.astro';
 import { getBuildingBySlug } from '@data/buildings';
 import { contactInfo } from '@data/navigation';
+import { withBase } from '@utils/withBase';
 
 const building = getBuildingBySlug('anm')!;
 const title = `Бизнес-центр ${building.name} — аренда офисов класса ${building.class} | АНМ`;
@@ -70,12 +71,12 @@ const faqJsonLd = building.faq.length > 0 ? {
           <StatsRow stats={building.stats} columns={2} />
           <p class="building-hero__desc">{building.description}</p>
           <div class="building-hero__actions">
-            <a href={`/buildings/${building.slug}/offices/`} class="btn btn--primary">Аренда офисов</a>
+            <a href={withBase(`/buildings/${building.slug}/offices/`)} class="btn btn--primary">Аренда офисов</a>
           </div>
         </div>
         <div class="building-hero__image-wrap">
           <div class="building-hero__class-badge badge--class">{building.class}</div>
-          <img src={building.heroImage} alt={`Бизнес-центр ${building.name}`} class="building-hero__image" loading="eager" />
+          <img src={withBase(building.heroImage)} alt={`Бизнес-центр ${building.name}`} class="building-hero__image" loading="eager" />
         </div>
       </div>
     </div>
@@ -130,7 +131,7 @@ const faqJsonLd = building.faq.length > 0 ? {
             <p class="text-caption">Невский проспект — 15 мин</p>
             <p class="text-caption">Кольцевая автодорога — 10 мин</p>
           </div>
-          <a href={`/buildings/${building.slug}/how-to-get/`} class="btn btn--link">Подробная схема проезда</a>
+          <a href={withBase(`/buildings/${building.slug}/how-to-get/`)} class="btn btn--link">Подробная схема проезда</a>
         </div>
         <div class="location-grid__map">
           <InteractiveMapIsland
