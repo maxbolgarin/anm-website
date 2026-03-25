@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import './BuildingTabs.css';
+import { withBase } from '@utils/withBase';
 
 interface BuildingTabData {
   name: string;
@@ -18,12 +19,6 @@ interface Props {
 }
 
 export default function BuildingTabs({ buildings, contactHref = '/arenda/' }: Props) {
-  const baseUrl = import.meta.env.BASE_URL || '/';
-  const withBase = (path: string) => {
-    if (!path.startsWith('/')) return path;
-    return `${baseUrl}${path.replace(/^\/+/, '')}`;
-  };
-
   const [activeIndex, setActiveIndex] = useState(0);
   const active = buildings[activeIndex];
 

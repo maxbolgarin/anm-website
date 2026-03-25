@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { withBase } from '@utils/withBase';
 
 interface MapMarker {
   lat: number;
@@ -29,8 +30,6 @@ export default function InteractiveMap({
   zoom = 16,
   height = '100%',
 }: InteractiveMapProps) {
-  const baseUrl = import.meta.env.BASE_URL || '/';
-
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<any>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
@@ -95,10 +94,7 @@ export default function InteractiveMap({
       });
 
       markerInstance.on('click', () => {
-        const href = marker.href.startsWith('/')
-          ? `${baseUrl}${marker.href.replace(/^\/+/, '')}`
-          : marker.href;
-        window.location.href = href;
+        window.location.href = withBase(marker.href);
       });
     });
 

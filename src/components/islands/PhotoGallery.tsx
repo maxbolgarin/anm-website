@@ -1,18 +1,13 @@
 import React, { useState } from 'react';
 import Lightbox from 'yet-another-react-lightbox';
 import 'yet-another-react-lightbox/styles.css';
+import { withBase } from '@utils/withBase';
 
 interface PhotoGalleryProps {
   images: { src: string; alt: string }[];
 }
 
 export default function PhotoGallery({ images }: PhotoGalleryProps) {
-  const baseUrl = import.meta.env.BASE_URL || '/';
-  const withBase = (path: string) => {
-    if (!path.startsWith('/')) return path;
-    return `${baseUrl}${path.replace(/^\/+/, '')}`;
-  };
-
   const [open, setOpen] = useState(false);
   const [index, setIndex] = useState(0);
 

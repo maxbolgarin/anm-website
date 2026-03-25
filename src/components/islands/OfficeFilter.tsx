@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import OfficeCard from './OfficeCard';
+import { withBase } from '@utils/withBase';
 
 interface Office {
   id: string;
@@ -39,8 +40,7 @@ export default function OfficeFilter({
   contactEmail = 'arenda@ukanm.ru',
   typicalOffices = [],
 }: OfficeFilterProps) {
-  const baseUrl = import.meta.env.BASE_URL || '/';
-  const officesDataUrl = `${baseUrl}data/offices.json`;
+  const officesDataUrl = withBase('/data/offices.json');
 
   const [offices, setOffices] = useState<Office[]>([]);
   const [loading, setLoading] = useState(true);

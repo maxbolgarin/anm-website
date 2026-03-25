@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { withBase } from '@utils/withBase';
 
 interface FacilityPin {
   id: string;
@@ -100,8 +101,7 @@ const categoryLabels: Record<string, string> = {
 };
 
 export default function TerritoryMap() {
-  const baseUrl = import.meta.env.BASE_URL || '/';
-  const territoryMapImage = `${baseUrl}territory/territory-map.jpg`;
+  const territoryMapImage = withBase('/territory/territory-map.jpg');
 
   const containerRef = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
