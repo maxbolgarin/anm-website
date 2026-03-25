@@ -3,7 +3,8 @@ import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://www.a-n-m.ru',
+  site: 'https://maxbolgarin.github.io',
+  base: '/anm-website',
   output: 'static',
   integrations: [
     react(),
