@@ -20,7 +20,7 @@
   --color-border: #E0E0E0;
 
   /* ── Typography ── */
-  --font-heading: 'Tahoma', 'Geneva', 'Verdana', sans-serif;
+  --font-heading: 'Helios Cond', 'Arial Narrow', 'Tahoma', sans-serif;
   --font-body: 'Tahoma', 'Geneva', 'Verdana', sans-serif;
 
   --text-display: clamp(2.5rem, 5vw + 1rem, 6rem);

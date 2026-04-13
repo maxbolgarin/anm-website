@@ -8,6 +8,15 @@
   src: url('/fonts/Tahoma-Regular.woff') format('woff');
 }
 
+@font-face {
+  font-family: 'Helios Cond';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/HeliosCond-Regular_1.woff') format('woff');
+}
+
+
 /* ── Base typography ── */
 body {
   font-family: var(--font-body);

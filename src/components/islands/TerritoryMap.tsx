@@ -36,8 +36,8 @@ const ICONS = {
   parking: 'M13 3H6v18h4v-6h3c3.31 0 6-2.69 6-6s-2.69-6-6-6zm.2 8H10V7h3.2c1.1 0 2 .9 2 2s-.9 2-2 2z',
   // Walking person (прогулочная зона)
   walk: 'M13.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM9.8 8.9L7 23h2.1l1.8-8 2.1 2v6h2v-7.5l-2.1-2 .6-3C14.8 12 16.8 13 19 13v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1L6 8.3V13h2V9.6l1.8-.7',
-  // Flame (котельная)
-  flame: 'M13.5 .67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-2.15 4.8-4.8 4.8z',
+  // Battery (котельная)
+  battery: 'M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.34C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z',
   // SPb metro logo — uses 'spb' viewBox, rendered separately
   metro: 'SPB_METRO',
   // Tram / streetcar
@@ -49,7 +49,7 @@ const ICONS = {
 const facilities: FacilityPin[] = [
   // === Building 1 — Fidel (red brick, left side) ===
   { id: 'canteen-fidel',  label: 'Столовая',        icon: ICONS.restaurant, x: 31, y: 46, building: 1, category: 'food' },
-  { id: 'cafe-fidel',     label: 'Кафе',             icon: ICONS.cafe,       x: 19, y: 55, building: 1, category: 'food' },
+
   { id: 'fitness-fidel',  label: 'Фитнес-студия',    icon: ICONS.fitness,    x: 39, y: 49, building: 1, category: 'fitness' },
   { id: 'bars-fidel',     label: 'Турники',          icon: ICONS.outdoorGym, x: 22, y: 52, building: 1, category: 'fitness' },
   { id: 'smoking-fidel',  label: 'Курилка',          icon: ICONS.smoking, strokeIcon: ICONS.smoke, x: 25, y: 49, building: 1, category: 'leisure' },
@@ -63,18 +63,13 @@ const facilities: FacilityPin[] = [
   { id: 'parking-anm',    label: 'Паркинг',          icon: ICONS.parking,    x: 72, y: 48, building: 2, category: 'parking' },
 
   // === Shared / territory ===
-  { id: 'parking-mid',    label: 'Паркинг',          icon: ICONS.parking,    x: 45, y: 60, building: 0, category: 'parking' },
-  { id: 'boiler',         label: 'Котельная',         icon: ICONS.flame,      x: 59, y: 50, building: 0, category: 'utility' },
+  { id: 'parking-mid',    label: 'Паркинг',          icon: ICONS.parking,    x: 41, y: 60, building: 0, category: 'parking' },
+  { id: 'boiler',         label: 'Котельная',         icon: ICONS.battery,    x: 59, y: 50, building: 0, category: 'utility' },
 
   // === Transport direction indicators ===
-  { id: 'metro',          label: 'м. Елизаровская →', icon: ICONS.metro, x: 95, y: 23, building: 0, category: 'transport', rotation: -90 },
-  { id: 'tram',           label: 'Трамвайная остановка ↓', icon: ICONS.tram,  x: 90, y: 90, building: 0, category: 'transport', rotation: 0 },
+  { id: 'metro',          label: 'м. Елизаровская → 9 мин.', icon: ICONS.metro, x: 95, y: 23, building: 0, category: 'transport', rotation: -90 },
+  { id: 'tram',           label: 'Трамвайная остановка ↓ 5 мин.', icon: ICONS.tram,  x: 95, y: 90, building: 0, category: 'transport', rotation: 0 },
 
-  // === Car entry/exit indicators (arrow shape, rotation = CSS degrees, base points →) ===
-  { id: 'car-entry-1',    label: 'Въезд на территорию',  icon: ICONS.car, x: 94, y: 35, building: 0, category: 'transport', rotation: 180 },
-  { id: 'car-exit-1',     label: 'Выезд с территории',   icon: ICONS.car, x: 94, y: 45, building: 0, category: 'transport', rotation: 0 },
-  { id: 'car-entry-2',    label: 'Въезд на территорию',  icon: ICONS.car, x: 92, y: 69, building: 0, category: 'transport', rotation: 180 },
-  { id: 'car-exit-2',     label: 'Выезд с территории',   icon: ICONS.car, x: 91, y: 73, building: 0, category: 'transport', rotation: 0 },
 
   // === Building labels (no icon, text only) ===
   { id: 'label-fidel',    label: 'БЦ Фидель',        icon: '',               x: 34, y: 27, building: 1, category: 'admin' },
@@ -88,7 +83,7 @@ const categoryColors: Record<string, { bg: string; border: string; icon: string 
   admin:   { bg: '#FFF8ED', border: '#B38026', icon: '#B38026' },
   utility: { bg: '#F0F0F0', border: '#3F4F55', icon: '#3F4F55' },
   leisure: { bg: '#EDF7FF', border: '#1565C0', icon: '#1565C0' },
-  transport: { bg: 'rgba(240,240,240,0.8)', border: '#9E9E9E', icon: '#757575' },
+  transport: { bg: '#F5F5F5', border: '#AAAAAA', icon: '#888888' },
 };
 
 const categoryLabels: Record<string, string> = {
@@ -101,7 +96,7 @@ const categoryLabels: Record<string, string> = {
 };
 
 export default function TerritoryMap() {
-  const territoryMapImage = withBase('/territory/territory-map.jpg');
+  const territoryMapImage = withBase('/territory/anm ARCH3.2.png');
 
   const containerRef = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
@@ -282,7 +277,7 @@ export default function TerritoryMap() {
                 transform: 'translate(-50%, -50%)',
                 zIndex: isActive ? 20 : 10,
                 transition: 'opacity 250ms ease-out',
-                opacity: activeCategory && activeCategory !== pin.category ? 0.2 : (pin.category === 'transport' ? 0.65 : 1),
+                opacity: activeCategory && activeCategory !== pin.category ? 0.2 : 1,
               }}
             >
               {/* Pin button */}
