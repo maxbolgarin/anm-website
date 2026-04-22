@@ -21,7 +21,7 @@
 
 .office-filter__label {
   font-size: 0.75rem;
-  font-weight: 600;
+  font-weight: 550;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: #6b6b6b;
@@ -36,7 +36,7 @@
 .office-filter__toggle {
   padding: 0.5rem 1rem;
   font-size: 0.875rem;
-  font-weight: 500;
+  font-weight: 400;
   border: 1px solid #e0e0e0;
   border-radius: 0.25rem;
   background: #fff;
@@ -102,7 +102,7 @@
 
 .office-filter__no-results a {
   color: #B71C1C;
-  font-weight: 600;
+  font-weight: 550;
   font-size: 1.25rem;
 }
 
@@ -180,7 +180,7 @@
   gap: 0.375rem;
   padding: 0.25rem 0.75rem;
   font-size: 0.75rem;
-  font-weight: 600;
+  font-weight: 550;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   color: #8a6d00;
@@ -190,7 +190,7 @@
 
 .office-capacity__title {
   font-size: clamp(1.25rem, 2.5vw, 1.5rem);
-  font-weight: 700;
+  font-weight: 550;
   color: var(--color-text-primary, #1a1a1a);
   margin: 0;
 }
@@ -210,9 +210,9 @@
 }
 
 .office-capacity__phone {
-  font-family: var(--font-heading, 'Manrope', sans-serif);
+  font-family: var(--font-heading, 'Verdana', 'Geneva', sans-serif);
   font-size: 1.25rem;
-  font-weight: 700;
+  font-weight: 550;
   color: var(--color-text-primary, #1a1a1a);
   text-decoration: none;
   transition: color 150ms ease;
@@ -223,9 +223,9 @@
 }
 
 .office-capacity__email {
-  font-family: var(--font-heading, 'Manrope', sans-serif);
+  font-family: var(--font-heading, 'Verdana', 'Geneva', sans-serif);
   font-size: 1.25rem;
-  font-weight: 700;
+  font-weight: 550;
   color: var(--color-text-primary, #1a1a1a);
   text-decoration: none;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
@@ -247,7 +247,7 @@
 
 .office-typical__title {
   font-size: 1.125rem;
-  font-weight: 700;
+  font-weight: 550;
   color: var(--color-text-primary, #1a1a1a);
   margin-bottom: 1.5rem;
 }
@@ -310,7 +310,7 @@
 
 .office-typical__label {
   font-size: 0.875rem;
-  font-weight: 700;
+  font-weight: 550;
   color: var(--color-text-primary, #1a1a1a);
   margin: 0 0 0.75rem;
   line-height: 1.3;
@@ -331,7 +331,7 @@
 
 .office-typical__param-label {
   font-size: 0.6875rem;
-  font-weight: 600;
+  font-weight: 550;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   color: var(--color-text-secondary, #6b6b6b);
@@ -339,13 +339,13 @@
 
 .office-typical__param-value {
   font-size: 0.875rem;
-  font-weight: 600;
+  font-weight: 550;
   color: var(--color-text-primary, #1a1a1a);
 }
 
 .office-typical__link {
   font-size: 0.8125rem;
-  font-weight: 600;
+  font-weight: 550;
   color: #B71C1C;
 }
 
@@ -378,13 +378,13 @@
 }
 
 .office-card__building {
-  font-weight: 700;
+  font-weight: 550;
   font-size: 1rem;
 }
 
 .office-card__class {
   font-size: 0.75rem;
-  font-weight: 700;
+  font-weight: 550;
   color: #B71C1C;
   padding: 0.25rem 0.5rem;
   border: 1px solid #B71C1C;
@@ -405,7 +405,7 @@
 
 .office-card__stat-value {
   font-size: 1.75rem;
-  font-weight: 700;
+  font-weight: 550;
   line-height: 1;
 }
 
@@ -439,7 +439,7 @@
 
 .office-card__price-value {
   font-size: 1.25rem;
-  font-weight: 700;
+  font-weight: 550;
 }
 
 .office-card__price-unit {

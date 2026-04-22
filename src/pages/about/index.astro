@@ -22,6 +22,15 @@ const companyStats = [
   { value: '100+', label: 'арендаторов' },
 ];
 
+const managementServices = [
+  { icon: '🔧', name: 'Техническое обслуживание', description: 'Собственная служба эксплуатации. Электрики, сантехники, инженеры — на месте 24/7.' },
+  { icon: '✨', name: 'Клининг', description: 'Профессиональная уборка общих зон и офисов. Ежедневно и по запросу.' },
+  { icon: '🛡', name: 'Охрана и безопасность', description: 'Круглосуточная охрана, видеонаблюдение, контроль доступа по картам.' },
+  { icon: '🔑', name: 'Пропускная система', description: 'Электронные пропуска для сотрудников и гостей. Заказ через личный кабинет.' },
+  { icon: '📞', name: 'Служба заботы', description: 'Одна точка контакта для всех вопросов. Быстрое решение любых задач.' },
+  { icon: '📅', name: 'Бронирование переговорных', description: 'Современные переговорные комнаты. Онлайн-бронирование для арендаторов.' },
+];
+
 const mapMarkers = buildings.map((b) => ({
   lat: b.coordinates.lat,
   lng: b.coordinates.lng,
@@ -89,7 +98,28 @@ const tenants = [
     </div>
   </section>
 
-  <!-- ===== SECTION 3: TRUST / TENANTS ===== -->
+  <!-- ===== SECTION 3: MANAGEMENT COMPANY ===== -->
+  <section class="section" id="management">
+    <div class="container">
+      <div class="mgmt-header">
+        <span class="mgmt-header__label">Управляющая компания</span>
+        <p class="mgmt-header__subtitle">
+          Собственная управляющая компания с 20-летним опытом. Мы знаем, что нужно вашему бизнесу.
+        </p>
+      </div>
+      <div class="mgmt-grid">
+        {managementServices.map((svc) => (
+          <div class="mgmt-card">
+            <span class="mgmt-card__icon">{svc.icon}</span>
+            <h3 class="mgmt-card__name">{svc.name}</h3>
+            <p class="mgmt-card__desc">{svc.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 4: TRUST / TENANTS ===== -->
   <section class="section trust-section" id="trust">
     <div class="container">
       <SectionHeading
@@ -262,9 +292,77 @@ const tenants = [
     font-weight: var(--weight-medium);
   }
 
+  /* Management company section */
+  .mgmt-header {
+    text-align: center;
+    margin-bottom: var(--space-3xl);
+  }
+
+  .mgmt-header__label {
+    display: inline-block;
+    font-size: var(--text-caption);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-primary);
+    font-weight: var(--weight-bold);
+    margin-bottom: var(--space-lg);
+  }
+
+  .mgmt-header__subtitle {
+    font-size: var(--text-h3);
+    color: var(--color-text-primary);
+    max-width: 36rem;
+    margin-inline: auto;
+    line-height: var(--leading-relaxed);
+  }
+
+  .mgmt-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-lg);
+  }
+
+  .mgmt-card {
+    background-color: var(--color-surface-cream);
+    border-radius: var(--radius-md);
+    padding: var(--space-xl);
+    transition: box-shadow 0.2s ease;
+  }
+
+  .mgmt-card:hover {
+    box-shadow: var(--shadow-md);
+  }
+
+  .mgmt-card__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background-color: var(--color-surface-cream);
+    border-radius: var(--radius-sm);
+    font-size: 1.5rem;
+    margin-bottom: var(--space-lg);
+  }
+
+  .mgmt-card__name {
+    font-size: var(--text-h4);
+    margin-bottom: var(--space-sm);
+  }
+
+  .mgmt-card__desc {
+    font-size: var(--text-caption);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-relaxed);
+  }
+
   @media (max-width: 1023px) {
     .tenants-grid {
       grid-template-columns: repeat(3, 1fr);
+    }
+
+    .mgmt-grid {
+      grid-template-columns: repeat(2, 1fr);
     }
   }
 
@@ -279,6 +377,10 @@ const tenants = [
 
     .tenants-grid {
       grid-template-columns: repeat(2, 1fr);
+    }
+
+    .mgmt-grid {
+      grid-template-columns: 1fr;
     }
   }
 </style>

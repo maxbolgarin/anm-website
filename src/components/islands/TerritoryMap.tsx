@@ -96,7 +96,7 @@ const categoryLabels: Record<string, string> = {
 };
 
 export default function TerritoryMap() {
-  const territoryMapImage = withBase('/territory/anm ARCH3.2.png');
+  const territoryMapImage = withBase('/territory/anm ARCH3.3.png');
 
   const containerRef = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
@@ -150,10 +150,10 @@ export default function TerritoryMap() {
             background: !activeCategory ? '#B8003C' : '#fff',
             color: !activeCategory ? '#fff' : '#3F4F55',
             fontSize: '13px',
-            fontWeight: 500,
+            fontWeight: 550,
             cursor: 'pointer',
             transition: 'all 150ms ease-out',
-            fontFamily: 'Tahoma, Geneva, Verdana, sans-serif',
+            fontFamily: 'Verdana, Geneva, Tahoma, sans-serif',
           }}
         >
           Все
@@ -172,10 +172,10 @@ export default function TerritoryMap() {
                 background: isActive ? c.bg : '#fff',
                 color: isActive ? c.icon : '#3F4F55',
                 fontSize: '13px',
-                fontWeight: 500,
+                fontWeight: 550,
                 cursor: 'pointer',
                 transition: 'all 150ms ease-out',
-                fontFamily: 'Tahoma, Geneva, Verdana, sans-serif',
+                fontFamily: 'Verdana, Geneva, Tahoma, sans-serif',
               }}
             >
               {categoryLabels[cat]}
@@ -241,12 +241,12 @@ export default function TerritoryMap() {
                   padding: '6px 14px',
                   borderRadius: '8px',
                   fontSize: '14px',
-                  fontWeight: 700,
+                  fontWeight: 550,
                   color: '#3F4F55',
                   boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
                   pointerEvents: 'none',
                   whiteSpace: 'nowrap',
-                  fontFamily: 'Tahoma, Geneva, Verdana, sans-serif',
+                  fontFamily: 'Verdana, Geneva, Tahoma, sans-serif',
                   border: `1.5px solid ${colors.border}`,
                   letterSpacing: '0.02em',
                   zIndex: 5,
@@ -354,18 +354,21 @@ export default function TerritoryMap() {
                 <div style={{
                   position: 'absolute',
                   bottom: 'calc(100% + 8px)',
-                  left: '50%',
-                  transform: 'translateX(-50%)',
+                  ...(pin.x > 80
+                    ? { right: 0 }
+                    : pin.x < 20
+                    ? { left: 0 }
+                    : { left: '50%', transform: 'translateX(-50%)' }),
                   background: '#fff',
                   padding: '6px 12px',
                   borderRadius: '6px',
                   fontSize: '12px',
-                  fontWeight: 600,
+                  fontWeight: 550,
                   color: '#1A1A1A',
                   boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
                   whiteSpace: 'nowrap',
                   pointerEvents: 'none',
-                  fontFamily: 'Tahoma, Geneva, Verdana, sans-serif',
+                  fontFamily: 'Verdana, Geneva, Tahoma, sans-serif',
                   border: `1px solid ${colors.border}22`,
                   zIndex: 30,
                 }}>
@@ -374,8 +377,11 @@ export default function TerritoryMap() {
                   <div style={{
                     position: 'absolute',
                     top: '100%',
-                    left: '50%',
-                    transform: 'translateX(-50%)',
+                    ...(pin.x > 80
+                      ? { right: '10px' }
+                      : pin.x < 20
+                      ? { left: '10px' }
+                      : { left: '50%', transform: 'translateX(-50%)' }),
                     width: 0,
                     height: 0,
                     borderLeft: '5px solid transparent',

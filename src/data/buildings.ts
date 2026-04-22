@@ -40,7 +40,7 @@ export const buildings: Building[] = [
     features: [
       {
         title: 'Архитектура и дизайн',
-        description: 'Бизнес-лофт с дизайнерской отделкой: ламинат, окрашенные стены (кирпич и гипсокартон), подвесные светильники, двухкамерные стеклопакеты. Уникальный характер промышленного здания сохранён и подчёркнут современными решениями.',
+        description: 'Бизнес-лофт с дизайнерской отделкой: линолеум, окрашенные стены (кирпич и гипсокартон), подвесные светильники, двухкамерные стеклопакеты. Уникальный характер промышленного здания сохранён и подчёркнут современными решениями.',
         image: '/фото бц/web (119).jpg',
         imageAlt: 'Лофт-офис с кирпичными стенами и видом на Неву в бизнес-центре Фидель',
       },
@@ -144,9 +144,9 @@ export const buildings: Building[] = [
     heroImage: '/images/buildings/anm/exterior-2.jpg',
     galleryImages: [
       '/images/buildings/anm/group-9.png',
-      '/images/buildings/anm/abk-reception.jpg',
+      '/abk/photo_2026-04-15 11.56.33.jpeg',
       '/images/buildings/anm/sme-6510.png',
-      '/images/buildings/anm/abk-cafe-gallery.jpg',
+      '/abk/3D_Isometric_Map_In_a_modern_office_style_this_scene_features_a.jpg',
       '/images/buildings/anm/corridor-green.jpg',
       '/images/buildings/anm/abk-coworking.jpg',
     ],
@@ -160,8 +160,8 @@ export const buildings: Building[] = [
       {
         title: 'Современные офисы',
         description: 'Готовая отделка, стеклопакеты, современные инженерные системы, гибкие планировки для компаний любого размера.',
-        image: '/фото бц/web (31).jpg',
-        imageAlt: 'Холл Бизнес-Центра АНМ со стеклянной входной группой',
+        image: '/abk/3D_Isometric_Map_The_scene_depicts_a_modern_conference_room_pNryGLWH.png',
+        imageAlt: 'Современный конференц-зал в Бизнес-Центре АНМ',
       },
       {
         title: 'Инженерное оснащение',

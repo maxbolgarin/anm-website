@@ -27,9 +27,9 @@ const statsData = [
 const advantagesData = [
   { icon: '/advantages/allday.svg', label: 'Круглосуточный доступ к офисам' },
   { icon: '/advantages/light.svg', label: 'Энергосберегающие технологии' },
-  { icon: '/advantages/wifi.svg', label: '6 операторов связи на ваш выбор' },
+  { icon: '/advantages/wifi.svg', label: '6 операторов связи на выбор' },
   { icon: '/advantages/gas.svg', label: 'Собственная газовая котельня' },
-  { icon: '/advantages/direction (1).svg', label: 'Удобная внутренняя логистика' },
+  { icon: '/advantages/direction (1).svg', label: 'Внутренняя логистика' },
   { icon: '/advantages/secure.svg', label: 'Системы безопасности' },
 ];
 
@@ -89,7 +89,8 @@ const heroVideo = withBase('/territory/3D_Isometric_Map_An_aerial_drone_shot_pan
   </section>
 
   <script define:vars={{ heroVideo, heroBackgroundImage }}>
-    document.addEventListener('DOMContentLoaded', () => {
+    (function() {
+    function init() {
       const hero = document.getElementById('hero');
       const canvas = document.getElementById('hero-canvas');
       if (!hero || !canvas) return;
@@ -241,7 +242,13 @@ const heroVideo = withBase('/territory/3D_Isometric_Map_An_aerial_drone_shot_pan
       // Handle resize
       window.addEventListener('resize', resizeCanvas);
       resizeCanvas();
-    });
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+    })();
   </script>
 
   <!-- ===== SECTION 2: BUILDING TABS ===== -->

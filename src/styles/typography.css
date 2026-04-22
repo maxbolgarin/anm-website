@@ -5,7 +5,15 @@
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url('/fonts/Tahoma-Regular.woff') format('woff');
+  src: url('/anm-website/fonts/Tahoma-Regular.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Tahoma';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/anm-website/fonts/tahomabd.ttf') format('truetype');
 }
 
 @font-face {
@@ -13,7 +21,7 @@
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url('/fonts/HeliosCond-Regular_1.woff') format('woff');
+  src: url('/anm-website/fonts/HeliosCond-Regular_1.woff') format('woff');
 }
 
 
