@@ -1,0 +1,62 @@
+---
+import BuildingLayout from '@layouts/BuildingLayout.astro';
+import OfficeFilter from '@components/islands/OfficeFilter';
+import '@components/islands/OfficeFilter.css';
+import ContactCTA from '@components/ContactCTA.astro';
+import { getBuildingBySlug } from '@data/buildings';
+import { getBuildingEnBySlug } from '@data/buildings-en';
+
+const building = getBuildingBySlug('fidel')!;
+const en = getBuildingEnBySlug('fidel')!;
+
+const title = `Office Rental in ${en.name} Business Loft — Available Spaces | ANM`;
+const description = `Office rental in ${en.name} Business Loft. Class B+, designer loft-style finishes, from 45 to 200 m². Contact us to discuss options.`;
+
+const typicalOffices = [
+  {
+    label: 'Typical office example in Fidel Business Loft',
+    planImage: '/plans/fidel plan example.png',
+    area: 'from 45 to 200 m²',
+    buildingClass: 'B+',
+    type: 'Private Office / Open Space',
+    pricePerSqm: 'from 1,050 ₽/m²',
+    href: '/en/buildings/fidel/',
+  },
+];
+---
+
+<BuildingLayout
+  title={title}
+  description={description}
+  buildingName={en.name}
+  buildingSlug={building.slug}
+>
+  <section class="offices-section">
+    <div class="container">
+      <h1 class="offices-section__title">Office Rental in Fidel Business Loft</h1>
+
+      <OfficeFilter
+        client:visible
+        locale="en"
+        buildingSlug="fidel"
+        contactPhone="+7 (812) 336-55-64"
+        contactEmail="arenda@ukanm.ru"
+        typicalOffices={typicalOffices}
+      />
+    </div>
+  </section>
+
+  <ContactCTA />
+</BuildingLayout>
+
+<style>
+  .offices-section {
+    padding-top: var(--space-xl);
+    padding-bottom: var(--space-3xl);
+  }
+
+  .offices-section__title {
+    font-size: var(--text-h1);
+    margin-bottom: var(--space-2xl);
+  }
+</style>

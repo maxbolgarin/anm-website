@@ -56,7 +56,12 @@ const breadcrumbs = [
   }
 
   .buildings-hero :global(.section-heading__subtitle) {
-    white-space: nowrap;
     max-width: none;
+  }
+
+  @media (min-width: 768px) {
+    .buildings-hero :global(.section-heading__subtitle) {
+      white-space: nowrap;
+    }
   }
 </style>

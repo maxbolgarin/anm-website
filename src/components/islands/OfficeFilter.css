@@ -120,7 +120,7 @@
 .office-capacity {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
 }
 
 /* ─── Split layout: capacity card left, typical office right ─── */
@@ -164,7 +164,7 @@
   align-items: flex-start;
   gap: 1rem;
   width: 100%;
-  max-width: 40rem;
+  max-width: none;
 }
 
 .office-capacity__header {

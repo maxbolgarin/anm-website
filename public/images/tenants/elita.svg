@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 220" fill="none">
+  <!-- Left circle (blue -> monochrome dark cream) -->
+  <circle cx="72" cy="85" r="52" stroke="#A89279" stroke-width="18" fill="none"/>
+  <!-- Right circle (red -> monochrome dark cream) -->
+  <circle cx="128" cy="85" r="52" stroke="#A89279" stroke-width="18" fill="none"/>
+  <!-- Up arrow (left circle) -->
+  <path d="M72 50 L58 72 L66 72 L66 105 L78 105 L78 72 L86 72 Z" fill="#A89279"/>
+  <!-- Down arrow (right circle) -->
+  <path d="M128 120 L114 98 L122 98 L122 65 L134 65 L134 98 L142 98 Z" fill="#A89279"/>
+  <!-- Masking overlaps to create interlocking effect -->
+  <!-- White arc to hide left circle behind right arrow area -->
+  <clipPath id="leftClip">
+    <rect x="0" y="0" width="100" height="85"/>
+  </clipPath>
+  <clipPath id="rightClip">
+    <rect x="100" y="85" width="100" height="85"/>
+  </clipPath>
+  <!-- Text ЭЛИТА -->
+  <text x="100" y="205" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="36" font-weight="bold" fill="#A89279" letter-spacing="4">ЭЛИТА</text>
+  <!-- Registration mark -->
+  <circle cx="185" cy="38" r="8" stroke="#A89279" stroke-width="1.5" fill="none"/>
+  <text x="185" y="43" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#A89279">R</text>
+</svg>

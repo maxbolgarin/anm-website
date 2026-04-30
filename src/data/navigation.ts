@@ -1,3 +1,5 @@
+import type { Locale } from '@utils/locale';
+
 export interface NavItem {
   label: string;
   href: string;
@@ -32,9 +34,39 @@ export const mainNav: NavItem[] = [
   { label: 'Контакты', href: '/contacts/' },
 ];
 
+export const mainNavEn: NavItem[] = [
+  {
+    label: 'Business Centers',
+    href: '/en/buildings/',
+    children: [
+      { label: 'Business Loft Fidel', href: '/en/buildings/fidel/' },
+      { label: 'Business Center ANM', href: '/en/buildings/anm/' },
+    ],
+  },
+  {
+    label: 'About',
+    href: '/en/about/',
+    children: [
+      { label: 'Location', href: '/en/territory/' },
+      { label: 'Company & History', href: '/en/about/company/' },
+    ],
+  },
+  { label: 'Office Rental', href: '/en/arenda/' },
+  { label: 'Contacts', href: '/en/contacts/' },
+];
+
+export function getNav(locale: Locale): NavItem[] {
+  return locale === 'en' ? mainNavEn : mainNav;
+}
+
 export const buildingNav: BuildingNavItem[] = [
   { name: 'Фидель', slug: 'fidel', class: 'B+', href: '/buildings/fidel/' },
   { name: 'АНМ', slug: 'anm', class: 'B', href: '/buildings/anm/' },
+];
+
+export const buildingNavEn: BuildingNavItem[] = [
+  { name: 'Fidel', slug: 'fidel', class: 'B+', href: '/en/buildings/fidel/' },
+  { name: 'ANM', slug: 'anm', class: 'B', href: '/en/buildings/anm/' },
 ];
 
 export const contactInfo = {

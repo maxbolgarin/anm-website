@@ -1,5 +1,9 @@
 ---
 import TerritoryMap from './islands/TerritoryMap';
+import { getLocaleFromPath } from '@utils/locale';
+
+const currentPath = Astro.url.pathname;
+const locale = getLocaleFromPath(currentPath);
 ---
 
-<TerritoryMap client:visible />
+<TerritoryMap client:visible locale={locale} />

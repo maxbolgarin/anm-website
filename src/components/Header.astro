@@ -1,6 +1,7 @@
 ---
-import { mainNav, contactInfo } from '@data/navigation';
+import { getNav, contactInfo } from '@data/navigation';
 import { withBase } from '@utils/withBase';
+import { getLocaleFromPath, getLocalePath } from '@utils/locale';
 
 interface Props {
   currentPath: string;
@@ -11,11 +12,19 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
 const normalizedCurrentPath = basePath && currentPath.startsWith(basePath)
   ? (currentPath.slice(basePath.length) || '/')
   : currentPath;
+
+const locale = getLocaleFromPath(currentPath);
+const nav = getNav(locale);
+const isEn = locale === 'en';
+
+// Build the language switcher paths
+const ruPath = isEn ? getLocalePath(currentPath, 'ru') : normalizedCurrentPath;
+const enPath = isEn ? normalizedCurrentPath : getLocalePath(currentPath, 'en');
 ---
 
 <header class="header" id="header">
   <div class="header__inner container-wide">
-    <a href={withBase('/')} class="header__logo" aria-label="АНМ — Главная">
+    <a href={withBase(isEn ? '/en/' : '/')} class="header__logo" aria-label={isEn ? 'ANM — Home' : 'АНМ — Главная'}>
       <img
         src={withBase('/images/common/logo.svg')}
         alt="Александро-Невская Мануфактура"
@@ -27,7 +36,7 @@ const normalizedCurrentPath = basePath && currentPath.startsWith(basePath)
 
     <nav class="header__nav" aria-label="Основная навигация">
       <ul class="header__nav-list">
-        {mainNav.map((item) => (
+        {nav.map((item) => (
           <li class:list={['header__nav-item', { 'header__nav-item--has-dropdown': item.children?.length }]}>
             <a
               href={withBase(item.href)}
@@ -71,9 +80,9 @@ const normalizedCurrentPath = basePath && currentPath.startsWith(basePath)
       </a>
 
       <div class="header__lang">
-        <a href={withBase('/')} class="header__lang-link header__lang-link--active">RU</a>
+        <a href={withBase(ruPath)} class:list={['header__lang-link', { 'header__lang-link--active': !isEn }]}>RU</a>
         <span class="header__lang-sep">|</span>
-        <a href={withBase('/en/')} class="header__lang-link">EN</a>
+        <a href={withBase(enPath)} class:list={['header__lang-link', { 'header__lang-link--active': isEn }]}>EN</a>
       </div>
 
       <button class="header__burger" aria-label="Открыть меню" aria-expanded="false" id="burger-btn">
@@ -87,7 +96,7 @@ const normalizedCurrentPath = basePath && currentPath.startsWith(basePath)
   <div class="header__mobile-menu" id="mobile-menu" aria-hidden="true">
     <nav aria-label="Мобильная навигация">
       <ul class="header__mobile-list">
-        {mainNav.map((item) => (
+        {nav.map((item) => (
           <li class="header__mobile-item">
             {item.children?.length ? (
               <details class="header__mobile-details">
@@ -99,7 +108,7 @@ const normalizedCurrentPath = basePath && currentPath.startsWith(basePath)
                 </summary>
                 <ul class="header__mobile-sublist">
                   <li>
-                    <a href={withBase(item.href)} class="header__mobile-sublink">Все {item.label.toLowerCase()}</a>
+                    <a href={withBase(item.href)} class="header__mobile-sublink">{isEn ? `All ${item.label}` : `Все ${item.label.toLowerCase()}`}</a>
                   </li>
                   {item.children.map((child) => (
                     <li>
@@ -122,6 +131,11 @@ const normalizedCurrentPath = basePath && currentPath.startsWith(basePath)
       <a href={contactInfo.emailHref} class="header__mobile-email">
         {contactInfo.email}
       </a>
+    </div>
+    <div class="header__mobile-lang">
+      <a href={withBase(ruPath)} class:list={['header__mobile-lang-link', { 'header__mobile-lang-link--active': !isEn }]}>Русский</a>
+      <span class="header__mobile-lang-sep">|</span>
+      <a href={withBase(enPath)} class:list={['header__mobile-lang-link', { 'header__mobile-lang-link--active': isEn }]}>English</a>
     </div>
   </div>
 </header>
@@ -372,6 +386,30 @@ const normalizedCurrentPath = basePath && currentPath.startsWith(basePath)
     display: block;
     margin-top: var(--space-md);
     color: var(--color-text-secondary);
+  }
+
+  .header__mobile-lang {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-top: var(--space-lg);
+    padding-top: var(--space-lg);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .header__mobile-lang-link {
+    font-size: var(--text-body);
+    color: var(--color-text-secondary);
+    font-weight: var(--weight-medium);
+  }
+
+  .header__mobile-lang-link--active {
+    color: var(--color-text-primary);
+    font-weight: var(--weight-bold);
+  }
+
+  .header__mobile-lang-sep {
+    color: var(--color-border);
   }
 
   @media (max-width: 1023px) {

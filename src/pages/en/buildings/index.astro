@@ -1,0 +1,71 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import BuildingCard from '@components/BuildingCard.astro';
+import SectionHeading from '@components/SectionHeading.astro';
+import ContactCTA from '@components/ContactCTA.astro';
+import Breadcrumbs from '@components/Breadcrumbs.astro';
+import { buildings } from '@data/buildings';
+import { getBuildingEnBySlug } from '@data/buildings-en';
+
+const title = 'Business Centers in St. Petersburg — ANM';
+const description = 'Class B+ business centers at Aleksandro-Nevskaya Manufaktura. Office rental from ANM.';
+
+const breadcrumbs = [
+  { label: 'Home', href: '/en/' },
+  { label: 'Business Centers' },
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <Breadcrumbs items={breadcrumbs} />
+
+  <section class="section buildings-hero">
+    <div class="container">
+      <SectionHeading
+        title="Business Centers"
+        subtitle="Modern office spaces at Aleksandro-Nevskaya Manufaktura"
+      />
+      {buildings.map((building, index) => {
+        const en = getBuildingEnBySlug(building.slug)!;
+        return (
+          <BuildingCard
+            name={en.name}
+            slug={building.slug}
+            buildingClass={building.class}
+            address={en.address}
+            metro={en.metro.name}
+            metroMinutes={building.metro[0].walkingMinutes}
+            stats={en.stats}
+            description={en.description}
+            image={building.heroImage}
+            imageAlt={`Business Center ${en.name}`}
+            reversed={index % 2 !== 0}
+            presentationUrl={building.presentationUrl}
+          />
+        );
+      })}
+    </div>
+  </section>
+
+  <ContactCTA />
+</BaseLayout>
+
+<style>
+  .buildings-hero {
+    padding-top: var(--space-lg);
+  }
+
+  .buildings-hero :global(.section-heading) {
+    margin-bottom: var(--space-lg);
+  }
+
+  .buildings-hero :global(.section-heading__subtitle) {
+    max-width: none;
+  }
+
+  @media (min-width: 768px) {
+    .buildings-hero :global(.section-heading__subtitle) {
+      white-space: nowrap;
+    }
+  }
+</style>

@@ -1,0 +1,598 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import BuildingTabsIsland from '@components/BuildingTabsIsland.astro';
+import SectionHeading from '@components/SectionHeading.astro';
+import StatsGrid from '@components/StatsGrid.astro';
+import TerritoryMapIsland from '@components/TerritoryMapIsland.astro';
+import LocationContacts from '@components/LocationContacts.astro';
+import ContactCTA from '@components/ContactCTA.astro';
+import { buildings } from '@data/buildings';
+import { getBuildingEnBySlug, buildingsEn } from '@data/buildings-en';
+import { withBase } from '@utils/withBase';
+
+const title = 'Office Rental in St. Petersburg Business Centers — ANM';
+const description = 'Office space for rent in class B+ business centers in St. Petersburg. Near metro, developed infrastructure, 24/7 access. ANM — 20+ years in the market.';
+
+const statsData = [
+  { value: '21,376 m²', label: 'Under Management' },
+  { value: '2', label: 'Business Centers' },
+  { value: '20+', label: 'Years in Market' },
+  { value: '80+', label: 'Tenants' },
+  { value: '328', label: 'Parking Spaces' },
+  { value: '24/7', label: 'Security & Access' },
+  { value: '11', label: 'Floors Total' },
+  { value: '6', label: 'Telecom Providers' },
+];
+
+const advantagesData = [
+  { icon: '/advantages/allday.svg', label: '24/7 office access' },
+  { icon: '/advantages/light.svg', label: 'Energy-efficient technologies' },
+  { icon: '/advantages/wifi.svg', label: '6 telecom providers' },
+  { icon: '/advantages/gas.svg', label: 'Own gas boiler plant' },
+  { icon: '/advantages/direction (1).svg', label: 'Internal logistics' },
+  { icon: '/advantages/secure.svg', label: 'Security systems' },
+];
+
+const advantagesDataWithBase = advantagesData.map((item) => ({
+  ...item,
+  icon: withBase(item.icon),
+}));
+
+const facilityItems = [
+  {
+    name: 'Secured Parking',
+    description: 'Guarded and well-lit parking. Guest spaces and monthly passes available.',
+    image: '/images/infrastructure/parking-aerial.jpg',
+    imageAlt: 'Parking at Aleksandro-Nevskaya Manufaktura',
+    icon: '🅿️',
+  },
+  {
+    name: 'Fitness Studio',
+    description: 'Modern gym. Special rates for tenants.',
+    image: '/фото бц/image_2026-04-23_13-54-55 (1).png',
+    imageAlt: 'Fitness studio on the business center premises',
+    icon: '💪',
+  },
+  {
+    name: 'Cafes & Canteens',
+    description: '2 canteens with set lunches, 2 cafes with fresh coffee and light snacks.',
+    image: '/images/buildings/anm/abk-cafe-new.jpg',
+    imageAlt: 'Cafe at Aleksandro-Nevskaya Manufaktura',
+    icon: '🍽',
+  },
+];
+
+const facilityItemsWithBase = facilityItems.map((item) => ({
+  ...item,
+  image: withBase(item.image),
+}));
+
+const heroBackgroundImage = withBase('/images/common/territory-aerial-hero.png');
+const heroVideo = withBase('/territory/3D_Isometric_Map_An_aerial_drone_shot_pans_across_a_city_skyline.mp4');
+
+---
+
+<BaseLayout title={title} description={description}>
+
+  <!-- ===== SECTION 1: HERO TITLE ===== -->
+  <section class="hero-title" id="hero" style={`--bg-fallback: url('${heroBackgroundImage}')`}>
+    <canvas class="hero-title__canvas" id="hero-canvas"></canvas>
+    <div class="hero-title__overlay"></div>
+    <div class="container hero-title__content">
+      <h1 class="hero-title__heading">
+        Every level of<br>comfort for<br>your business
+      </h1>
+      <p class="hero-title__subtitle">
+        Aleksandro&#8209;Nevskaya Manufaktura&nbsp;—<br>business cluster in a historic setting on&nbsp;the&nbsp;Neva&nbsp;embankment
+      </p>
+    </div>
+  </section>
+
+  <script define:vars={{ heroVideo, heroBackgroundImage }}>
+    (function() {
+    function init() {
+      const hero = document.getElementById('hero');
+      const canvas = document.getElementById('hero-canvas');
+      if (!hero || !canvas) return;
+
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+
+      const frames = [];
+      let totalFrames = 0;
+      let ready = false;
+      let currentFrameIndex = 0;
+      const FPS = 30;
+
+      const isMobile = window.innerWidth < 768;
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (isMobile || prefersReducedMotion) {
+        const vid = document.createElement('video');
+        vid.src = heroVideo;
+        vid.muted = true;
+        vid.playsInline = true;
+        vid.loop = true;
+        vid.autoplay = true;
+        vid.className = 'hero-title__canvas';
+        vid.style.objectFit = 'cover';
+        canvas.replaceWith(vid);
+        vid.play().catch(() => {});
+        return;
+      }
+
+      function resizeCanvas() {
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = hero.offsetWidth * dpr;
+        canvas.height = hero.offsetHeight * dpr;
+        ctx.scale(dpr, dpr);
+        canvas.style.width = hero.offsetWidth + 'px';
+        canvas.style.height = hero.offsetHeight + 'px';
+        if (ready && frames[currentFrameIndex]) {
+          drawFrame(currentFrameIndex);
+        }
+      }
+
+      function drawFrame(index) {
+        if (!frames[index]) return;
+        const cw = hero.offsetWidth;
+        const ch = hero.offsetHeight;
+        const img = frames[index];
+        const imgRatio = img.width / img.height;
+        const canvasRatio = cw / ch;
+        let sw, sh, sx, sy;
+        if (imgRatio > canvasRatio) {
+          sh = img.height;
+          sw = img.height * canvasRatio;
+          sx = (img.width - sw) / 2;
+          sy = 0;
+        } else {
+          sw = img.width;
+          sh = img.width / canvasRatio;
+          sx = 0;
+          sy = (img.height - sh) / 2;
+        }
+        ctx.drawImage(img, sx, sy, sw, sh, 0, 0, cw, ch);
+        currentFrameIndex = index;
+      }
+
+      function getScrollProgress() {
+        const rect = hero.getBoundingClientRect();
+        const heroHeight = hero.offsetHeight;
+        const scrolled = heroHeight - rect.bottom + window.innerHeight;
+        const totalRange = heroHeight + window.innerHeight;
+        return Math.min(Math.max(scrolled / totalRange, 0), 1);
+      }
+
+      function extractFrames() {
+        return new Promise((resolve) => {
+          const video = document.createElement('video');
+          video.src = heroVideo;
+          video.muted = true;
+          video.playsInline = true;
+          video.preload = 'auto';
+
+          video.addEventListener('loadedmetadata', () => {
+            const duration = video.duration;
+            totalFrames = Math.ceil(duration * FPS);
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = video.videoWidth;
+            tempCanvas.height = video.videoHeight;
+            const tempCtx = tempCanvas.getContext('2d');
+            let frameIndex = 0;
+
+            function captureFrame() {
+              if (frameIndex >= totalFrames) {
+                resolve(frames);
+                return;
+              }
+              const time = (frameIndex / totalFrames) * duration;
+              video.currentTime = time;
+            }
+
+            video.addEventListener('seeked', () => {
+              tempCtx.drawImage(video, 0, 0, tempCanvas.width, tempCanvas.height);
+              createImageBitmap(tempCanvas).then((bitmap) => {
+                frames[frameIndex] = bitmap;
+                if (frameIndex === 0) {
+                  resizeCanvas();
+                  drawFrame(0);
+                }
+                frameIndex++;
+                captureFrame();
+              });
+            });
+
+            captureFrame();
+          });
+        });
+      }
+
+      extractFrames().then(() => {
+        ready = true;
+        const progress = getScrollProgress();
+        const index = Math.min(Math.round(progress * (totalFrames - 1)), totalFrames - 1);
+        drawFrame(index);
+      });
+
+      window.addEventListener('scroll', () => {
+        if (!ready) return;
+        requestAnimationFrame(() => {
+          const progress = getScrollProgress();
+          const index = Math.min(Math.round(progress * (totalFrames - 1)), totalFrames - 1);
+          if (index !== currentFrameIndex) {
+            drawFrame(index);
+          }
+        });
+      }, { passive: true });
+
+      window.addEventListener('resize', resizeCanvas);
+      resizeCanvas();
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+    })();
+  </script>
+
+  <!-- ===== SECTION 2: BUILDING TABS ===== -->
+  <section class="section" id="buildings">
+    <div class="container">
+      <BuildingTabsIsland />
+    </div>
+  </section>
+
+  <!-- ===== SECTION 3: INFRASTRUCTURE ===== -->
+  <section class="section section--cream" id="infrastructure">
+    <div class="container">
+      <div class="infra-header">
+        <h2 class="infra-header__title">Everything You Need On-Site</h2>
+        <p class="infra-header__subtitle">
+          Your employees never need to leave the premises. Dining, fitness, parking — all within walking distance.
+        </p>
+      </div>
+      <div class="infra-grid">
+        {facilityItemsWithBase.map((item) => (
+          <div class="infra-card">
+            <div class="infra-card__image-wrap">
+              <img src={item.image} alt={item.imageAlt} class="infra-card__image" loading="lazy" />
+              <span class="infra-card__icon">{item.icon}</span>
+            </div>
+            <div class="infra-card__content">
+              <h3 class="infra-card__name">{item.name}</h3>
+              <p class="infra-card__desc">{item.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <h3 class="infra-header__subtitle infra-header__subtitle--advantages">Why Choose Us</h3>
+      <div class="advantages__grid">
+        {advantagesDataWithBase.map((adv) => (
+          <div class="advantages__item">
+            <div class="advantages__icon-wrapper">
+              <img src={adv.icon} alt={adv.label} class="advantages__icon" loading="lazy" />
+            </div>
+            <span class="advantages__label">{adv.label}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 5: TERRITORY MAP ===== -->
+  <section class="section" id="territory-map">
+    <div class="container">
+      <SectionHeading
+        title="Territory"
+        subtitle="Infrastructure of the Aleksandro-Nevskaya Manufaktura business centers"
+      />
+      <TerritoryMapIsland />
+      <div class="map-section__cta">
+        <a href={withBase('/en/territory/')} class="btn btn--link">Learn more about the location →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 6: CONTACTS + LOCATION ===== -->
+  <LocationContacts />
+
+  <!-- ===== SECTION 8: CONTACT CTA ===== -->
+  <ContactCTA />
+
+  <!-- ===== SECTION 9: DISCLOSURE ===== -->
+  <section class="section disclosure" id="disclosure">
+    <div class="container">
+      <details class="disclosure__details">
+        <summary class="disclosure__summary">Legal Information</summary>
+        <div class="disclosure__content">
+          <p>Information subject to disclosure in accordance with the legislation of the Russian Federation. <a href={withBase('/en/legal/')}>Full information</a></p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  .hero-title {
+    position: relative;
+    padding-top: var(--space-5xl);
+    padding-bottom: 20vh;
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+    background-image: var(--bg-fallback);
+    background-size: cover;
+    background-position: center;
+  }
+
+  .hero-title__canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+    object-fit: cover;
+  }
+
+  .hero-title__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.7) 0%,
+      rgba(0, 0, 0, 0.4) 50%,
+      rgba(0, 0, 0, 0.15) 100%
+    );
+  }
+
+  .hero-title__content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: right;
+  }
+
+  .hero-title__heading {
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: var(--weight-bold);
+    color: #fff;
+    line-height: 1.15;
+    margin-bottom: var(--space-lg);
+    max-width: 38rem;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  .hero-title__subtitle {
+    font-size: var(--text-h4);
+    color: rgba(255, 255, 255, 0.85);
+    max-width: 36rem;
+    line-height: var(--leading-relaxed);
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .infra-header {
+    text-align: center;
+    margin-bottom: var(--space-3xl);
+  }
+
+  .infra-header__title {
+    font-size: var(--text-h1);
+    font-weight: var(--weight-bold);
+    margin-bottom: var(--space-md);
+  }
+
+  .infra-header__subtitle {
+    font-size: var(--text-body);
+    color: var(--color-text-secondary);
+    max-width: 36rem;
+    margin-inline: auto;
+    line-height: var(--leading-relaxed);
+  }
+
+  .infra-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-xl);
+  }
+
+  .infra-card {
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background-color: var(--color-surface-white);
+    border: none;
+    transition: box-shadow var(--transition-base);
+  }
+
+  .infra-card:hover {
+    box-shadow: var(--shadow-md);
+  }
+
+  .infra-card__image-wrap {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .infra-card__image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    transition: transform var(--transition-slow);
+  }
+
+  .infra-card:hover .infra-card__image {
+    transform: scale(1.03);
+  }
+
+  .infra-card__icon {
+    position: absolute;
+    bottom: var(--space-md);
+    left: var(--space-md);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-surface-white);
+    border-radius: var(--radius-sm);
+    font-size: 1.25rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  }
+
+  .infra-card__content {
+    padding: var(--space-lg);
+  }
+
+  .infra-card__name {
+    font-size: var(--text-h4);
+    margin-bottom: var(--space-sm);
+  }
+
+  .infra-card__desc {
+    font-size: var(--text-caption);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-relaxed);
+  }
+
+  .infra-header__subtitle--advantages {
+    margin-top: var(--space-3xl);
+    margin-bottom: var(--space-xl);
+    text-align: center;
+  }
+
+  .advantages__grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: var(--space-xl) var(--space-lg);
+  }
+
+  .advantages__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--space-md);
+    padding: var(--space-md) var(--space-xs);
+    transition: transform 0.2s ease;
+  }
+
+  .advantages__item:hover {
+    transform: translateY(-4px);
+  }
+
+  .advantages__icon-wrapper {
+    width: 96px;
+    height: 96px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: transparent;
+    border: 2px solid var(--color-primary);
+    flex-shrink: 0;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .advantages__item:hover .advantages__icon-wrapper {
+    background-color: rgba(183, 28, 28, 0.04);
+    border-color: var(--color-primary-dark);
+  }
+
+  .advantages__icon {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+  }
+
+  .advantages__label {
+    font-size: var(--text-caption);
+    font-weight: var(--weight-medium);
+    color: var(--color-text-primary);
+    line-height: var(--leading-normal);
+    max-width: 140px;
+  }
+
+  @media (max-width: 1023px) {
+    .advantages__grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-lg);
+    }
+
+    .advantages__icon-wrapper {
+      width: 80px;
+      height: 80px;
+    }
+
+    .advantages__icon {
+      width: 40px;
+      height: 40px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .advantages__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-md);
+    }
+
+    .advantages__icon-wrapper {
+      width: 64px;
+      height: 64px;
+    }
+
+    .advantages__icon {
+      width: 32px;
+      height: 32px;
+    }
+  }
+
+  .map-section__cta {
+    padding-top: var(--space-lg);
+    text-align: center;
+  }
+
+  .disclosure {
+    padding-block: var(--space-xl);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .disclosure__summary {
+    cursor: pointer;
+    font-weight: var(--weight-medium);
+    color: var(--color-text-secondary);
+    font-size: var(--text-caption);
+  }
+
+  .disclosure__content {
+    margin-top: var(--space-md);
+    font-size: var(--text-caption);
+    color: var(--color-text-secondary);
+  }
+
+  @media (max-width: 1023px) {
+    .infra-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .hero-title {
+      padding-top: var(--space-3xl);
+      padding-bottom: var(--space-3xl);
+      min-height: 40vh;
+    }
+
+    .infra-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

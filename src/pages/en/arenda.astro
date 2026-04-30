@@ -1,0 +1,40 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Breadcrumbs from '@components/Breadcrumbs.astro';
+import OfficeFilterIsland from '@components/OfficeFilterIsland.astro';
+import ContactCTA from '@components/ContactCTA.astro';
+
+const title = 'Office Rental — Available Spaces in ANM Business Centers';
+const description = 'Current office rental offers in Fidel Business Loft and ANM Business Center at Aleksandro-Nevskaya Manufaktura. Find an office by area, floor, and budget.';
+
+const breadcrumbs = [
+  { label: 'Home', href: '/en/' },
+  { label: 'Office Rental' },
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <Breadcrumbs items={breadcrumbs} />
+
+  <section class="arenda">
+    <div class="container">
+      <h1 class="arenda__title">Office Rental</h1>
+
+      <OfficeFilterIsland />
+    </div>
+  </section>
+
+  <ContactCTA />
+</BaseLayout>
+
+<style>
+  .arenda {
+    padding-top: var(--space-xl);
+    padding-bottom: var(--space-3xl);
+  }
+
+  .arenda__title {
+    font-size: var(--text-h1);
+    margin-bottom: var(--space-xl);
+  }
+</style>

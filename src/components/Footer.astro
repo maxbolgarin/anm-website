@@ -1,53 +1,62 @@
 ---
-import { buildingNav, contactInfo } from '@data/navigation';
+import { buildingNav, buildingNavEn, contactInfo } from '@data/navigation';
 import { withBase } from '@utils/withBase';
+import { getLocaleFromPath } from '@utils/locale';
+
+const currentPath = Astro.url.pathname;
+const locale = getLocaleFromPath(currentPath);
+const isEn = locale === 'en';
+const bNav = isEn ? buildingNavEn : buildingNav;
+const prefix = isEn ? '/en' : '';
 ---
 
 <footer class="footer section--dark">
   <div class="footer__inner container">
     <div class="footer__grid">
       <div class="footer__brand">
-        <a href={withBase('/')} aria-label="АНМ — Главная">
+        <a href={withBase(isEn ? '/en/' : '/')} aria-label={isEn ? 'ANM — Home' : 'АНМ — Главная'}>
           <img
             src={withBase('/logo/logo vert2.svg')}
-            alt="Александро-Невская Мануфактура"
+            alt={isEn ? 'Aleksandro-Nevskaya Manufaktura' : 'Александро-Невская Мануфактура'}
             class="footer__logo-img"
             loading="lazy"
           />
         </a>
         <p class="footer__desc">
-          Управляющая компания. Аренда офисов в бизнес-центрах Санкт-Петербурга на территории Александро-Невской Мануфактуры.
+          {isEn
+            ? 'Property management company. Office rental in St. Petersburg business centers on the territory of Aleksandro-Nevskaya Manufaktura.'
+            : 'Управляющая компания. Аренда офисов в бизнес-центрах Санкт-Петербурга на территории Александро-Невской Мануфактуры.'}
         </p>
       </div>
 
       <div class="footer__col">
-        <h4 class="footer__heading">Бизнес-центры</h4>
+        <h4 class="footer__heading">{isEn ? 'Business Centers' : 'Бизнес-центры'}</h4>
         <ul class="footer__list">
-          {buildingNav.map((b) => (
+          {bNav.map((b) => (
             <li><a href={withBase(b.href)} class="footer__link">{b.name}</a></li>
           ))}
         </ul>
       </div>
 
       <div class="footer__col">
-        <h4 class="footer__heading">Навигация</h4>
+        <h4 class="footer__heading">{isEn ? 'Navigation' : 'Навигация'}</h4>
         <ul class="footer__list">
-          <li><a href={withBase('/about/')} class="footer__link">О компании</a></li>
-          <li><a href={withBase('/about/#territory')} class="footer__link">Локация</a></li>
-          <li><a href={withBase('/contacts/')} class="footer__link">Контакты</a></li>
-          <li><a href={withBase('/legal/')} class="footer__link">Раскрытие информации</a></li>
+          <li><a href={withBase(`${prefix}/about/`)} class="footer__link">{isEn ? 'About' : 'О компании'}</a></li>
+          <li><a href={withBase(`${prefix}/about/#territory`)} class="footer__link">{isEn ? 'Location' : 'Локация'}</a></li>
+          <li><a href={withBase(`${prefix}/contacts/`)} class="footer__link">{isEn ? 'Contacts' : 'Контакты'}</a></li>
+          <li><a href={withBase(`${prefix}/legal/`)} class="footer__link">{isEn ? 'Legal Information' : 'Раскрытие информации'}</a></li>
         </ul>
       </div>
 
       <div class="footer__col">
-        <h4 class="footer__heading">Контакты</h4>
+        <h4 class="footer__heading">{isEn ? 'Contacts' : 'Контакты'}</h4>
         <ul class="footer__list footer__list--contacts">
           <li>
-            <span class="footer__contact-label">Основной</span>
+            <span class="footer__contact-label">{isEn ? 'Main' : 'Основной'}</span>
             <a href={contactInfo.phoneHref} class="footer__link footer__link--phone">{contactInfo.phone}</a>
           </li>
           <li>
-            <span class="footer__contact-label">Коммерческий отдел</span>
+            <span class="footer__contact-label">{isEn ? 'Commercial Dept.' : 'Коммерческий отдел'}</span>
             <a href={contactInfo.commercialHref} class="footer__link">{contactInfo.commercial}</a>
           </li>
           <li>
@@ -55,15 +64,15 @@ import { withBase } from '@utils/withBase';
             <a href={contactInfo.emailHref} class="footer__link">{contactInfo.email}</a>
           </li>
         </ul>
-        <p class="footer__address">{contactInfo.address}</p>
+        <p class="footer__address">{isEn ? 'Saint Petersburg, Obukhovskoy Oborony Ave. 70, Bldg. 2, Lit. A' : contactInfo.address}</p>
       </div>
     </div>
 
     <div class="footer__bottom">
-      <span class="footer__copyright">&copy; {new Date().getFullYear()} АНМ. Все права защищены.</span>
+      <span class="footer__copyright">&copy; {new Date().getFullYear()} {isEn ? 'ANM. All rights reserved.' : 'АНМ. Все права защищены.'}</span>
       <div class="footer__legal">
-        <a href={withBase('/legal/')} class="footer__link">Раскрытие информации</a>
-        <a href={withBase('/legal/#requisites')} class="footer__link">Реквизиты</a>
+        <a href={withBase(`${prefix}/legal/`)} class="footer__link">{isEn ? 'Legal Information' : 'Раскрытие информации'}</a>
+        <a href={withBase(`${prefix}/legal/#requisites`)} class="footer__link">{isEn ? 'Requisites' : 'Реквизиты'}</a>
       </div>
     </div>
   </div>

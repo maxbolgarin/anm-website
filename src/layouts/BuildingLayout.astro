@@ -1,6 +1,7 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 import Breadcrumbs from '@components/Breadcrumbs.astro';
+import { getLocaleFromPath } from '@utils/locale';
 
 interface Props {
   title: string;
@@ -13,11 +14,22 @@ interface Props {
 
 const { title, description, buildingName, buildingSlug, ogImage, jsonLd } = Astro.props;
 
-const breadcrumbs = [
-  { label: 'Главная', href: '/' },
-  { label: 'Бизнес-центры', href: '/buildings/' },
-  { label: buildingName, href: `/buildings/${buildingSlug}/` },
-];
+const currentPath = Astro.url.pathname;
+const locale = getLocaleFromPath(currentPath);
+const isEn = locale === 'en';
+const prefix = isEn ? '/en' : '';
+
+const breadcrumbs = isEn
+  ? [
+      { label: 'Home', href: '/en/' },
+      { label: 'Business Centers', href: '/en/buildings/' },
+      { label: buildingName, href: `/en/buildings/${buildingSlug}/` },
+    ]
+  : [
+      { label: 'Главная', href: '/' },
+      { label: 'Бизнес-центры', href: '/buildings/' },
+      { label: buildingName, href: `/buildings/${buildingSlug}/` },
+    ];
 ---
 
 <BaseLayout title={title} description={description} ogImage={ogImage} jsonLd={jsonLd}>

@@ -2,14 +2,18 @@
 import OfficeFilter from './islands/OfficeFilter';
 import './islands/OfficeFilter.css';
 import { withBase } from '@utils/withBase';
+import { getLocaleFromPath } from '@utils/locale';
 
 interface Props {
   buildingSlug?: string;
 }
 
 const { buildingSlug } = Astro.props;
+const currentPath = Astro.url.pathname;
+const locale = getLocaleFromPath(currentPath);
+const isEn = locale === 'en';
 
-const typicalOffices = [
+const typicalOfficesRu = [
   {
     label: 'Пример типового офиса в бизнес-лофте Фидель',
     planImage: '/plans/fidel plan example.png',
@@ -30,6 +34,29 @@ const typicalOffices = [
   },
 ];
 
+const typicalOfficesEn = [
+  {
+    label: 'Typical office example in Business Loft Fidel',
+    planImage: '/plans/fidel plan example.png',
+    area: 'from 45 to 200 m²',
+    buildingClass: 'B+',
+    type: 'Private Office / Open Space',
+    pricePerSqm: 'from 1,050 ₽/m²',
+    href: '/en/buildings/fidel/',
+  },
+  {
+    label: 'Typical office example in Business Center ANM',
+    planImage: '/plans/anm plan example.png',
+    area: 'from 55 to 95 m²',
+    buildingClass: 'B',
+    type: 'Private Office / Open Space',
+    pricePerSqm: 'from 1,000 ₽/m²',
+    href: '/en/buildings/anm/',
+  },
+];
+
+const typicalOffices = isEn ? typicalOfficesEn : typicalOfficesRu;
+
 const typicalOfficesWithBase = typicalOffices.map((office) => ({
   ...office,
   planImage: withBase(office.planImage),
@@ -43,4 +70,5 @@ const typicalOfficesWithBase = typicalOffices.map((office) => ({
   contactPhone="+7 (812) 336-55-64"
   contactEmail="arenda@ukanm.ru"
   typicalOffices={typicalOfficesWithBase}
+  locale={locale}
 />

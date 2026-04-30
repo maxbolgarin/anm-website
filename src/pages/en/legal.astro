@@ -1,0 +1,137 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Breadcrumbs from '@components/Breadcrumbs.astro';
+import { contactInfo } from '@data/navigation';
+
+const title = 'Legal Information — ANM';
+const description = 'Legal information, requisites, and disclosures of LLC "Aleksandro-Nevskaya Manufaktura".';
+
+const breadcrumbs = [
+  { label: 'Home', href: '/en/' },
+  { label: 'Legal Information' },
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <Breadcrumbs items={breadcrumbs} />
+
+  <section class="section legal-page">
+    <div class="container legal-content">
+      <h1>Legal Information</h1>
+
+      <h2>General Information</h2>
+      <p>
+        LLC "Aleksandro-Nevskaya Manufaktura" operates in commercial real estate management in St. Petersburg.
+      </p>
+
+      <h2 id="requisites">Requisites</h2>
+      <table class="legal-table">
+        <tbody>
+          <tr>
+            <td>Full Name</td>
+            <td>LLC "Aleksandro-Nevskaya Manufaktura"</td>
+          </tr>
+          <tr>
+            <td>Short Name</td>
+            <td>LLC "ANM"</td>
+          </tr>
+          <tr>
+            <td>TIN (INN)</td>
+            <td>7811185789</td>
+          </tr>
+          <tr>
+            <td>KPP</td>
+            <td>781101001</td>
+          </tr>
+          <tr>
+            <td>OKPO</td>
+            <td>74770280</td>
+          </tr>
+          <tr>
+            <td>Settlement Account</td>
+            <td>40702810355000100961</td>
+          </tr>
+          <tr>
+            <td>Bank</td>
+            <td>North-West Branch of PAO Sberbank of Russia</td>
+          </tr>
+          <tr>
+            <td>Correspondent Account</td>
+            <td>30101810500000000653</td>
+          </tr>
+          <tr>
+            <td>BIC</td>
+            <td>044030653</td>
+          </tr>
+          <tr>
+            <td>Legal Address</td>
+            <td>192029, St. Petersburg, Pr. Obukhovskoy Oborony, 70, Bldg. 2, Lit. A</td>
+          </tr>
+          <tr>
+            <td>Phone</td>
+            <td><a href={contactInfo.phoneHref}>{contactInfo.phone}</a></td>
+          </tr>
+          <tr>
+            <td>Email</td>
+            <td><a href={contactInfo.emailHref}>{contactInfo.email}</a></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>Privacy Policy</h2>
+      <p>
+        This website does not collect personal data from visitors. There are no personal data collection forms, authorization systems, or personal accounts on the site. All contact information published on the site represents the company's public contacts.
+      </p>
+
+      <h2>Legal Notice</h2>
+      <p>
+        The information on this website is for informational purposes only and does not constitute a public offer. For current lease terms, please contact our commercial department at <a href={contactInfo.commercialHref}>{contactInfo.commercial}</a>.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal-content {
+    max-width: 48rem;
+  }
+
+  .legal-content h1 {
+    margin-bottom: var(--space-2xl);
+  }
+
+  .legal-content h2 {
+    margin-top: var(--space-2xl);
+    margin-bottom: var(--space-md);
+  }
+
+  .legal-content p {
+    color: var(--color-text-secondary);
+    line-height: var(--leading-relaxed);
+  }
+
+  .legal-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-block: var(--space-lg);
+  }
+
+  .legal-table td {
+    padding: var(--space-md);
+    border-bottom: 1px solid var(--color-border);
+    vertical-align: top;
+  }
+
+  .legal-table td:first-child {
+    font-weight: var(--weight-medium);
+    white-space: nowrap;
+    width: 40%;
+    color: var(--color-text-secondary);
+  }
+
+  @media (max-width: 767px) {
+    .legal-table td:first-child {
+      white-space: normal;
+    }
+  }
+</style>

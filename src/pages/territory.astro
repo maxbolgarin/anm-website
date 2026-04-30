@@ -7,6 +7,7 @@ import InteractiveMapIsland from '@components/InteractiveMapIsland.astro';
 import TerritoryMapIsland from '@components/TerritoryMapIsland.astro';
 import ContactCTA from '@components/ContactCTA.astro';
 import { buildings } from '@data/buildings';
+import { withBase } from '@utils/withBase';
 
 const title = 'Локация — АНМ';
 const description = 'Локация Александро-Невской Мануфактуры: два бизнес-центра на набережной Невы, развитая инфраструктура, паркинг, кафе, фитнес, охрана 24/7.';
@@ -36,7 +37,7 @@ const facilityItems = [
   {
     name: 'Фитнес-студия',
     description: 'Современный тренажёрный зал. Специальные условия для арендаторов.',
-    image: '/images/infrastructure/fitness-studio.jpg',
+    image: '/фото бц/image_2026-04-23_13-54-55 (1).png',
     imageAlt: 'Фитнес-студия на территории бизнес-центра',
     icon: '💪',
   },
@@ -96,7 +97,7 @@ const managementServices = [
         {facilityItems.map((item) => (
           <div class="infra-card">
             <div class="infra-card__image-wrap">
-              <img src={item.image} alt={item.imageAlt} class="infra-card__image" loading="lazy" />
+              <img src={withBase(item.image)} alt={item.imageAlt} class="infra-card__image" loading="lazy" />
               <span class="infra-card__icon">{item.icon}</span>
             </div>
             <div class="infra-card__content">

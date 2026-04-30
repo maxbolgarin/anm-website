@@ -1,4 +1,6 @@
 ---
+import { getLocaleFromPath } from '@utils/locale';
+
 interface Parameter {
   label: string;
   value: string;
@@ -9,7 +11,11 @@ interface Props {
   title?: string;
 }
 
-const { parameters, title = 'Основные параметры' } = Astro.props;
+const { parameters, title: titleProp } = Astro.props;
+const currentPath = Astro.url.pathname;
+const locale = getLocaleFromPath(currentPath);
+const isEn = locale === 'en';
+const title = titleProp || (isEn ? 'Key Parameters' : 'Основные параметры');
 ---
 
 <section class="param-grid section--cream">

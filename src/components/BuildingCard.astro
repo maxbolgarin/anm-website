@@ -1,6 +1,7 @@
   ---
 import StatsRow from './StatsRow.astro';
 import { withBase } from '@utils/withBase';
+import { getLocaleFromPath } from '@utils/locale';
 
 interface Props {
   name: string;
@@ -21,16 +22,19 @@ const {
   name, slug, buildingClass, address, metro, metroMinutes,
   stats, description, image, imageAlt, reversed = false, presentationUrl
 } = Astro.props;
+const currentPath = Astro.url.pathname;
+const locale = getLocaleFromPath(currentPath);
+const isEn = locale === 'en';
 ---
 
 <article class:list={['building-card', { 'building-card--reversed': reversed }]}>
   <div class="building-card__text">
     <div class="building-card__header">
       <div>
-        <span class="building-card__label">Бизнес-центр</span>
+        <span class="building-card__label">{isEn ? 'Business Center' : 'Бизнес-центр'}</span>
         <h2 class="building-card__name text-display">{name}</h2>
       </div>
-      <a href={withBase(`/buildings/${slug}/`)} class="building-card__arrow" aria-label={`Подробнее о БЦ ${name}`}>
+      <a href={withBase(isEn ? `/en/buildings/${slug}/` : `/buildings/${slug}/`)} class="building-card__arrow" aria-label={isEn ? `Learn more about ${name}` : `Подробнее о БЦ ${name}`}>
         <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M8 4l20 0 0 20M28 4L4 28"/>
         </svg>
@@ -38,8 +42,8 @@ const {
     </div>
 
     <div class="building-card__meta">
-      <p class="building-card__address">Адрес: <strong>{address}</strong></p>
-      <p class="building-card__metro">Метро: {metro} <strong>{metroMinutes} мин</strong> пешком</p>
+      <p class="building-card__address">{isEn ? 'Address:' : 'Адрес:'} <strong>{address}</strong></p>
+      <p class="building-card__metro">{isEn ? 'Metro:' : 'Метро:'} {metro} <strong>{metroMinutes} {isEn ? 'min' : 'мин'}</strong> {isEn ? 'walk' : 'пешком'}</p>
     </div>
 
     <StatsRow stats={stats} columns={2} />
@@ -47,14 +51,14 @@ const {
     <p class="building-card__desc">{description}</p>
 
     <div class="building-card__actions">
-      <a href={withBase(`/buildings/${slug}/`)} class="btn btn--primary">Подробнее</a>
-      <a href={withBase('/arenda/')} class="btn btn--outline">Узнать о наличии</a>
+      <a href={withBase(isEn ? `/en/buildings/${slug}/` : `/buildings/${slug}/`)} class="btn btn--primary">{isEn ? 'Learn More' : 'Подробнее'}</a>
+      <a href={withBase(isEn ? '/en/arenda/' : '/arenda/')} class="btn btn--outline">{isEn ? 'Check Availability' : 'Узнать о наличии'}</a>
     </div>
   </div>
 
   <div class="building-card__image-wrap">
     <div class="building-card__class-badge badge--class">{buildingClass}</div>
-    <img src={image} alt={imageAlt} class="building-card__image" loading="lazy" />
+    <img src={withBase(image)} alt={imageAlt} class="building-card__image" loading="lazy" />
   </div>
 </article>
 

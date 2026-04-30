@@ -11,6 +11,7 @@ interface OfficeCardProps {
   pricePerSqm: number;
   totalPrice: number;
   photoCount: number;
+  locale?: string;
 }
 
 function formatNumber(n: number): string {
@@ -27,8 +28,10 @@ export default function OfficeCard({
   pricePerSqm,
   totalPrice,
   photoCount,
+  locale = 'ru',
 }: OfficeCardProps) {
-  const typeLabel = type === 'cabinet' ? 'Кабинет' : 'Открытое пространство';
+  const isEn = locale === 'en';
+  const typeLabel = type === 'cabinet' ? (isEn ? 'Private Office' : 'Кабинет') : (isEn ? 'Open Space' : 'Открытое пространство');
 
   return (
     <div className="office-card">
@@ -40,11 +43,11 @@ export default function OfficeCard({
       <div className="office-card__stats">
         <div className="office-card__stat">
           <span className="office-card__stat-value">{formatNumber(area)}</span>
-          <span className="office-card__stat-unit">м²</span>
+          <span className="office-card__stat-unit">{isEn ? 'm²' : 'м²'}</span>
         </div>
         <div className="office-card__stat">
           <span className="office-card__stat-value">{floor}</span>
-          <span className="office-card__stat-label">этаж</span>
+          <span className="office-card__stat-label">{isEn ? 'floor' : 'этаж'}</span>
         </div>
       </div>
 
@@ -56,10 +59,10 @@ export default function OfficeCard({
       <div className="office-card__pricing">
         <div className="office-card__price-main">
           <span className="office-card__price-value">{formatNumber(pricePerSqm)}</span>
-          <span className="office-card__price-unit">₽/м² в месяц</span>
+          <span className="office-card__price-unit">{isEn ? '₽/m² per month' : '₽/м² в месяц'}</span>
         </div>
         <div className="office-card__price-total">
-          <span>{formatNumber(totalPrice)} ₽/мес</span>
+          <span>{formatNumber(totalPrice)} {isEn ? '₽/mo' : '₽/мес'}</span>
         </div>
       </div>
 
@@ -68,7 +71,7 @@ export default function OfficeCard({
           <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
             <path d="M14 3H2a1 1 0 00-1 1v8a1 1 0 001 1h12a1 1 0 001-1V4a1 1 0 00-1-1zm-1 8H3l2.5-4 2 2.5L10 7l3 4z"/>
           </svg>
-          <span>{photoCount} фото</span>
+          <span>{photoCount} {isEn ? 'photos' : 'фото'}</span>
         </div>
       )}
     </div>

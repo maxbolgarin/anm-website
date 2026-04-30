@@ -1,0 +1,45 @@
+---
+import BuildingLayout from '@layouts/BuildingLayout.astro';
+import SectionHeading from '@components/SectionHeading.astro';
+import FacilityCard from '@components/FacilityCard.astro';
+import ContactCTA from '@components/ContactCTA.astro';
+import { getBuildingBySlug } from '@data/buildings';
+import { getBuildingEnBySlug } from '@data/buildings-en';
+
+const building = getBuildingBySlug('fidel')!;
+const en = getBuildingEnBySlug('fidel')!;
+
+const title = `Infrastructure of BC ${en.name} — Services & Amenities | ANM`;
+const description = `Infrastructure of ${en.name} Business Center: cafes, parking, security, cleaning, and other on-site services.`;
+---
+
+<BuildingLayout
+  title={title}
+  description={description}
+  buildingName={en.name}
+  buildingSlug={building.slug}
+>
+  <section class="section">
+    <div class="container">
+      <SectionHeading
+        title={`Infrastructure of BC ${en.name}`}
+        subtitle="Everything you need for comfortable work on-site"
+      />
+      <div class="grid grid--3">
+        {building.infrastructure.map((item, index) => {
+          const enItem = en.infrastructure[index];
+          return (
+            <FacilityCard
+              name={enItem.name}
+              description={enItem.description}
+              image={item.image}
+              imageAlt={enItem.imageAlt}
+            />
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <ContactCTA />
+</BuildingLayout>

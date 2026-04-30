@@ -1,34 +1,43 @@
 ---
 import { contactInfo } from '@data/navigation';
 import { buildings } from '@data/buildings';
+import { getLocaleFromPath } from '@utils/locale';
+import { getBuildingEnBySlug } from '@data/buildings-en';
 
-const routeLinks = buildings.map((b) => ({
-  name: b.name,
-  twogis: `https://2gis.ru/spb/directions/points/~${b.coordinates.lng},${b.coordinates.lat}`,
-  yandex: `https://yandex.ru/maps/?rtext=~${b.coordinates.lat},${b.coordinates.lng}&rtt=auto`,
-}));
+const currentPath = Astro.url.pathname;
+const locale = getLocaleFromPath(currentPath);
+const isEn = locale === 'en';
+
+const routeLinks = buildings.map((b) => {
+  const en = getBuildingEnBySlug(b.slug);
+  return {
+    name: isEn && en ? en.name : b.name,
+    twogis: `https://2gis.ru/spb/directions/points/~${b.coordinates.lng},${b.coordinates.lat}`,
+    yandex: `https://yandex.ru/maps/?rtext=~${b.coordinates.lat},${b.coordinates.lng}&rtt=auto`,
+  };
+});
 ---
 
 <section class="location-contacts section">
   <div class="container">
     <div class="location-contacts__grid">
       <div class="location-contacts__contacts">
-        <h2 class="location-contacts__heading">Контакты</h2>
+        <h2 class="location-contacts__heading">{isEn ? 'Contacts' : 'Контакты'}</h2>
         <div class="location-contacts__items">
           <div class="location-contacts__item">
-            <span class="location-contacts__label">Основной телефон</span>
+            <span class="location-contacts__label">{isEn ? 'Main phone' : 'Основной телефон'}</span>
             <a href={contactInfo.phoneHref} class="location-contacts__value location-contacts__value--phone">
               {contactInfo.phone}
             </a>
           </div>
           <div class="location-contacts__item">
-            <span class="location-contacts__label">Коммерческий отдел</span>
+            <span class="location-contacts__label">{isEn ? 'Commercial Dept.' : 'Коммерческий отдел'}</span>
             <a href={contactInfo.commercialHref} class="location-contacts__value">
               {contactInfo.commercial}
             </a>
           </div>
           <div class="location-contacts__item">
-            <span class="location-contacts__label">Приемная</span>
+            <span class="location-contacts__label">{isEn ? 'Reception' : 'Приемная'}</span>
             <a href={contactInfo.receptionHref} class="location-contacts__value">
               {contactInfo.reception}
             </a>
@@ -43,35 +52,37 @@ const routeLinks = buildings.map((b) => ({
       </div>
 
       <div class="location-contacts__location">
-        <h2 class="location-contacts__heading">Как добраться</h2>
+        <h2 class="location-contacts__heading">{isEn ? 'How to Get Here' : 'Как добраться'}</h2>
         <div class="location-contacts__metro">
           <span class="location-contacts__metro-dot" style="background-color: #009A49;"></span>
-          <span class="location-contacts__metro-name">м. Елизаровская</span>
-          <span class="location-contacts__metro-time">9 мин пешком</span>
+          <span class="location-contacts__metro-name">{isEn ? 'Elizarovskaya metro' : 'м. Елизаровская'}</span>
+          <span class="location-contacts__metro-time">{isEn ? '9 min walk' : '9 мин пешком'}</span>
         </div>
         <p class="location-contacts__address">
-          {contactInfo.address}
+          {isEn ? 'Saint Petersburg, Obukhovskoy Oborony Ave. 70, Bldg. 2, Lit. A' : contactInfo.address}
         </p>
         <p class="location-contacts__directions">
-          Территория Александро-Невской Мануфактуры расположена на набережной реки Невы, в 9 минутах ходьбы от станции метро Елизаровская (зелёная линия). Удобный подъезд с&nbsp;Пр.&nbsp;Обуховской&nbsp;Обороны.
+          {isEn
+            ? 'Aleksandro-Nevskaya Manufaktura is located on the Neva River embankment, a 9-minute walk from Elizarovskaya metro station (green line). Convenient access from Obukhovskoy Oborony Ave.'
+            : 'Территория Александро-Невской Мануфактуры расположена на набережной реки Невы, в 9 минутах ходьбы от станции метро Елизаровская (зелёная линия). Удобный подъезд с\u00a0Пр.\u00a0Обуховской\u00a0Обороны.'}
         </p>
         <div class="location-contacts__routes">
           {routeLinks.map((r) => (
             <div class="route-group">
-              <span class="route-group__label">Маршрут до {r.name.startsWith('БЦ') ? r.name : `БЦ ${r.name}`}</span>
+              <span class="route-group__label">{isEn ? `Route to BC ${r.name}` : `Маршрут до ${r.name.startsWith('БЦ') ? r.name : `БЦ ${r.name}`}`}</span>
               <div class="route-group__buttons">
                 <a href={r.twogis} target="_blank" rel="noopener noreferrer" class="route-btn route-btn--2gis">
                   <svg class="route-btn__icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
                     <circle cx="12" cy="10" r="3"/>
                   </svg>
-                  2ГИС
+                  2GIS
                 </a>
                 <a href={r.yandex} target="_blank" rel="noopener noreferrer" class="route-btn route-btn--yandex">
                   <svg class="route-btn__icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <polygon points="3 11 22 2 13 21 11 13 3 11"/>
                   </svg>
-                  Яндекс Карты
+                  {isEn ? 'Yandex Maps' : 'Яндекс Карты'}
                 </a>
               </div>
             </div>

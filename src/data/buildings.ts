@@ -64,7 +64,7 @@ export const buildings: Building[] = [
       { label: 'Площадь типового этажа', value: '2 200 м²' },
       { label: 'Год реконструкции', value: '2008' },
       { label: 'Электроснабжение', value: 'II категория надежности' },
-      { label: 'Кондиционирование', value: 'Централизованное (Ciat)' },
+      { label: 'Кондиционирование', value: 'Центральное (Ciat)' },
       { label: 'Вентиляция', value: 'Приточно-вытяжная' },
       { label: 'Отопление', value: 'Автономное, газовая котельная' },
       { label: 'Высота потолков', value: '3–4,2 м' },
@@ -148,7 +148,7 @@ export const buildings: Building[] = [
       '/images/buildings/anm/sme-6510.png',
       '/abk/3D_Isometric_Map_In_a_modern_office_style_this_scene_features_a.jpg',
       '/images/buildings/anm/corridor-green.jpg',
-      '/images/buildings/anm/abk-coworking.jpg',
+      '/abk/3D_Isometric_Map_The_scene_depicts_a_modern_conference_room_pNryGLWH.png',
     ],
     features: [
       {
@@ -176,7 +176,7 @@ export const buildings: Building[] = [
       { label: 'Общая площадь', value: '9 170,7 м²' },
       { label: 'Электроснабжение', value: 'II категория надежности' },
       { label: 'Лифты', value: '2 лифта' },
-      { label: 'Система безопасности', value: 'Видеонаблюдение (камеры)' },
+      { label: 'Система безопасности', value: 'Камеры наблюдения' },
       { label: 'Паркинг', value: 'Охраняемый, 110 мест' },
     ],
     infrastructure: [

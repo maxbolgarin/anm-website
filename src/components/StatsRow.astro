@@ -63,4 +63,15 @@ const { stats, columns } = Astro.props;
     margin-top: var(--space-xs);
     white-space: nowrap;
   }
+
+  @media (max-width: 767px) {
+    .stats-row {
+      grid-template-columns: repeat(2, auto);
+      gap: var(--space-lg) var(--space-xl);
+    }
+
+    .stats-row__value {
+      font-size: var(--text-h2);
+    }
+  }
 </style>

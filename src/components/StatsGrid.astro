@@ -1,4 +1,6 @@
 ---
+import { getLocaleFromPath } from '@utils/locale';
+
 interface Stat {
   value: string;
   label: string;
@@ -16,7 +18,11 @@ interface Props {
   advantages?: Advantage[];
 }
 
-const { title = 'Почему выбирают нас', subtitle, stats, advantages = [] } = Astro.props;
+const { title: titleProp, subtitle, stats, advantages = [] } = Astro.props;
+const currentPath = Astro.url.pathname;
+const locale = getLocaleFromPath(currentPath);
+const isEn = locale === 'en';
+const title = titleProp || (isEn ? 'Why Choose Us' : 'Почему выбирают нас');
 ---
 
 <section class="stats-grid section section--cream">

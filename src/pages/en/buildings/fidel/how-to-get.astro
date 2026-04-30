@@ -1,0 +1,203 @@
+---
+import BuildingLayout from '@layouts/BuildingLayout.astro';
+import SectionHeading from '@components/SectionHeading.astro';
+import ContactCTA from '@components/ContactCTA.astro';
+import InteractiveMapIsland from '@components/InteractiveMapIsland.astro';
+import { getBuildingBySlug } from '@data/buildings';
+import { getBuildingEnBySlug } from '@data/buildings-en';
+
+const building = getBuildingBySlug('fidel')!;
+const en = getBuildingEnBySlug('fidel')!;
+
+const title = `How to Get to BC ${en.name} — Directions | ANM`;
+const description = `How to get to ${en.name} Business Center. Metro ${en.metro.name} — ${building.metro[0].walkingMinutes} min walk. Driving directions.`;
+---
+
+<BuildingLayout
+  title={title}
+  description={description}
+  buildingName={en.name}
+  buildingSlug={building.slug}
+>
+  <section class="section">
+    <div class="container">
+      <SectionHeading
+        title={`How to Get to BC ${en.name}`}
+        subtitle={en.address}
+      />
+
+      <div class="how-to-get-grid">
+        <div class="how-to-get-grid__info">
+          <div class="direction-block">
+            <h3>By Metro</h3>
+            {building.metro.map((m) => (
+              <div class="direction-item">
+                <span class="direction-dot" style={`background-color: ${m.lineColor}`}></span>
+                <div>
+                  <strong>{en.metro.name}</strong>
+                  <span class="text-caption"> — {en.metro.line}</span>
+                  <p class="text-caption">{m.walkingMinutes} minutes walk from the station</p>
+                </div>
+              </div>
+            ))}
+            <p class="direction-detail">
+              Exit the metro, turn right and walk along Pr. Obukhovskoy Oborony in the direction of increasing house numbers. In 9 minutes you will see the entrance to the business center territory.
+            </p>
+          </div>
+
+          <div class="direction-block">
+            <h3>By Car</h3>
+            <div class="direction-item">
+              <strong>From Nevsky Prospekt</strong>
+              <p class="text-caption">~15 minutes. Drive along Nevsky Prospekt towards Aleksandr Nevsky Lavra, then along Pr. Obukhovskoy Oborony.</p>
+            </div>
+            <div class="direction-item">
+              <strong>From the Ring Road (KAD)</strong>
+              <p class="text-caption">~10 minutes. Exit onto Pr. Obukhovskoy Oborony.</p>
+            </div>
+          </div>
+
+          <div class="direction-block">
+            <h3>Parking</h3>
+            <p>Guarded well-lit parking with 218 spaces. Entrance from Pr. Obukhovskoy Oborony.</p>
+          </div>
+
+          <div class="direction-block">
+            <h3>Build a Route</h3>
+            <div class="route-buttons">
+              <a href={`https://2gis.ru/spb/directions/points/~${building.coordinates.lng},${building.coordinates.lat}`} target="_blank" rel="noopener noreferrer" class="route-btn route-btn--2gis">
+                <svg class="route-btn__icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                2GIS
+              </a>
+              <a href={`https://yandex.ru/maps/?rtext=~${building.coordinates.lat},${building.coordinates.lng}&rtt=auto`} target="_blank" rel="noopener noreferrer" class="route-btn route-btn--yandex">
+                <svg class="route-btn__icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+                Yandex Maps
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="how-to-get-grid__map">
+          <InteractiveMapIsland
+            markers={[{
+              lat: building.coordinates.lat,
+              lng: building.coordinates.lng,
+              title: `BC ${en.name}`,
+              address: en.shortAddress,
+              href: `/en/buildings/${building.slug}/`,
+            }]}
+            center={building.coordinates}
+            zoom={16}
+            height="100%"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <ContactCTA />
+</BuildingLayout>
+
+<style>
+  .how-to-get-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: var(--space-2xl);
+  }
+
+  .direction-block {
+    margin-bottom: var(--space-2xl);
+  }
+
+  .direction-block h3 {
+    margin-bottom: var(--space-md);
+  }
+
+  .direction-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+  }
+
+  .direction-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+
+  .direction-detail {
+    color: var(--color-text-secondary);
+    line-height: var(--leading-relaxed);
+    margin-top: var(--space-md);
+  }
+
+  .how-to-get-grid__map {
+    height: 500px;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background-color: var(--color-surface-cream);
+    position: sticky;
+    top: 8rem;
+  }
+
+  .route-buttons {
+    display: flex;
+    gap: var(--space-sm);
+    flex-wrap: wrap;
+  }
+
+  .route-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-small);
+    font-weight: var(--weight-medium);
+    transition: background-color var(--transition-fast), color var(--transition-fast);
+    text-decoration: none;
+    border: 1px solid var(--color-border);
+  }
+
+  .route-btn__icon {
+    flex-shrink: 0;
+  }
+
+  .route-btn--2gis {
+    color: #1a7640;
+    background-color: #e8f5ee;
+    border-color: #c3e6d1;
+  }
+
+  .route-btn--2gis:hover {
+    background-color: #1a7640;
+    color: #ffffff;
+    border-color: #1a7640;
+  }
+
+  .route-btn--yandex {
+    color: #cc0000;
+    background-color: #fff3f3;
+    border-color: #ffd6d6;
+  }
+
+  .route-btn--yandex:hover {
+    background-color: #cc0000;
+    color: #ffffff;
+    border-color: #cc0000;
+  }
+
+  @media (max-width: 767px) {
+    .how-to-get-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .how-to-get-grid__map {
+      height: 350px;
+      position: static;
+    }
+  }
+</style>

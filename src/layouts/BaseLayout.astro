@@ -3,6 +3,7 @@ import Header from '@components/Header.astro';
 import Footer from '@components/Footer.astro';
 import '@styles/global.css';
 import { withBase } from '@utils/withBase';
+import { getLocaleFromPath, getLocalePath } from '@utils/locale';
 
 interface Props {
   title: string;
@@ -21,15 +22,24 @@ const {
 } = Astro.props;
 
 const currentPath = Astro.url.pathname;
+const locale = getLocaleFromPath(currentPath);
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') || 'https://www.a-n-m.ru';
 const canonical = canonicalUrl || `${siteUrl}${currentPath}`;
+
+// Build hreflang alternate paths
+const ruPath = locale === 'ru' ? currentPath : `${siteUrl}${withBase(getLocalePath(currentPath, 'ru'))}`;
+const enPath = locale === 'en' ? currentPath : `${siteUrl}${withBase(getLocalePath(currentPath, 'en'))}`;
+const ruHref = locale === 'ru' ? `${siteUrl}${currentPath}` : ruPath;
+const enHref = locale === 'en' ? `${siteUrl}${currentPath}` : enPath;
+
+const ogLocale = locale === 'en' ? 'en_US' : 'ru_RU';
 
 // Organization JSON-LD (appears on every page)
 const orgJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
   "name": "АНМ",
-  "alternateName": "Александро-Невская Мануфактура",
+  "alternateName": "Aleksandro-Nevskaya Manufaktura",
   "url": siteUrl,
   "telephone": "+7-812-313-18-04",
   "email": "mail@ukanm.ru",
@@ -43,7 +53,7 @@ const orgJsonLd = {
 ---
 
 <!DOCTYPE html>
-<html lang="ru">
+<html lang={locale}>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -53,8 +63,8 @@ const orgJsonLd = {
   <meta name="description" content={description} />
 
   <link rel="canonical" href={canonical} />
-  <link rel="alternate" hreflang="ru" href={`${siteUrl}${currentPath}`} />
-  <link rel="alternate" hreflang="en" href={`${siteUrl}/en${currentPath}`} />
+  <link rel="alternate" hreflang="ru" href={ruHref} />
+  <link rel="alternate" hreflang="en" href={enHref} />
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
@@ -62,7 +72,7 @@ const orgJsonLd = {
   <meta property="og:description" content={description} />
   <meta property="og:image" content={`${siteUrl}${withBase(ogImage)}`} />
   <meta property="og:url" content={canonical} />
-  <meta property="og:locale" content="ru_RU" />
+  <meta property="og:locale" content={ogLocale} />
 
   <!-- Favicon -->
   <link rel="icon" type="image/x-icon" href={withBase('/favicon.ico')} />

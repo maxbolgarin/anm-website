@@ -1,0 +1,419 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Breadcrumbs from '@components/Breadcrumbs.astro';
+import SectionHeading from '@components/SectionHeading.astro';
+import StatsRow from '@components/StatsRow.astro';
+import FeatureBlock from '@components/FeatureBlock.astro';
+import ContactCTA from '@components/ContactCTA.astro';
+import { getBuildingEnBySlug, buildingsEn } from '@data/buildings-en';
+import { withBase } from '@utils/withBase';
+
+const title = 'Company & History — ANM';
+const description = 'ANM — a development company with 20+ years of experience. Redevelopment of industrial areas, business center management in St. Petersburg.';
+
+const breadcrumbs = [
+  { label: 'Home', href: '/en/' },
+  { label: 'About', href: '/en/about/' },
+  { label: 'Company & History' },
+];
+
+const companyStats = [
+  { value: '20+', label: 'years in market' },
+  { value: '21,376', label: 'm² under management' },
+  { value: '80+', label: 'tenants' },
+];
+
+const historyEvents = [
+  { year: '1837', title: 'Factory founded', description: 'A calico-printing factory was founded on the current property — one of the largest textile production sites in St. Petersburg.', image: '/history/3D_Isometric_Map_In_a_vintage_industrial_style_a_large_textile_Z2ehCCb2.png' },
+  { year: '1855', title: 'Main building constructed', description: 'The building of the current Fidel Business Loft (Liter A, Bldg. 3) was built as part of the Pal textile factory facilities.', image: '/history/3D_Isometric_Map_A_large_brick_building_is_undergoing_demolition.png' },
+  { year: '1976', title: 'Administrative building constructed', description: 'A six-story administrative building (Liter A, Bldg. 2) was erected, which later became the ANM Business Center.', image: '/history/3D_Isometric_Map_MoUcVrn8.png' },
+  { year: '2004', title: 'Company established', description: 'ZAO "Aleksandro-Nevskaya Manufaktura" was founded. The property complex on Pr. Obukhovskoy Oborony was acquired for territory redevelopment.', image: '/history/3D_Isometric_Map_O2kABsaQ.png' },
+  { year: '2006', title: 'Reconstruction begins', description: 'The decision was made to preserve the historic 1855 building. Together with Architectural Bureau INTERCOLUMNIUM, a business loft reconstruction project was developed.', image: '/history/3D_Isometric_Map_In_a_architectural_visualization_style_this_7tyc4192.png' },
+  { year: '2009', title: 'Fidel Business Loft opens', description: 'Reconstruction completed and the class B+ Fidel Business Loft was put into operation. Since opening, occupancy has been maintained at 100%.', image: '/history/вид слева.JPG' },
+  { year: '2019', title: 'New redevelopment phase', description: 'Start of territory redevelopment work aimed at constructing new commercial real estate. Reconstruction and modernization of engineering systems.', image: '/history/image_2026-03-24_17-51-39.png' },
+];
+
+const trustStats = [
+  { value: '80+', label: 'tenants' },
+  { value: '10+', label: 'years average lease term' },
+  { value: '98%', label: 'renew their contract' },
+];
+
+const tenants = [
+  { name: 'Company 1', logo: '/companies/1.svg', maxH: '115px' },
+  { name: 'Company 2', logo: '/companies/2.svg', maxH: '100px' },
+  { name: 'Company 3', logo: '/companies/3.svg', maxH: '55px' },
+  { name: 'Company 4', logo: '/companies/4.svg' },
+  { name: 'Megafon', initials: 'MF' },
+  { name: 'Deloitte', initials: 'DL' },
+  { name: 'Baltika', initials: 'BL' },
+  { name: 'Peterburgteploenergo', initials: 'PTE' },
+];
+
+const managementBlocks = [
+  {
+    title: 'European-Level Service',
+    description: 'Our professional concierge service ensures a high level of comfort for tenants. 24/7 support, prompt issue resolution, and an individual approach to every client.',
+    image: '/images/buildings/fidel/interior-1.jpg',
+    imageAlt: 'Designer reception at Fidel Business Center',
+  },
+  {
+    title: 'Engineering Solutions',
+    description: 'Modern engineering systems ensure reliability and energy efficiency. Category II power supply, centralized air conditioning, own gas boiler plant, 6 telecom providers.',
+    image: '/фото бц/web (27).jpg',
+    imageAlt: 'Business center engineering systems',
+  },
+  {
+    title: 'Industrial Area Redevelopment',
+    description: 'Our expertise lies in transforming former industrial buildings into modern business spaces. We preserve the character of historic buildings while equipping them with modern technologies and comfort.',
+    image: '/images/about/territory-drone.jpg',
+    imageAlt: 'Aerial view of Aleksandro-Nevskaya Manufaktura territory',
+  },
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <Breadcrumbs items={breadcrumbs} />
+
+  <section class="about-hero">
+    <div class="container">
+      <div class="about-hero__grid">
+        <div class="about-hero__text">
+          <h1 class="about-hero__name text-display">Aleksandro-Nevskaya Manufaktura</h1>
+          <p class="about-hero__tagline">Property management company. Creating quality business spaces in St.&nbsp;Petersburg.</p>
+          <StatsRow stats={companyStats} />
+        </div>
+        <div class="about-hero__image-wrap">
+          <img src={withBase('/territory/DJI_0739 (1) (1).jpg')} alt="Panorama of Aleksandro-Nevskaya Manufaktura territory" class="about-hero__image" loading="eager" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--cream">
+    <div class="container about-description">
+      <h2>About the Company</h2>
+      <p>
+        ANM is a development and property management company that has been operating in St. Petersburg's commercial real estate market for over 20 years. Our mission is to create a comfortable environment for the business community through the redevelopment of industrial areas.
+      </p>
+      <p>
+        The company's flagship project is the development and management of a former industrial zone on Obukhovskoy Oborony Avenue. The redevelopment concept was designed by Horan Keoghan Ryan Ltd, a British architectural firm, envisioning the transformation of historic industrial buildings into modern business centers while preserving their unique character.
+      </p>
+      <p>
+        Today, class B and B+ business centers operate on the territory of Aleksandro-Nevskaya Manufaktura, providing tenants with every level of comfort: from modern engineering systems to developed infrastructure and a promenade area on the Neva River embankment. The management company handles all operational matters and ensures the most comfortable conditions for conducting business.
+      </p>
+    </div>
+  </section>
+
+  <section class="section" id="history">
+    <div class="container">
+      <SectionHeading title="Company History" subtitle="Key development milestones" />
+      <div class="timeline">
+        {historyEvents.map((event) => (
+          <div class="timeline__item">
+            <div class="timeline__image-wrap">
+              {event.image && <img src={withBase(event.image)} alt={event.title} class="timeline__image" loading="lazy" />}
+            </div>
+            <div class="timeline__line">
+              <span class="timeline__dot"></span>
+            </div>
+            <div class="timeline__content">
+              <div class="timeline__year">{event.year}</div>
+              <h3 class="timeline__title">{event.title}</h3>
+              <p class="timeline__desc">{event.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--cream">
+    <div class="container">
+      <SectionHeading title="Our Approach" subtitle="Management company principles" />
+      {managementBlocks.map((block, index) => (
+        <FeatureBlock
+          title={block.title}
+          description={block.description}
+          image={block.image}
+          imageAlt={block.imageAlt}
+          reversed={index % 2 !== 0}
+        />
+      ))}
+    </div>
+  </section>
+
+  <section class="section" id="trust">
+    <div class="container">
+      <SectionHeading
+        title="Trusted By"
+        subtitle="Over 120 companies have chosen our business centers for their offices"
+        align="center"
+      />
+      <div class="trust-stats">
+        {trustStats.map((stat) => (
+          <div class="trust-stats__item">
+            <span class="trust-stats__value">{stat.value}</span>
+            <span class="trust-stats__label">{stat.label}</span>
+          </div>
+        ))}
+      </div>
+      <div class="tenants-grid">
+        {tenants.map((tenant) => (
+          <div class="tenant-card">
+            {tenant.logo ? (
+              <img src={withBase(tenant.logo)} alt={tenant.name} class="tenant-card__logo-img" style={tenant.maxH ? `max-height: ${tenant.maxH}` : ''} />
+            ) : (
+              <div class="tenant-card__logo">{tenant.initials}</div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <ContactCTA />
+</BaseLayout>
+
+<style>
+  .about-hero {
+    padding-top: var(--space-xl);
+    padding-bottom: var(--space-3xl);
+  }
+
+  .about-hero__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-2xl);
+    align-items: stretch;
+  }
+
+  .about-hero__name {
+    margin-bottom: var(--space-lg);
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+  }
+
+  .about-hero__tagline {
+    font-size: var(--text-h4);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-2xl);
+  }
+
+  .about-hero__image-wrap {
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    height: 100%;
+  }
+
+  .about-hero__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .about-description {
+    max-width: 48rem;
+  }
+
+  .about-description h2 {
+    margin-bottom: var(--space-xl);
+  }
+
+  .about-description p {
+    line-height: var(--leading-relaxed);
+    color: var(--color-text-secondary);
+  }
+
+  .timeline {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .timeline__item {
+    display: grid;
+    grid-template-columns: 14rem 2.5rem 1fr;
+    gap: 0;
+    align-items: start;
+  }
+
+  .timeline__image-wrap {
+    padding-right: var(--space-lg);
+    padding-bottom: var(--space-2xl);
+  }
+
+  .timeline__image {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: var(--radius-md, 0.5rem);
+  }
+
+  .timeline__line {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    height: 100%;
+  }
+
+  .timeline__line::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background-color: var(--color-primary);
+  }
+
+  .timeline__dot {
+    position: relative;
+    z-index: 1;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: var(--color-primary);
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+
+  .timeline__content {
+    padding-left: var(--space-lg);
+    padding-bottom: var(--space-2xl);
+  }
+
+  .timeline__year {
+    font-family: var(--font-heading);
+    font-size: var(--text-h2);
+    font-weight: var(--weight-bold);
+    color: var(--color-primary);
+    margin-bottom: var(--space-xs);
+    line-height: 1;
+  }
+
+  .timeline__title {
+    margin-bottom: var(--space-sm);
+    font-size: var(--text-h4);
+  }
+
+  .timeline__desc {
+    color: var(--color-text-secondary);
+    line-height: var(--leading-relaxed);
+    font-size: var(--text-caption);
+    max-width: none;
+  }
+
+  @media (max-width: 767px) {
+    .timeline__item {
+      grid-template-columns: 2rem 1fr;
+    }
+
+    .timeline__image-wrap {
+      display: none;
+    }
+
+    .timeline__line {
+      grid-column: 1;
+    }
+
+    .timeline__content {
+      grid-column: 2;
+      padding-left: var(--space-md);
+    }
+  }
+
+  #trust :global(.section-heading__subtitle) {
+    max-width: none;
+  }
+
+  .trust-stats {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-3xl);
+    margin-bottom: var(--space-3xl);
+    flex-wrap: wrap;
+  }
+
+  .trust-stats__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .trust-stats__value {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: var(--weight-bold);
+    color: var(--color-primary);
+    line-height: 1.1;
+  }
+
+  .trust-stats__label {
+    font-size: var(--text-caption);
+    color: var(--color-text-secondary);
+    margin-top: var(--space-xs);
+  }
+
+  .tenants-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-lg);
+  }
+
+  .tenant-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100px;
+    padding: var(--space-md) var(--space-lg);
+    background-color: var(--color-surface-cream);
+    border-radius: var(--radius-md);
+    text-align: center;
+    transition: box-shadow 0.2s ease;
+  }
+
+  .tenant-card:hover {
+    box-shadow: var(--shadow-md);
+  }
+
+  .tenant-card__logo {
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-surface-white);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-heading);
+    font-size: var(--text-h4);
+    font-weight: var(--weight-bold);
+    color: var(--color-text-secondary);
+    border: 1px solid var(--color-border);
+  }
+
+  .tenant-card__logo-img {
+    max-width: 160px;
+    max-height: 70px;
+    object-fit: contain;
+  }
+
+  @media (max-width: 1023px) {
+    .tenants-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .about-hero__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .trust-stats {
+      gap: var(--space-xl);
+    }
+
+    .tenants-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>

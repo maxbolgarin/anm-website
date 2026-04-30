@@ -7,6 +7,7 @@
   align-items: baseline;
   gap: var(--space-lg, 24px);
   margin-bottom: var(--space-xl, 32px);
+  max-width: 100%;
 }
 
 .building-tabs__label {
@@ -21,6 +22,8 @@
 .building-tabs__tab-list {
   display: flex;
   gap: var(--space-xl, 32px);
+  flex-wrap: wrap;
+  min-width: 0;
 }
 
 .building-tabs__tab {
@@ -162,6 +165,10 @@
   .building-tabs__header {
     flex-direction: column;
     gap: var(--space-sm, 8px);
+  }
+
+  .building-tabs__tab-list {
+    gap: var(--space-md, 16px);
   }
 
   .building-tabs__tab {

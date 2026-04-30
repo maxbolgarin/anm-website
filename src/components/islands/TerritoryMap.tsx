@@ -44,6 +44,8 @@ const ICONS = {
   tram: 'M19 16.94V8.5c0-2.79-2.61-3.4-5.5-3.5l1.35-1.85C15.12 2.77 14.63 2 14 2H10c-.63 0-1.12.77-.85 1.15L10.5 5C7.61 5.1 5 5.71 5 8.5v8.44c0 1.45 1.19 2.56 2.5 2.56L6 21v1h2l2-2h4l2 2h2v-1l-1.5-1.5c1.31 0 2.5-1.11 2.5-2.56zM9.5 17c-.83 0-1.5-.67-1.5-1.5S8.67 14 9.5 14s1.5.67 1.5 1.5S10.33 17 9.5 17zm5 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM17 12H7V8.5c0-.78.81-1.5 2-1.5h6c1.19 0 2 .72 2 1.5V12z',
   // Car (въезд/выезд)
   car: 'M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z',
+  // ATM / cash machine (банкомат)
+  atm: 'M11 17h2v-1h1c.55 0 1-.45 1-1v-3c0-.55-.45-1-1-1h-3v-1h4V8h-2V7h-2v1h-1c-.55 0-1 .45-1 1v3c0 .55.45 1 1 1h3v1H9v2h2v1zm9-13H4c-1.11 0-2 .89-2 2v12c0 1.1.89 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.11-.9-2-2-2zm0 14H4V6h16v12z',
 };
 
 const facilities: FacilityPin[] = [
@@ -52,14 +54,15 @@ const facilities: FacilityPin[] = [
 
   { id: 'fitness-fidel',  label: 'Фитнес-студия',    icon: ICONS.fitness,    x: 39, y: 49, building: 1, category: 'fitness' },
   { id: 'bars-fidel',     label: 'Турники',          icon: ICONS.outdoorGym, x: 22, y: 52, building: 1, category: 'fitness' },
-  { id: 'smoking-fidel',  label: 'Курилка',          icon: ICONS.smoking, strokeIcon: ICONS.smoke, x: 25, y: 49, building: 1, category: 'leisure' },
+  { id: 'smoking-fidel',  label: 'Зона отдыха',          icon: ICONS.smoking, strokeIcon: ICONS.smoke, x: 25, y: 49, building: 1, category: 'leisure' },
   { id: 'parking-fidel',  label: 'Паркинг',          icon: ICONS.parking,    x: 12, y: 50, building: 1, category: 'parking' },
   { id: 'walk',           label: 'Прогулочная зона',  icon: ICONS.walk,       x: 8,  y: 43, building: 1, category: 'fitness' },
 
   // === Building 2 — АНМ / АБК (beige/white, right side) ===
   { id: 'canteen-anm',    label: 'Столовая',         icon: ICONS.restaurant, x: 70, y: 36, building: 2, category: 'food' },
+  { id: 'atm-anm',        label: 'Банкомат',         icon: ICONS.atm,        x: 67, y: 38, building: 2, category: 'admin' },
   { id: 'cafe-anm',       label: 'Кафе',             icon: ICONS.cafe,       x: 67, y: 43, building: 2, category: 'food' },
-  { id: 'smoking-anm',    label: 'Курилка',          icon: ICONS.smoking, strokeIcon: ICONS.smoke, x: 76, y: 38, building: 2, category: 'leisure' },
+  { id: 'smoking-anm',    label: 'Зона отдыха',          icon: ICONS.smoking, strokeIcon: ICONS.smoke, x: 76, y: 38, building: 2, category: 'leisure' },
   { id: 'parking-anm',    label: 'Паркинг',          icon: ICONS.parking,    x: 72, y: 48, building: 2, category: 'parking' },
 
   // === Shared / territory ===
@@ -90,19 +93,174 @@ const categoryLabels: Record<string, string> = {
   food: 'Питание',
   fitness: 'Фитнес',
   parking: 'Паркинг',
+  admin: 'Сервисы',
   utility: 'Инженерия',
   leisure: 'Зоны отдыха',
   transport: 'Транспорт',
 };
 
-export default function TerritoryMap() {
+const labelsEn: Record<string, string> = {
+  'canteen-fidel': 'Canteen',
+  'fitness-fidel': 'Fitness Studio',
+  'bars-fidel': 'Outdoor Gym',
+  'smoking-fidel': 'Recreation Area',
+  'parking-fidel': 'Parking',
+  'walk': 'Walking Area',
+  'canteen-anm': 'Canteen',
+  'atm-anm': 'ATM',
+  'cafe-anm': 'Café',
+  'smoking-anm': 'Recreation Area',
+  'parking-anm': 'Parking',
+  'parking-mid': 'Parking',
+  'boiler': 'Boiler Room',
+  'metro': 'Elizarovskaya metro → 9 min',
+  'tram': 'Tram stop ↓ 5 min',
+  'label-fidel': 'BC Fidel',
+  'label-anm': 'BC ANM',
+};
+
+const categoryLabelsEn: Record<string, string> = {
+  food: 'Food',
+  fitness: 'Fitness',
+  parking: 'Parking',
+  admin: 'Services',
+  utility: 'Engineering',
+  leisure: 'Recreation',
+  transport: 'Transport',
+};
+
+interface Props {
+  locale?: string;
+}
+
+export default function TerritoryMap({ locale = 'ru' }: Props) {
+  const isEn = locale === 'en';
   const territoryMapImage = withBase('/territory/anm ARCH3.3.png');
 
   const containerRef = useRef<HTMLDivElement>(null);
+  const mapRef = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
   const [activePin, setActivePin] = useState<string | null>(null);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [imageLoaded, setImageLoaded] = useState(false);
+
+  // Mobile zoom/pan state
+  const [scale, setScale] = useState(1);
+  const [translate, setTranslate] = useState({ x: 0, y: 0 });
+  const [isMobile, setIsMobile] = useState(false);
+  const gestureRef = useRef({
+    startDist: 0,
+    startScale: 1,
+    startX: 0,
+    startY: 0,
+    startTranslateX: 0,
+    startTranslateY: 0,
+    isPinching: false,
+    isPanning: false,
+  });
+
+  // Detect mobile
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
+
+  // Clamp translate so map doesn't go out of bounds
+  const clampTranslate = (tx: number, ty: number, s: number) => {
+    if (s <= 1) return { x: 0, y: 0 };
+    const el = mapRef.current;
+    if (!el) return { x: tx, y: ty };
+    const w = el.offsetWidth;
+    const h = el.offsetHeight;
+    const maxX = (w * (s - 1)) / 2;
+    const maxY = (h * (s - 1)) / 2;
+    return {
+      x: Math.max(-maxX, Math.min(maxX, tx)),
+      y: Math.max(-maxY, Math.min(maxY, ty)),
+    };
+  };
+
+  // Touch handlers for pinch-zoom and pan
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (!isMobile) return;
+    const g = gestureRef.current;
+    if (e.touches.length === 2) {
+      e.preventDefault();
+      const dx = e.touches[0].clientX - e.touches[1].clientX;
+      const dy = e.touches[0].clientY - e.touches[1].clientY;
+      g.startDist = Math.hypot(dx, dy);
+      g.startScale = scale;
+      g.isPinching = true;
+      g.isPanning = false;
+      setActivePin(null);
+    } else if (e.touches.length === 1 && scale > 1) {
+      g.startX = e.touches[0].clientX;
+      g.startY = e.touches[0].clientY;
+      g.startTranslateX = translate.x;
+      g.startTranslateY = translate.y;
+      g.isPanning = true;
+      g.isPinching = false;
+    }
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isMobile) return;
+    const g = gestureRef.current;
+    if (g.isPinching && e.touches.length === 2) {
+      e.preventDefault();
+      const dx = e.touches[0].clientX - e.touches[1].clientX;
+      const dy = e.touches[0].clientY - e.touches[1].clientY;
+      const dist = Math.hypot(dx, dy);
+      const newScale = Math.max(1, Math.min(3.5, g.startScale * (dist / g.startDist)));
+      setScale(newScale);
+      if (newScale <= 1) setTranslate({ x: 0, y: 0 });
+      else setTranslate(prev => clampTranslate(prev.x, prev.y, newScale));
+    } else if (g.isPanning && e.touches.length === 1 && scale > 1) {
+      e.preventDefault();
+      const dx = e.touches[0].clientX - g.startX;
+      const dy = e.touches[0].clientY - g.startY;
+      const newT = clampTranslate(g.startTranslateX + dx, g.startTranslateY + dy, scale);
+      setTranslate(newT);
+    }
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    const g = gestureRef.current;
+    if (e.touches.length < 2) g.isPinching = false;
+    if (e.touches.length < 1) g.isPanning = false;
+  };
+
+  // Double-tap to zoom / reset
+  const lastTapRef = useRef(0);
+  const handleDoubleTap = (e: React.TouchEvent) => {
+    if (!isMobile) return;
+    const now = Date.now();
+    if (now - lastTapRef.current < 300) {
+      e.preventDefault();
+      if (scale > 1) {
+        setScale(1);
+        setTranslate({ x: 0, y: 0 });
+      } else {
+        // Zoom to 2x centered on tap point
+        const rect = mapRef.current?.getBoundingClientRect();
+        if (rect) {
+          const tapX = e.changedTouches[0].clientX - rect.left;
+          const tapY = e.changedTouches[0].clientY - rect.top;
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
+          const tx = (centerX - tapX) * 1; // offset towards center
+          const ty = (centerY - tapY) * 1;
+          setScale(2);
+          setTranslate(clampTranslate(tx, ty, 2));
+        } else {
+          setScale(2);
+        }
+      }
+    }
+    lastTapRef.current = now;
+  };
 
   // Check if image already loaded before hydration
   useEffect(() => {
@@ -122,9 +280,12 @@ export default function TerritoryMap() {
     return () => document.removeEventListener('click', handleClick);
   }, []);
 
-  const categories = Array.from(new Set(facilities.filter(f => f.icon).map(f => f.category)));
+  const localFacilities = isEn ? facilities.map(f => ({ ...f, label: labelsEn[f.id] || f.label })) : facilities;
+  const localCategoryLabels = isEn ? categoryLabelsEn : categoryLabels;
 
-  const visibleFacilities = facilities.filter(f => {
+  const categories = Array.from(new Set(localFacilities.filter(f => f.icon).map(f => f.category)));
+
+  const visibleFacilities = localFacilities.filter(f => {
     if (!activeCategory) return true;
     // Always show building labels
     if (!f.icon) return true;
@@ -156,7 +317,7 @@ export default function TerritoryMap() {
             fontFamily: 'Verdana, Geneva, Tahoma, sans-serif',
           }}
         >
-          Все
+          {isEn ? 'All' : 'Все'}
         </button>
         {categories.map(cat => {
           const c = categoryColors[cat];
@@ -178,24 +339,71 @@ export default function TerritoryMap() {
                 fontFamily: 'Verdana, Geneva, Tahoma, sans-serif',
               }}
             >
-              {categoryLabels[cat]}
+              {localCategoryLabels[cat]}
             </button>
           );
         })}
       </div>
 
+      {/* Zoom hint for mobile */}
+      {isMobile && scale <= 1 && imageLoaded && (
+        <p style={{
+          textAlign: 'center',
+          fontSize: '12px',
+          color: '#6B6B6B',
+          marginBottom: '8px',
+        }}>
+          {isEn ? 'Pinch to zoom · Double-tap to enlarge' : 'Увеличьте щипком · Двойное касание для приближения'}
+        </p>
+      )}
+
+      {/* Reset zoom button */}
+      {isMobile && scale > 1 && (
+        <button
+          onClick={() => { setScale(1); setTranslate({ x: 0, y: 0 }); }}
+          style={{
+            display: 'block',
+            margin: '0 auto 8px',
+            padding: '5px 14px',
+            borderRadius: '16px',
+            border: '1px solid #E0E0E0',
+            background: '#fff',
+            color: '#3F4F55',
+            fontSize: '12px',
+            fontWeight: 550,
+            cursor: 'pointer',
+            fontFamily: 'Verdana, Geneva, Tahoma, sans-serif',
+          }}
+        >
+          {isEn ? 'Reset zoom' : 'Сбросить масштаб'}
+        </button>
+      )}
+
       {/* Map container */}
-      <div style={{
-        position: 'relative',
-        width: '100%',
-        borderRadius: '12px',
-        overflow: 'hidden',
-        boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
-      }}>
+      <div
+        ref={mapRef}
+        onTouchStart={(e) => { handleTouchStart(e); handleDoubleTap(e); }}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        style={{
+          position: 'relative',
+          width: '100%',
+          borderRadius: '12px',
+          overflow: 'hidden',
+          boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
+          touchAction: isMobile ? (scale > 1 ? 'none' : 'pan-y') : 'auto',
+        }}
+      >
+        <div style={{
+          transform: isMobile ? `scale(${scale}) translate(${translate.x / scale}px, ${translate.y / scale}px)` : undefined,
+          transformOrigin: 'center center',
+          transition: gestureRef.current.isPinching || gestureRef.current.isPanning ? 'none' : 'transform 0.25s ease-out',
+          position: 'relative',
+        }}>
         <img
           ref={imgRef}
           src={territoryMapImage}
-          alt="Аэрофотоснимок территории Александро-Невской Мануфактуры"
+          alt={isEn ? 'Aerial view of Aleksandro-Nevskaya Manufaktura territory' : 'Аэрофотоснимок территории Александро-Невской Мануфактуры'}
           style={{
             width: '100%',
             height: 'auto',
@@ -216,7 +424,7 @@ export default function TerritoryMap() {
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-            <span style={{ color: '#6B6B6B', fontSize: '14px' }}>Загрузка карты...</span>
+            <span style={{ color: '#6B6B6B', fontSize: '14px' }}>{isEn ? 'Loading map...' : 'Загрузка карты...'}</span>
           </div>
         )}
 
@@ -393,6 +601,7 @@ export default function TerritoryMap() {
             </div>
           );
         })}
+        </div>{/* end transform wrapper */}
       </div>
     </div>
   );

@@ -1,18 +1,24 @@
 ---
 import { contactInfo } from '@data/navigation';
 import { withBase } from '@utils/withBase';
+import { getLocaleFromPath } from '@utils/locale';
+
+const currentPath = Astro.url.pathname;
+const locale = getLocaleFromPath(currentPath);
+const isEn = locale === 'en';
+const prefix = isEn ? '/en' : '';
 ---
 
 <section class="cta">
   <div class="cta__inner container">
-    <h2 class="cta__heading">Узнайте о свободных площадях</h2>
-    <p class="cta__subtitle">Свяжитесь с нами, чтобы узнать о доступных офисах или обсудить условия аренды</p>
+    <h2 class="cta__heading">{isEn ? 'Discover Available Spaces' : 'Узнайте о свободных площадях'}</h2>
+    <p class="cta__subtitle">{isEn ? 'Contact us to learn about available offices or discuss lease terms' : 'Свяжитесь с нами, чтобы узнать о доступных офисах или обсудить условия аренды'}</p>
     <div class="cta__contacts">
       <a href={contactInfo.phoneHref} class="cta__phone">{contactInfo.phone}</a>
       <a href={contactInfo.emailHref} class="cta__email">{contactInfo.email}</a>
     </div>
-    <a href={withBase('/contacts/')} class="btn btn--primary cta__btn">Связаться с нами</a>
-    <p class="cta__address">{contactInfo.address}</p>
+    <a href={withBase(`${prefix}/contacts/`)} class="btn btn--primary cta__btn">{isEn ? 'Contact Us' : 'Связаться с нами'}</a>
+    <p class="cta__address">{isEn ? 'Saint Petersburg, Obukhovskoy Oborony Ave. 70, Bldg. 2, Lit. A' : contactInfo.address}</p>
   </div>
 </section>
 

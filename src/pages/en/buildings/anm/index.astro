@@ -1,0 +1,330 @@
+---
+import BuildingLayout from '@layouts/BuildingLayout.astro';
+import SectionHeading from '@components/SectionHeading.astro';
+import StatsRow from '@components/StatsRow.astro';
+import FeatureBlock from '@components/FeatureBlock.astro';
+import ParameterGrid from '@components/ParameterGrid.astro';
+import FacilityCard from '@components/FacilityCard.astro';
+import ContactCTA from '@components/ContactCTA.astro';
+import TypicalOfficePromo from '@components/TypicalOfficePromo.astro';
+import InteractiveMapIsland from '@components/InteractiveMapIsland.astro';
+import { getBuildingBySlug } from '@data/buildings';
+import { getBuildingEnBySlug } from '@data/buildings-en';
+import { contactInfo } from '@data/navigation';
+import { withBase } from '@utils/withBase';
+
+const building = getBuildingBySlug('anm')!;
+const en = getBuildingEnBySlug('anm')!;
+const title = `Business Center ${en.name} — Class ${building.class} Office Rental | ANM`;
+const description = `Business Center ${en.name} at ${en.shortAddress}. ${en.stats[1].value} m², ${en.stats[0].value} floors, metro ${en.metro.name} ${building.metro[0].walkingMinutes} min walk. Office rental from ANM.`;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "OfficeSpace",
+  "name": `Business Center ${en.name}`,
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": en.address,
+    "addressLocality": "Saint Petersburg",
+    "addressCountry": "RU"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": building.coordinates.lat,
+    "longitude": building.coordinates.lng
+  },
+  "openingHours": "Mo-Su 00:00-23:59"
+};
+---
+
+<BuildingLayout
+  title={title}
+  description={description}
+  buildingName={en.name}
+  buildingSlug={building.slug}
+  ogImage={building.heroImage}
+  jsonLd={jsonLd}
+>
+
+  <section class="building-hero">
+    <div class="container">
+      <div class="building-hero__grid">
+        <div class="building-hero__text">
+          <span class="building-hero__label">Business Center</span>
+          <h1 class="building-hero__name text-display">{en.name}</h1>
+          <div class="building-hero__meta">
+            <p class="building-hero__address">{en.address}</p>
+            <p class="building-hero__metro">
+              <span class="building-hero__metro-dot" style={`background-color: ${building.metro[0].lineColor}`}></span>
+              {en.metro.name} — {building.metro[0].walkingMinutes} min walk
+            </p>
+          </div>
+          <StatsRow stats={en.stats} columns={2} />
+          <p class="building-hero__desc">{en.description}</p>
+          <div class="building-hero__actions">
+            <a href={withBase('/en/buildings/anm/offices/')} class="btn btn--primary">Office Rental</a>
+          </div>
+        </div>
+        <div class="building-hero__image-wrap">
+          <div class="building-hero__class-badge badge--class">{building.class}</div>
+          <img src={withBase(building.heroImage)} alt={`Business Center ${en.name}`} class="building-hero__image" loading="eager" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="details">
+    <div class="container">
+      <SectionHeading
+        title={`${en.name} in Detail`}
+        subtitle="Architecture, engineering systems, service"
+      />
+      {building.features.map((feature, index) => {
+        const enFeature = en.features[index];
+        return (
+          <FeatureBlock
+            title={enFeature.title}
+            description={enFeature.description}
+            image={feature.image}
+            imageAlt={enFeature.imageAlt}
+            reversed={index % 2 !== 0}
+          />
+        );
+      })}
+    </div>
+  </section>
+
+  <ParameterGrid parameters={en.parameters} />
+
+  <section class="section location-section" id="location">
+    <div class="container">
+      <SectionHeading
+        title="Location"
+        subtitle="Convenient transport accessibility"
+      />
+      <div class="location-grid">
+        <div class="location-grid__info">
+          <h3>How to Get Here</h3>
+          <ul class="location-list">
+            <li class="location-list__item">
+              <span class="location-list__dot" style={`background-color: ${building.metro[0].lineColor}`}></span>
+              <div>
+                <strong>{en.metro.name}</strong> ({en.metro.line})
+                <br />
+                <span class="text-caption">{building.metro[0].walkingMinutes} min walk</span>
+              </div>
+            </li>
+          </ul>
+          <div class="location-driving">
+            <h4>By Car</h4>
+            <p class="text-caption">Nevsky Prospekt — 15 min</p>
+            <p class="text-caption">Ring Road (KAD) — 10 min</p>
+          </div>
+          <a href={withBase('/en/buildings/anm/how-to-get/')} class="btn btn--link">Detailed directions</a>
+        </div>
+        <div class="location-grid__map">
+          <InteractiveMapIsland
+            markers={[{
+              lat: building.coordinates.lat,
+              lng: building.coordinates.lng,
+              title: `BC ${en.name}`,
+              address: en.shortAddress,
+              href: `/en/buildings/${building.slug}/`,
+            }]}
+            center={building.coordinates}
+            zoom={17}
+            height="400px"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--cream" id="infrastructure">
+    <div class="container">
+      <SectionHeading
+        title="On-Site Infrastructure"
+        subtitle="Everything you need for comfortable work"
+      />
+      <div class="grid grid--3">
+        {building.infrastructure.map((item, index) => {
+          const enItem = en.infrastructure[index];
+          return (
+            <FacilityCard
+              name={enItem.name}
+              description={enItem.description}
+              image={item.image}
+              imageAlt={enItem.imageAlt}
+            />
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <TypicalOfficePromo
+    buildingName={en.name}
+    buildingLabel="ANM Business Center"
+    planImage="/plans/anm plan example.png"
+    area="from 55 to 95 m²"
+    buildingClass="B"
+    type="Private Office / Open Space"
+    pricePerSqm="from 1,000 ₽/m²"
+    href={withBase('/en/buildings/anm/offices/')}
+  />
+
+  <ContactCTA />
+
+</BuildingLayout>
+
+<style>
+  .building-hero {
+    padding-top: var(--space-xl);
+    padding-bottom: var(--space-3xl);
+  }
+
+  .building-hero__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-2xl);
+    align-items: start;
+  }
+
+  .building-hero__label {
+    font-size: var(--text-caption);
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    display: block;
+    margin-bottom: var(--space-sm);
+  }
+
+  .building-hero__name {
+    margin-bottom: var(--space-lg);
+  }
+
+  .building-hero__meta {
+    margin-bottom: var(--space-xl);
+  }
+
+  .building-hero__address {
+    font-size: var(--text-caption);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-xs);
+  }
+
+  .building-hero__metro {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: var(--text-caption);
+    color: var(--color-text-secondary);
+  }
+
+  .building-hero__metro-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .building-hero__desc {
+    margin-top: var(--space-xl);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-relaxed);
+    max-width: 32rem;
+  }
+
+  .building-hero__actions {
+    display: flex;
+    gap: var(--space-md);
+    margin-top: var(--space-xl);
+    flex-wrap: wrap;
+  }
+
+  .building-hero__image-wrap {
+    position: relative;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+
+  .building-hero__image {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+  }
+
+  .building-hero__class-badge {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+
+  .location-section {
+    padding-top: var(--space-2xl);
+  }
+
+  .location-section :global(.section-heading) {
+    margin-bottom: var(--space-lg);
+  }
+
+  .location-grid__info h3 {
+    margin-bottom: var(--space-md);
+  }
+
+  .location-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: var(--space-2xl);
+  }
+
+  .location-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    margin-bottom: var(--space-xl);
+  }
+
+  .location-list__item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-md);
+  }
+
+  .location-list__dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+
+  .location-driving {
+    margin-bottom: var(--space-xl);
+  }
+
+  .location-driving h4 {
+    margin-bottom: var(--space-sm);
+  }
+
+  .location-grid__map {
+    height: 400px;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background-color: var(--color-surface-cream);
+  }
+
+  @media (max-width: 767px) {
+    .building-hero__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .location-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .location-grid__map {
+      height: 300px;
+    }
+  }
+</style>

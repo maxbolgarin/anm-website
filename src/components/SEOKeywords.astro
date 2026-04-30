@@ -1,7 +1,12 @@
 ---
 import { withBase } from '@utils/withBase';
+import { getLocaleFromPath } from '@utils/locale';
 
-const keywords = [
+const currentPath = Astro.url.pathname;
+const locale = getLocaleFromPath(currentPath);
+const isEn = locale === 'en';
+
+const keywordsRu = [
   { label: 'Офисы у м. Елизаровская', href: '/buildings/' },
   { label: 'Офисы в Невском районе', href: '/buildings/' },
   { label: 'Лофт-офисы СПб', href: '/buildings/fidel/' },
@@ -11,6 +16,19 @@ const keywords = [
   { label: 'Аренда офисов класса B+', href: '/buildings/' },
   { label: 'Офисы с паркингом', href: '/buildings/' },
 ];
+
+const keywordsEn = [
+  { label: 'Offices near Elizarovskaya metro', href: '/en/buildings/' },
+  { label: 'Offices in Nevsky district', href: '/en/buildings/' },
+  { label: 'Loft offices SPb', href: '/en/buildings/fidel/' },
+  { label: 'Offices 50–100 m²', href: '/en/buildings/' },
+  { label: 'Offices 100–300 m²', href: '/en/buildings/' },
+  { label: 'Offices 300+ m²', href: '/en/buildings/' },
+  { label: 'Class B+ office rental', href: '/en/buildings/' },
+  { label: 'Offices with parking', href: '/en/buildings/' },
+];
+
+const keywords = isEn ? keywordsEn : keywordsRu;
 ---
 
 <section class="seo-keywords" aria-hidden="true">

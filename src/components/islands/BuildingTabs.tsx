@@ -16,11 +16,13 @@ interface BuildingTabData {
 interface Props {
   buildings: BuildingTabData[];
   contactHref?: string;
+  locale?: string;
 }
 
-export default function BuildingTabs({ buildings, contactHref = '/arenda/' }: Props) {
+export default function BuildingTabs({ buildings, contactHref = '/arenda/', locale = 'ru' }: Props) {
   const [activeIndex, setActiveIndex] = useState(0);
   const active = buildings[activeIndex];
+  const isEn = locale === 'en';
 
   // Show up to 6 gallery images
   const displayImages = active.galleryImages.slice(0, 6);
@@ -28,7 +30,7 @@ export default function BuildingTabs({ buildings, contactHref = '/arenda/' }: Pr
   return (
     <div className="building-tabs">
       <div className="building-tabs__header">
-        <span className="building-tabs__label">Наши объекты:</span>
+        <span className="building-tabs__label">{isEn ? 'Our Properties:' : 'Наши объекты:'}</span>
         <div className="building-tabs__tab-list" role="tablist">
           {buildings.map((b, i) => (
             <button
@@ -60,18 +62,18 @@ export default function BuildingTabs({ buildings, contactHref = '/arenda/' }: Pr
               ))}
             </div>
             <div className="building-tabs__actions">
-              <a href={withBase(`/buildings/${active.slug}/`)} className="btn btn--primary">
-                Подробнее
+              <a href={withBase(isEn ? `/en/buildings/${active.slug}/` : `/buildings/${active.slug}/`)} className="btn btn--primary">
+                {isEn ? 'Learn More' : 'Подробнее'}
               </a>
               <a href={withBase(contactHref)} className="btn btn--outline">
-                Узнать о свободных площадях
+                {isEn ? 'Check Available Spaces' : 'Узнать о свободных площадях'}
               </a>
             </div>
           </div>
           <div className="building-tabs__hero">
             <img
               src={withBase(active.heroImage)}
-              alt={`Бизнес-центр ${active.name}`}
+              alt={isEn ? `Business Center ${active.name}` : `Бизнес-центр ${active.name}`}
               className="building-tabs__hero-img"
               loading="eager"
             />
@@ -83,7 +85,7 @@ export default function BuildingTabs({ buildings, contactHref = '/arenda/' }: Pr
             <div key={i} className="building-tabs__gallery-item">
               <img
                 src={withBase(img)}
-                alt={`${active.name} — фото ${i + 1}`}
+                alt={isEn ? `${active.name} — photo ${i + 1}` : `${active.name} — фото ${i + 1}`}
                 loading="lazy"
               />
             </div>

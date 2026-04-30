@@ -1,5 +1,6 @@
 ---
 import { withBase } from '@utils/withBase';
+import { getLocaleFromPath } from '@utils/locale';
 
 interface Props {
   buildingName: string;
@@ -13,36 +14,39 @@ interface Props {
 }
 
 const { buildingName, buildingLabel, planImage, area, buildingClass, type, pricePerSqm, href } = Astro.props;
+const currentPath = Astro.url.pathname;
+const locale = getLocaleFromPath(currentPath);
+const isEn = locale === 'en';
 ---
 
 <section class="typical-promo">
   <div class="container">
     <div class="typical-promo__card">
       <div class="typical-promo__image-wrap">
-        <img src={withBase(planImage)} alt={`Типовой офис — ${buildingName}`} class="typical-promo__image" />
+        <img src={withBase(planImage)} alt={`${isEn ? 'Typical office' : 'Типовой офис'} — ${buildingName}`} class="typical-promo__image" />
       </div>
       <div class="typical-promo__content">
-        <span class="typical-promo__badge">Типовой офис</span>
-        <h3 class="typical-promo__title">Пример типового офиса в {buildingLabel}</h3>
+        <span class="typical-promo__badge">{isEn ? 'Typical Office' : 'Типовой офис'}</span>
+        <h3 class="typical-promo__title">{isEn ? `Typical office example in ${buildingLabel}` : `Пример типового офиса в ${buildingLabel}`}</h3>
         <div class="typical-promo__params">
           <div class="typical-promo__param">
-            <span class="typical-promo__param-label">Площадь</span>
+            <span class="typical-promo__param-label">{isEn ? 'Area' : 'Площадь'}</span>
             <span class="typical-promo__param-value">{area}</span>
           </div>
           <div class="typical-promo__param">
-            <span class="typical-promo__param-label">Класс</span>
+            <span class="typical-promo__param-label">{isEn ? 'Class' : 'Класс'}</span>
             <span class="typical-promo__param-value">{buildingClass}</span>
           </div>
           <div class="typical-promo__param">
-            <span class="typical-promo__param-label">Тип</span>
+            <span class="typical-promo__param-label">{isEn ? 'Type' : 'Тип'}</span>
             <span class="typical-promo__param-value">{type}</span>
           </div>
           <div class="typical-promo__param">
-            <span class="typical-promo__param-label">Стоимость</span>
+            <span class="typical-promo__param-label">{isEn ? 'Price' : 'Стоимость'}</span>
             <span class="typical-promo__param-value">{pricePerSqm}</span>
           </div>
         </div>
-        <a href={withBase(href)} class="btn btn--primary typical-promo__btn">Узнать подробнее</a>
+        <a href={withBase(href)} class="btn btn--primary typical-promo__btn">{isEn ? 'Learn More' : 'Узнать подробнее'}</a>
       </div>
     </div>
   </div>
@@ -91,8 +95,9 @@ const { buildingName, buildingLabel, planImage, area, buildingClass, type, price
     align-items: center;
     width: fit-content;
     padding: 0.25rem 0.75rem;
+    font-family: var(--font-body, 'Verdana', 'Geneva', sans-serif);
     font-size: 0.6875rem;
-    font-weight: 600;
+    font-weight: var(--weight-bold, 550);
     text-transform: uppercase;
     letter-spacing: 0.04em;
     color: #8a6d00;
@@ -101,8 +106,9 @@ const { buildingName, buildingLabel, planImage, area, buildingClass, type, price
   }
 
   .typical-promo__title {
+    font-family: var(--font-heading, 'Verdana', 'Geneva', sans-serif);
     font-size: clamp(1.125rem, 2vw, 1.375rem);
-    font-weight: var(--weight-bold);
+    font-weight: var(--weight-bold, 550);
     color: var(--color-text-primary, #1a1a1a);
     line-height: 1.3;
     margin: 0;
@@ -121,16 +127,18 @@ const { buildingName, buildingLabel, planImage, area, buildingClass, type, price
   }
 
   .typical-promo__param-label {
+    font-family: var(--font-body, 'Verdana', 'Geneva', sans-serif);
     font-size: 0.6875rem;
-    font-weight: 600;
+    font-weight: var(--weight-bold, 550);
     text-transform: uppercase;
     letter-spacing: 0.04em;
     color: var(--color-text-secondary, #6b6b6b);
   }
 
   .typical-promo__param-value {
+    font-family: var(--font-heading, 'Verdana', 'Geneva', sans-serif);
     font-size: 0.9375rem;
-    font-weight: 600;
+    font-weight: var(--weight-bold, 550);
     color: var(--color-text-primary, #1a1a1a);
   }
 

@@ -1,0 +1,317 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Breadcrumbs from '@components/Breadcrumbs.astro';
+import SectionHeading from '@components/SectionHeading.astro';
+import FacilityCard from '@components/FacilityCard.astro';
+import InteractiveMapIsland from '@components/InteractiveMapIsland.astro';
+import TerritoryMapIsland from '@components/TerritoryMapIsland.astro';
+import ContactCTA from '@components/ContactCTA.astro';
+import { buildings } from '@data/buildings';
+import { getBuildingEnBySlug, buildingsEn } from '@data/buildings-en';
+import { withBase } from '@utils/withBase';
+
+const title = 'Location — ANM';
+const description = 'Location of Aleksandro-Nevskaya Manufaktura: two business centers on the Neva River embankment, developed infrastructure, parking, cafes, fitness, 24/7 security.';
+
+const breadcrumbs = [
+  { label: 'Home', href: '/en/' },
+  { label: 'About', href: '/en/about/' },
+  { label: 'Location' },
+];
+
+const mapMarkers = buildings.map((b) => {
+  const buildingEn = getBuildingEnBySlug(b.slug);
+  return {
+    lat: b.coordinates.lat,
+    lng: b.coordinates.lng,
+    title: `BC ${buildingEn?.name || b.name}`,
+    address: buildingEn?.shortAddress || b.shortAddress,
+    href: `/en/buildings/${b.slug}/`,
+  };
+});
+
+const facilityItems = [
+  {
+    name: 'Secured Parking',
+    description: 'Guarded and well-lit parking. Guest spaces and monthly passes available.',
+    image: '/images/infrastructure/parking-aerial.jpg',
+    imageAlt: 'Parking at Aleksandro-Nevskaya Manufaktura',
+    icon: '🅿️',
+  },
+  {
+    name: 'Fitness Studio',
+    description: 'Modern gym. Special rates for tenants.',
+    image: '/фото бц/image_2026-04-23_13-54-55 (1).png',
+    imageAlt: 'Fitness studio on the business center premises',
+    icon: '💪',
+  },
+  {
+    name: 'Cafes & Canteens',
+    description: '2 canteens with set lunches, 2 cafes with fresh coffee and light snacks.',
+    image: '/images/buildings/anm/abk-cafe-new.jpg',
+    imageAlt: 'Cafe at Aleksandro-Nevskaya Manufaktura',
+    icon: '🍽',
+  },
+];
+
+const managementServices = [
+  { icon: '🔧', name: 'Maintenance', description: 'In-house maintenance team. Electricians, plumbers, engineers — on-site 24/7.' },
+  { icon: '✨', name: 'Cleaning', description: 'Professional cleaning of common areas and offices. Daily and on request.' },
+  { icon: '🛡', name: 'Security', description: '24/7 security, CCTV surveillance, card-based access control.' },
+  { icon: '🔑', name: 'Access System', description: 'Electronic passes for employees and guests. Ordering via personal portal.' },
+  { icon: '📞', name: 'Concierge Service', description: 'Single point of contact for all matters. Quick resolution of any issues.' },
+  { icon: '📅', name: 'Meeting Room Booking', description: 'Modern meeting rooms. Online booking for tenants.' },
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <Breadcrumbs items={breadcrumbs} />
+
+  <section class="section territory-map" id="map">
+    <div class="container">
+      <SectionHeading
+        title="Location"
+        subtitle="Aleksandro-Nevskaya Manufaktura comprises two business centers on a historic site along the Neva River embankment with developed infrastructure for comfortable work."
+      />
+    </div>
+    <div class="map-section">
+      <InteractiveMapIsland
+        markers={mapMarkers}
+        center={{ lat: 59.9010, lng: 30.4295 }}
+        zoom={16}
+        height="480px"
+      />
+    </div>
+  </section>
+
+  <section class="section section--cream" id="infrastructure">
+    <div class="container">
+      <div class="infra-header">
+        <h2 class="infra-header__title">Everything You Need On-Site</h2>
+        <p class="infra-header__subtitle">
+          Your employees never need to leave the premises. Dining, fitness, parking — all within walking distance.
+        </p>
+      </div>
+      <div class="territory-scheme">
+        <TerritoryMapIsland />
+      </div>
+      <div class="infra-grid">
+        {facilityItems.map((item) => (
+          <div class="infra-card">
+            <div class="infra-card__image-wrap">
+              <img src={withBase(item.image)} alt={item.imageAlt} class="infra-card__image" loading="lazy" />
+              <span class="infra-card__icon">{item.icon}</span>
+            </div>
+            <div class="infra-card__content">
+              <h3 class="infra-card__name">{item.name}</h3>
+              <p class="infra-card__desc">{item.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="management">
+    <div class="container">
+      <div class="mgmt-header">
+        <span class="mgmt-header__label">Management Company</span>
+        <p class="mgmt-header__subtitle">
+          In-house management company with 20 years of experience. We know what your business needs.
+        </p>
+      </div>
+      <div class="mgmt-grid">
+        {managementServices.map((svc) => (
+          <div class="mgmt-card">
+            <span class="mgmt-card__icon">{svc.icon}</span>
+            <h3 class="mgmt-card__name">{svc.name}</h3>
+            <p class="mgmt-card__desc">{svc.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <ContactCTA />
+</BaseLayout>
+
+<style>
+  .territory-map {
+    padding-top: var(--space-xl);
+  }
+
+  .map-section {
+    margin-top: var(--space-xl);
+  }
+
+  .infra-header {
+    text-align: center;
+    margin-bottom: var(--space-3xl);
+  }
+
+  .infra-header__title {
+    font-size: var(--text-h1);
+    font-weight: var(--weight-bold);
+    margin-bottom: var(--space-md);
+  }
+
+  .infra-header__subtitle {
+    font-size: var(--text-body);
+    color: var(--color-text-secondary);
+    max-width: 36rem;
+    margin-inline: auto;
+    line-height: var(--leading-relaxed);
+  }
+
+  .territory-scheme {
+    margin-bottom: var(--space-3xl);
+  }
+
+  .infra-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-xl);
+  }
+
+  .infra-card {
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background-color: var(--color-surface-white);
+    border: none;
+    transition: box-shadow var(--transition-base);
+  }
+
+  .infra-card:hover {
+    box-shadow: var(--shadow-md);
+  }
+
+  .infra-card__image-wrap {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .infra-card__image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    transition: transform var(--transition-slow);
+  }
+
+  .infra-card:hover .infra-card__image {
+    transform: scale(1.03);
+  }
+
+  .infra-card__icon {
+    position: absolute;
+    bottom: var(--space-md);
+    left: var(--space-md);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-surface-white);
+    border-radius: var(--radius-sm);
+    font-size: 1.25rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  }
+
+  .infra-card__content {
+    padding: var(--space-lg);
+  }
+
+  .infra-card__name {
+    font-size: var(--text-h4);
+    margin-bottom: var(--space-sm);
+  }
+
+  .infra-card__desc {
+    font-size: var(--text-caption);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-relaxed);
+  }
+
+  .mgmt-header {
+    text-align: center;
+    margin-bottom: var(--space-3xl);
+  }
+
+  .mgmt-header__label {
+    display: inline-block;
+    font-size: var(--text-caption);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-primary);
+    font-weight: var(--weight-bold);
+    margin-bottom: var(--space-lg);
+  }
+
+  .mgmt-header__subtitle {
+    font-size: var(--text-h3);
+    color: var(--color-text-primary);
+    max-width: 36rem;
+    margin-inline: auto;
+    line-height: var(--leading-relaxed);
+  }
+
+  .mgmt-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-lg);
+  }
+
+  .mgmt-card {
+    background-color: var(--color-surface-cream);
+    border-radius: var(--radius-md);
+    padding: var(--space-xl);
+    transition: box-shadow 0.2s ease;
+  }
+
+  .mgmt-card:hover {
+    box-shadow: var(--shadow-md);
+  }
+
+  .mgmt-card__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background-color: var(--color-surface-cream);
+    border-radius: var(--radius-sm);
+    font-size: 1.5rem;
+    margin-bottom: var(--space-lg);
+  }
+
+  .mgmt-card__name {
+    font-size: var(--text-h4);
+    margin-bottom: var(--space-sm);
+  }
+
+  .mgmt-card__desc {
+    font-size: var(--text-caption);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-relaxed);
+  }
+
+  @media (max-width: 1023px) {
+    .infra-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .mgmt-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .infra-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .mgmt-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -2,21 +2,49 @@
 import BuildingTabs from '@islands/BuildingTabs';
 import '@islands/BuildingTabs.css';
 import { buildings } from '@data/buildings';
+import { getLocaleFromPath } from '@utils/locale';
+
+const currentPath = Astro.url.pathname;
+const locale = getLocaleFromPath(currentPath);
+const isEn = locale === 'en';
+
+const statsEn = {
+  fidel: [
+    { value: 5, label: 'Floors' },
+    { value: '12,205.5', label: 'Total area, m²' },
+    { value: 218, label: 'Parking spots' },
+    { value: 'B+', label: 'Class' },
+  ],
+  anm: [
+    { value: 5, label: 'Floors' },
+    { value: '7,500', label: 'Total area, m²' },
+    { value: 100, label: 'Parking spots' },
+    { value: 'B', label: 'Class' },
+  ],
+};
+
+const descriptionEn = {
+  fidel: 'Class B+ business loft on the territory of Aleksandro-Nevskaya Manufaktura. Designer loft-style interiors, modern engineering systems, developed infrastructure and a walking area on the Neva River embankment.',
+  anm: 'Class B business center on the territory of Aleksandro-Nevskaya Manufaktura. Classic interiors, reliable engineering systems, and convenient location near Elizarovskaya metro station.',
+};
 
 const buildingTabData = buildings.map((b) => ({
   name: b.name,
-  fullName: b.slug === 'fidel' ? 'Бизнес-Лофт Фидель' : 'Бизнес-Центр АНМ',
+  fullName: b.slug === 'fidel'
+    ? (isEn ? 'Business Loft Fidel' : 'Бизнес-Лофт Фидель')
+    : (isEn ? 'Business Center ANM' : 'Бизнес-Центр АНМ'),
   slug: b.slug,
   buildingClass: b.class,
-  description: b.description,
+  description: isEn ? (b.slug === 'fidel' ? descriptionEn.fidel : descriptionEn.anm) : b.description,
   heroImage: b.heroImage,
   galleryImages: b.galleryImages,
-  stats: b.stats,
+  stats: isEn ? (b.slug === 'fidel' ? statsEn.fidel : statsEn.anm) : b.stats,
 }));
 ---
 
 <BuildingTabs
   client:load
   buildings={buildingTabData}
-  contactHref="/contacts/"
+  contactHref={isEn ? '/en/contacts/' : '/contacts/'}
+  locale={locale}
 />

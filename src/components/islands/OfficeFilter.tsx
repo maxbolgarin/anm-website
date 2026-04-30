@@ -32,6 +32,7 @@ interface OfficeFilterProps {
   contactPhone?: string;
   contactEmail?: string;
   typicalOffices?: TypicalOffice[];
+  locale?: string;
 }
 
 export default function OfficeFilter({
@@ -39,7 +40,9 @@ export default function OfficeFilter({
   contactPhone = '+7 (812) 336-55-64',
   contactEmail = 'arenda@ukanm.ru',
   typicalOffices = [],
+  locale = 'ru',
 }: OfficeFilterProps) {
+  const isEn = locale === 'en';
   const officesDataUrl = withBase('/data/offices.json');
 
   const [offices, setOffices] = useState<Office[]>([]);
@@ -110,7 +113,7 @@ export default function OfficeFilter({
   };
 
   if (loading) {
-    return <div className="office-filter__loading">Загрузка предложений...</div>;
+    return <div className="office-filter__loading">{isEn ? 'Loading offices...' : 'Загрузка предложений...'}</div>;
   }
 
   // ─── FULL CAPACITY STATE ───
@@ -138,19 +141,19 @@ export default function OfficeFilter({
           <h4 className="office-typical__label">{office.label}</h4>
           <div className="office-typical__params">
             <div className="office-typical__param">
-              <span className="office-typical__param-label">Площадь</span>
+              <span className="office-typical__param-label">{isEn ? 'Area' : 'Площадь'}</span>
               <span className="office-typical__param-value">{office.area}</span>
             </div>
             <div className="office-typical__param">
-              <span className="office-typical__param-label">Класс</span>
+              <span className="office-typical__param-label">{isEn ? 'Class' : 'Класс'}</span>
               <span className="office-typical__param-value">{office.buildingClass}</span>
             </div>
             <div className="office-typical__param">
-              <span className="office-typical__param-label">Тип</span>
+              <span className="office-typical__param-label">{isEn ? 'Type' : 'Тип'}</span>
               <span className="office-typical__param-value">{office.type}</span>
             </div>
             <div className="office-typical__param">
-              <span className="office-typical__param-label">Стоимость</span>
+              <span className="office-typical__param-label">{isEn ? 'Price' : 'Стоимость'}</span>
               <span className="office-typical__param-value">{office.pricePerSqm}</span>
             </div>
           </div>
@@ -164,10 +167,10 @@ export default function OfficeFilter({
         <div className="office-capacity office-capacity--split">
           <div className="office-capacity__card">
             <div className="office-capacity__header">
-              <span className="office-capacity__badge">Заполняемость 100%</span>
-              <h2 className="office-capacity__title">Все помещения заняты</h2>
+              <span className="office-capacity__badge">{isEn ? '100% Occupancy' : 'Заполняемость 100%'}</span>
+              <h2 className="office-capacity__title">{isEn ? 'All Spaces Occupied' : 'Все помещения заняты'}</h2>
               <p className="office-capacity__text">
-                Оставьте заявку — мы свяжемся с вами при появлении свободных помещений
+                {isEn ? 'Submit a request — we\'ll contact you when spaces become available' : 'Оставьте заявку — мы свяжемся с вами при появлении свободных помещений'}
               </p>
             </div>
 
@@ -193,10 +196,10 @@ export default function OfficeFilter({
       <div className="office-capacity">
         <div className="office-capacity__card">
           <div className="office-capacity__header">
-            <span className="office-capacity__badge">Заполняемость 100%</span>
-            <h2 className="office-capacity__title">Все помещения заняты</h2>
+            <span className="office-capacity__badge">{isEn ? '100% Occupancy' : 'Заполняемость 100%'}</span>
+            <h2 className="office-capacity__title">{isEn ? 'All Spaces Occupied' : 'Все помещения заняты'}</h2>
             <p className="office-capacity__text">
-              Оставьте заявку — мы свяжемся с вами при появлении свободных помещений
+              {isEn ? 'Submit a request — we\'ll contact you when spaces become available' : 'Оставьте заявку — мы свяжемся с вами при появлении свободных помещений'}
             </p>
           </div>
 
@@ -212,7 +215,7 @@ export default function OfficeFilter({
 
         {typicalOffices.length > 0 && (
           <div className="office-typical">
-            <h3 className="office-typical__title">Примеры типовых офисов</h3>
+            <h3 className="office-typical__title">{isEn ? 'Typical Office Examples' : 'Примеры типовых офисов'}</h3>
             <div className="office-typical__grid">
               {typicalOffices.map((office) => (
                 <a key={office.label} href={office.href} className="office-typical__card">
@@ -227,7 +230,7 @@ export default function OfficeFilter({
                           <rect x="3" y="14" width="7" height="7" rx="1" />
                           <rect x="14" y="14" width="7" height="7" rx="1" />
                         </svg>
-                        <span>План помещения</span>
+                        <span>{isEn ? 'Floor Plan' : 'План помещения'}</span>
                       </div>
                     )}
                   </div>
@@ -235,23 +238,23 @@ export default function OfficeFilter({
                     <h4 className="office-typical__label">{office.label}</h4>
                     <div className="office-typical__params">
                       <div className="office-typical__param">
-                        <span className="office-typical__param-label">Площадь</span>
+                        <span className="office-typical__param-label">{isEn ? 'Area' : 'Площадь'}</span>
                         <span className="office-typical__param-value">{office.area}</span>
                       </div>
                       <div className="office-typical__param">
-                        <span className="office-typical__param-label">Класс</span>
+                        <span className="office-typical__param-label">{isEn ? 'Class' : 'Класс'}</span>
                         <span className="office-typical__param-value">{office.buildingClass}</span>
                       </div>
                       <div className="office-typical__param">
-                        <span className="office-typical__param-label">Тип</span>
+                        <span className="office-typical__param-label">{isEn ? 'Type' : 'Тип'}</span>
                         <span className="office-typical__param-value">{office.type}</span>
                       </div>
                       <div className="office-typical__param">
-                        <span className="office-typical__param-label">Стоимость</span>
+                        <span className="office-typical__param-label">{isEn ? 'Price' : 'Стоимость'}</span>
                         <span className="office-typical__param-value">{office.pricePerSqm}</span>
                       </div>
                     </div>
-                    <span className="office-typical__link">Подробнее о здании →</span>
+                    <span className="office-typical__link">{isEn ? 'More about the building →' : 'Подробнее о здании →'}</span>
                   </div>
                 </a>
               ))}
@@ -268,13 +271,13 @@ export default function OfficeFilter({
       <div className="office-filter__controls">
         {!buildingSlug && buildingOptions.length > 1 && (
           <div className="office-filter__group">
-            <label className="office-filter__label">Бизнес-центр</label>
+            <label className="office-filter__label">{isEn ? 'Business Center' : 'Бизнес-центр'}</label>
             <div className="office-filter__toggles">
               <button
                 className={`office-filter__toggle ${selectedBuilding === 'all' ? 'office-filter__toggle--active' : ''}`}
                 onClick={() => setSelectedBuilding('all')}
               >
-                Все
+                {isEn ? 'All' : 'Все'}
               </button>
               {buildingOptions.map((b) => (
                 <button
@@ -290,7 +293,7 @@ export default function OfficeFilter({
         )}
 
         <div className="office-filter__group">
-          <label className="office-filter__label">Этаж</label>
+          <label className="office-filter__label">{isEn ? 'Floor' : 'Этаж'}</label>
           <div className="office-filter__toggles">
             {floorOptions.map((floor) => (
               <button
@@ -305,7 +308,7 @@ export default function OfficeFilter({
         </div>
 
         <div className="office-filter__group">
-          <label className="office-filter__label">Площадь, м²</label>
+          <label className="office-filter__label">{isEn ? 'Area, m²' : 'Площадь, м²'}</label>
           <div className="office-filter__range">
             <input
               type="number"
@@ -330,7 +333,7 @@ export default function OfficeFilter({
         </div>
 
         <div className="office-filter__group">
-          <label className="office-filter__label">Цена, ₽/м²</label>
+          <label className="office-filter__label">{isEn ? 'Price, ₽/m²' : 'Цена, ₽/м²'}</label>
           <div className="office-filter__range">
             <input
               type="number"
@@ -355,19 +358,19 @@ export default function OfficeFilter({
         </div>
 
         <div className="office-filter__group">
-          <label className="office-filter__label">Тип</label>
+          <label className="office-filter__label">{isEn ? 'Type' : 'Тип'}</label>
           <div className="office-filter__toggles">
             <button
               className={`office-filter__toggle ${selectedType === 'all' ? 'office-filter__toggle--active' : ''}`}
               onClick={() => setSelectedType('all')}
             >
-              Все
+              {isEn ? 'All' : 'Все'}
             </button>
             <button
               className={`office-filter__toggle ${selectedType === 'cabinet' ? 'office-filter__toggle--active' : ''}`}
               onClick={() => setSelectedType('cabinet')}
             >
-              Кабинет
+              {isEn ? 'Private Office' : 'Кабинет'}
             </button>
             <button
               className={`office-filter__toggle ${selectedType === 'open-space' ? 'office-filter__toggle--active' : ''}`}
@@ -380,7 +383,7 @@ export default function OfficeFilter({
       </div>
 
       <div className="office-filter__results-count">
-        Найдено: <strong>{filteredOffices.length}</strong> {filteredOffices.length === 1 ? 'помещение' : 'помещений'}
+        {isEn ? 'Found: ' : 'Найдено: '}<strong>{filteredOffices.length}</strong> {filteredOffices.length === 1 ? (isEn ? 'space' : 'помещение') : (isEn ? 'spaces' : 'помещений')}
       </div>
 
       {filteredOffices.length > 0 ? (
@@ -398,13 +401,14 @@ export default function OfficeFilter({
               pricePerSqm={office.pricePerSqm}
               totalPrice={office.totalPrice}
               photoCount={office.photos.length}
+              locale={locale}
             />
           ))}
         </div>
       ) : (
         <div className="office-filter__no-results">
-          <p>По выбранным фильтрам помещений не найдено.</p>
-          <p>Попробуйте изменить параметры поиска или свяжитесь с нами:</p>
+          <p>{isEn ? 'No spaces found matching your criteria.' : 'По выбранным фильтрам помещений не найдено.'}</p>
+          <p>{isEn ? 'Try adjusting your filters or contact us:' : 'Попробуйте изменить параметры поиска или свяжитесь с нами:'}</p>
           <a href={`tel:${contactPhone.replace(/[\s()-]/g, '')}`}>{contactPhone}</a>
         </div>
       )}

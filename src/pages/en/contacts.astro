@@ -1,0 +1,293 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Breadcrumbs from '@components/Breadcrumbs.astro';
+import SectionHeading from '@components/SectionHeading.astro';
+import InteractiveMapIsland from '@components/InteractiveMapIsland.astro';
+import ContactCTA from '@components/ContactCTA.astro';
+import { contactInfo } from '@data/navigation';
+import { buildings } from '@data/buildings';
+import { getBuildingEnBySlug, buildingsEn } from '@data/buildings-en';
+import { withBase } from '@utils/withBase';
+
+const title = 'ANM Contacts — Phone, Address, Map | Office Rental in St. Petersburg';
+const description = 'Contacts of ANM management company. Phone: +7 (812) 313-18-04. Address: St. Petersburg, Pr. Obukhovskoy Oborony, 70.';
+
+const breadcrumbs = [
+  { label: 'Home', href: '/en/' },
+  { label: 'Contacts' },
+];
+
+const departments = [
+  {
+    name: 'Commercial Department',
+    subtitle: 'Office Rental',
+    phone: contactInfo.commercial,
+    phoneHref: contactInfo.commercialHref,
+    additionalPhone: contactInfo.phone,
+    additionalPhoneHref: contactInfo.phoneHref,
+    email: contactInfo.email,
+    emailHref: contactInfo.emailHref,
+  },
+  {
+    name: 'Reception',
+    subtitle: 'General Inquiries',
+    phone: contactInfo.reception,
+    phoneHref: contactInfo.receptionHref,
+    email: contactInfo.email,
+    emailHref: contactInfo.emailHref,
+  },
+];
+
+const mapMarkers = buildings.map((b) => {
+  const buildingEn = getBuildingEnBySlug(b.slug);
+  return {
+    lat: b.coordinates.lat,
+    lng: b.coordinates.lng,
+    title: `BC ${buildingEn?.name || b.name}`,
+    address: buildingEn?.shortAddress || b.shortAddress,
+    href: `/en/buildings/${b.slug}/`,
+  };
+});
+---
+
+<BaseLayout title={title} description={description}>
+  <Breadcrumbs items={breadcrumbs} />
+
+  <section class="contacts-header">
+    <div class="container">
+      <h1 class="contacts-header__title">Have a question or want to discuss a partnership?</h1>
+      <p class="contacts-header__subtitle">We're here to help. Contact us in the most convenient way.</p>
+    </div>
+  </section>
+
+  <section class="contacts-info">
+    <div class="container">
+      <div class="contacts-grid">
+        {departments.map((dept) => (
+          <div class="contact-card">
+            <h3 class="contact-card__name">{dept.name}</h3>
+            <p class="contact-card__subtitle">{dept.subtitle}</p>
+            <div class="contact-card__phones">
+              <a href={dept.phoneHref} class="contact-card__phone">{dept.phone}</a>
+              {dept.additionalPhone && (
+                <a href={dept.additionalPhoneHref} class="contact-card__phone">{dept.additionalPhone}</a>
+              )}
+            </div>
+            <a href={dept.emailHref} class="contact-card__email">{dept.email}</a>
+          </div>
+        ))}
+
+        <div class="contact-card contact-card--address">
+          <h3 class="contact-card__name">Address</h3>
+          <p class="contact-card__address">St. Petersburg, Pr. Obukhovskoy Oborony 70, Bldg. 2, Lit. A</p>
+          <p class="contact-card__hours">24/7 access</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contacts-map-section">
+    <div class="contacts-map">
+      <InteractiveMapIsland
+        markers={mapMarkers}
+        center={{ lat: 59.9010, lng: 30.4295 }}
+        zoom={16}
+        height="450px"
+      />
+    </div>
+  </section>
+
+  <section class="section" id="requisites">
+    <div class="container">
+      <details class="requisites">
+        <summary class="requisites__summary">
+          <h2 class="requisites__heading">Requisites</h2>
+          <span class="requisites__toggle">Show</span>
+        </summary>
+        <div class="requisites__content">
+          <div class="requisites__grid">
+            <div class="requisites__item">
+              <span class="requisites__label">Full Name</span>
+              <span class="requisites__value">LLC "Aleksandro-Nevskaya Manufaktura"</span>
+            </div>
+            <div class="requisites__item">
+              <span class="requisites__label">TIN (INN)</span>
+              <span class="requisites__value">7811185789</span>
+            </div>
+            <div class="requisites__item">
+              <span class="requisites__label">KPP</span>
+              <span class="requisites__value">781101001</span>
+            </div>
+            <div class="requisites__item">
+              <span class="requisites__label">OKPO</span>
+              <span class="requisites__value">74770280</span>
+            </div>
+            <div class="requisites__item">
+              <span class="requisites__label">Legal Address</span>
+              <span class="requisites__value">192029, St. Petersburg, Pr. Obukhovskoy Oborony, 70, Bldg. 2, Lit. A</span>
+            </div>
+          </div>
+          <p class="text-caption" style="margin-top: var(--space-lg);">
+            Full banking details are available upon request. <a href={withBase('/en/legal/')}>More info</a>
+          </p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <ContactCTA />
+</BaseLayout>
+
+<style>
+  .contacts-header {
+    padding-top: var(--space-xl);
+    padding-bottom: var(--space-sm);
+  }
+
+  .contacts-info {
+    padding-top: var(--space-xl);
+    padding-bottom: var(--space-3xl);
+  }
+
+  .contacts-header__title {
+    font-size: var(--text-h1);
+    max-width: 36rem;
+    margin-bottom: var(--space-md);
+  }
+
+  .contacts-header__subtitle {
+    font-size: var(--text-h4);
+    color: var(--color-text-secondary);
+  }
+
+  .contacts-map-section {
+    width: 100%;
+  }
+
+  .contacts-map {
+    width: 100%;
+    height: 450px;
+    background-color: var(--color-surface-cream);
+  }
+
+  .contacts-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-2xl);
+  }
+
+  .contact-card {
+    padding: var(--space-xl);
+    background-color: var(--color-surface-cream);
+    border-radius: var(--radius-md);
+  }
+
+  .contact-card__name {
+    margin-bottom: var(--space-xs);
+  }
+
+  .contact-card__subtitle {
+    font-size: var(--text-caption);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-lg);
+  }
+
+  .contact-card__phones {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-md);
+  }
+
+  .contact-card__phone {
+    font-family: var(--font-heading);
+    font-size: var(--text-h3);
+    font-weight: var(--weight-bold);
+    color: var(--color-text-primary);
+  }
+
+  .contact-card__phone:hover {
+    color: var(--color-primary);
+  }
+
+  .contact-card__email {
+    color: var(--color-primary);
+    font-weight: var(--weight-medium);
+  }
+
+  .contact-card__address {
+    font-size: var(--text-body);
+    line-height: var(--leading-relaxed);
+    margin-bottom: var(--space-md);
+  }
+
+  .contact-card__hours {
+    font-size: var(--text-caption);
+    color: var(--color-text-secondary);
+  }
+
+  .requisites__summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .requisites__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .requisites__heading {
+    margin: 0;
+  }
+
+  .requisites__toggle {
+    font-size: var(--text-caption);
+    color: var(--color-primary);
+    font-weight: var(--weight-medium);
+  }
+
+  .requisites[open] .requisites__toggle {
+    display: none;
+  }
+
+  .requisites__content {
+    margin-top: var(--space-xl);
+  }
+
+  .requisites__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-lg);
+  }
+
+  .requisites__item {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .requisites__label {
+    font-size: var(--text-small);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-xs);
+  }
+
+  .requisites__value {
+    font-weight: var(--weight-medium);
+  }
+
+  @media (max-width: 767px) {
+    .contacts-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .contacts-map {
+      height: 300px;
+    }
+
+    .requisites__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
