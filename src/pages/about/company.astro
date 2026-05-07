@@ -79,7 +79,7 @@ const managementBlocks = [
     <div class="container">
       <div class="about-hero__grid">
         <div class="about-hero__text">
-          <h1 class="about-hero__name text-display">Александро-Невская Мануфактура</h1>
+          <h1 class="about-hero__name">Александро-Невская Мануфактура</h1>
           <p class="about-hero__tagline">Управляющая компания. Создаём качественные бизнес&#8209;пространства в&nbsp;Санкт&#8209;Петербурге.</p>
           <StatsRow stats={companyStats} />
         </div>
@@ -195,11 +195,14 @@ const managementBlocks = [
 
   .about-hero__name {
     margin-bottom: var(--space-lg);
-    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-family: var(--font-heading);
+    font-size: var(--text-h1);
+    font-weight: var(--weight-bold);
+    line-height: 1.0;
   }
 
   .about-hero__tagline {
-    font-size: var(--text-h4);
+    font-size: var(--text-body);
     color: var(--color-text-secondary);
     margin-bottom: var(--space-2xl);
   }
@@ -289,7 +292,7 @@ const managementBlocks = [
 
   .timeline__year {
     font-family: var(--font-heading);
-    font-size: var(--text-h2);
+    font-size: var(--text-h1);
     font-weight: var(--weight-bold);
     color: var(--color-primary);
     margin-bottom: var(--space-xs);
@@ -298,7 +301,7 @@ const managementBlocks = [
 
   .timeline__title {
     margin-bottom: var(--space-sm);
-    font-size: var(--text-h4);
+    font-size: var(--text-body);
   }
 
   .timeline__desc {
@@ -349,7 +352,7 @@ const managementBlocks = [
 
   .trust-stats__value {
     font-family: var(--font-heading);
-    font-size: clamp(2rem, 4vw, 3rem);
+    font-size: var(--text-h1);
     font-weight: var(--weight-bold);
     color: var(--color-primary);
     line-height: 1.1;
@@ -392,7 +395,7 @@ const managementBlocks = [
     background-color: var(--color-surface-white);
     border-radius: var(--radius-sm);
     font-family: var(--font-heading);
-    font-size: var(--text-h4);
+    font-size: var(--text-body);
     font-weight: var(--weight-bold);
     color: var(--color-text-secondary);
     border: 1px solid var(--color-border);
