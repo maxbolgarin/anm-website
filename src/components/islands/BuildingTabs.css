@@ -28,7 +28,7 @@
 
 .building-tabs__tab {
   font-family: inherit;
-  font-size: clamp(1.25rem, 2vw, 1.75rem);
+  font-size: var(--text-h3, 1.5rem);
   font-weight: 550;
   color: var(--color-text-secondary, #6B6B6B);
   background: none;
@@ -82,13 +82,13 @@
   background-color: var(--color-primary, #B8003C);
   color: white;
   font-weight: 550;
-  font-size: 0.875rem;
+  font-size: var(--text-caption, 0.875rem);
 }
 
 .building-tabs__description {
   color: var(--color-text-secondary, #6B6B6B);
   line-height: 1.7;
-  font-size: 1rem;
+  font-size: var(--text-body, 1rem);
 }
 
 .building-tabs__stats {
@@ -104,13 +104,13 @@
 }
 
 .building-tabs__stat-value {
-  font-size: clamp(1.25rem, 2vw, 1.5rem);
+  font-size: var(--text-h3, 1.5rem);
   font-weight: 550;
   color: var(--color-text-primary, #1A1A1A);
 }
 
 .building-tabs__stat-label {
-  font-size: 0.8125rem;
+  font-size: var(--text-small, 0.75rem);
   color: var(--color-text-secondary, #6B6B6B);
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -172,7 +172,7 @@
   }
 
   .building-tabs__tab {
-    font-size: 1.125rem;
+    font-size: var(--text-body, 1rem);
   }
 
   .building-tabs__top {

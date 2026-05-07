@@ -20,7 +20,7 @@
 }
 
 .office-filter__label {
-  font-size: 0.75rem;
+  font-size: var(--text-small, 0.75rem);
   font-weight: 550;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -35,7 +35,7 @@
 
 .office-filter__toggle {
   padding: 0.5rem 1rem;
-  font-size: 0.875rem;
+  font-size: var(--text-caption, 0.875rem);
   font-weight: 400;
   border: 1px solid #e0e0e0;
   border-radius: 0.25rem;
@@ -65,7 +65,7 @@
 .office-filter__input {
   width: 6rem;
   padding: 0.5rem;
-  font-size: 0.875rem;
+  font-size: var(--text-caption, 0.875rem);
   border: 1px solid #e0e0e0;
   border-radius: 0.25rem;
   font-family: inherit;
@@ -81,7 +81,7 @@
 }
 
 .office-filter__results-count {
-  font-size: 0.875rem;
+  font-size: var(--text-caption, 0.875rem);
   color: #6b6b6b;
   margin-bottom: 1rem;
 }
@@ -103,7 +103,7 @@
 .office-filter__no-results a {
   color: #B71C1C;
   font-weight: 550;
-  font-size: 1.25rem;
+  font-size: var(--text-body, 1rem);
 }
 
 .office-filter__loading {
@@ -145,7 +145,7 @@
 
 .office-capacity--split .office-typical--single .office-typical__title {
   text-align: left;
-  font-size: 1rem;
+  font-size: var(--text-body, 1rem);
   margin-bottom: 0.75rem;
 }
 
@@ -179,7 +179,7 @@
   width: fit-content;
   gap: 0.375rem;
   padding: 0.25rem 0.75rem;
-  font-size: 0.75rem;
+  font-size: var(--text-small, 0.75rem);
   font-weight: 550;
   text-transform: uppercase;
   letter-spacing: 0.04em;
@@ -189,14 +189,14 @@
 }
 
 .office-capacity__title {
-  font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+  font-size: var(--text-h3, 1.5rem);
   font-weight: 550;
   color: var(--color-text-primary, #1a1a1a);
   margin: 0;
 }
 
 .office-capacity__text {
-  font-size: 0.9375rem;
+  font-size: var(--text-caption, 0.875rem);
   line-height: 1.5;
   color: var(--color-text-secondary, #6b6b6b);
   margin: 0;
@@ -211,7 +211,7 @@
 
 .office-capacity__phone {
   font-family: var(--font-heading, 'Verdana', 'Geneva', sans-serif);
-  font-size: 1.25rem;
+  font-size: var(--text-body, 1rem);
   font-weight: 550;
   color: var(--color-text-primary, #1a1a1a);
   text-decoration: none;
@@ -224,7 +224,7 @@
 
 .office-capacity__email {
   font-family: var(--font-heading, 'Verdana', 'Geneva', sans-serif);
-  font-size: 1.25rem;
+  font-size: var(--text-body, 1rem);
   font-weight: 550;
   color: var(--color-text-primary, #1a1a1a);
   text-decoration: none;
@@ -246,7 +246,7 @@
 }
 
 .office-typical__title {
-  font-size: 1.125rem;
+  font-size: var(--text-body, 1rem);
   font-weight: 550;
   color: var(--color-text-primary, #1a1a1a);
   margin-bottom: 1.5rem;
@@ -300,7 +300,7 @@
   justify-content: center;
   gap: 0.5rem;
   color: #b0a89e;
-  font-size: 0.8125rem;
+  font-size: var(--text-caption, 0.875rem);
 }
 
 .office-typical__info {
@@ -309,7 +309,7 @@
 }
 
 .office-typical__label {
-  font-size: 0.875rem;
+  font-size: var(--text-caption, 0.875rem);
   font-weight: 550;
   color: var(--color-text-primary, #1a1a1a);
   margin: 0 0 0.75rem;
@@ -330,7 +330,7 @@
 }
 
 .office-typical__param-label {
-  font-size: 0.6875rem;
+  font-size: var(--text-small, 0.75rem);
   font-weight: 550;
   text-transform: uppercase;
   letter-spacing: 0.04em;
@@ -338,13 +338,13 @@
 }
 
 .office-typical__param-value {
-  font-size: 0.875rem;
+  font-size: var(--text-caption, 0.875rem);
   font-weight: 550;
   color: var(--color-text-primary, #1a1a1a);
 }
 
 .office-typical__link {
-  font-size: 0.8125rem;
+  font-size: var(--text-caption, 0.875rem);
   font-weight: 550;
   color: #B71C1C;
 }
@@ -379,11 +379,11 @@
 
 .office-card__building {
   font-weight: 550;
-  font-size: 1rem;
+  font-size: var(--text-body, 1rem);
 }
 
 .office-card__class {
-  font-size: 0.75rem;
+  font-size: var(--text-small, 0.75rem);
   font-weight: 550;
   color: #B71C1C;
   padding: 0.25rem 0.5rem;
@@ -404,14 +404,14 @@
 }
 
 .office-card__stat-value {
-  font-size: 1.75rem;
+  font-size: var(--text-h3, 1.5rem);
   font-weight: 550;
   line-height: 1;
 }
 
 .office-card__stat-unit,
 .office-card__stat-label {
-  font-size: 0.75rem;
+  font-size: var(--text-small, 0.75rem);
   color: #6b6b6b;
 }
 
@@ -419,7 +419,7 @@
   display: flex;
   gap: 1rem;
   margin-bottom: 1rem;
-  font-size: 0.875rem;
+  font-size: var(--text-caption, 0.875rem);
   color: #6b6b6b;
 }
 
@@ -438,17 +438,17 @@
 }
 
 .office-card__price-value {
-  font-size: 1.25rem;
+  font-size: var(--text-body, 1rem);
   font-weight: 550;
 }
 
 .office-card__price-unit {
-  font-size: 0.75rem;
+  font-size: var(--text-small, 0.75rem);
   color: #6b6b6b;
 }
 
 .office-card__price-total {
-  font-size: 0.875rem;
+  font-size: var(--text-caption, 0.875rem);
   color: #6b6b6b;
 }
 
@@ -457,7 +457,7 @@
   align-items: center;
   gap: 0.25rem;
   margin-top: 0.75rem;
-  font-size: 0.75rem;
+  font-size: var(--text-small, 0.75rem);
   color: #6b6b6b;
 }
 
