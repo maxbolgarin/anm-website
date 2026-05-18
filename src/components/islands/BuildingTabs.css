@@ -28,8 +28,8 @@
 
 .building-tabs__tab {
   font-family: inherit;
-  font-size: var(--text-h3, 1.5rem);
-  font-weight: 550;
+  font-size: var(--text-heading);
+  font-weight: 400;
   color: var(--color-text-secondary, #6B6B6B);
   background: none;
   border: none;
