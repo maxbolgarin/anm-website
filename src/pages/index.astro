@@ -99,18 +99,32 @@ const heroVideo = withBase('/territory/3D_Isometric_Map_An_aerial_drone_shot_pan
       const ctx = canvas.getContext('2d');
       if (!ctx) return;
 
-      const frames = [];
-      let totalFrames = 0;
-      let ready = false;
-      let currentFrameIndex = 0;
-      const FPS = 30; // extract 30 frames per second of video
+      // Check connection quality — skip video on slow connections
+      const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+      const isSlowConnection = conn && (
+        conn.saveData ||
+        conn.effectiveType === 'slow-2g' ||
+        conn.effectiveType === '2g' ||
+        conn.effectiveType === '3g'
+      );
 
-      // Fallback: on mobile, use a simple looping video instead
       const isMobile = window.innerWidth < 768;
       const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+      // On slow connections: remove canvas so the CSS fallback image shows
+      if (isSlowConnection) {
+        canvas.remove();
+        return;
+      }
+
+      const frames = [];
+      let totalFrames = 0;
+      let ready = false;
+      let firstFrameDrawn = false;
+      let currentFrameIndex = 0;
+      const FPS = 30;
+
       if (isMobile || prefersReducedMotion) {
-        // Replace canvas with a video element for mobile
         const vid = document.createElement('video');
         vid.src = heroVideo;
         vid.muted = true;
@@ -119,12 +133,15 @@ const heroVideo = withBase('/territory/3D_Isometric_Map_An_aerial_drone_shot_pan
         vid.autoplay = true;
         vid.className = 'hero-title__canvas';
         vid.style.objectFit = 'cover';
+        // Keep canvas hidden until video can play — fallback image shows underneath
+        vid.style.opacity = '0';
+        vid.style.transition = 'opacity 0.5s ease';
         canvas.replaceWith(vid);
-        vid.play().catch(() => {});
+        vid.addEventListener('canplay', () => { vid.style.opacity = '1'; }, { once: true });
+        vid.play().catch(() => { vid.remove(); });
         return;
       }
 
-      // Resize canvas to match hero dimensions
       function resizeCanvas() {
         const dpr = window.devicePixelRatio || 1;
         canvas.width = hero.offsetWidth * dpr;
@@ -132,7 +149,6 @@ const heroVideo = withBase('/territory/3D_Isometric_Map_An_aerial_drone_shot_pan
         ctx.scale(dpr, dpr);
         canvas.style.width = hero.offsetWidth + 'px';
         canvas.style.height = hero.offsetHeight + 'px';
-        // Redraw current frame after resize
         if (ready && frames[currentFrameIndex]) {
           drawFrame(currentFrameIndex);
         }
@@ -143,7 +159,6 @@ const heroVideo = withBase('/territory/3D_Isometric_Map_An_aerial_drone_shot_pan
         const cw = hero.offsetWidth;
         const ch = hero.offsetHeight;
         const img = frames[index];
-        // Cover-fit: scale to fill, center crop
         const imgRatio = img.width / img.height;
         const canvasRatio = cw / ch;
         let sw, sh, sx, sy;
@@ -160,6 +175,11 @@ const heroVideo = withBase('/territory/3D_Isometric_Map_An_aerial_drone_shot_pan
         }
         ctx.drawImage(img, sx, sy, sw, sh, 0, 0, cw, ch);
         currentFrameIndex = index;
+        // Fade canvas in once first frame is drawn
+        if (!firstFrameDrawn) {
+          firstFrameDrawn = true;
+          canvas.style.opacity = '1';
+        }
       }
 
       function getScrollProgress() {
@@ -170,16 +190,27 @@ const heroVideo = withBase('/territory/3D_Isometric_Map_An_aerial_drone_shot_pan
         return Math.min(Math.max(scrolled / totalRange, 0), 1);
       }
 
-      // Extract all frames from the video
       function extractFrames() {
-        return new Promise((resolve) => {
+        return new Promise((resolve, reject) => {
           const video = document.createElement('video');
           video.src = heroVideo;
           video.muted = true;
           video.playsInline = true;
           video.preload = 'auto';
 
+          // Timeout: if video metadata doesn't load in 8s, give up
+          const timeout = setTimeout(() => {
+            video.src = '';
+            reject(new Error('timeout'));
+          }, 8000);
+
+          video.addEventListener('error', () => {
+            clearTimeout(timeout);
+            reject(new Error('video-error'));
+          });
+
           video.addEventListener('loadedmetadata', () => {
+            clearTimeout(timeout);
             const duration = video.duration;
             totalFrames = Math.ceil(duration * FPS);
             const tempCanvas = document.createElement('canvas');
@@ -199,11 +230,9 @@ const heroVideo = withBase('/territory/3D_Isometric_Map_An_aerial_drone_shot_pan
 
             video.addEventListener('seeked', () => {
               tempCtx.drawImage(video, 0, 0, tempCanvas.width, tempCanvas.height);
-              // Store as ImageBitmap for fast painting
               createImageBitmap(tempCanvas).then((bitmap) => {
                 frames[frameIndex] = bitmap;
 
-                // Show first frame immediately
                 if (frameIndex === 0) {
                   resizeCanvas();
                   drawFrame(0);
@@ -219,16 +248,16 @@ const heroVideo = withBase('/territory/3D_Isometric_Map_An_aerial_drone_shot_pan
         });
       }
 
-      // Start extraction, then enable scroll-driven playback
       extractFrames().then(() => {
         ready = true;
-        // Draw the correct frame for current scroll position
         const progress = getScrollProgress();
         const index = Math.min(Math.round(progress * (totalFrames - 1)), totalFrames - 1);
         drawFrame(index);
+      }).catch(() => {
+        // Video failed or timed out — remove canvas, static fallback image shows
+        canvas.remove();
       });
 
-      // Scroll handler — instant frame lookup, no seeking delay
       window.addEventListener('scroll', () => {
         if (!ready) return;
         requestAnimationFrame(() => {
@@ -240,7 +269,6 @@ const heroVideo = withBase('/territory/3D_Isometric_Map_An_aerial_drone_shot_pan
         });
       }, { passive: true });
 
-      // Handle resize
       window.addEventListener('resize', resizeCanvas);
       resizeCanvas();
     }
@@ -358,6 +386,8 @@ const heroVideo = withBase('/territory/3D_Isometric_Map_An_aerial_drone_shot_pan
     z-index: 0;
     pointer-events: none;
     object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.5s ease;
   }
 
   .hero-title__overlay {
