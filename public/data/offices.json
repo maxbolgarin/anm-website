@@ -56,31 +56,57 @@
     "available": false
   },
   {
-    "id": "anm-201",
+    "id": "anm-601",
     "buildingSlug": "anm",
     "buildingName": "БЦ АНМ",
-    "area": 55,
-    "floor": 2,
+    "area": 100.8,
+    "floor": 6,
     "class": "B",
     "type": "cabinet",
     "address": "Пр. Обуховской Обороны, 70к2",
-    "pricePerSqm": 1100,
-    "totalPrice": 60500,
-    "photos": ["/images/buildings/anm/corridor-green.jpg", "/images/buildings/anm/lobby-glass.jpg"],
-    "available": false
-  },
-  {
-    "id": "anm-301",
-    "buildingSlug": "anm",
-    "buildingName": "БЦ АНМ",
-    "area": 95,
-    "floor": 3,
-    "class": "B",
-    "type": "open-space",
-    "address": "Пр. Обуховской Обороны, 70к2",
-    "pricePerSqm": 1000,
-    "totalPrice": 95000,
-    "photos": ["/images/buildings/anm/staircase-panoramic.jpg", "/images/buildings/anm/corridor-offices.jpg"],
-    "available": false
+    "pricePerSqm": 1350,
+    "totalPrice": 136080,
+    "photos": [
+      "/images/buildings/anm/office-601/glass-partitions.png",
+      "/images/buildings/anm/office-601/floor-plan.png",
+      "/images/buildings/anm/office-601/main-room.png",
+      "/images/buildings/anm/office-601/corridor-glass.png",
+      "/images/buildings/anm/office-601/room-window.png",
+      "/images/buildings/anm/office-601/kitchen.png"
+    ],
+    "available": true,
+    "description": "Кабинетная планировка со стеклянными перегородками, собственная кухонная зона с мойкой. Свежий ремонт, кондиционирование, высота потолков 3,8 м. Увеличенные окна с видом на Пр. Обуховской Обороны и внутреннюю территорию.",
+    "descriptionEn": "Private office layout with glass partitions, dedicated kitchen area with sink. Fresh renovation, air conditioning, 3.8 m ceiling height. Enlarged windows overlooking Pr. Obukhovskoy Oborony and the inner territory.",
+    "features": [
+      "Кабинетная планировка",
+      "Стеклянные перегородки",
+      "Кухонная зона с мойкой",
+      "Свежий ремонт",
+      "Кондиционирование",
+      "Высота потолков 3,8 м",
+      "Увеличенные окна",
+      "Вид на проспект и территорию"
+    ],
+    "featuresEn": [
+      "Private office layout",
+      "Glass partitions",
+      "Kitchen area with sink",
+      "Fresh renovation",
+      "Air conditioning",
+      "3.8 m ceiling height",
+      "Enlarged windows",
+      "Avenue & courtyard views"
+    ],
+    "ceilingHeight": 3.8,
+    "leaseTerms": {
+      "minTerm": "от 11 месяцев",
+      "minTermEn": "from 11 months",
+      "deposit": "2 месяца",
+      "depositEn": "2 months",
+      "includes": ["НДС 20%", "Коммунальные услуги", "Юридический адрес"],
+      "includesEn": ["VAT 20%", "Utilities", "Legal address"],
+      "extra": ["Телекоммуникации", "Клининг", "Парковка"],
+      "extraEn": ["Telecommunications", "Cleaning", "Parking"]
+    }
   }
 ]
