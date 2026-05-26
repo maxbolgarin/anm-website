@@ -50,33 +50,36 @@ const ICONS = {
 
 const facilities: FacilityPin[] = [
   // === Building 1 — Fidel (red brick, left side) ===
-  { id: 'canteen-fidel',  label: 'Столовая',        icon: ICONS.restaurant, x: 31, y: 46, building: 1, category: 'food' },
+  { id: 'canteen-fidel',  label: 'Столовая',        icon: ICONS.restaurant, x: 31, y: 54, building: 1, category: 'food' },
 
-  { id: 'fitness-fidel',  label: 'Фитнес-студия',    icon: ICONS.fitness,    x: 39, y: 49, building: 1, category: 'fitness' },
-  { id: 'bars-fidel',     label: 'Турники',          icon: ICONS.outdoorGym, x: 22, y: 52, building: 1, category: 'fitness' },
-  { id: 'smoking-fidel',  label: 'Зона отдыха',          icon: ICONS.smoking, strokeIcon: ICONS.smoke, x: 25, y: 49, building: 1, category: 'leisure' },
-  { id: 'parking-fidel',  label: 'Паркинг',          icon: ICONS.parking,    x: 12, y: 50, building: 1, category: 'parking' },
-  { id: 'walk',           label: 'Прогулочная зона',  icon: ICONS.walk,       x: 8,  y: 43, building: 1, category: 'fitness' },
+  { id: 'fitness-fidel',  label: 'Фитнес-студия',    icon: ICONS.fitness,    x: 39, y: 57, building: 1, category: 'fitness' },
+  { id: 'bars-fidel',     label: 'Турники',          icon: ICONS.outdoorGym, x: 21, y: 61, building: 1, category: 'fitness' },
+  { id: 'smoking-fidel',  label: 'Зона отдыха',          icon: ICONS.smoking, strokeIcon: ICONS.smoke, x: 25, y: 57, building: 1, category: 'leisure' },
+  { id: 'parking-fidel',  label: 'Паркинг',          icon: ICONS.parking,    x: 12, y: 58, building: 1, category: 'parking' },
+  { id: 'walk',           label: 'Прогулочная зона',  icon: ICONS.walk,       x: 8,  y: 51, building: 1, category: 'fitness' },
 
   // === Building 2 — АНМ / АБК (beige/white, right side) ===
-  { id: 'canteen-anm',    label: 'Столовая',         icon: ICONS.restaurant, x: 70, y: 36, building: 2, category: 'food' },
-  { id: 'atm-anm',        label: 'Банкомат',         icon: ICONS.atm,        x: 67, y: 38, building: 2, category: 'admin' },
-  { id: 'cafe-anm',       label: 'Кафе',             icon: ICONS.cafe,       x: 67, y: 43, building: 2, category: 'food' },
-  { id: 'smoking-anm',    label: 'Зона отдыха',          icon: ICONS.smoking, strokeIcon: ICONS.smoke, x: 76, y: 38, building: 2, category: 'leisure' },
-  { id: 'parking-anm',    label: 'Паркинг',          icon: ICONS.parking,    x: 72, y: 48, building: 2, category: 'parking' },
+  { id: 'canteen-anm',    label: 'Столовая',         icon: ICONS.restaurant, x: 71, y: 44, building: 2, category: 'food' },
+  { id: 'atm-anm',        label: 'Банкомат',         icon: ICONS.atm,        x: 69, y: 46, building: 2, category: 'admin' },
+  { id: 'cafe-anm',       label: 'Кафе',             icon: ICONS.cafe,       x: 69, y: 51, building: 2, category: 'food' },
+  { id: 'smoking-anm',    label: 'Зона отдыха',          icon: ICONS.smoking, strokeIcon: ICONS.smoke, x: 76, y: 46, building: 2, category: 'leisure' },
+  { id: 'parking-anm',    label: 'Паркинг',          icon: ICONS.parking,    x: 72, y: 56, building: 2, category: 'parking' },
 
   // === Shared / territory ===
-  { id: 'parking-mid',    label: 'Паркинг',          icon: ICONS.parking,    x: 41, y: 60, building: 0, category: 'parking' },
-  { id: 'boiler',         label: 'Котельная',         icon: ICONS.battery,    x: 59, y: 50, building: 0, category: 'utility' },
+  { id: 'parking-mid',    label: 'Паркинг',          icon: ICONS.parking,    x: 41, y: 69, building: 0, category: 'parking' },
+  { id: 'boiler',         label: 'Котельная',         icon: ICONS.battery,    x: 59, y: 58, building: 0, category: 'utility' },
 
   // === Transport direction indicators ===
-  { id: 'metro',          label: 'м. Елизаровская → 9 мин.', icon: ICONS.metro, x: 95, y: 23, building: 0, category: 'transport', rotation: -90 },
+  { id: 'metro',          label: 'м. Елизаровская → 9 мин.', icon: ICONS.metro, x: 95, y: 31, building: 0, category: 'transport', rotation: -90 },
   { id: 'tram',           label: 'Трамвайная остановка ↓ 5 мин.', icon: ICONS.tram,  x: 95, y: 90, building: 0, category: 'transport', rotation: 0 },
 
 
   // === Building labels (no icon, text only) ===
-  { id: 'label-fidel',    label: 'БЦ Фидель',        icon: '',               x: 34, y: 27, building: 1, category: 'admin' },
-  { id: 'label-anm',      label: 'БЦ АНМ',           icon: '',               x: 61, y: 23, building: 2, category: 'admin' },
+  { id: 'label-fidel',    label: 'БЦ Фидель',        icon: '',               x: 36, y: 33, building: 1, category: 'admin' },
+  { id: 'label-anm',      label: 'БЦ АНМ',           icon: '',               x: 67, y: 31, building: 2, category: 'admin' },
+
+  // === Second walking zone ===
+  { id: 'walk-south',     label: 'Прогулочная зона',  icon: ICONS.walk,       x: 43, y: 89, building: 0, category: 'fitness' },
 ];
 
 const categoryColors: Record<string, { bg: string; border: string; icon: string }> = {
@@ -117,6 +120,7 @@ const labelsEn: Record<string, string> = {
   'tram': 'Tram stop ↓ 5 min',
   'label-fidel': 'BC Fidel',
   'label-anm': 'BC ANM',
+  'walk-south': 'Walking Area',
 };
 
 const categoryLabelsEn: Record<string, string> = {
@@ -135,7 +139,7 @@ interface Props {
 
 export default function TerritoryMap({ locale = 'ru' }: Props) {
   const isEn = locale === 'en';
-  const territoryMapImage = withBase('/territory/anm ARCH3.3.png');
+  const territoryMapImage = withBase('/territory/ANM map with lines.png');
 
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<HTMLDivElement>(null);

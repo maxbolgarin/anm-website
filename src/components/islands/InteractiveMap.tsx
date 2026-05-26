@@ -18,11 +18,11 @@ interface InteractiveMapProps {
 
 declare global {
   interface Window {
-    mapgl: any;
+    ymaps: any;
   }
 }
 
-const API_KEY = '48f2d592-d4f4-4319-b6fe-22bc96e6bb10';
+const API_KEY = 'bd3c1f9f-c6c5-494c-84e7-4de8b22f2a54';
 
 export default function InteractiveMap({
   markers,
@@ -33,6 +33,7 @@ export default function InteractiveMap({
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<any>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
+  const [error, setError] = useState(false);
 
   const mapCenter = center || (markers.length > 0
     ? {
@@ -41,61 +42,63 @@ export default function InteractiveMap({
       }
     : { lat: 59.9010, lng: 30.4295 });
 
+  // Load Yandex Maps 2.1 API
   useEffect(() => {
-    if (window.mapgl) {
-      setMapLoaded(true);
+    if (window.ymaps) {
+      window.ymaps.ready(() => setMapLoaded(true));
       return;
     }
 
     const script = document.createElement('script');
-    script.src = 'https://mapgl.2gis.com/api/js/v1';
+    script.src = `https://api-maps.yandex.ru/2.1/?apikey=${API_KEY}&lang=ru_RU`;
     script.async = true;
     script.onload = () => {
-      setMapLoaded(true);
+      window.ymaps.ready(() => setMapLoaded(true));
     };
+    script.onerror = () => setError(true);
     document.head.appendChild(script);
   }, []);
 
+  // Initialize map once API is ready
   useEffect(() => {
-    if (!mapLoaded || !mapRef.current || !window.mapgl) return;
+    if (!mapLoaded || !mapRef.current || !window.ymaps) return;
 
-    // Destroy previous instance if any
     if (mapInstanceRef.current) {
       mapInstanceRef.current.destroy();
+      mapInstanceRef.current = null;
     }
 
-    const map = new window.mapgl.Map(mapRef.current, {
-      center: [mapCenter.lng, mapCenter.lat],
+    const map = new window.ymaps.Map(mapRef.current, {
+      center: [mapCenter.lat, mapCenter.lng],
       zoom: zoom,
-      key: API_KEY,
-      pitch: 45,
-      style: 'c080bb6a-8134-4993-93a1-5b4d8c36a59b',
+      controls: ['zoomControl'],
+    }, {
+      suppressMapOpenBlock: true,
     });
 
     mapInstanceRef.current = map;
 
     // Add markers
     markers.forEach((marker) => {
-      const markerInstance = new window.mapgl.Marker(map, {
-        coordinates: [marker.lng, marker.lat],
-        label: {
-          text: marker.title,
-          offset: [0, -60],
-          image: {
-            url: '',
-            size: [0, 0],
-            padding: [6, 12, 6, 12],
-          },
-          color: '#B71C1C',
-          fontSize: 14,
-          haloRadius: 2,
-          haloColor: '#ffffff',
+      const placemark = new window.ymaps.Placemark(
+        [marker.lat, marker.lng],
+        {
+          hintContent: marker.title,
+          balloonContentHeader: `<strong>${marker.title}</strong>`,
+          balloonContentBody: marker.address,
+          balloonContentFooter: `<a href="${withBase(marker.href)}" style="color:#B8003C">Подробнее →</a>`,
         },
+        {
+          preset: 'islands#redDotIcon',
+          iconColor: '#B8003C',
+        },
+      );
+
+      placemark.events.add('click', () => {
+        // Open balloon on click, link inside leads to building page
       });
 
-      markerInstance.on('click', () => {
-        window.location.href = withBase(marker.href);
-      });
+      map.geoObjects.add(placemark);
     });
 
     return () => {
@@ -105,6 +108,24 @@ export default function InteractiveMap({
       }
     };
   }, [mapLoaded, markers, mapCenter, zoom]);
+
+  if (error) {
+    return (
+      <div style={{
+        width: '100%',
+        height,
+        minHeight: '300px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#f5f0e8',
+        color: '#6b6b6b',
+        fontSize: '0.875rem',
+      }}>
+        Не удалось загрузить карту
+      </div>
+    );
+  }
 
   return (
     <div
