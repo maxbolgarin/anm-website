@@ -8,19 +8,7 @@ import { getBuildingBySlug } from '@data/buildings';
 const building = getBuildingBySlug('anm')!;
 
 const title = `Аренда офисов в БЦ ${building.name} — свободные помещения | АНМ`;
-const description = `Аренда офисов в бизнес-центре ${building.name}. Класс B, современные офисные помещения от 55 до 95 м². Свяжитесь с нами для обсуждения вариантов.`;
-
-const typicalOffices = [
-  {
-    label: 'Пример типового офиса в бизнес-центре АНМ',
-    planImage: '/plans/anm plan example.png',
-    area: 'от 55 до 95 м²',
-    buildingClass: 'B',
-    type: 'Кабинет / Open Space',
-    pricePerSqm: 'от 1 000 ₽/м²',
-    href: '/buildings/anm/',
-  },
-];
+const description = `Аренда офиса в бизнес-центре ${building.name}. Класс B, 6 этаж, 100,8 м², кабинетная планировка, свежий ремонт. Прямая аренда от собственника.`;
 ---
 
 <BuildingLayout
@@ -38,7 +26,6 @@ const typicalOffices = [
         buildingSlug="anm"
         contactPhone="+7 (812) 336-55-64"
         contactEmail="arenda@ukanm.ru"
-        typicalOffices={typicalOffices}
       />
     </div>
   </section>

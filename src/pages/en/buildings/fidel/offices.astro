@@ -5,6 +5,7 @@ import '@components/islands/OfficeFilter.css';
 import ContactCTA from '@components/ContactCTA.astro';
 import { getBuildingBySlug } from '@data/buildings';
 import { getBuildingEnBySlug } from '@data/buildings-en';
+import { withBase } from '@utils/withBase';
 
 const building = getBuildingBySlug('fidel')!;
 const en = getBuildingEnBySlug('fidel')!;
@@ -15,12 +16,12 @@ const description = `Office rental in ${en.name} Business Loft. Class B+, design
 const typicalOffices = [
   {
     label: 'Typical office example in Fidel Business Loft',
-    planImage: '/plans/fidel plan example.png',
+    planImage: withBase('/plans/fidel plan example.png'),
     area: 'from 45 to 200 m²',
     buildingClass: 'B+',
     type: 'Private Office / Open Space',
     pricePerSqm: 'from 1,050 ₽/m²',
-    href: '/en/buildings/fidel/',
+    href: withBase('/en/buildings/fidel/'),
   },
 ];
 ---
@@ -42,6 +43,8 @@ const typicalOffices = [
         contactPhone="+7 (812) 336-55-64"
         contactEmail="arenda@ukanm.ru"
         typicalOffices={typicalOffices}
+        otherBuildingName="ANM Business Center"
+        otherBuildingOfficesUrl={withBase('/en/buildings/anm/offices/')}
       />
     </div>
   </section>

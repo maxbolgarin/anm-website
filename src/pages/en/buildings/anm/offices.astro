@@ -10,19 +10,7 @@ const building = getBuildingBySlug('anm')!;
 const en = getBuildingEnBySlug('anm')!;
 
 const title = `Office Rental in ${en.name} Business Center — Available Spaces | ANM`;
-const description = `Office rental in ${en.name} Business Center. Class B, modern office spaces, from 55 to 95 m². Contact us to discuss options.`;
-
-const typicalOffices = [
-  {
-    label: 'Typical office example in ANM Business Center',
-    planImage: '/plans/anm plan example.png',
-    area: 'from 55 to 95 m²',
-    buildingClass: 'B',
-    type: 'Private Office / Open Space',
-    pricePerSqm: 'from 1,000 ₽/m²',
-    href: '/en/buildings/anm/',
-  },
-];
+const description = `Office for rent in ${en.name} Business Center. Class B, 6th floor, 100.8 m², private office layout, fresh renovation. Direct lease from the owner.`;
 ---
 
 <BuildingLayout
@@ -41,7 +29,6 @@ const typicalOffices = [
         buildingSlug="anm"
         contactPhone="+7 (812) 336-55-64"
         contactEmail="arenda@ukanm.ru"
-        typicalOffices={typicalOffices}
       />
     </div>
   </section>

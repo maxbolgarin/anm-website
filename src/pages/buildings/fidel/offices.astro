@@ -4,6 +4,7 @@ import OfficeFilter from '@components/islands/OfficeFilter';
 import '@components/islands/OfficeFilter.css';
 import ContactCTA from '@components/ContactCTA.astro';
 import { getBuildingBySlug } from '@data/buildings';
+import { withBase } from '@utils/withBase';
 
 const building = getBuildingBySlug('fidel')!;
 
@@ -13,12 +14,12 @@ const description = `Аренда офисов в бизнес-лофте ${buil
 const typicalOffices = [
   {
     label: 'Пример типового офиса в бизнес-лофте Фидель',
-    planImage: '/plans/fidel plan example.png',
+    planImage: withBase('/plans/fidel plan example.png'),
     area: 'от 45 до 200 м²',
     buildingClass: 'B+',
     type: 'Кабинет / Open Space',
     pricePerSqm: 'от 1 050 ₽/м²',
-    href: '/buildings/fidel/',
+    href: withBase('/buildings/fidel/'),
   },
 ];
 ---
@@ -39,6 +40,8 @@ const typicalOffices = [
         contactPhone="+7 (812) 336-55-64"
         contactEmail="arenda@ukanm.ru"
         typicalOffices={typicalOffices}
+        otherBuildingName="БЦ АНМ"
+        otherBuildingOfficesUrl={withBase('/buildings/anm/offices/')}
       />
     </div>
   </section>

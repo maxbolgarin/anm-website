@@ -79,7 +79,6 @@ const heroVideo = withBase('/territory/3D_Isometric_Map_An_aerial_drone_shot_pan
     <canvas class="hero-title__canvas" id="hero-canvas"></canvas>
     <div class="hero-title__overlay"></div>
     <div class="container hero-title__content">
-      <span class="hero-title__eyebrow">С&nbsp;2004 · Санкт&#8209;Петербург</span>
       <h1 class="hero-title__heading">
         Александро&#8209;Невская<br />Мануфактура
       </h1>
@@ -366,11 +365,11 @@ const heroVideo = withBase('/territory/3D_Isometric_Map_An_aerial_drone_shot_pan
   /* Hero Title */
   .hero-title {
     position: relative;
-    padding-top: var(--space-5xl);
+    padding-top: var(--space-3xl);
     padding-bottom: var(--space-3xl);
     min-height: 100vh;
     display: flex;
-    align-items: flex-start;
+    align-items: flex-end;
     overflow: hidden;
     /* Fallback for when video doesn't load */
     background-image: var(--bg-fallback);
@@ -407,8 +406,8 @@ const heroVideo = withBase('/territory/3D_Isometric_Map_An_aerial_drone_shot_pan
     z-index: 2;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    text-align: left;
+    align-items: flex-end;
+    text-align: right;
   }
 
   .hero-title__eyebrow {
@@ -418,9 +417,9 @@ const heroVideo = withBase('/territory/3D_Isometric_Map_An_aerial_drone_shot_pan
     font-weight: var(--weight-medium);
     text-transform: uppercase;
     letter-spacing: 0.24em;
-    color: var(--color-gold);
+    color: var(--color-burgundy);
     margin-bottom: var(--space-md);
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
+    text-shadow: 0 1px 6px rgba(255, 255, 255, 0.4);
   }
 
   .hero-title__heading {
