@@ -68,6 +68,22 @@ export interface Office {
   totalPrice: number;
   photos: string[];
   available: boolean;
+  /** Rich detail fields (optional — used for single-office detail view) */
+  description?: string;
+  descriptionEn?: string;
+  features?: string[];
+  featuresEn?: string[];
+  ceilingHeight?: number;
+  leaseTerms?: {
+    minTerm?: string;
+    minTermEn?: string;
+    deposit?: string;
+    depositEn?: string;
+    includes?: string[];
+    includesEn?: string[];
+    extra?: string[];
+    extraEn?: string[];
+  };
 }
 
 export interface CompanyStats {
