@@ -13,9 +13,10 @@ const currentPath = Astro.url.pathname;
 const locale = getLocaleFromPath(currentPath);
 const isEn = locale === 'en';
 
+// Typical offices shown only when ALL offices in both buildings are occupied (fallback)
 const typicalOfficesRu = [
   {
-    label: 'Пример типового офиса в бизнес-лофте Фидель',
+    label: 'Бизнес-лофт Фидель — типовой офис',
     planImage: '/plans/fidel plan example.png',
     area: 'от 45 до 200 м²',
     buildingClass: 'B+',
@@ -24,19 +25,19 @@ const typicalOfficesRu = [
     href: '/buildings/fidel/',
   },
   {
-    label: 'Пример типового офиса в бизнес-центре АНМ',
+    label: 'БЦ АНМ — типовой офис',
     planImage: '/plans/anm plan example.png',
-    area: 'от 55 до 95 м²',
+    area: 'от 55 до 100 м²',
     buildingClass: 'B',
     type: 'Кабинет / Open Space',
-    pricePerSqm: 'от 1 000 ₽/м²',
+    pricePerSqm: 'от 1 350 ₽/м²',
     href: '/buildings/anm/',
   },
 ];
 
 const typicalOfficesEn = [
   {
-    label: 'Typical office example in Business Loft Fidel',
+    label: 'Fidel Business Loft — typical office',
     planImage: '/plans/fidel plan example.png',
     area: 'from 45 to 200 m²',
     buildingClass: 'B+',
@@ -45,12 +46,12 @@ const typicalOfficesEn = [
     href: '/en/buildings/fidel/',
   },
   {
-    label: 'Typical office example in Business Center ANM',
+    label: 'ANM Business Center — typical office',
     planImage: '/plans/anm plan example.png',
-    area: 'from 55 to 95 m²',
+    area: 'from 55 to 100 m²',
     buildingClass: 'B',
     type: 'Private Office / Open Space',
-    pricePerSqm: 'from 1,000 ₽/m²',
+    pricePerSqm: 'from 1,350 ₽/m²',
     href: '/en/buildings/anm/',
   },
 ];
