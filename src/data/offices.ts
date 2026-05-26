@@ -3,10 +3,13 @@ import type { Office } from '@utils/types';
 /**
  * Office listings data.
  * In production, this could be loaded from a JSON file or CMS.
- * For now, it is hardcoded with sample data.
  * Set `available: false` to hide an office from listings.
+ *
+ * IMPORTANT: Keep this file in sync with public/data/offices.json
+ * (OfficeFilter fetches the JSON at runtime on the client side).
  */
 export const offices: Office[] = [
+  // ─── Бизнес-Лофт Фидель — все помещения заняты ───
   {
     id: 'fidel-301',
     buildingSlug: 'fidel',
@@ -19,7 +22,7 @@ export const offices: Office[] = [
     pricePerSqm: 1200,
     totalPrice: 54000,
     photos: ['/images/buildings/fidel/office-brick-loft.jpg', '/images/buildings/fidel/office-flexible.jpg'],
-    available: true,
+    available: false,
   },
   {
     id: 'fidel-302',
@@ -33,7 +36,7 @@ export const offices: Office[] = [
     pricePerSqm: 1100,
     totalPrice: 132000,
     photos: ['/images/buildings/fidel/openspace-loft.jpg', '/images/buildings/fidel/openspace-mezzanine.jpg'],
-    available: true,
+    available: false,
   },
   {
     id: 'fidel-401',
@@ -47,7 +50,7 @@ export const offices: Office[] = [
     pricePerSqm: 1250,
     totalPrice: 97500,
     photos: ['/images/buildings/fidel/meeting-mountain.jpg', '/images/buildings/fidel/office-layout.jpg'],
-    available: true,
+    available: false,
   },
   {
     id: 'fidel-501',
@@ -61,35 +64,65 @@ export const offices: Office[] = [
     pricePerSqm: 1050,
     totalPrice: 210000,
     photos: ['/images/buildings/fidel/openspace-modern.jpg', '/images/buildings/fidel/interior-topfloor.jpg'],
-    available: true,
+    available: false,
   },
+
+  // ─── БЦ АНМ — реальный офис 6 этаж ───
   {
-    id: 'anm-201',
+    id: 'anm-601',
     buildingSlug: 'anm',
     buildingName: 'БЦ АНМ',
-    area: 55,
-    floor: 2,
+    area: 100.8,
+    floor: 6,
     class: 'B',
     type: 'cabinet',
     address: 'Пр. Обуховской Обороны, 70к2',
-    pricePerSqm: 1100,
-    totalPrice: 60500,
-    photos: ['/images/buildings/anm/corridor-green.jpg', '/images/buildings/anm/lobby-glass.jpg'],
+    pricePerSqm: 1350,
+    totalPrice: 136080,
+    photos: [
+      '/images/buildings/anm/office-601/glass-partitions.png',
+      '/images/buildings/anm/office-601/floor-plan.png',
+      '/images/buildings/anm/office-601/main-room.png',
+      '/images/buildings/anm/office-601/corridor-glass.png',
+      '/images/buildings/anm/office-601/room-window.png',
+      '/images/buildings/anm/office-601/kitchen.png',
+    ],
     available: true,
-  },
-  {
-    id: 'anm-301',
-    buildingSlug: 'anm',
-    buildingName: 'БЦ АНМ',
-    area: 95,
-    floor: 3,
-    class: 'B',
-    type: 'open-space',
-    address: 'Пр. Обуховской Обороны, 70к2',
-    pricePerSqm: 1000,
-    totalPrice: 95000,
-    photos: ['/images/buildings/anm/staircase-panoramic.jpg', '/images/buildings/anm/corridor-offices.jpg'],
-    available: true,
+    description:
+      'Кабинетная планировка со стеклянными перегородками, собственная кухонная зона с мойкой. Свежий ремонт, кондиционирование, высота потолков 3,8 м. Увеличенные окна с видом на Пр. Обуховской Обороны и внутреннюю территорию.',
+    descriptionEn:
+      'Private office layout with glass partitions, dedicated kitchen area with sink. Fresh renovation, air conditioning, 3.8 m ceiling height. Enlarged windows overlooking Pr. Obukhovskoy Oborony and the inner territory.',
+    features: [
+      'Кабинетная планировка',
+      'Стеклянные перегородки',
+      'Кухонная зона с мойкой',
+      'Свежий ремонт',
+      'Кондиционирование',
+      'Высота потолков 3,8 м',
+      'Увеличенные окна',
+      'Вид на проспект и территорию',
+    ],
+    featuresEn: [
+      'Private office layout',
+      'Glass partitions',
+      'Kitchen area with sink',
+      'Fresh renovation',
+      'Air conditioning',
+      '3.8 m ceiling height',
+      'Enlarged windows',
+      'Avenue & courtyard views',
+    ],
+    ceilingHeight: 3.8,
+    leaseTerms: {
+      minTerm: 'от 11 месяцев',
+      minTermEn: 'from 11 months',
+      deposit: '2 месяца',
+      depositEn: '2 months',
+      includes: ['НДС 20%', 'Коммунальные услуги', 'Юридический адрес'],
+      includesEn: ['VAT 20%', 'Utilities', 'Legal address'],
+      extra: ['Телекоммуникации', 'Клининг', 'Парковка'],
+      extraEn: ['Telecommunications', 'Cleaning', 'Parking'],
+    },
   },
 ];
 
