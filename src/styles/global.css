@@ -117,7 +117,8 @@ ul, ol {
   padding: var(--space-md) var(--space-xl);
   font-family: var(--font-body);
   font-size: var(--text-body);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.01em;
   border-radius: var(--radius-sm);
   transition: all var(--transition-base);
   text-decoration: none;
@@ -178,14 +179,19 @@ ul, ol {
   padding: var(--space-xs) var(--space-sm);
   font-size: var(--text-caption);
   font-weight: var(--weight-semibold);
+  letter-spacing: 0.04em;
   border-radius: var(--radius-sm);
 }
 
+/* Building class badge — large decorative overlay on building photo */
 .badge--class {
   background-color: var(--color-primary);
   color: var(--color-text-inverse);
-  font-size: var(--text-h3);
-  padding: var(--space-md) var(--space-lg);
+  font-size: clamp(2rem, 4vw, 3.5rem);   /* Big but controlled, not using --text-display */
+  font-weight: var(--weight-bold);
+  letter-spacing: -0.01em;
+  padding: var(--space-lg) var(--space-xl);
+  line-height: 1;
 }
 
 /* ── Visually hidden (for accessibility) ── */

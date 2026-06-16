@@ -46,20 +46,25 @@ const { stats, columns } = Astro.props;
 
   .stats-row__value {
     font-family: var(--font-heading);
-    font-size: var(--text-h1);
+    font-size: var(--text-heading);
     font-weight: var(--weight-bold);
     line-height: 1.0;
+    letter-spacing: -0.02em;
   }
 
   .stats-row__unit {
-    font-size: var(--text-h3);
+    font-size: 0.875em;    /* Relative to value size, not absolute */
     font-weight: var(--weight-regular);
     color: var(--color-text-secondary);
+    letter-spacing: 0;
   }
 
   .stats-row__label {
     font-size: var(--text-caption);
+    font-weight: var(--weight-medium);
     color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
     margin-top: var(--space-xs);
     white-space: nowrap;
   }
@@ -71,7 +76,7 @@ const { stats, columns } = Astro.props;
     }
 
     .stats-row__value {
-      font-size: var(--text-h2);
+      font-size: clamp(1.25rem, 3vw, 1.5rem);
     }
   }
 </style>

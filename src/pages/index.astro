@@ -366,7 +366,7 @@ const heroVideo = withBase('/territory/3D_Isometric_Map_An_aerial_drone_shot_pan
   .hero-title {
     position: relative;
     padding-top: var(--space-3xl);
-    padding-bottom: var(--space-3xl);
+    padding-bottom: clamp(8rem, 22vh, 16rem);  /* Push content up from the bottom */
     min-height: 100vh;
     display: flex;
     align-items: flex-end;
@@ -427,19 +427,21 @@ const heroVideo = withBase('/territory/3D_Isometric_Map_An_aerial_drone_shot_pan
     font-size: var(--text-display);
     font-weight: var(--weight-bold);
     color: #fff;
-    line-height: 1.02;
-    letter-spacing: -0.015em;
-    margin-bottom: var(--space-lg);
-    max-width: 22ch;
-    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    margin-bottom: var(--space-md);
+    max-width: 20ch;
+    text-shadow: 0 2px 16px rgba(0, 0, 0, 0.45);
   }
 
   .hero-title__subtitle {
     font-size: var(--text-body);
-    color: rgba(255, 255, 255, 0.88);
+    font-weight: var(--weight-medium);
+    color: rgba(255, 255, 255, 0.82);
     max-width: none;
+    letter-spacing: 0.01em;
     line-height: var(--leading-relaxed);
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);
   }
 
   /* Infrastructure header */
@@ -682,8 +684,8 @@ const heroVideo = withBase('/territory/3D_Isometric_Map_An_aerial_drone_shot_pan
   @media (max-width: 767px) {
     .hero-title {
       padding-top: var(--space-3xl);
-      padding-bottom: var(--space-3xl);
-      min-height: 40vh;
+      padding-bottom: clamp(4rem, 12vh, 8rem);
+      min-height: 70vh;
     }
 
 
