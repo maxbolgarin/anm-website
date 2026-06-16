@@ -49,7 +49,6 @@ export default function BuildingTabs({ buildings, contactHref = '/arenda/', loca
       <div className="building-tabs__content" role="tabpanel">
         <div className="building-tabs__top">
           <div className="building-tabs__info">
-            <div className="building-tabs__class-badge">{active.buildingClass}</div>
             <p className="building-tabs__description">{active.description}</p>
             <div className="building-tabs__stats">
               {active.stats.map((stat, i) => (
@@ -71,6 +70,7 @@ export default function BuildingTabs({ buildings, contactHref = '/arenda/', loca
             </div>
           </div>
           <div className="building-tabs__hero">
+            <div className="building-tabs__class-badge">{active.buildingClass}</div>
             <img
               src={withBase(active.heroImage)}
               alt={isEn ? `Business Center ${active.name}` : `Бизнес-центр ${active.name}`}

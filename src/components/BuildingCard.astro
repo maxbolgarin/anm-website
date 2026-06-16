@@ -148,9 +148,11 @@ const isEn = locale === 'en';
     position: absolute;
     bottom: 0;
     right: 0;
-    /* font-size / padding come from .badge--class in global.css */
     background-color: var(--color-primary);
     color: var(--color-text-inverse);
+    font-size: clamp(1.25rem, 1.5vw, 1.75rem);
+    font-weight: var(--weight-bold);
+    padding: var(--space-md) var(--space-lg);
     line-height: 1;
   }
 
