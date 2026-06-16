@@ -18,7 +18,10 @@ const breadcrumbs = [
 
   <section class="arenda">
     <div class="container">
-      <h1 class="arenda__title">Аренда офисов</h1>
+      <div class="arenda__intro">
+        <h1 class="arenda__title">Аренда офисов</h1>
+        <p class="arenda__subtitle">Свободные площади в бизнес-центрах Фидель и АНМ на территории Александро-Невской Мануфактуры</p>
+      </div>
 
       <OfficeFilterIsland />
     </div>
@@ -31,11 +34,33 @@ const breadcrumbs = [
 <style>
   .arenda {
     padding-top: var(--space-xl);
-    padding-bottom: var(--space-3xl);
+    padding-bottom: var(--space-4xl);
+  }
+
+  .arenda__intro {
+    padding-bottom: var(--space-xl);
+    margin-bottom: var(--space-2xl);
+    border-bottom: 2px solid var(--color-primary);
   }
 
   .arenda__title {
-    font-size: var(--text-h1);
-    margin-bottom: var(--space-xl);
+    font-size: var(--text-display);
+    line-height: var(--leading-tight);
+    font-weight: var(--weight-bold);
+    color: var(--color-text-primary);
+  }
+
+  .arenda__subtitle {
+    font-size: var(--text-body);
+    color: var(--color-text-secondary);
+    margin-top: var(--space-md);
+    max-width: 38rem;
+    line-height: var(--leading-normal);
+  }
+
+  @media (max-width: 767px) {
+    .arenda__intro {
+      margin-bottom: var(--space-xl);
+    }
   }
 </style>

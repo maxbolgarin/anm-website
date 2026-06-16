@@ -191,29 +191,6 @@ export default function OfficeFilter({
     if (isSingleBuilding && typicalOffices.length > 0) {
       return (
         <div className="office-capacity office-capacity--with-suggestion">
-          <div className="office-capacity--split">
-            <div className="office-capacity__card">
-              <div className="office-capacity__header">
-                <span className="office-capacity__badge">{isEn ? '100% Occupancy' : 'Заполняемость 100%'}</span>
-                <h2 className="office-capacity__title">{isEn ? 'All Spaces Occupied' : 'Все помещения заняты'}</h2>
-                <p className="office-capacity__text">
-                  {isEn ? 'Submit a request — we\'ll contact you when spaces become available' : 'Оставьте заявку — мы свяжемся с вами при появлении свободных помещений'}
-                </p>
-              </div>
-              <div className="office-capacity__contacts">
-                <a href={`tel:${contactPhone.replace(/[\s()-]/g, '')}`} className="office-capacity__phone">
-                  {contactPhone}
-                </a>
-                <a href={`mailto:${contactEmail}`} className="office-capacity__email">
-                  {contactEmail}
-                </a>
-              </div>
-            </div>
-            <div className="office-typical office-typical--single">
-              {typicalCard(typicalOffices[0])}
-            </div>
-          </div>
-
           {otherBuildingName && otherBuildingOfficesUrl && (
             <div className="office-capacity__other">
               <div className="office-capacity__other-inner">
@@ -238,6 +215,29 @@ export default function OfficeFilter({
               </div>
             </div>
           )}
+
+          <div className="office-capacity--split">
+            <div className="office-capacity__card">
+              <div className="office-capacity__header">
+                <span className="office-capacity__badge">{isEn ? '100% Occupancy' : 'Заполняемость 100%'}</span>
+                <h2 className="office-capacity__title">{isEn ? 'All Spaces Occupied' : 'Все помещения заняты'}</h2>
+                <p className="office-capacity__text">
+                  {isEn ? 'Submit a request — we\'ll contact you when spaces become available' : 'Оставьте заявку — мы свяжемся с вами при появлении свободных помещений'}
+                </p>
+              </div>
+              <div className="office-capacity__contacts">
+                <a href={`tel:${contactPhone.replace(/[\s()-]/g, '')}`} className="office-capacity__phone">
+                  {contactPhone}
+                </a>
+                <a href={`mailto:${contactEmail}`} className="office-capacity__email">
+                  {contactEmail}
+                </a>
+              </div>
+            </div>
+            <div className="office-typical office-typical--single">
+              {typicalCard(typicalOffices[0])}
+            </div>
+          </div>
         </div>
       );
     }
@@ -580,6 +580,9 @@ function OfficeDetailView({
 
         <div className="office-detail__info">
           <div className="office-detail__badges">
+            <span className="office-detail__badge office-detail__badge--building">
+              {office.buildingName}
+            </span>
             <span className="office-detail__badge office-detail__badge--available">
               {isEn ? 'Available' : 'Свободно'}
             </span>

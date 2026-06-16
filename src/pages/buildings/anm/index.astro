@@ -83,7 +83,7 @@ const faqJsonLd = building.faq.length > 0 ? {
   </section>
 
   <!-- ===== SECTION 2: BUILDING DETAILS ===== -->
-  <section class="section" id="details">
+  <section class="section section--cream" id="details">
     <div class="container">
       <SectionHeading
         title={`${building.name} в деталях`}
@@ -107,12 +107,12 @@ const faqJsonLd = building.faq.length > 0 ? {
   <!-- ===== SECTION 4: LOCATION AND TRANSPORT ===== -->
   <section class="section location-section" id="location">
     <div class="container">
-      <SectionHeading
-        title="Расположение"
-        subtitle="Удобная транспортная доступность"
-      />
       <div class="location-grid">
         <div class="location-grid__info">
+          <SectionHeading
+            title="Расположение"
+            subtitle="Удобная транспортная доступность"
+          />
           <h3>Как добраться</h3>
           <ul class="location-list">
             {building.metro.map((m) => (
@@ -271,12 +271,8 @@ const faqJsonLd = building.faq.length > 0 ? {
     right: 0;
   }
 
-  .location-section {
-    padding-top: var(--space-2xl);
-  }
-
-  .location-section :global(.section-heading) {
-    margin-bottom: var(--space-lg);
+  .location-grid__info :global(.section-heading) {
+    margin-bottom: var(--space-xl);
   }
 
   .location-grid__info h3 {

@@ -7,13 +7,13 @@ import FeatureBlock from '@components/FeatureBlock.astro';
 import ContactCTA from '@components/ContactCTA.astro';
 import { withBase } from '@utils/withBase';
 
-const title = 'Компания и история — АНМ';
+const title = 'Подробнее — АНМ';
 const description = 'АНМ — девелоперская компания с 20-летним опытом. Редевелопмент промышленных территорий, управление бизнес-центрами в СПб.';
 
 const breadcrumbs = [
   { label: 'Главная', href: '/' },
   { label: 'О компании', href: '/about/' },
-  { label: 'Компания и история' },
+  { label: 'Подробнее' },
 ];
 
 const companyStats = [
@@ -46,6 +46,15 @@ const tenants = [
   { name: 'Компания 5', logo: '/companies/5.png', maxH: '100px' },
   { name: 'Компания 6', logo: '/companies/6.png', maxH: '120px' },
   { name: 'Marstar', logo: '/companies/marstar.png', maxH: '140px' },
+];
+
+const managementServices = [
+  { icon: '🔧', name: 'Техническое обслуживание', description: 'Собственная служба эксплуатации. Электрики, сантехники, инженеры — на месте 24/7.' },
+  { icon: '✨', name: 'Клининг', description: 'Профессиональная уборка общих зон и офисов. Ежедневно и по запросу.' },
+  { icon: '🛡', name: 'Охрана и безопасность', description: 'Круглосуточная охрана, видеонаблюдение, контроль доступа по картам.' },
+  { icon: '🔑', name: 'Пропускная система', description: 'Электронные пропуска для сотрудников и гостей. Заказ через личный кабинет.' },
+  { icon: '📞', name: 'Служба заботы', description: 'Одна точка контакта для всех вопросов. Быстрое решение любых задач.' },
+  { icon: '📅', name: 'Бронирование переговорных', description: 'Современные переговорные комнаты. Онлайн-бронирование для арендаторов.' },
 ];
 
 const managementBlocks = [
@@ -92,15 +101,15 @@ const managementBlocks = [
             Основной проект компании — развитие и управление территорией бывшей промышленной зоны на Проспекте Обуховской Обороны. Концепция редевелопмента разработана британским архитектурным бюро Horan Keoghan Ryan Limited и предусматривает превращение исторических промышленных зданий в современные бизнес-центры с сохранением их уникального характера.
           </p>
           <p>
-            Сегодня на территории Александро-Невской Мануфактуры работают бизнес-центры класса B+, обеспечивающие арендаторам все уровни комфорта: от современных инженерных систем до развитой инфраструктуры и прогулочной зоны на набережной реки Невы. Управляющая компания берет на себя решение всех хозяйственных вопросов и обеспечивает максимально комфортные условия для ведения бизнеса.
+            Управляющая компания берет на себя решение всех хозяйственных вопросов и обеспечивает максимально комфортные условия для ведения бизнеса.
           </p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ===== SECTION 2: HISTORY (renumbered from 3) ===== -->
-  <section class="section" id="history">
+  <!-- ===== SECTION 2: HISTORY ===== -->
+  <section class="section section--cream" id="history">
     <div class="container">
       <SectionHeading title="История компании" subtitle="Ключевые этапы развития" />
       <div class="timeline">
@@ -123,7 +132,27 @@ const managementBlocks = [
     </div>
   </section>
 
-  <!-- ===== SECTION 4: MANAGEMENT APPROACH ===== -->
+  <!-- ===== SECTION 3: MANAGEMENT COMPANY ===== -->
+  <section class="section" id="management">
+    <div class="container">
+      <SectionHeading
+        title="Управляющая компания"
+        subtitle="Собственная управляющая компания с 20-летним опытом. Мы знаем, что нужно вашему бизнесу."
+        align="center"
+      />
+      <div class="mgmt-grid">
+        {managementServices.map((svc) => (
+          <div class="mgmt-card">
+            <span class="mgmt-card__icon">{svc.icon}</span>
+            <h3 class="mgmt-card__name">{svc.name}</h3>
+            <p class="mgmt-card__desc">{svc.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 4: OUR APPROACH ===== -->
   <section class="section section--cream">
     <div class="container">
       <SectionHeading title="Наш подход" subtitle="Принципы работы управляющей компании" />
@@ -399,9 +428,48 @@ const managementBlocks = [
     font-weight: var(--weight-medium);
   }
 
+  /* Management company section */
+  .mgmt-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-lg);
+  }
+
+  .mgmt-card {
+    background-color: var(--color-surface-cream);
+    border-radius: var(--radius-md);
+    padding: var(--space-xl);
+    transition: box-shadow 0.2s ease;
+  }
+
+  .mgmt-card:hover {
+    box-shadow: var(--shadow-md);
+  }
+
+  .mgmt-card__icon {
+    display: block;
+    font-size: var(--text-body);
+    margin-bottom: var(--space-lg);
+  }
+
+  .mgmt-card__name {
+    font-size: var(--text-body);
+    margin-bottom: var(--space-sm);
+  }
+
+  .mgmt-card__desc {
+    font-size: var(--text-caption);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-relaxed);
+  }
+
   @media (max-width: 1023px) {
     .tenants-grid {
       grid-template-columns: repeat(3, 1fr);
+    }
+
+    .mgmt-grid {
+      grid-template-columns: repeat(2, 1fr);
     }
   }
 
@@ -420,6 +488,10 @@ const managementBlocks = [
 
     .tenants-grid {
       grid-template-columns: repeat(2, 1fr);
+    }
+
+    .mgmt-grid {
+      grid-template-columns: 1fr;
     }
   }
 </style>
