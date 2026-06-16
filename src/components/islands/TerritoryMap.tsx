@@ -315,10 +315,10 @@ export default function TerritoryMap({ locale = 'ru' }: Props) {
             background: !activeCategory ? '#B8003C' : '#fff',
             color: !activeCategory ? '#fff' : '#3F4F55',
             fontSize: '13px',
-            fontWeight: 550,
+            fontWeight: 600,
             cursor: 'pointer',
             transition: 'all 150ms ease-out',
-            fontFamily: 'Verdana, Geneva, Tahoma, sans-serif',
+            fontFamily: 'inherit',
           }}
         >
           {isEn ? 'All' : 'Все'}
@@ -337,10 +337,10 @@ export default function TerritoryMap({ locale = 'ru' }: Props) {
                 background: isActive ? c.bg : '#fff',
                 color: isActive ? c.icon : '#3F4F55',
                 fontSize: '13px',
-                fontWeight: 550,
+                fontWeight: 600,
                 cursor: 'pointer',
                 transition: 'all 150ms ease-out',
-                fontFamily: 'Verdana, Geneva, Tahoma, sans-serif',
+                fontFamily: 'inherit',
               }}
             >
               {localCategoryLabels[cat]}
@@ -374,9 +374,9 @@ export default function TerritoryMap({ locale = 'ru' }: Props) {
             background: '#fff',
             color: '#3F4F55',
             fontSize: '12px',
-            fontWeight: 550,
+            fontWeight: 600,
             cursor: 'pointer',
-            fontFamily: 'Verdana, Geneva, Tahoma, sans-serif',
+            fontFamily: 'inherit',
           }}
         >
           {isEn ? 'Reset zoom' : 'Сбросить масштаб'}
@@ -453,12 +453,12 @@ export default function TerritoryMap({ locale = 'ru' }: Props) {
                   padding: '6px 14px',
                   borderRadius: '8px',
                   fontSize: '14px',
-                  fontWeight: 550,
+                  fontWeight: 600,
                   color: '#3F4F55',
                   boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
                   pointerEvents: 'none',
                   whiteSpace: 'nowrap',
-                  fontFamily: 'Verdana, Geneva, Tahoma, sans-serif',
+                  fontFamily: 'inherit',
                   border: `1.5px solid ${colors.border}`,
                   letterSpacing: '0.02em',
                   zIndex: 5,
@@ -575,12 +575,12 @@ export default function TerritoryMap({ locale = 'ru' }: Props) {
                   padding: '6px 12px',
                   borderRadius: '6px',
                   fontSize: '12px',
-                  fontWeight: 550,
+                  fontWeight: 600,
                   color: '#1A1A1A',
                   boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
                   whiteSpace: 'nowrap',
                   pointerEvents: 'none',
-                  fontFamily: 'Verdana, Geneva, Tahoma, sans-serif',
+                  fontFamily: 'inherit',
                   border: `1px solid ${colors.border}22`,
                   zIndex: 30,
                 }}>

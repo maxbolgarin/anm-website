@@ -659,15 +659,18 @@
 }
 
 .office-detail__stats {
-  display: flex;
-  gap: var(--space-xl, 32px);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(5rem, max-content));
+  column-gap: var(--space-2xl, 48px);
+  align-items: start;
 }
 
 .office-detail__stat {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto auto;
+  column-gap: 0.25rem;
+  row-gap: var(--space-xs, 6px);
   align-items: baseline;
-  gap: 0.25rem;
-  flex-wrap: wrap;
 }
 
 .office-detail__stat-value {
@@ -681,15 +684,16 @@
 .office-detail__stat-unit {
   font-size: var(--text-body, 1rem);
   color: var(--color-text-secondary, #6b6b6b);
+  align-self: baseline;
 }
 
 .office-detail__stat-label {
+  grid-column: 1 / -1;
   font-size: var(--text-caption, 0.8125rem);
   font-weight: 500;
   color: var(--color-text-secondary, #6b6b6b);
   text-transform: uppercase;
   letter-spacing: 0.07em;
-  width: 100%;
 }
 
 .office-detail__description {
