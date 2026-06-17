@@ -32,31 +32,28 @@ const facilityItems = [
     description: 'Охраняемый освещённый паркинг. Гостевые места и абонементы.',
     image: '/images/infrastructure/parking-aerial.jpg',
     imageAlt: 'Паркинг на территории Александро-Невской Мануфактуры',
-    icon: '🅿️',
   },
   {
     name: 'Фитнес-студия',
     description: 'Современный тренажёрный зал. Специальные условия для арендаторов.',
     image: '/фото бц/image_2026-04-23_13-54-55 (1).png',
     imageAlt: 'Фитнес-студия на территории бизнес-центра',
-    icon: '💪',
   },
   {
     name: 'Столовые и кафе',
     description: '2 столовые с комплексными обедами, 2 кафе со свежим кофе и лёгкими перекусами.',
     image: '/images/buildings/anm/abk-cafe-new.jpg',
     imageAlt: 'Кафе на территории Александро-Невской Мануфактуры',
-    icon: '🍽',
   },
 ];
 
 const managementServices = [
-  { icon: '🔧', name: 'Техническое обслуживание', description: 'Собственная служба эксплуатации. Электрики, сантехники, инженеры — на месте 24/7.' },
-  { icon: '✨', name: 'Клининг', description: 'Профессиональная уборка общих зон и офисов. Ежедневно и по запросу.' },
-  { icon: '🛡', name: 'Охрана и безопасность', description: 'Круглосуточная охрана, видеонаблюдение, контроль доступа по картам.' },
-  { icon: '🔑', name: 'Пропускная система', description: 'Электронные пропуска для сотрудников и гостей. Заказ через личный кабинет.' },
-  { icon: '📞', name: 'Служба заботы', description: 'Одна точка контакта для всех вопросов. Быстрое решение любых задач.' },
-  { icon: '📅', name: 'Бронирование переговорных', description: 'Современные переговорные комнаты. Онлайн-бронирование для арендаторов.' },
+  { name: 'Техническое обслуживание', description: 'Собственная служба эксплуатации. Электрики, сантехники, инженеры — на месте 24/7.' },
+  { name: 'Клининг', description: 'Профессиональная уборка общих зон и офисов. Ежедневно и по запросу.' },
+  { name: 'Охрана и безопасность', description: 'Круглосуточная охрана, видеонаблюдение, контроль доступа по картам.' },
+  { name: 'Пропускная система', description: 'Электронные пропуска для сотрудников и гостей. Заказ через личный кабинет.' },
+  { name: 'Служба заботы', description: 'Одна точка контакта для всех вопросов. Быстрое решение любых задач.' },
+  { name: 'Бронирование переговорных', description: 'Современные переговорные комнаты. Онлайн-бронирование для арендаторов.' },
 ];
 ---
 
@@ -95,16 +92,12 @@ const managementServices = [
       </div>
       <div class="infra-grid">
         {facilityItems.map((item) => (
-          <div class="infra-card">
-            <div class="infra-card__image-wrap">
-              <img src={withBase(item.image)} alt={item.imageAlt} class="infra-card__image" loading="lazy" />
-              <span class="infra-card__icon">{item.icon}</span>
-            </div>
-            <div class="infra-card__content">
-              <h3 class="infra-card__name">{item.name}</h3>
-              <p class="infra-card__desc">{item.description}</p>
-            </div>
-          </div>
+          <FacilityCard
+            name={item.name}
+            description={item.description}
+            image={item.image}
+            imageAlt={item.imageAlt}
+          />
         ))}
       </div>
     </div>
@@ -113,16 +106,15 @@ const managementServices = [
   <!-- ===== SECTION 4: MANAGEMENT COMPANY ===== -->
   <section class="section" id="management">
     <div class="container">
-      <div class="mgmt-header">
-        <span class="mgmt-header__label">Управляющая компания</span>
-        <p class="mgmt-header__subtitle">
-          Собственная управляющая компания с 20-летним опытом. Мы знаем, что нужно вашему бизнесу.
-        </p>
-      </div>
+      <SectionHeading
+        title="Управляющая компания"
+        subtitle="Собственная управляющая компания с 20-летним опытом. Мы знаем, что нужно вашему бизнесу."
+        align="center"
+      />
       <div class="mgmt-grid">
-        {managementServices.map((svc) => (
+        {managementServices.map((svc, i) => (
           <div class="mgmt-card">
-            <span class="mgmt-card__icon">{svc.icon}</span>
+            <span class="mgmt-card__num">{String(i + 1).padStart(2, '0')}</span>
             <h3 class="mgmt-card__name">{svc.name}</h3>
             <p class="mgmt-card__desc">{svc.description}</p>
           </div>
@@ -187,89 +179,7 @@ const managementServices = [
   }
 
   /* Infrastructure card */
-  .infra-card {
-    border-radius: var(--radius-md);
-    overflow: hidden;
-    background-color: var(--color-surface-white);
-    border: none;
-    transition: box-shadow var(--transition-base);
-  }
-
-  .infra-card:hover {
-    box-shadow: var(--shadow-md);
-  }
-
-  .infra-card__image-wrap {
-    position: relative;
-    overflow: hidden;
-  }
-
-  .infra-card__image {
-    display: block;
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    object-fit: cover;
-    transition: transform var(--transition-slow);
-  }
-
-  .infra-card:hover .infra-card__image {
-    transform: scale(1.03);
-  }
-
-  .infra-card__icon {
-    position: absolute;
-    bottom: var(--space-md);
-    left: var(--space-md);
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--color-surface-white);
-    border-radius: var(--radius-sm);
-    font-size: var(--text-body);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
-  }
-
-  .infra-card__content {
-    padding: var(--space-lg);
-  }
-
-  .infra-card__name {
-    font-size: var(--text-body);
-    margin-bottom: var(--space-sm);
-  }
-
-  .infra-card__desc {
-    font-size: var(--text-caption);
-    color: var(--color-text-secondary);
-    line-height: var(--leading-relaxed);
-  }
-
   /* Management company section */
-  .mgmt-header {
-    text-align: center;
-    margin-bottom: var(--space-3xl);
-  }
-
-  .mgmt-header__label {
-    display: inline-block;
-    font-size: var(--text-caption);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--color-primary);
-    font-weight: var(--weight-bold);
-    margin-bottom: var(--space-lg);
-  }
-
-  .mgmt-header__subtitle {
-    font-size: var(--text-body);
-    color: var(--color-text-primary);
-    max-width: 36rem;
-    margin-inline: auto;
-    line-height: var(--leading-relaxed);
-  }
-
   .mgmt-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -287,20 +197,19 @@ const managementServices = [
     box-shadow: var(--shadow-md);
   }
 
-  .mgmt-card__icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 48px;
-    height: 48px;
-    background-color: var(--color-surface-cream);
-    border-radius: var(--radius-sm);
-    font-size: var(--text-body);
+  .mgmt-card__num {
+    display: block;
+    font-size: var(--text-caption);
+    color: var(--color-text-secondary);
+    font-weight: var(--weight-medium);
+    letter-spacing: 0.04em;
     margin-bottom: var(--space-lg);
   }
 
   .mgmt-card__name {
+    font-family: var(--font-heading);
     font-size: var(--text-body);
+    font-weight: var(--weight-bold);
     margin-bottom: var(--space-sm);
   }
 
