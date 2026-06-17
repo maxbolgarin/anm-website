@@ -49,12 +49,12 @@ const tenants = [
 ];
 
 const managementServices = [
-  { icon: '🔧', name: 'Техническое обслуживание', description: 'Собственная служба эксплуатации. Электрики, сантехники, инженеры — на месте 24/7.' },
-  { icon: '✨', name: 'Клининг', description: 'Профессиональная уборка общих зон и офисов. Ежедневно и по запросу.' },
-  { icon: '🛡', name: 'Охрана и безопасность', description: 'Круглосуточная охрана, видеонаблюдение, контроль доступа по картам.' },
-  { icon: '🔑', name: 'Пропускная система', description: 'Электронные пропуска для сотрудников и гостей. Заказ через личный кабинет.' },
-  { icon: '📞', name: 'Служба заботы', description: 'Одна точка контакта для всех вопросов. Быстрое решение любых задач.' },
-  { icon: '📅', name: 'Бронирование переговорных', description: 'Современные переговорные комнаты. Онлайн-бронирование для арендаторов.' },
+  { name: 'Техническое обслуживание', description: 'Собственная служба эксплуатации. Электрики, сантехники, инженеры — на месте 24/7.' },
+  { name: 'Клининг', description: 'Профессиональная уборка общих зон и офисов. Ежедневно и по запросу.' },
+  { name: 'Охрана и безопасность', description: 'Круглосуточная охрана, видеонаблюдение, контроль доступа по картам.' },
+  { name: 'Пропускная система', description: 'Электронные пропуска для сотрудников и гостей. Заказ через личный кабинет.' },
+  { name: 'Служба заботы', description: 'Одна точка контакта для всех вопросов. Быстрое решение любых задач.' },
+  { name: 'Бронирование переговорных', description: 'Современные переговорные комнаты. Онлайн-бронирование для арендаторов.' },
 ];
 
 const managementBlocks = [
@@ -101,17 +101,48 @@ const managementBlocks = [
             Основной проект компании — развитие и управление территорией бывшей промышленной зоны на Проспекте Обуховской Обороны. Концепция редевелопмента разработана британским архитектурным бюро Horan Keoghan Ryan Limited и предусматривает превращение исторических промышленных зданий в современные бизнес-центры с сохранением их уникального характера.
           </p>
           <p>
-            Управляющая компания берет на себя решение всех хозяйственных вопросов и обеспечивает максимально комфортные условия для ведения бизнеса.
+            Управляющая компания берет на себя решение всех хозяйственных вопросов и обеспечивает комфортные условия для ведения бизнеса.
           </p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ===== SECTION 2: HISTORY ===== -->
-  <section class="section section--cream" id="history">
+  <!-- ===== MANAGEMENT SERVICES (no heading) ===== -->
+  <section class="section mgmt-section">
     <div class="container">
-      <SectionHeading title="История компании" subtitle="Ключевые этапы развития" />
+      <div class="mgmt-grid">
+        {managementServices.map((svc, i) => (
+          <div class="mgmt-card">
+            <span class="mgmt-card__num">{String(i + 1).padStart(2, '0')}</span>
+            <h3 class="mgmt-card__name">{svc.name}</h3>
+            <p class="mgmt-card__desc">{svc.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 2: OUR APPROACH ===== -->
+  <section class="section section--cream">
+    <div class="container">
+      <SectionHeading title="Наш подход" subtitle="Принципы работы управляющей компании" />
+      {managementBlocks.map((block, index) => (
+        <FeatureBlock
+          title={block.title}
+          description={block.description}
+          image={block.image}
+          imageAlt={block.imageAlt}
+          reversed={index % 2 !== 0}
+        />
+      ))}
+    </div>
+  </section>
+
+  <!-- ===== SECTION 4: HISTORY ===== -->
+  <section class="section" id="history">
+    <div class="container">
+      <SectionHeading title="История АНМ" subtitle="От текстильной фабрики до современного бизнес-квартала" />
       <div class="timeline">
         {historyEvents.map((event) => (
           <div class="timeline__item">
@@ -132,73 +163,7 @@ const managementBlocks = [
     </div>
   </section>
 
-  <!-- ===== SECTION 3: MANAGEMENT COMPANY ===== -->
-  <section class="section" id="management">
-    <div class="container">
-      <SectionHeading
-        title="Управляющая компания"
-        subtitle="Собственная управляющая компания с 20-летним опытом. Мы знаем, что нужно вашему бизнесу."
-        align="center"
-      />
-      <div class="mgmt-grid">
-        {managementServices.map((svc) => (
-          <div class="mgmt-card">
-            <span class="mgmt-card__icon">{svc.icon}</span>
-            <h3 class="mgmt-card__name">{svc.name}</h3>
-            <p class="mgmt-card__desc">{svc.description}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== SECTION 4: OUR APPROACH ===== -->
-  <section class="section section--cream">
-    <div class="container">
-      <SectionHeading title="Наш подход" subtitle="Принципы работы управляющей компании" />
-      {managementBlocks.map((block, index) => (
-        <FeatureBlock
-          title={block.title}
-          description={block.description}
-          image={block.image}
-          imageAlt={block.imageAlt}
-          reversed={index % 2 !== 0}
-        />
-      ))}
-    </div>
-  </section>
-
-  <!-- ===== SECTION 5: TRUST / TENANTS ===== -->
-  <section class="section" id="trust">
-    <div class="container">
-      <SectionHeading
-        title="Нам доверяют"
-        subtitle="Более 120 компаний выбрали наши бизнес-центры для размещения своих офисов"
-        align="center"
-      />
-      <div class="trust-stats">
-        {trustStats.map((stat) => (
-          <div class="trust-stats__item">
-            <span class="trust-stats__value">{stat.value}</span>
-            <span class="trust-stats__label">{stat.label}</span>
-          </div>
-        ))}
-      </div>
-      <div class="tenants-grid">
-        {tenants.map((tenant) => (
-          <div class="tenant-card">
-            {tenant.logo ? (
-              <img src={withBase(tenant.logo)} alt={tenant.name} class="tenant-card__logo-img" style={tenant.maxH ? `max-height: ${tenant.maxH}` : ''} />
-            ) : (
-              <div class="tenant-card__logo">{tenant.initials}</div>
-            )}
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== SECTION 6: CONTACT CTA ===== -->
+  <!-- ===== SECTION 5: CONTACT CTA ===== -->
   <ContactCTA />
 </BaseLayout>
 
@@ -310,7 +275,7 @@ const managementBlocks = [
     font-size: var(--text-h1);
     font-weight: var(--weight-bold);
     color: var(--color-primary);
-    margin-bottom: var(--space-xs);
+    margin-bottom: var(--space-md);
     line-height: 1;
   }
 
@@ -345,90 +310,11 @@ const managementBlocks = [
     }
   }
 
-  /* Trust section */
-  #trust :global(.section-heading__subtitle) {
-    max-width: none;
-  }
-
-  .trust-stats {
-    display: flex;
-    justify-content: center;
-    gap: var(--space-3xl);
-    margin-bottom: var(--space-3xl);
-    flex-wrap: wrap;
-  }
-
-  .trust-stats__item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-
-  .trust-stats__value {
-    font-family: var(--font-heading);
-    font-size: var(--text-h1);
-    font-weight: var(--weight-bold);
-    color: var(--color-primary);
-    line-height: 1.1;
-  }
-
-  .trust-stats__label {
-    font-size: var(--text-caption);
-    color: var(--color-text-secondary);
-    margin-top: var(--space-xs);
-  }
-
-  .tenants-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: var(--space-lg);
-  }
-
-  .tenant-card {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100px;
-    padding: var(--space-md) var(--space-lg);
-    background-color: var(--color-surface-cream);
-    border-radius: var(--radius-md);
-    text-align: center;
-    transition: box-shadow 0.2s ease;
-  }
-
-  .tenant-card:hover {
-    box-shadow: var(--shadow-md);
-  }
-
-  .tenant-card__logo {
-    width: 56px;
-    height: 56px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--color-surface-white);
-    border-radius: var(--radius-sm);
-    font-family: var(--font-heading);
-    font-size: var(--text-body);
-    font-weight: var(--weight-bold);
-    color: var(--color-text-secondary);
-    border: 1px solid var(--color-border);
-  }
-
-  .tenant-card__logo-img {
-    max-width: 270px;
-    max-height: 120px;
-    object-fit: contain;
-  }
-
-  .tenant-card__name {
-    font-size: var(--text-small);
-    color: var(--color-text-primary);
-    font-weight: var(--weight-medium);
-  }
-
   /* Management company section */
+  .mgmt-section {
+    padding-top: 0;
+  }
+
   .mgmt-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -446,14 +332,19 @@ const managementBlocks = [
     box-shadow: var(--shadow-md);
   }
 
-  .mgmt-card__icon {
+  .mgmt-card__num {
     display: block;
-    font-size: var(--text-body);
+    font-size: var(--text-caption);
+    color: var(--color-text-secondary);
+    font-weight: var(--weight-medium);
+    letter-spacing: 0.04em;
     margin-bottom: var(--space-lg);
   }
 
   .mgmt-card__name {
+    font-family: var(--font-heading);
     font-size: var(--text-body);
+    font-weight: var(--weight-bold);
     margin-bottom: var(--space-sm);
   }
 
@@ -464,10 +355,6 @@ const managementBlocks = [
   }
 
   @media (max-width: 1023px) {
-    .tenants-grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
-
     .mgmt-grid {
       grid-template-columns: repeat(2, 1fr);
     }
@@ -480,14 +367,6 @@ const managementBlocks = [
 
     .about-hero__image {
       aspect-ratio: 16 / 9;
-    }
-
-    .trust-stats {
-      gap: var(--space-xl);
-    }
-
-    .tenants-grid {
-      grid-template-columns: repeat(2, 1fr);
     }
 
     .mgmt-grid {
