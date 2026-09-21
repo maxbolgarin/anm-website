@@ -53,6 +53,19 @@ interface OfficeFilterProps {
   /** When this building has no offices, suggest checking the other building */
   otherBuildingName?: string;
   otherBuildingOfficesUrl?: string;
+  /** Offices baked in at build time so listings are in the static HTML (SEO); refreshed from offices.json on the client */
+  initialOffices?: Office[];
+}
+
+function scopeOffices(data: Office[], buildingSlug?: string): Office[] {
+  const available = data.filter((o) => o.available);
+  return buildingSlug ? available.filter((o) => o.buildingSlug === buildingSlug) : available;
+}
+
+function rangeOf(list: Office[], key: 'area' | 'pricePerSqm', fallback: [number, number]): [number, number] {
+  if (list.length === 0) return fallback;
+  const values = list.map((o) => o[key]);
+  return [Math.min(...values), Math.max(...values)];
 }
 
 function formatNumber(n: number): string {
@@ -67,19 +80,24 @@ export default function OfficeFilter({
   locale = 'ru',
   otherBuildingName,
   otherBuildingOfficesUrl,
+  initialOffices,
 }: OfficeFilterProps) {
   const isEn = locale === 'en';
   const officesDataUrl = withBase('/data/offices.json');
 
-  const [offices, setOffices] = useState<Office[]>([]);
-  const [loading, setLoading] = useState(true);
+  const initialScoped = initialOffices ? scopeOffices(initialOffices, buildingSlug) : [];
+  const [initAreaMin, initAreaMax] = rangeOf(initialScoped, 'area', [0, 1000]);
+  const [initPriceMin, initPriceMax] = rangeOf(initialScoped, 'pricePerSqm', [0, 5000]);
+
+  const [offices, setOffices] = useState<Office[]>(initialScoped);
+  const [loading, setLoading] = useState(!initialOffices);
 
   const [selectedBuilding, setSelectedBuilding] = useState<string>('all');
   const [selectedFloors, setSelectedFloors] = useState<number[]>([]);
-  const [areaMin, setAreaMin] = useState<number>(0);
-  const [areaMax, setAreaMax] = useState<number>(1000);
-  const [priceMin, setPriceMin] = useState<number>(0);
-  const [priceMax, setPriceMax] = useState<number>(5000);
+  const [areaMin, setAreaMin] = useState<number>(initAreaMin);
+  const [areaMax, setAreaMax] = useState<number>(initAreaMax);
+  const [priceMin, setPriceMin] = useState<number>(initPriceMin);
+  const [priceMax, setPriceMax] = useState<number>(initPriceMax);
   const [selectedType, setSelectedType] = useState<string>('all');
 
   // For multi-office browsing: current index for arrow navigation
@@ -89,17 +107,16 @@ export default function OfficeFilter({
     fetch(officesDataUrl)
       .then((res) => res.json())
       .then((data: Office[]) => {
-        const available = data.filter((o) => o.available);
-        const scoped = buildingSlug
-          ? available.filter((o) => o.buildingSlug === buildingSlug)
-          : available;
+        const scoped = scopeOffices(data, buildingSlug);
         setOffices(scoped);
 
         if (scoped.length > 0) {
-          setAreaMin(Math.min(...scoped.map((o) => o.area)));
-          setAreaMax(Math.max(...scoped.map((o) => o.area)));
-          setPriceMin(Math.min(...scoped.map((o) => o.pricePerSqm)));
-          setPriceMax(Math.max(...scoped.map((o) => o.pricePerSqm)));
+          const [aMin, aMax] = rangeOf(scoped, 'area', [0, 1000]);
+          const [pMin, pMax] = rangeOf(scoped, 'pricePerSqm', [0, 5000]);
+          setAreaMin(aMin);
+          setAreaMax(aMax);
+          setPriceMin(pMin);
+          setPriceMax(pMax);
         }
 
         setLoading(false);

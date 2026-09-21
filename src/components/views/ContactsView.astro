@@ -9,6 +9,7 @@ import ContactCTA from '@components/ContactCTA.astro';
 import { contactInfo } from '@data/navigation';
 import { buildings } from '@data/buildings';
 import { withBase } from '@utils/withBase';
+import { absoluteUrl } from '@utils/seo';
 import type { Locale } from '@utils/locale';
 
 interface Props {
@@ -18,11 +19,10 @@ interface Props {
 const { locale } = Astro.props;
 const isEn = locale === 'en';
 const prefix = isEn ? '/en' : '';
-const site = (Astro.site?.toString() || 'https://www.a-n-m.ru/').replace(/\/$/, '');
 
 const t = isEn
   ? {
-      title: 'Contacts — ANM Business Centers | Office Rental in St. Petersburg',
+      title: 'Contacts — Office Rental near Elizarovskaya Metro, St. Petersburg | ANM',
       description: 'Contact ANM: leasing department +7 (812) 336-55-64, main line +7 (812) 313-18-04, arenda@ukanm.ru. Obukhovskoy Oborony Ave. 70, St. Petersburg.',
       crumbs: [{ label: 'Home', href: '/en/' }, { label: 'Contacts' }],
       eyebrow: 'Contacts',
@@ -52,7 +52,7 @@ const t = isEn
       bc: (n: string) => `Business center ${n}`,
     }
   : {
-      title: 'Контакты АНМ — телефон, адрес, карта | Аренда офисов в Санкт-Петербурге',
+      title: 'Контакты АНМ — аренда офисов у м. Елизаровская, пр. Обуховской Обороны, 70',
       description: 'Контакты АНМ: коммерческий отдел +7 (812) 336-55-64, основной +7 (812) 313-18-04, arenda@ukanm.ru. Санкт-Петербург, пр. Обуховской Обороны, 70.',
       crumbs: [{ label: 'Главная', href: '/' }, { label: 'Контакты' }],
       eyebrow: 'Контакты',
@@ -94,7 +94,7 @@ const center = buildings[0].coordinates;
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'ContactPage',
-  url: `${site}${withBase(`${prefix}/contacts/`)}`,
+  url: absoluteUrl(`${prefix}/contacts/`),
   mainEntity: {
     '@type': 'Organization',
     name: isEn ? 'Aleksandro-Nevskaya Manufaktura (ANM)' : 'Александро-Невская Мануфактура (АНМ)',

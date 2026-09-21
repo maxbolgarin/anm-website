@@ -1,5 +1,6 @@
 ---
 import { withBase } from '@utils/withBase';
+import { absoluteUrl } from '@utils/seo';
 import { getLocaleFromPath } from '@utils/locale';
 
 interface BreadcrumbItem {
@@ -13,7 +14,6 @@ interface Props {
 
 const { items } = Astro.props;
 const isEn = getLocaleFromPath(Astro.url.pathname) === 'en';
-const site = (Astro.site?.toString() || 'https://www.a-n-m.ru/').replace(/\/$/, '');
 
 // BreadcrumbList structured data (rich result in search)
 const jsonLd = {
@@ -23,7 +23,7 @@ const jsonLd = {
     '@type': 'ListItem',
     position: i + 1,
     name: item.label,
-    ...(item.href ? { item: `${site}${withBase(item.href)}` } : {}),
+    ...(item.href ? { item: absoluteUrl(item.href) } : {}),
   })),
 };
 ---

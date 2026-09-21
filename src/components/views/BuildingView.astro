@@ -7,10 +7,12 @@ import Img from '@components/Img.astro';
 import TypicalOfficePromo from '@components/TypicalOfficePromo.astro';
 import InteractiveMapIsland from '@components/InteractiveMapIsland.astro';
 import ContactCTA from '@components/ContactCTA.astro';
+import FaqSection from '@components/sections/FaqSection.astro';
 import { getBuildingBySlug } from '@data/buildings';
 import { getBuildingEnBySlug } from '@data/buildings-en';
 import { getShowcase } from '@data/showcase';
 import { withBase } from '@utils/withBase';
+import { absoluteUrl } from '@utils/seo';
 import type { Locale } from '@utils/locale';
 
 interface Props {
@@ -24,7 +26,6 @@ const prefix = isEn ? '/en' : '';
 const b = getBuildingBySlug(slug)!;
 const en = getBuildingEnBySlug(slug)!;
 const show = getShowcase(locale).find((s) => s.slug === slug)!;
-const site = (Astro.site?.toString() || 'https://www.a-n-m.ru/').replace(/\/$/, '');
 
 // Localised building data (RU from buildings.ts, EN overrides from buildings-en.ts)
 const d = {
@@ -52,7 +53,7 @@ const promo = slug === 'fidel'
 
 const t = isEn
   ? {
-      title: `${d.fullName} — Class ${b.class} Office Rental in St. Petersburg | ANM`,
+      title: `${d.fullName} — Class ${b.class} Offices near Elizarovskaya Metro | ANM`,
       description: `${d.fullName} at ${d.shortAddress}: ${d.stats[1].value} m², ${d.stats[0].value} floors, ${d.walk} min walk from ${d.metro} metro. Office rental directly from the owner.`,
       classLabel: 'class',
       offices: 'Available offices',
@@ -77,7 +78,7 @@ const t = isEn
       faqTitle: 'Frequently asked questions',
     }
   : {
-      title: `${d.fullName} — аренда офисов класса ${b.class} в Санкт-Петербурге | АНМ`,
+      title: `${d.fullName} — аренда офисов класса ${b.class} у м. Елизаровская | АНМ`,
       description: `${d.fullName} на ${d.shortAddress}: ${d.stats[1].value} м², ${d.stats[0].value} этажей, ${d.walk} минут пешком от м. ${d.metro}. Аренда офисов напрямую от собственника.`,
       classLabel: 'класс',
       offices: 'Свободные офисы',
@@ -108,8 +109,8 @@ const jsonLd: object[] = [
     '@type': 'OfficeSpace',
     name: d.fullName,
     description: d.description,
-    url: `${site}${withBase(`${prefix}/buildings/${slug}/`)}`,
-    image: `${site}${withBase(`/images/v2/${show.hero.name}.jpg`)}`,
+    url: absoluteUrl(`${prefix}/buildings/${slug}/`),
+    image: absoluteUrl(`/images/v2/${show.hero.name}.jpg`),
     address: {
       '@type': 'PostalAddress',
       streetAddress: d.address,
@@ -120,17 +121,6 @@ const jsonLd: object[] = [
     openingHours: 'Mo-Su 00:00-23:59',
   },
 ];
-if (d.faq.length) {
-  jsonLd.push({
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: d.faq.map((f) => ({
-      '@type': 'Question',
-      name: f.question,
-      acceptedAnswer: { '@type': 'Answer', text: f.answer },
-    })),
-  });
-}
 ---
 
 <BuildingLayout
@@ -318,24 +308,7 @@ if (d.faq.length) {
   </section>
 
   <!-- ===== FAQ ===== -->
-  {d.faq.length > 0 && (
-    <section class="section faq" aria-labelledby="faq-title">
-      <div class="container faq__grid">
-        <div class="faq__head" data-reveal>
-          <span class="eyebrow">{t.faqEyebrow}</span>
-          <h2 id="faq-title">{t.faqTitle}</h2>
-        </div>
-        <div class="faq__list">
-          {d.faq.map((f, i) => (
-            <details class="faq__item" open={i === 0}>
-              <summary class="faq__q">{f.question}</summary>
-              <p class="faq__a">{f.answer}</p>
-            </details>
-          ))}
-        </div>
-      </div>
-    </section>
-  )}
+  <FaqSection items={d.faq} eyebrow={t.faqEyebrow} title={t.faqTitle} />
 
   <ContactCTA />
 </BuildingLayout>
@@ -486,16 +459,14 @@ if (d.faq.length) {
   .block-head .eyebrow,
   .strip__head .eyebrow,
   .specs__head .eyebrow,
-  .loc-b__text .eyebrow,
-  .faq__head .eyebrow {
+  .loc-b__text .eyebrow {
     margin-bottom: 1rem;
   }
 
   .block-head h2,
   .strip__head h2,
   .specs__head h2,
-  .loc-b__text h2,
-  .faq__head h2 {
+  .loc-b__text h2 {
     max-width: 16ch;
     font-size: var(--text-h2);
   }
@@ -779,70 +750,6 @@ if (d.faq.length) {
     grid-column: 7 / 13;
   }
 
-  /* ── FAQ ── */
-  .faq__grid {
-    display: grid;
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    column-gap: var(--grid-gap);
-    row-gap: var(--space-2xl);
-  }
-
-  .faq__head {
-    grid-column: 1 / 5;
-  }
-
-  .faq__list {
-    grid-column: 6 / 13;
-    border-top: 1px solid var(--color-line-strong);
-  }
-
-  .faq__item {
-    border-bottom: 1px solid var(--color-line-strong);
-  }
-
-  .faq__q {
-    position: relative;
-    display: block;
-    padding: 1.4rem 3rem 1.4rem 0;
-    font-size: clamp(1.0625rem, 1.3vw, 1.25rem);
-    font-weight: var(--weight-regular);
-    cursor: pointer;
-    list-style: none;
-  }
-
-  .faq__q::-webkit-details-marker {
-    display: none;
-  }
-
-  .faq__q::before,
-  .faq__q::after {
-    content: '';
-    position: absolute;
-    right: 0.25rem;
-    top: 50%;
-    width: 0.9rem;
-    height: 1px;
-    background: currentColor;
-    transition: transform var(--transition-base);
-  }
-
-  .faq__q::after {
-    transform: rotate(90deg);
-  }
-
-  .faq__item[open] .faq__q::after {
-    transform: rotate(0deg);
-  }
-
-  .faq__a {
-    max-width: 44rem;
-    margin: 0;
-    padding-bottom: 1.5rem;
-    font-size: var(--text-small);
-    line-height: 1.75;
-    color: var(--color-text-secondary);
-  }
-
   /* ── Responsive ── */
   @media (max-width: 1023px) {
     .bh__title-wrap,
@@ -856,9 +763,7 @@ if (d.faq.length) {
     .specs__head,
     .specs__list,
     .loc-b__text,
-    .loc-b__map,
-    .faq__head,
-    .faq__list {
+    .loc-b__map {
       grid-column: 1 / 13;
       grid-row: auto;
     }

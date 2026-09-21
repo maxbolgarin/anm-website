@@ -8,7 +8,7 @@ MAKE COMMITS AFTER EVERYTHING IS WORKING. MAKE THIS FILE ACTUAL AFTER CHANGES.
 
 Corporate website for **УК АНМ** (Александро-Невская Мануфактура) — a real estate management company in Saint Petersburg. Two business centers at Pr. Obukhovskoy Oborony, 70.
 
-- **Domain:** https://www.a-n-m.ru (currently deployed to GitHub Pages at `maxbolgarin.github.io/anm-website`)
+- **Domain:** https://ukanm.ru (main, production). a-n-m.ru is a secondary domain — should 301-redirect to ukanm.ru. A staging copy is deployed to GitHub Pages at `maxbolgarin.github.io/anm-website`.
 - **Languages:** Russian (default) and English (`/en/...`). RU and EN pages share one view component each (see *Views* below).
 - **Purpose:** Office rental lead generation, building presentations, company info
 
@@ -16,7 +16,8 @@ Corporate website for **УК АНМ** (Александро-Невская Ма�
 
 ```bash
 pnpm dev        # Dev server at localhost:4321
-pnpm build      # Production build to ./dist/
+pnpm build      # Staging build (GitHub Pages, base /anm-website, noindex) to ./dist/
+DEPLOY_TARGET=production pnpm build   # Production build for ukanm.ru (base /, indexable)
 pnpm preview    # Preview production build locally
 ```
 
@@ -65,20 +66,24 @@ Building sub-pages (`offices`, `infrastructure`, `how-to-get`) and `legal` are s
 
 ### Base URL Handling
 
-The site is configured with `base: '/anm-website'` in `astro.config.mjs`. All internal paths must go through `withBase()` from `@utils/withBase` — it prepends the base URL and correctly handles external URLs, anchors, `mailto:`, and `tel:` links. Use it in both Astro components and React islands.
+`astro.config.mjs` switches on `DEPLOY_TARGET`: production → `site: https://ukanm.ru`, `base: '/'`; otherwise staging → `base: '/anm-website'`. All internal paths must go through `withBase()` from `@utils/withBase` — it prepends the base URL and correctly handles external URLs, anchors, `mailto:`, and `tel:` links. Use it in both Astro components and React islands.
 
 ### Data Flow
 
 - Building and office data are TypeScript modules in `src/data/` with helpers: `getBuildingBySlug()`, `getOfficesByBuilding()`, `getAllAvailableOffices()`
-- **Dual data source:** `OfficeFilter` fetches from `/data/offices.json` at runtime (client-side). If you change `src/data/offices.ts`, you must also update `public/data/offices.json` to stay in sync. These are currently out of sync.
+- **Office listings:** `public/data/offices.json` is the source for the listing. `OfficeFilterIsland` imports it at build time and passes `initialOffices` (listings are server-rendered into the HTML → indexable), then the island re-fetches the JSON on the client. `ArendaView` builds Offer JSON-LD from the same file. Keep `src/data/offices.ts` in sync.
 - Navigation structure (including nested dropdowns) is in `src/data/navigation.ts`
 
-### SEO
+### SEO / GEO
 
-- Each page sets `<title>`, `<meta description>`, canonical URL, Open Graph tags
-- Organization JSON-LD on every page (via `BaseLayout`, `jsonLd` accepts an object or array); `Breadcrumbs` emits BreadcrumbList; building pages add OfficeSpace + FAQPage; home adds an ItemList of the buildings; contacts adds ContactPage
-- Sitemap auto-generated with ru/en hreflang alternates
-- Building pages use `BuildingLayout` which extends `BaseLayout` with breadcrumbs
+- `src/utils/seo.ts`: `PRODUCTION_ORIGIN` (https://ukanm.ru), `absoluteUrl()`, `stripBase()`, `IS_PRODUCTION`. Canonical, hreflang (ru/en/x-default), og:url/og:image and JSON-LD URLs always point to ukanm.ru — even on staging.
+- Staging builds add `<meta name="robots" content="noindex, nofollow">` (never let the GitHub Pages copy compete with ukanm.ru).
+- `BaseLayout` emits an `@graph`: Organization (`#organization`), RealEstateAgent (`#business`, "аренда офисов у м. Елизаровская", geo, 24/7) and WebSite. Pages add their own via `jsonLd` (object or array).
+- `Breadcrumbs` → BreadcrumbList; building pages → OfficeSpace; home → ItemList of buildings; arenda → ItemList of Offer (available offices); contacts → ContactPage.
+- FAQ: `src/components/sections/FaqSection.astro` renders the visible accordion AND the matching FAQPage JSON-LD (building pages, territory page). Structured data must always match visible text.
+- Target query «офисы/аренда офисов у м. Елизаровская»: carried by `<title>`/meta descriptions (home, arenda, territory, buildings, how-to-get), the territory FAQ and body copy. Never use hidden text for keywords (search-engine spam).
+- `public/robots.txt` (allows search + AI crawlers, sitemap on ukanm.ru) and `public/llms.txt` (company facts for AI assistants — keep in sync with real data).
+- Sitemap auto-generated with ru/en hreflang alternates.
 
 ### Styling
 
@@ -156,5 +161,6 @@ Both near metro **Елизаровская** (9 min walk).
 
 - Yandex Maps API key is placeholder (`YOUR_API_KEY` in InteractiveMap.tsx)
 - `public/data/offices.json` is out of sync with `src/data/offices.ts` (json has `available: false`, ts has `available: true`)
-- Office listings are fetched client-side from `offices.json` (not indexed by search engines)
+- The GitHub Actions workflow still builds the staging version; production deploy to ukanm.ru (hosting, `DEPLOY_TARGET=production`) is not set up yet
+- Yandex Webmaster / Google Search Console verification codes not added yet
 - No lead form yet — CTAs use phone / `mailto:` (static hosting)

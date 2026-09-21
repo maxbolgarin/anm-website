@@ -13,6 +13,7 @@ import ContactCTA from '@components/ContactCTA.astro';
 import { getShowcase } from '@data/showcase';
 import { buildings } from '@data/buildings';
 import { withBase } from '@utils/withBase';
+import { absoluteUrl } from '@utils/seo';
 import type { Locale } from '@utils/locale';
 
 interface Props {
@@ -23,12 +24,11 @@ const { locale } = Astro.props;
 const isEn = locale === 'en';
 const prefix = isEn ? '/en' : '';
 const showcase = getShowcase(locale);
-const site = (Astro.site?.toString() || 'https://www.a-n-m.ru/').replace(/\/$/, '');
 
 const t = isEn
   ? {
-      title: 'Office Rental in St. Petersburg Business Centers on the Neva — ANM',
-      description: 'Offices for rent in Business Loft Fidel (class B+) and Business Center ANM in St. Petersburg: a 9-minute walk from Elizarovskaya metro, 328 parking spaces, 24/7 access. ANM — 20+ years on the market.',
+      title: 'Office Rental near Elizarovskaya Metro, St. Petersburg — Business Centers on the Neva | ANM',
+      description: 'Office rental near Elizarovskaya metro in St. Petersburg: Business Loft Fidel (class B+) and Business Center ANM on the Neva, a 9-minute walk, 328 parking spaces, 24/7 access. Direct lease from the owner.',
       mapEyebrow: 'Territory',
       mapTitle: 'One territory — two business centers',
       mapLead: 'Explore the site: cafés, parking, fitness, the embankment and building entrances.',
@@ -38,8 +38,8 @@ const t = isEn
       disclosureLink: 'Full information',
     }
   : {
-      title: 'Аренда офисов в бизнес-центрах на Неве в Санкт-Петербурге — АНМ',
-      description: 'Офисы в аренду в бизнес-лофте Фидель (класс B+) и бизнес-центре АНМ в Санкт-Петербурге: 9 минут от м. Елизаровская, 328 машиномест, доступ 24/7. АНМ — более 20 лет на рынке.',
+      title: 'Аренда офисов у м. Елизаровская — бизнес-центры на Неве в Санкт-Петербурге | АНМ',
+      description: 'Аренда офисов у метро Елизаровская: бизнес-лофт Фидель (класс B+) и бизнес-центр АНМ на набережной Невы, 9 минут пешком, 328 машиномест, доступ 24/7. Прямая аренда от собственника.',
       mapEyebrow: 'Территория',
       mapTitle: 'Одна территория — два бизнес-центра',
       mapLead: 'Изучите территорию: кафе, паркинг, фитнес, набережная и входы в здания.',
@@ -60,7 +60,7 @@ const jsonLd = {
     item: {
       '@type': 'Place',
       name: showcase.find((s) => s.slug === b.slug)?.title ?? b.name,
-      url: `${site}${withBase(`${prefix}/buildings/${b.slug}/`)}`,
+      url: absoluteUrl(`${prefix}/buildings/${b.slug}/`),
       address: {
         '@type': 'PostalAddress',
         streetAddress: b.address,

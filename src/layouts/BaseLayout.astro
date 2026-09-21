@@ -4,6 +4,7 @@ import Footer from '@components/Footer.astro';
 import '@styles/global.css';
 import { withBase } from '@utils/withBase';
 import { getLocaleFromPath, getLocalePath } from '@utils/locale';
+import { absoluteUrl, stripBase, IS_PRODUCTION } from '@utils/seo';
 
 interface Props {
   title: string;
@@ -28,32 +29,94 @@ const jsonLdList = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
 
 const currentPath = Astro.url.pathname;
 const locale = getLocaleFromPath(currentPath);
-const siteUrl = Astro.site?.toString().replace(/\/$/, '') || 'https://www.a-n-m.ru';
-const canonical = canonicalUrl || `${siteUrl}${currentPath}`;
+const sitePath = stripBase(currentPath); // e.g. "/buildings/fidel/"
 
-// Build hreflang alternate paths
-const ruPath = locale === 'ru' ? currentPath : `${siteUrl}${withBase(getLocalePath(currentPath, 'ru'))}`;
-const enPath = locale === 'en' ? currentPath : `${siteUrl}${withBase(getLocalePath(currentPath, 'en'))}`;
-const ruHref = locale === 'ru' ? `${siteUrl}${currentPath}` : ruPath;
-const enHref = locale === 'en' ? `${siteUrl}${currentPath}` : enPath;
+// Canonical + hreflang always point at the official address (ukanm.ru),
+// so a test copy can never compete with the real site in search.
+const canonical = canonicalUrl || absoluteUrl(sitePath);
+const ruHref = absoluteUrl(getLocalePath(currentPath, 'ru'));
+const enHref = absoluteUrl(getLocalePath(currentPath, 'en'));
+const ogImageUrl = /^https?:/.test(ogImage) ? ogImage : absoluteUrl(ogImage);
 
 const ogLocale = locale === 'en' ? 'en_US' : 'ru_RU';
 
-// Organization JSON-LD (appears on every page)
+// Fonts: declared here (not in CSS) so the URLs follow the build's base path
+const fontUrl = (f: string) => withBase(`/fonts/${f}`);
+const fontFaces = [
+  ['Montserrat-cyrillic-ext.woff2', 'U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F'],
+  ['Montserrat-cyrillic.woff2', 'U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116'],
+  ['Montserrat-latin-ext.woff2', 'U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF'],
+  ['Montserrat-latin.woff2', 'U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD'],
+];
+const fontCss = fontFaces
+  .map(([file, range]) => `@font-face{font-family:'Montserrat';font-style:normal;font-weight:100 900;font-display:swap;src:url('${fontUrl(file)}') format('woff2');unicode-range:${range}}`)
+  .join('');
+
+// Organization + local business (on every page) — the facts search engines
+// and AI assistants use to describe the company.
+const isEn = locale === 'en';
 const orgJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "АНМ",
-  "alternateName": "Aleksandro-Nevskaya Manufaktura",
-  "url": siteUrl,
-  "telephone": "+7-812-313-18-04",
-  "email": "mail@ukanm.ru",
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "Пр. Обуховской Обороны д. 70, корпус 2, лит А",
-    "addressLocality": "Санкт-Петербург",
-    "addressCountry": "RU"
-  }
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Organization',
+      '@id': `${absoluteUrl('/')}#organization`,
+      name: 'Александро-Невская Мануфактура',
+      alternateName: ['АНМ', 'УК АНМ', 'Aleksandro-Nevskaya Manufaktura', 'ANM'],
+      url: absoluteUrl('/'),
+      logo: absoluteUrl('/images/common/logo-icon.svg'),
+      email: 'arenda@ukanm.ru',
+      telephone: '+7-812-313-18-04',
+      foundingDate: '2004',
+      address: { '@id': `${absoluteUrl('/')}#address` },
+      contactPoint: [
+        { '@type': 'ContactPoint', telephone: '+7-812-336-55-64', contactType: 'sales', areaServed: 'RU', availableLanguage: ['ru', 'en'] },
+        { '@type': 'ContactPoint', telephone: '+7-812-703-50-09', contactType: 'customer service', areaServed: 'RU' },
+      ],
+    },
+    {
+      '@type': 'RealEstateAgent',
+      '@id': `${absoluteUrl('/')}#business`,
+      name: isEn ? 'ANM — office rental at Elizarovskaya metro' : 'АНМ — аренда офисов у м. Елизаровская',
+      description: isEn
+        ? 'Office rental in Business Loft Fidel (class B+) and Business Center ANM on the Neva embankment in St. Petersburg, a 9-minute walk from Elizarovskaya metro. Direct lease from the owner.'
+        : 'Аренда офисов в бизнес-лофте Фидель (класс B+) и бизнес-центре АНМ на набережной Невы в Санкт-Петербурге, в 9 минутах пешком от метро «Елизаровская». Прямая аренда от собственника.',
+      url: absoluteUrl('/'),
+      image: absoluteUrl('/territory/anm-top-poster.jpg'),
+      telephone: '+7-812-336-55-64',
+      email: 'arenda@ukanm.ru',
+      parentOrganization: { '@id': `${absoluteUrl('/')}#organization` },
+      address: {
+        '@type': 'PostalAddress',
+        '@id': `${absoluteUrl('/')}#address`,
+        streetAddress: isEn ? 'Obukhovskoy Oborony Ave. 70, bldg. 2, lit. A' : 'пр. Обуховской Обороны, д. 70, корп. 2, лит. А',
+        postalCode: '192029',
+        addressLocality: isEn ? 'Saint Petersburg' : 'Санкт-Петербург',
+        addressRegion: isEn ? 'Saint Petersburg' : 'Санкт-Петербург',
+        addressCountry: 'RU',
+      },
+      geo: { '@type': 'GeoCoordinates', latitude: 59.9010, longitude: 30.4295 },
+      hasMap: 'https://yandex.ru/maps/?pt=30.4295,59.9010&z=16',
+      openingHoursSpecification: {
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+        opens: '00:00',
+        closes: '23:59',
+      },
+      areaServed: { '@type': 'City', name: isEn ? 'Saint Petersburg' : 'Санкт-Петербург' },
+      knowsAbout: isEn
+        ? ['office rental', 'business center', 'loft offices', 'Elizarovskaya metro', 'Nevsky district']
+        : ['аренда офисов', 'бизнес-центр', 'лофт-офисы', 'метро Елизаровская', 'Невский район'],
+    },
+    {
+      '@type': 'WebSite',
+      '@id': `${absoluteUrl('/')}#website`,
+      url: absoluteUrl('/'),
+      name: isEn ? 'Aleksandro-Nevskaya Manufaktura' : 'Александро-Невская Мануфактура',
+      inLanguage: isEn ? 'en' : 'ru',
+      publisher: { '@id': `${absoluteUrl('/')}#organization` },
+    },
+  ],
 };
 ---
 
@@ -71,12 +134,14 @@ const orgJsonLd = {
   <link rel="canonical" href={canonical} />
   <link rel="alternate" hreflang="ru" href={ruHref} />
   <link rel="alternate" hreflang="en" href={enHref} />
+  <link rel="alternate" hreflang="x-default" href={ruHref} />
+  {!IS_PRODUCTION && <meta name="robots" content="noindex, nofollow" />}
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
-  <meta property="og:image" content={`${siteUrl}${withBase(ogImage)}`} />
+  <meta property="og:image" content={ogImageUrl} />
   <meta property="og:url" content={canonical} />
   <meta property="og:locale" content={ogLocale} />
 
@@ -84,6 +149,7 @@ const orgJsonLd = {
   <link rel="icon" type="image/x-icon" href={withBase('/favicon.ico')} />
 
   <!-- Fonts: Montserrat (variable) via @font-face in typography.css — preload the primary subsets -->
+  <style is:inline set:html={fontCss}></style>
   <link rel="preload" href={withBase('/fonts/Montserrat-cyrillic.woff2')} as="font" type="font/woff2" crossorigin />
   <link rel="preload" href={withBase('/fonts/Montserrat-latin.woff2')} as="font" type="font/woff2" crossorigin />
   <meta property="og:site_name" content={locale === 'en' ? 'Aleksandro-Nevskaya Manufaktura' : 'Александро-Невская Мануфактура'} />

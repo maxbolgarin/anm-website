@@ -11,6 +11,7 @@ import AmenitiesIndex from '@components/home/AmenitiesIndex.astro';
 import ManagementServices from '@components/sections/ManagementServices.astro';
 import LocationContacts from '@components/LocationContacts.astro';
 import ContactCTA from '@components/ContactCTA.astro';
+import FaqSection from '@components/sections/FaqSection.astro';
 import { buildings } from '@data/buildings';
 import type { Locale } from '@utils/locale';
 
@@ -24,8 +25,8 @@ const prefix = isEn ? '/en' : '';
 
 const t = isEn
   ? {
-      title: 'Location & Territory — Aleksandro-Nevskaya Manufaktura | ANM',
-      description: 'Two business centers on the historic Neva embankment in St. Petersburg: 9 minutes from Elizarovskaya metro, 328 parking spaces, cafés, fitness and 24/7 security on site.',
+      title: 'Offices near Elizarovskaya Metro — Location & Territory | ANM',
+      description: 'Offices a 9-minute walk from Elizarovskaya metro, St. Petersburg: two business centers on the historic Neva embankment with 328 parking spaces, cafés, fitness and 24/7 security.',
       crumbs: [{ label: 'Home', href: '/en/' }, { label: 'About', href: '/en/about/' }, { label: 'Location' }],
       eyebrow: 'Location',
       h1: 'A historic territory on the Neva',
@@ -43,10 +44,42 @@ const t = isEn
       cityEyebrow: 'In the city',
       cityTitle: 'On the map of St. Petersburg',
       bc: (n: string) => `Business center ${n}`,
+      faqEyebrow: 'FAQ',
+      faqTitle: 'Offices near Elizarovskaya: frequently asked\u00a0questions',
+      faq: [
+        {
+          question: 'How far are the offices from Elizarovskaya metro station?',
+          answer: 'About a 9-minute walk. Exit the metro, turn right and walk along Pr. Obukhovskoy Oborony in the direction of increasing house numbers until you reach the entrance to the territory at No. 70.',
+        },
+        {
+          question: 'Where exactly is the territory?',
+          answer: 'Pr. Obukhovskoy Oborony, 70, Nevsky District, St. Petersburg — on the Neva embankment. Business Loft Fidel is at No. 70, Business Center ANM at No. 70 bldg. 2.',
+        },
+        {
+          question: 'What kind of offices are available?',
+          answer: 'Two business centers on one territory: Business Loft Fidel (class B+, a historic 1855 building with ceilings up to 4.2 m) and Business Center ANM (class B). Private offices and open-plan spaces of different sizes are available; see the Rent page for the current list.',
+        },
+        {
+          question: 'Is there parking?',
+          answer: 'Yes. The territory has 328 secured parking spaces: 218 at Business Loft Fidel and 110 at Business Center ANM, plus guest spaces.',
+        },
+        {
+          question: 'What is on the territory besides offices?',
+          answer: 'Cafés and canteens, a fitness studio, meeting rooms, a reception, 24/7 security with card access, and the Neva embankment for walks and outdoor meetings.',
+        },
+        {
+          question: 'What is the minimum lease term and who is the landlord?',
+          answer: 'The standard minimum term is 11 months. You lease directly from the owner, the management company Aleksandro-Nevskaya Manufaktura.',
+        },
+        {
+          question: 'How do I arrange a viewing?',
+          answer: 'Call the commercial department at +7 (812) 336-55-64 or write to arenda@ukanm.ru — we will show you the available offices at a convenient time.',
+        },
+      ],
     }
   : {
-      title: 'Локация и территория — Александро-Невская Мануфактура | АНМ',
-      description: 'Два бизнес-центра на исторической набережной Невы в Санкт-Петербурге: 9 минут от м. Елизаровская, 328 машиномест, кафе, фитнес и охрана 24/7 на территории.',
+      title: 'Офисы у метро Елизаровская — локация и территория АНМ | Санкт-Петербург',
+      description: 'Офисы в 9 минутах пешком от метро Елизаровская: два бизнес-центра на набережной Невы в Невском районе, 328 машиномест, кафе, фитнес, охрана 24/7. Как добраться и что есть на территории.',
       crumbs: [{ label: 'Главная', href: '/' }, { label: 'О компании', href: '/about/' }, { label: 'Локация' }],
       eyebrow: 'Локация',
       h1: 'Историческая территория на Неве',
@@ -64,6 +97,38 @@ const t = isEn
       cityEyebrow: 'В городе',
       cityTitle: 'На карте Санкт-Петербурга',
       bc: (n: string) => (n.startsWith('БЦ') ? n : `БЦ ${n}`),
+      faqEyebrow: 'Вопросы',
+      faqTitle: 'Офисы у\u00a0м.\u00a0Елизаровская: частые вопросы',
+      faq: [
+        {
+          question: 'Сколько идти до офисов от метро Елизаровская?',
+          answer: 'Около 9 минут пешком. Выйдите из метро, поверните направо и идите по пр. Обуховской Обороны в сторону увеличения нумерации домов до входа на территорию у дома 70.',
+        },
+        {
+          question: 'Где находится территория?',
+          answer: 'Санкт-Петербург, Невский район, пр. Обуховской Обороны, 70 — на набережной Невы. Бизнес-лофт Фидель — дом 70, бизнес-центр АНМ — дом 70, корпус 2.',
+        },
+        {
+          question: 'Какие офисы можно арендовать?',
+          answer: 'На одной территории два бизнес-центра: бизнес-лофт Фидель (класс B+, исторический корпус 1855 года с потолками до 4,2 м) и бизнес-центр АНМ (класс B). Доступны кабинеты и помещения открытой планировки разной площади — актуальный список на странице «Аренда».',
+        },
+        {
+          question: 'Есть ли парковка?',
+          answer: 'Да. На территории 328 охраняемых машиномест: 218 у бизнес-лофта Фидель и 110 у бизнес-центра АНМ, а также гостевые места.',
+        },
+        {
+          question: 'Что есть на территории, кроме офисов?',
+          answer: 'Кафе и столовые, фитнес-студия, переговорные, ресепшн, круглосуточная охрана с доступом по картам и набережная Невы для прогулок и встреч на свежем воздухе.',
+        },
+        {
+          question: 'Какой минимальный срок аренды и кто арендодатель?',
+          answer: 'Стандартный минимальный срок — 11 месяцев. Аренда напрямую от собственника — управляющей компании «Александро-Невская Мануфактура».',
+        },
+        {
+          question: 'Как договориться о просмотре?',
+          answer: 'Позвоните в коммерческий отдел по телефону +7 (812) 336-55-64 или напишите на arenda@ukanm.ru — покажем свободные офисы в удобное время.',
+        },
+      ],
     };
 
 const mapMarkers = buildings.map((b) => ({
@@ -124,6 +189,8 @@ const mapMarkers = buildings.map((b) => ({
       <InteractiveMapIsland markers={mapMarkers} center={{ lat: 59.9010, lng: 30.4295 }} zoom={15} height="480px" />
     </div>
   </section>
+
+  <FaqSection items={t.faq} eyebrow={t.faqEyebrow} title={t.faqTitle} />
 
   <LocationContacts />
 

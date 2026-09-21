@@ -1,3 +1,32 @@
+# ukanm.ru — УК «Александро-Невская Мануфактура»
+# Search engines and AI assistants are welcome to index the whole site.
+
 User-agent: *
 Allow: /
-Sitemap: https://www.a-n-m.ru/sitemap-index.xml
+
+User-agent: Yandex
+Allow: /
+Clean-param: utm_source&utm_medium&utm_campaign&utm_content&utm_term&yclid&gclid
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+Sitemap: https://ukanm.ru/sitemap-index.xml

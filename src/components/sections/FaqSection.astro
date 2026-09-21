@@ -1,0 +1,134 @@
+---
+/**
+ * FAQ accordion + FAQPage structured data.
+ * Used on building pages and the territory page. Answers are plain text
+ * (they are mirrored 1:1 into JSON-LD, which must match the visible copy).
+ */
+interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  items: FaqItem[];
+  eyebrow: string;
+  title: string;
+  id?: string;
+  /** Open the first item by default */
+  openFirst?: boolean;
+}
+
+const { items, eyebrow, title, id = 'faq', openFirst = true } = Astro.props;
+const headingId = `${id}-title`;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: items.map((f) => ({
+    '@type': 'Question',
+    name: f.question,
+    acceptedAnswer: { '@type': 'Answer', text: f.answer },
+  })),
+};
+---
+
+{items.length > 0 && (
+  <section class="section faq" id={id} aria-labelledby={headingId}>
+    <div class="container faq__grid">
+      <div class="faq__head" data-reveal>
+        <span class="eyebrow">{eyebrow}</span>
+        <h2 id={headingId}>{title}</h2>
+      </div>
+      <div class="faq__list">
+        {items.map((f, i) => (
+          <details class="faq__item" open={openFirst && i === 0}>
+            <summary class="faq__q">{f.question}</summary>
+            <p class="faq__a">{f.answer}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+)}
+
+<style>
+  .faq__grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--grid-gap);
+    row-gap: var(--space-2xl);
+  }
+
+  .faq__head {
+    grid-column: 1 / 5;
+  }
+
+  .faq__head .eyebrow {
+    margin-bottom: 1rem;
+  }
+
+  .faq__head h2 {
+    max-width: 16ch;
+    font-size: var(--text-h2);
+  }
+
+  .faq__list {
+    grid-column: 6 / 13;
+    border-top: 1px solid var(--color-line-strong);
+  }
+
+  .faq__item {
+    border-bottom: 1px solid var(--color-line-strong);
+  }
+
+  .faq__q {
+    position: relative;
+    display: block;
+    padding: 1.4rem 3rem 1.4rem 0;
+    font-size: clamp(1.0625rem, 1.3vw, 1.25rem);
+    font-weight: var(--weight-regular);
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .faq__q::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq__q::before,
+  .faq__q::after {
+    content: '';
+    position: absolute;
+    right: 0.25rem;
+    top: 50%;
+    width: 0.9rem;
+    height: 1px;
+    background: currentColor;
+    transition: transform var(--transition-base);
+  }
+
+  .faq__q::after {
+    transform: rotate(90deg);
+  }
+
+  .faq__item[open] .faq__q::after {
+    transform: rotate(0deg);
+  }
+
+  .faq__a {
+    max-width: 44rem;
+    margin: 0;
+    padding-bottom: 1.5rem;
+    font-size: var(--text-small);
+    line-height: 1.75;
+    color: var(--color-text-secondary);
+  }
+
+  @media (max-width: 1023px) {
+    .faq__head,
+    .faq__list {
+      grid-column: 1 / 13;
+    }
+  }
+</style>
