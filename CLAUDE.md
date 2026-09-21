@@ -43,7 +43,7 @@ Pages and layouts are Astro components (`.astro`) — zero JS shipped by default
 2. Create `src/components/MyWidgetIsland.astro` that imports and renders it with a `client:*` directive
 3. Use the island wrapper in pages, not the React component directly
 
-Current islands: `InteractiveMap`, `OfficeFilter` (+ `OfficeCard`), `TerritoryMap`. (`PhotoGallery`, `BuildingTabs`, `BuildingCard`, `StatsGrid` are no longer used by any page — kept for reference.)
+Current islands: `InteractiveMap`, `OfficeFilter` (+ `OfficeCard`), `TerritoryMap`. (`PhotoGallery`, `BuildingTabs`, `BuildingCard`, `StatsGrid`, `SEOKeywords` are no longer used by any page — kept for reference.)
 
 ### Views (v2 redesign)
 
@@ -145,6 +145,7 @@ Both near metro **Елизаровская** (9 min walk).
 1. **Pages** are `.astro` files — keep static unless interactivity is needed
 2. **Interactive features** go in `src/components/islands/` as React TSX with a corresponding `*Island.astro` wrapper
 3. **All text** — RU and EN copy live side by side in the view components (`const t = isEn ? {…} : {…}`); `src/i18n/` is legacy
+   - **Every change made to the Russian version must also be applied to the English version** (and vice versa).
 4. **Styles** go in scoped `<style>` blocks; only add to `src/styles/` for truly shared utilities
 5. **Data changes** — update both `src/data/offices.ts` and `public/data/offices.json`
 6. **Number formatting** — use `formatNumber()`, `formatPrice()`, `formatArea()` from `@utils/formatters` (Russian convention: space as thousands separator)
