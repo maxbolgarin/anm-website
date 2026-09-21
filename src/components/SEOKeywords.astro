@@ -29,30 +29,58 @@ const keywordsEn = [
 ];
 
 const keywords = isEn ? keywordsEn : keywordsRu;
+const label = isEn ? 'Popular searches' : 'Часто ищут';
 ---
 
-<section class="seo-keywords" aria-hidden="true">
-  <div class="container">
-    <div class="seo-keywords__list">
+<nav class="seo-keywords" aria-label={label}>
+  <div class="container seo-keywords__inner">
+    <span class="seo-keywords__label">{label}</span>
+    <ul class="seo-keywords__list">
       {keywords.map((kw) => (
-        <a href={withBase(kw.href)} class="seo-keywords__pill" tabindex="-1">
-          {kw.label}
-        </a>
+        <li><a href={withBase(kw.href)} class="seo-keywords__link">{kw.label}</a></li>
       ))}
-    </div>
+    </ul>
   </div>
-</section>
+</nav>
 
 <style>
   .seo-keywords {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
+    padding-block: var(--space-xl);
+    border-top: 1px solid var(--color-line);
+  }
+
+  .seo-keywords__inner {
+    display: flex;
+    gap: var(--space-lg);
+    align-items: baseline;
+  }
+
+  .seo-keywords__label {
+    flex-shrink: 0;
+    font-size: var(--text-caption);
+    color: var(--color-text-muted);
+  }
+
+  .seo-keywords__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+  }
+
+  .seo-keywords__link {
+    font-size: var(--text-caption);
+    color: var(--color-text-secondary);
+    transition: color var(--transition-fast);
+  }
+
+  .seo-keywords__link:hover {
+    color: var(--color-ink);
+  }
+
+  @media (max-width: 767px) {
+    .seo-keywords__inner {
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
   }
 </style>

@@ -1,51 +1,75 @@
+/* ─────────────────────────────────────────────────────────────
+   ANM design tokens — v2 "editorial architecture"
+   Thin Montserrat, square geometry, hairlines, generous air.
+   Legacy token names are kept (mapped onto the new scale) so
+   that every existing component keeps resolving correctly.
+   ───────────────────────────────────────────────────────────── */
 :root {
-  /* ── Colors ── */
-  /* Brand palette (from brandbook) */
-  --color-burgundy: #78004F;          /* Бордовый — Pantone 209 C, CMYK 0/100/34/53 */
-  --color-red: #B8003C;               /* Темно-красный — Pantone 7427 C, CMYK 0/100/65/28 */
-  --color-gold: #B38026;              /* Золотой — Pantone 876 C, CMYK 30/50/85/0 */
-  --color-dark-grey: #3F4F55;         /* Темно-серый — CMYK 60/50/46/38 */
-  --color-silver: #9EA8AD;            /* Серебряный — Pantone 877 C */
+  /* ── Brand palette (brandbook) ── */
+  --color-burgundy: #78004F;          /* Pantone 209 C */
+  --color-red: #B8003C;               /* Pantone 7427 C */
+  --color-gold: #B38026;              /* Pantone 876 C */
+  --color-dark-grey: #3F4F55;
+  --color-silver: #9EA8AD;
 
-  --color-primary: #B8003C;
-  --color-primary-dark: #8C002E;
-  --color-primary-light: #D4004A;
-  --color-surface-cream: #F5F0E8;
-  --color-surface-white: #FFFFFF;
-  --color-surface-dark: #78004F;      /* Brand burgundy — replaces off-brand navy */
-  --color-accent-yellow: #B38026;     /* Brand gold — replaces generic yellow */
-  --color-text-primary: #1A1A1A;
-  --color-text-secondary: #6B6B6B;
+  /* ── Functional colours ── */
+  --color-cta: #8A1538;               /* Logo burgundy-red — primary buttons */
+  --color-cta-hover: #6E0F2C;
+  --color-accent: #9C6E1E;            /* Gold, darkened for AA on white — eyebrows, labels */
+
+  --color-ink: #141414;
+  --color-text-primary: #161616;
+  --color-text-secondary: #5C5C5C;    /* 6.6:1 on white */
+  --color-text-muted: #767676;        /* 4.5:1 on white — labels only */
   --color-text-inverse: #FFFFFF;
-  --color-border: #E0E0E0;
+
+  --color-line: #E3E0DA;              /* hairlines */
+  --color-line-strong: #CFCBC4;
+
+  --color-surface-white: #FFFFFF;
+  --color-surface-warm: #F5F3EF;      /* quiet off-white for rhythm */
+  --color-surface-dark: #141414;
+  --color-surface-dark-2: #1D1D1D;
+
+  /* Legacy aliases */
+  --color-primary: var(--color-cta);
+  --color-primary-dark: var(--color-cta-hover);
+  --color-primary-light: var(--color-red);
+  --color-surface-cream: var(--color-surface-warm);
+  --color-accent-yellow: var(--color-gold);
+  --color-border: var(--color-line);
 
   /* ── Typography ── */
-  --font-heading: 'Manrope', 'Arial', sans-serif;
-  --font-body:    'Manrope', 'Arial', sans-serif;
+  --font-sans: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
+  --font-heading: var(--font-sans);
+  --font-body: var(--font-sans);
 
-  /* ── 3-tier type scale + caption ──
-     Display  — hero brand name only (large impact)
-     Heading  — all section & card titles
-     Body     — paragraphs, UI labels, card content
-     Caption  — badges, eyebrows, fine print (not a "size" tier per se)
-  */
-  --text-display: clamp(2.5rem, 4vw + 1rem, 4.5rem);        /* 40 → 72px */
-  --text-heading: clamp(1.375rem, 1.5vw + 0.6rem, 2rem);    /* 22 → 32px */
-  --text-body:    1rem;                                       /* 16px fixed */
-  --text-caption: 0.8125rem;                                  /* 13px */
+  /* Scale — fluid, light weights carry the large sizes */
+  --text-display: clamp(2.625rem, 4.6vw + 0.75rem, 6rem);     /* 42 → 96 */
+  --text-h1:      clamp(2.25rem, 3.2vw + 0.75rem, 4.25rem);   /* 36 → 68 */
+  --text-h2:      clamp(1.875rem, 2.1vw + 0.8rem, 3.25rem);   /* 30 → 52 */
+  --text-h3:      clamp(1.25rem, 0.7vw + 0.95rem, 1.625rem);  /* 20 → 26 */
+  --text-lead:    clamp(1.0625rem, 0.35vw + 0.95rem, 1.25rem);/* 17 → 20 */
+  --text-body:    1rem;                                        /* 16 */
+  --text-small:   0.875rem;                                    /* 14 */
+  --text-caption: 0.8125rem;                                   /* 13 */
+  --text-micro:   0.75rem;                                     /* 12 */
 
-  /* Legacy aliases — resolve into the 3-tier scale */
-  --text-h1:    var(--text-heading);
-  --text-h2:    var(--text-heading);
-  --text-h3:    var(--text-body);
-  --text-h4:    var(--text-body);
-  --text-small: var(--text-caption);
+  /* Legacy aliases */
+  --text-heading: var(--text-h2);
+  --text-h4: var(--text-body);
 
-  --leading-tight: 1.08;
-  --leading-snug: 1.25;
-  --leading-normal: 1.55;
-  --leading-relaxed: 1.7;
+  --leading-tight: 1.06;
+  --leading-snug: 1.22;
+  --leading-normal: 1.6;
+  --leading-relaxed: 1.72;
 
+  --tracking-tight: -0.028em;
+  --tracking-snug: -0.015em;
+  --tracking-wide: 0.08em;
+
+  --weight-thin:      200;
+  --weight-light:     300;
   --weight-regular:   400;
   --weight-medium:    500;
   --weight-semibold:  600;
@@ -53,45 +77,54 @@
   --weight-extrabold: 800;
 
   /* ── Spacing (8px base) ── */
-  --space-xs: 0.25rem;   /* 4px */
-  --space-sm: 0.5rem;    /* 8px */
-  --space-md: 1rem;      /* 16px */
-  --space-lg: 1.5rem;    /* 24px */
-  --space-xl: 2rem;      /* 32px */
-  --space-2xl: 3rem;     /* 48px */
-  --space-3xl: 4rem;     /* 64px */
-  --space-4xl: 6rem;     /* 96px */
-  --space-5xl: 8rem;     /* 128px */
+  --space-xs: 0.25rem;   /* 4 */
+  --space-sm: 0.5rem;    /* 8 */
+  --space-md: 1rem;      /* 16 */
+  --space-lg: 1.5rem;    /* 24 */
+  --space-xl: 2rem;      /* 32 */
+  --space-2xl: 3rem;     /* 48 */
+  --space-3xl: 4rem;     /* 64 */
+  --space-4xl: 6rem;     /* 96 */
+  --space-5xl: 8rem;     /* 128 */
+  --space-6xl: 10rem;    /* 160 */
+
+  --section-space: clamp(5rem, 9vw, 9rem);
+  --section-space-sm: clamp(3.5rem, 6vw, 6rem);
 
   /* ── Layout ── */
-  --max-width: 80rem;        /* 1280px */
-  --max-width-wide: 90rem;   /* 1440px */
+  --max-width: 82.5rem;        /* 1320 */
+  --max-width-wide: 100rem;    /* 1600 */
+  --max-width-text: 38rem;
   --grid-columns: 12;
-  --grid-gap: var(--space-lg);
-  --container-padding: var(--space-lg);
+  --grid-gap: clamp(1rem, 2vw, 2rem);
+  --container-padding: clamp(1.25rem, 4vw, 3rem);
+  --header-height: 5.5rem;
 
-  /* ── Borders ── */
-  --radius-sm: 0.25rem;   /* 4px */
-  --radius-md: 0.5rem;    /* 8px */
-  --radius-lg: 1rem;      /* 16px */
+  /* ── Geometry — square by design ── */
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
 
-  /* ── Shadows ── */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+  /* ── Shadows — used sparingly ── */
+  --shadow-sm: 0 1px 2px rgba(20, 20, 20, 0.04);
+  --shadow-md: 0 10px 30px -12px rgba(20, 20, 20, 0.18);
+  --shadow-lg: 0 24px 60px -24px rgba(20, 20, 20, 0.28);
 
-  /* ── Transitions ── */
-  --transition-fast: 150ms ease-out;
-  --transition-base: 250ms ease-out;
-  --transition-slow: 400ms ease-out;
+  /* ── Motion ── */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --transition-fast: 180ms var(--ease-out);
+  --transition-base: 320ms var(--ease-out);
+  --transition-slow: 700ms var(--ease-out);
 
   /* ── Z-index scale ── */
   --z-header: 100;
   --z-subnav: 90;
+  --z-dropdown: 150;
   --z-overlay: 200;
   --z-lightbox: 300;
 
-  /* ── Breakpoints (for reference in JS; CSS uses media queries) ── */
+  /* ── Breakpoints (reference only; CSS uses literal media queries) ── */
   --bp-mobile: 768px;
   --bp-tablet: 1024px;
   --bp-desktop: 1440px;

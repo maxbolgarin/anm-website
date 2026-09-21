@@ -1,0 +1,398 @@
+{
+  "fidel-exterior": {
+    "w": 2000,
+    "h": 1337,
+    "smW": 1000,
+    "src": "/images/buildings/fidel/exterior-autumn.jpg"
+  },
+  "fidel-facade": {
+    "w": 2000,
+    "h": 1333,
+    "smW": 1000,
+    "src": "/фото бц/IMG_4955_1.jpg"
+  },
+  "fidel-entrance": {
+    "w": 2000,
+    "h": 3003,
+    "smW": 1000,
+    "src": "/фото бц/вход в БЦ.jpg"
+  },
+  "fidel-lobby": {
+    "w": 2000,
+    "h": 2258,
+    "smW": 1000,
+    "src": "/фото бц/холл БЦ.jpg"
+  },
+  "fidel-staircase": {
+    "w": 2000,
+    "h": 1333,
+    "smW": 1000,
+    "src": "/фото бц/3B8P7698.JPG"
+  },
+  "fidel-lounge": {
+    "w": 2000,
+    "h": 1500,
+    "smW": 1000,
+    "src": "/фото бц/web (128).jpg"
+  },
+  "fidel-kitchen": {
+    "w": 2000,
+    "h": 1500,
+    "smW": 1000,
+    "src": "/фото бц/web (134).jpg"
+  },
+  "fidel-kitchen-2": {
+    "w": 2000,
+    "h": 1500,
+    "smW": 1000,
+    "src": "/фото бц/web (135).jpg"
+  },
+  "fidel-openspace": {
+    "w": 2000,
+    "h": 1500,
+    "smW": 1000,
+    "src": "/фото бц/web (108).jpg"
+  },
+  "fidel-openspace-2": {
+    "w": 2000,
+    "h": 1500,
+    "smW": 1000,
+    "src": "/фото бц/web (112).jpg"
+  },
+  "fidel-terrace": {
+    "w": 2000,
+    "h": 1500,
+    "smW": 1000,
+    "src": "/фото бц/web (55).jpg"
+  },
+  "fidel-river": {
+    "w": 2000,
+    "h": 1500,
+    "smW": 1000,
+    "src": "/фото бц/web (59).jpg"
+  },
+  "fidel-meeting": {
+    "w": 2000,
+    "h": 1500,
+    "smW": 1000,
+    "src": "/фото бц/web (30).jpg"
+  },
+  "fidel-meeting-2": {
+    "w": 2000,
+    "h": 1500,
+    "smW": 1000,
+    "src": "/фото бц/web (72).jpg"
+  },
+  "fidel-slide": {
+    "w": 2000,
+    "h": 1500,
+    "smW": 1000,
+    "src": "/фото бц/web (22).jpg"
+  },
+  "fidel-window": {
+    "w": 2000,
+    "h": 1500,
+    "smW": 1000,
+    "src": "/фото бц/web (144).jpg"
+  },
+  "fidel-orange": {
+    "w": 2000,
+    "h": 1500,
+    "smW": 1000,
+    "src": "/фото бц/web (77).jpg"
+  },
+  "fidel-team": {
+    "w": 2000,
+    "h": 1334,
+    "smW": 1000,
+    "src": "/фото бц/Нордиджи (6).jpeg"
+  },
+  "fidel-team-2": {
+    "w": 2000,
+    "h": 1334,
+    "smW": 1000,
+    "src": "/фото бц/Нордиджи (19).jpeg"
+  },
+  "fidel-fitness": {
+    "w": 1280,
+    "h": 853,
+    "smW": 1000,
+    "src": "/фото бц/image_2026-04-23_13-54-55 (1).png"
+  },
+  "fidel-courtyard": {
+    "w": 1200,
+    "h": 800,
+    "smW": 1000,
+    "src": "/images/buildings/fidel/courtyard-garden.jpg"
+  },
+  "anm-panorama": {
+    "w": 2000,
+    "h": 768,
+    "smW": 1000,
+    "src": "/abk/Group 9 (1).png"
+  },
+  "anm-exterior": {
+    "w": 2000,
+    "h": 2360,
+    "smW": 1000,
+    "src": "/abk/img_4844_mini.jpg"
+  },
+  "anm-reception": {
+    "w": 2000,
+    "h": 1333,
+    "smW": 1000,
+    "src": "/abk/abk2.jpg"
+  },
+  "anm-cafe": {
+    "w": 2000,
+    "h": 1641,
+    "smW": 1000,
+    "src": "/abk/abk3.jpg"
+  },
+  "anm-coworking": {
+    "w": 2000,
+    "h": 1171,
+    "smW": 1000,
+    "src": "/abk/park_1.jpg"
+  },
+  "anm-conference": {
+    "w": 2000,
+    "h": 1620,
+    "smW": 1000,
+    "src": "/abk/park_2.jpg"
+  },
+  "anm-lift": {
+    "w": 1400,
+    "h": 1030,
+    "smW": 1000,
+    "src": "/abk/abk_lift3.jpg"
+  },
+  "anm-arch": {
+    "w": 779,
+    "h": 543,
+    "smW": 779,
+    "src": "/abk/sme_6510.png"
+  },
+  "anm-corridor": {
+    "w": 1500,
+    "h": 2000,
+    "smW": 1000,
+    "src": "/images/buildings/anm/corridor-offices.jpg"
+  },
+  "anm-lobby": {
+    "w": 2000,
+    "h": 1281,
+    "smW": 1000,
+    "src": "/abk/photo_2026-04-15 11.56.33.jpeg"
+  },
+  "anm-courtyard": {
+    "w": 2000,
+    "h": 1259,
+    "smW": 1000,
+    "src": "/abk/3D_Isometric_Map_YuoiDpz-.png"
+  },
+  "anm-office": {
+    "w": 2000,
+    "h": 1333,
+    "smW": 1000,
+    "src": "/abk/3D_Isometric_Map_In_a_modern_office_style_this_scene_features_a.jpg"
+  },
+  "anm-dining": {
+    "w": 2000,
+    "h": 1493,
+    "smW": 1000,
+    "src": "/abk/3D_Isometric_Map_An_empty_restaurant_dining_area_is_depicted_with.png"
+  },
+  "territory-parking": {
+    "w": 2000,
+    "h": 1500,
+    "smW": 1000,
+    "src": "/фото бц/web (81).jpg"
+  },
+  "territory-neva": {
+    "w": 2000,
+    "h": 1331,
+    "smW": 1000,
+    "src": "/фото бц/Нева 3.jpg"
+  },
+  "territory-aerial": {
+    "w": 1920,
+    "h": 1080,
+    "smW": 1000,
+    "src": "/images/home/aerial-12.jpg"
+  },
+  "territory-aerial-2": {
+    "w": 1920,
+    "h": 1080,
+    "smW": 1000,
+    "src": "/images/home/aerial-17_5.jpg"
+  },
+  "territory-aerial-3": {
+    "w": 1920,
+    "h": 1080,
+    "smW": 1000,
+    "src": "/images/home/aerial-6.jpg"
+  },
+  "territory-aerial-4": {
+    "w": 1920,
+    "h": 1080,
+    "smW": 1000,
+    "src": "/images/home/aerial-20_4.jpg"
+  },
+  "p-6be6824b14": {
+    "w": 2000,
+    "h": 1500,
+    "smW": 1000,
+    "src": "/фото бц/web (119).jpg"
+  },
+  "p-193c3d191e": {
+    "w": 1200,
+    "h": 800,
+    "smW": 1000,
+    "src": "/фото бц/SME_6636.JPG"
+  },
+  "p-8e7bb55a8f": {
+    "w": 1280,
+    "h": 853,
+    "smW": 1000,
+    "src": "/fidel/photo_2026-03-16 19.41.01.jpeg"
+  },
+  "p-f6f4e94c3e": {
+    "w": 1799,
+    "h": 1286,
+    "smW": 1000,
+    "src": "/fidel/3D_Isometric_Map_QIz-MPRJ.png"
+  },
+  "p-4b4b5c5442": {
+    "w": 1200,
+    "h": 800,
+    "smW": 1000,
+    "src": "/fidel/dsc00480.jpg"
+  },
+  "p-6f84bb7a75": {
+    "w": 1600,
+    "h": 1065,
+    "smW": 1000,
+    "src": "/images/infrastructure/neva-embankment.jpg"
+  },
+  "p-c5d1f984ea": {
+    "w": 2000,
+    "h": 1331,
+    "smW": 1000,
+    "src": "/фото бц/Нева 3.jpg"
+  },
+  "p-786584a0af": {
+    "w": 2000,
+    "h": 1493,
+    "smW": 1000,
+    "src": "/abk/3D_Isometric_Map_The_scene_depicts_a_modern_conference_room_pNryGLWH.png"
+  },
+  "p-35b74f1c65": {
+    "w": 925,
+    "h": 623,
+    "smW": 925,
+    "src": "/abk/photo_2026-03-16 21.24.20.jpeg"
+  },
+  "p-35c6024c32": {
+    "w": 1400,
+    "h": 933,
+    "smW": 1000,
+    "src": "/abk/abk_reception.jpg"
+  },
+  "p-4519d43989": {
+    "w": 2000,
+    "h": 1259,
+    "smW": 1000,
+    "src": "/abk/3D_Isometric_Map_YuoiDpz-.png"
+  },
+  "p-357760be3c": {
+    "w": 1600,
+    "h": 1200,
+    "smW": 1000,
+    "src": "/images/infrastructure/parking-aerial.jpg"
+  },
+  "p-d3ace28375": {
+    "w": 1600,
+    "h": 1078,
+    "smW": 1000,
+    "src": "/images/buildings/anm/abk-cafe-new.jpg"
+  },
+  "p-8050a414d5": {
+    "w": 1280,
+    "h": 853,
+    "smW": 1000,
+    "src": "/фото бц/image_2026-04-23_13-54-55 (1).png"
+  },
+  "p-f787d6bd64": {
+    "w": 1200,
+    "h": 799,
+    "smW": 1000,
+    "src": "/images/about/territory-drone.jpg"
+  },
+  "p-0cf56fc392": {
+    "w": 1200,
+    "h": 799,
+    "smW": 1000,
+    "src": "/images/about/territory-panorama-new.jpg"
+  },
+  "p-0d025d9f35": {
+    "w": 2000,
+    "h": 1333,
+    "smW": 1000,
+    "src": "/images/buildings/fidel/interior-1.jpg"
+  },
+  "p-dd67f0319f": {
+    "w": 2000,
+    "h": 1500,
+    "smW": 1000,
+    "src": "/фото бц/web (27).jpg"
+  },
+  "p-87e09a5482": {
+    "w": 1057,
+    "h": 679,
+    "smW": 1000,
+    "src": "/territory/DJI_0739 (1) (1).jpg"
+  },
+  "p-e676c22f86": {
+    "w": 2000,
+    "h": 2000,
+    "smW": 1000,
+    "src": "/history/3D_Isometric_Map_In_a_vintage_industrial_style_a_large_textile_Z2ehCCb2.png"
+  },
+  "p-16ef6003fe": {
+    "w": 2000,
+    "h": 1116,
+    "smW": 1000,
+    "src": "/history/3D_Isometric_Map_A_large_brick_building_is_undergoing_demolition.png"
+  },
+  "p-da6c9b8e5e": {
+    "w": 1200,
+    "h": 896,
+    "smW": 1000,
+    "src": "/history/3D_Isometric_Map_MoUcVrn8.png"
+  },
+  "p-f900d5be66": {
+    "w": 1920,
+    "h": 1280,
+    "smW": 1000,
+    "src": "/history/_DSC3708.jpg"
+  },
+  "p-023c275e28": {
+    "w": 2000,
+    "h": 1116,
+    "smW": 1000,
+    "src": "/history/3D_Isometric_Map_In_a_architectural_visualization_style_this_7tyc4192.png"
+  },
+  "p-d627ba7c86": {
+    "w": 1417,
+    "h": 945,
+    "smW": 1000,
+    "src": "/history/вид слева.JPG"
+  },
+  "p-90420777f8": {
+    "w": 859,
+    "h": 761,
+    "smW": 859,
+    "src": "/history/image_2026-03-24_17-51-39.png"
+  }
+}

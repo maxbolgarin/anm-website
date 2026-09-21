@@ -1,0 +1,260 @@
+---
+/**
+ * Business centers overview (RU + EN).
+ */
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PageHeader from '@components/PageHeader.astro';
+import Img from '@components/Img.astro';
+import ContactCTA from '@components/ContactCTA.astro';
+import { buildings } from '@data/buildings';
+import { getBuildingEnBySlug } from '@data/buildings-en';
+import { withBase } from '@utils/withBase';
+import type { Locale } from '@utils/locale';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const isEn = locale === 'en';
+const prefix = isEn ? '/en' : '';
+
+const t = isEn
+  ? {
+      title: 'Business Centers in St. Petersburg on the Neva — ANM',
+      description: 'Business Loft Fidel (class B+) and Business Center ANM on the territory of Aleksandro-Nevskaya Manufaktura, St. Petersburg. Office rental directly from the owner.',
+      crumbs: [{ label: 'Home', href: '/en/' }, { label: 'Business Centers' }],
+      eyebrow: 'Business centers',
+      h1: 'Two business centers on one territory',
+      lead: 'A historic loft with character and a classic business center — both on the Neva embankment, both managed by our own team.',
+      more: 'About the building',
+      offices: 'Available offices',
+      metro: 'Metro',
+      walk: 'min walk',
+      classLabel: 'Class',
+    }
+  : {
+      title: 'Бизнес-центры на Неве в Санкт-Петербурге — АНМ',
+      description: 'Бизнес-лофт Фидель (класс B+) и бизнес-центр АНМ на территории Александро-Невской Мануфактуры в Санкт-Петербурге. Аренда офисов напрямую от собственника.',
+      crumbs: [{ label: 'Главная', href: '/' }, { label: 'Бизнес-центры' }],
+      eyebrow: 'Бизнес-центры',
+      h1: 'Два бизнес-центра на одной территории',
+      lead: 'Исторический лофт с характером и классический бизнес-центр — оба на набережной Невы и под управлением нашей собственной команды.',
+      more: 'Подробнее о здании',
+      offices: 'Свободные офисы',
+      metro: 'м.',
+      walk: 'мин пешком',
+      classLabel: 'Класс',
+    };
+
+const images: Record<string, { name: string }> = {
+  fidel: { name: 'fidel-exterior' },
+  anm: { name: 'anm-exterior' },
+};
+
+const items = buildings.map((b) => {
+  const en = getBuildingEnBySlug(b.slug)!;
+  return {
+    slug: b.slug,
+    cls: b.class,
+    name: isEn ? en.fullName : (b.slug === 'fidel' ? 'Бизнес-лофт Фидель' : 'Бизнес-центр АНМ'),
+    address: isEn ? en.address : b.address,
+    metro: isEn ? en.metro.name : b.metro[0].name,
+    minutes: b.metro[0].walkingMinutes,
+    stats: isEn ? en.stats : b.stats,
+    description: isEn ? en.description : b.description,
+    image: images[b.slug].name,
+  };
+});
+---
+
+<BaseLayout title={t.title} description={t.description}>
+  <PageHeader breadcrumbs={t.crumbs} eyebrow={t.eyebrow} title={t.h1} lead={t.lead} />
+
+  <section class="bl">
+    <div class="container">
+      {items.map((b, i) => (
+        <article class:list={['bl__item', { 'bl__item--rev': i % 2 === 1 }]} aria-labelledby={`bl-${b.slug}`}>
+          <a href={withBase(`${prefix}/buildings/${b.slug}/`)} class="bl__media zoom" data-reveal tabindex="-1" aria-hidden="true">
+            <Img name={b.image} alt="" sizes="(min-width: 1024px) 58vw, 100vw" loading={i === 0 ? 'eager' : 'lazy'} />
+            <span class="bl__class">{b.cls}</span>
+          </a>
+          <div class="bl__text" data-reveal style="--reveal-delay: 120ms">
+            <span class="bl__num">{String(i + 1).padStart(2, '0')}</span>
+            <h2 class="bl__name" id={`bl-${b.slug}`}>
+              <a href={withBase(`${prefix}/buildings/${b.slug}/`)}>{b.name}</a>
+            </h2>
+            <p class="bl__meta">{b.address}</p>
+            <p class="bl__meta bl__meta--metro"><span aria-hidden="true"></span>{t.metro} {b.metro} · {b.minutes} {t.walk}</p>
+            <dl class="bl__stats">
+              {b.stats.map((s) => (
+                <div class="bl__stat">
+                  <dt>{s.label}</dt>
+                  <dd>{s.value}</dd>
+                </div>
+              ))}
+            </dl>
+            <p class="bl__desc">{b.description}</p>
+            <div class="bl__actions">
+              <a href={withBase(`${prefix}/buildings/${b.slug}/`)} class="btn btn--primary">{t.more}</a>
+              <a href={withBase(`${prefix}/buildings/${b.slug}/offices/`)} class="link-arrow">{t.offices}</a>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <ContactCTA />
+</BaseLayout>
+
+<style>
+  .bl {
+    padding-bottom: var(--section-space);
+  }
+
+  .bl__item {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--grid-gap);
+    row-gap: var(--space-xl);
+    align-items: end;
+  }
+
+  .bl__item + .bl__item {
+    margin-top: clamp(5rem, 10vw, 9rem);
+  }
+
+  .bl__media {
+    position: relative;
+    grid-column: 1 / 8;
+    aspect-ratio: 4 / 3;
+  }
+
+  .bl__media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .bl__class {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    padding: 0.9rem 1.2rem;
+    font-size: clamp(1.5rem, 2.4vw, 2.25rem);
+    font-weight: var(--weight-light);
+    line-height: 1;
+    color: #fff;
+    background: var(--color-cta);
+  }
+
+  .bl__text {
+    grid-column: 9 / 13;
+  }
+
+  .bl__item--rev .bl__media {
+    grid-column: 6 / 13;
+    grid-row: 1;
+  }
+
+  .bl__item--rev .bl__text {
+    grid-column: 1 / 5;
+    grid-row: 1;
+  }
+
+  .bl__num {
+    display: block;
+    margin-bottom: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-line-strong);
+    font-size: var(--text-micro);
+    letter-spacing: 0.06em;
+    color: var(--color-cta);
+  }
+
+  .bl__name {
+    margin-bottom: 1.25rem;
+    font-size: clamp(2rem, 3.4vw, 3.25rem);
+    font-weight: var(--weight-light);
+    letter-spacing: -0.035em;
+  }
+
+  .bl__name a {
+    color: inherit;
+  }
+
+  .bl__meta {
+    margin-bottom: 0.35rem;
+    font-size: var(--text-small);
+    color: var(--color-text-secondary);
+  }
+
+  .bl__meta--metro {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .bl__meta--metro span {
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 50%;
+    background: #009A49;
+  }
+
+  .bl__stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-md) var(--space-lg);
+    margin: var(--space-xl) 0;
+  }
+
+  .bl__stat {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 0.35rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--color-line);
+  }
+
+  .bl__stat dd {
+    font-size: 1.75rem;
+    font-weight: var(--weight-light);
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+
+  .bl__stat dt {
+    font-size: var(--text-caption);
+    color: var(--color-text-muted);
+  }
+
+  .bl__desc {
+    font-size: var(--text-small);
+    line-height: 1.75;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-xl);
+  }
+
+  .bl__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-md) var(--space-xl);
+  }
+
+  @media (max-width: 1023px) {
+    .bl__media,
+    .bl__text,
+    .bl__item--rev .bl__media,
+    .bl__item--rev .bl__text {
+      grid-column: 1 / 13;
+      grid-row: auto;
+    }
+
+    .bl__media {
+      aspect-ratio: 16 / 10;
+    }
+  }
+</style>

@@ -1,0 +1,258 @@
+---
+/**
+ * About page (RU + EN) — company overview, tenants, location teaser.
+ */
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PageHeader from '@components/PageHeader.astro';
+import Img from '@components/Img.astro';
+import TrustSection from '@components/sections/TrustSection.astro';
+import ManagementServices from '@components/sections/ManagementServices.astro';
+import ContactCTA from '@components/ContactCTA.astro';
+import { withBase } from '@utils/withBase';
+import type { Locale } from '@utils/locale';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const isEn = locale === 'en';
+const prefix = isEn ? '/en' : '';
+
+const t = isEn
+  ? {
+      title: 'About ANM — Development & Property Management in St. Petersburg',
+      description: 'ANM is a development and management company with 20+ years of experience: two business centers on the Neva, 21,376 m² under management and 80+ tenant companies.',
+      crumbs: [{ label: 'Home', href: '/en/' }, { label: 'About' }],
+      eyebrow: 'About the company',
+      h1: 'Aleksandro-Nevskaya Manufaktura',
+      lead: 'A development and property management company creating quality business spaces in St. Petersburg.',
+      stats: [
+        { value: '20+', label: 'years on the market' },
+        { value: '21,376', label: 'm² under management' },
+        { value: '80+', label: 'tenant companies' },
+      ],
+      alt: 'Panorama of the Aleksandro-Nevskaya Manufaktura territory',
+      caption: 'the territory by the Neva',
+      introTitle: 'We turn historic industrial buildings into places people want to work in',
+      intro: [
+        'For over 20 years ANM has been developing and managing a former industrial site on Obukhovskoy Oborony Avenue. Our mission is to create a comfortable environment for the business community through thoughtful redevelopment.',
+        'The concept, designed by the British practice Horan Keoghan Ryan, keeps the character of the historic buildings while giving them modern engineering, services and comfort.',
+      ],
+      more: 'Company & history',
+      locEyebrow: 'Location',
+      locTitle: 'Two business centers on one territory',
+      locText: 'Parking, cafés, a fitness studio and the Neva embankment — a 9-minute walk from Elizarovskaya metro.',
+      locLink: 'Location & territory',
+      locAlt: 'Aerial view of the territory at sunset',
+    }
+  : {
+      title: 'О компании АНМ — девелопмент и управление недвижимостью в Санкт-Петербурге',
+      description: 'АНМ — девелоперская и управляющая компания с 20-летним опытом: два бизнес-центра на Неве, 21 376 м² под управлением и более 80 компаний-арендаторов.',
+      crumbs: [{ label: 'Главная', href: '/' }, { label: 'О компании' }],
+      eyebrow: 'О компании',
+      h1: 'Александро-Невская Мануфактура',
+      lead: 'Девелоперская и управляющая компания. Создаём качественные бизнес-пространства в Санкт-Петербурге.',
+      stats: [
+        { value: '20+', label: 'лет на рынке' },
+        { value: '21 376', label: 'м² под управлением' },
+        { value: '80+', label: 'компаний-арендаторов' },
+      ],
+      alt: 'Панорама территории Александро-Невской Мануфактуры',
+      caption: 'территория у Невы',
+      introTitle: 'Превращаем исторические промышленные здания в места, где хочется работать',
+      intro: [
+        'Более 20 лет АНМ развивает и управляет территорией бывшей промышленной зоны на проспекте Обуховской Обороны. Наша миссия — создавать комфортную среду для бизнес-сообщества через продуманный редевелопмент.',
+        'Концепция британского бюро Horan Keoghan Ryan сохраняет характер исторических зданий и наполняет их современной инженерией, сервисом и комфортом.',
+      ],
+      more: 'Компания и история',
+      locEyebrow: 'Локация',
+      locTitle: 'Два бизнес-центра на одной территории',
+      locText: 'Паркинг, кафе, фитнес-студия и набережная Невы — в 9 минутах пешком от метро «Елизаровская».',
+      locLink: 'Локация и территория',
+      locAlt: 'Территория на закате с высоты',
+    };
+---
+
+<BaseLayout title={t.title} description={t.description} ogImage="/images/v2/territory-aerial.jpg">
+  <PageHeader breadcrumbs={t.crumbs} eyebrow={t.eyebrow} title={t.h1} lead={t.lead} size="xl" />
+
+  <figure class="about-media container-wide figure" data-reveal>
+    <div class="about-media__frame">
+      <Img name="territory-aerial" alt={t.alt} sizes="100vw" loading="eager" fetchpriority="high" />
+    </div>
+    <figcaption class="figure__caption">{t.caption}</figcaption>
+  </figure>
+
+  <section class="section about-intro" aria-labelledby="about-intro-title">
+    <div class="container about-intro__grid">
+      <div class="about-intro__main" data-reveal>
+        <h2 id="about-intro-title">{t.introTitle}</h2>
+      </div>
+      <div class="about-intro__text" data-reveal style="--reveal-delay: 100ms">
+        {t.intro.map((p) => <p>{p}</p>)}
+        <a href={withBase(`${prefix}/about/company/`)} class="link-arrow">{t.more}</a>
+      </div>
+      <dl class="about-intro__stats" data-reveal>
+        {t.stats.map((s) => (
+          <div class="about-intro__stat">
+            <dt>{s.label}</dt>
+            <dd>{s.value}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
+
+  <ManagementServices locale={locale} />
+
+  <TrustSection locale={locale} />
+
+  <section class="loc-teaser section section--warm" aria-labelledby="loc-teaser-title">
+    <div class="container loc-teaser__grid">
+      <div class="loc-teaser__media zoom" data-reveal>
+        <Img name="territory-aerial-2" alt={t.locAlt} sizes="(min-width: 1024px) 55vw, 100vw" />
+      </div>
+      <div class="loc-teaser__text" data-reveal style="--reveal-delay: 120ms">
+        <span class="eyebrow">{t.locEyebrow}</span>
+        <h2 id="loc-teaser-title">{t.locTitle}</h2>
+        <p>{t.locText}</p>
+        <a href={withBase(`${prefix}/territory/`)} class="link-arrow">{t.locLink}</a>
+      </div>
+    </div>
+  </section>
+
+  <ContactCTA />
+</BaseLayout>
+
+<style>
+  .about-media__frame {
+    aspect-ratio: 21 / 9;
+    overflow: hidden;
+  }
+
+  .about-media__frame :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .about-media .figure__caption {
+    text-align: right;
+  }
+
+  .about-intro__grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--grid-gap);
+    row-gap: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .about-intro__main {
+    grid-column: 1 / 7;
+  }
+
+  .about-intro__main h2 {
+    max-width: 18ch;
+    font-size: var(--text-h2);
+  }
+
+  .about-intro__text {
+    grid-column: 8 / 13;
+  }
+
+  .about-intro__text p {
+    font-size: var(--text-small);
+    line-height: 1.8;
+    color: var(--color-text-secondary);
+  }
+
+  .about-intro__text .link-arrow {
+    margin-top: var(--space-md);
+  }
+
+  .about-intro__stats {
+    grid-column: 1 / 13;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--grid-gap);
+  }
+
+  .about-intro__stat {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 0.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--color-line-strong);
+  }
+
+  .about-intro__stat dd {
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: var(--weight-thin);
+    letter-spacing: -0.045em;
+    line-height: 1;
+  }
+
+  .about-intro__stat dt {
+    font-size: var(--text-caption);
+    color: var(--color-text-muted);
+  }
+
+  .loc-teaser__grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--grid-gap);
+    row-gap: var(--space-2xl);
+    align-items: center;
+  }
+
+  .loc-teaser__media {
+    grid-column: 1 / 8;
+    aspect-ratio: 16 / 10;
+  }
+
+  .loc-teaser__media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .loc-teaser__text {
+    grid-column: 9 / 13;
+  }
+
+  .loc-teaser__text .eyebrow {
+    margin-bottom: 1rem;
+  }
+
+  .loc-teaser__text h2 {
+    margin-bottom: 1.25rem;
+    font-size: clamp(1.75rem, 2.6vw, 2.5rem);
+  }
+
+  .loc-teaser__text p {
+    font-size: var(--text-small);
+    line-height: 1.75;
+    color: var(--color-text-secondary);
+    margin-bottom: 1.5rem;
+  }
+
+  @media (max-width: 1023px) {
+    .about-intro__main,
+    .about-intro__text,
+    .loc-teaser__media,
+    .loc-teaser__text {
+      grid-column: 1 / 13;
+    }
+
+    .about-media__frame {
+      aspect-ratio: 16 / 10;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .about-intro__stats {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

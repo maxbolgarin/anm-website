@@ -139,7 +139,9 @@ interface Props {
 
 export default function TerritoryMap({ locale = 'ru' }: Props) {
   const isEn = locale === 'en';
-  const territoryMapImage = withBase('/territory/ANM map with lines.png');
+  // Optimised copies of 'ANM map with lines.png' (27 MB source) — same image, same aspect ratio
+  const territoryMapImage = withBase('/territory/territory-map-2400.jpg');
+  const territoryMapSrcSet = `${withBase('/territory/territory-map-1400.jpg')} 1400w, ${territoryMapImage} 2400w`;
 
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<HTMLDivElement>(null);
@@ -303,19 +305,19 @@ export default function TerritoryMap({ locale = 'ru' }: Props) {
         display: 'flex',
         flexWrap: 'wrap',
         gap: '8px',
-        marginBottom: '16px',
-        justifyContent: 'center',
+        marginBottom: '20px',
+        justifyContent: 'flex-start',
       }}>
         <button
           onClick={() => setActiveCategory(null)}
           style={{
-            padding: '6px 14px',
-            borderRadius: '20px',
-            border: `1.5px solid ${!activeCategory ? '#B8003C' : '#E0E0E0'}`,
-            background: !activeCategory ? '#B8003C' : '#fff',
-            color: !activeCategory ? '#fff' : '#3F4F55',
+            padding: '9px 16px',
+            borderRadius: 0,
+            border: `1px solid ${!activeCategory ? '#141414' : '#CFCBC4'}`,
+            background: !activeCategory ? '#141414' : 'transparent',
+            color: !activeCategory ? '#fff' : '#141414',
             fontSize: '13px',
-            fontWeight: 600,
+            fontWeight: 500,
             cursor: 'pointer',
             transition: 'all 150ms ease-out',
             fontFamily: 'inherit',
@@ -331,13 +333,13 @@ export default function TerritoryMap({ locale = 'ru' }: Props) {
               key={cat}
               onClick={() => setActiveCategory(isActive ? null : cat)}
               style={{
-                padding: '6px 14px',
-                borderRadius: '20px',
-                border: `1.5px solid ${isActive ? c.border : '#E0E0E0'}`,
-                background: isActive ? c.bg : '#fff',
-                color: isActive ? c.icon : '#3F4F55',
+                padding: '9px 16px',
+                borderRadius: 0,
+                border: `1px solid ${isActive ? c.border : '#CFCBC4'}`,
+                background: isActive ? c.bg : 'transparent',
+                color: isActive ? c.icon : '#141414',
                 fontSize: '13px',
-                fontWeight: 600,
+                fontWeight: 500,
                 cursor: 'pointer',
                 transition: 'all 150ms ease-out',
                 fontFamily: 'inherit',
@@ -369,8 +371,8 @@ export default function TerritoryMap({ locale = 'ru' }: Props) {
             display: 'block',
             margin: '0 auto 8px',
             padding: '5px 14px',
-            borderRadius: '16px',
-            border: '1px solid #E0E0E0',
+            borderRadius: 0,
+            border: '1px solid #CFCBC4',
             background: '#fff',
             color: '#3F4F55',
             fontSize: '12px',
@@ -392,9 +394,8 @@ export default function TerritoryMap({ locale = 'ru' }: Props) {
         style={{
           position: 'relative',
           width: '100%',
-          borderRadius: '12px',
+          borderRadius: 0,
           overflow: 'hidden',
-          boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
           touchAction: isMobile ? (scale > 1 ? 'none' : 'pan-y') : 'auto',
         }}
       >
@@ -407,6 +408,12 @@ export default function TerritoryMap({ locale = 'ru' }: Props) {
         <img
           ref={imgRef}
           src={territoryMapImage}
+          srcSet={territoryMapSrcSet}
+          sizes="(min-width: 1416px) 1320px, 100vw"
+          width={2400}
+          height={1344}
+          loading="lazy"
+          decoding="async"
           alt={isEn ? 'Aerial view of Aleksandro-Nevskaya Manufaktura territory' : 'Аэрофотоснимок территории Александро-Невской Мануфактуры'}
           style={{
             width: '100%',
@@ -423,7 +430,7 @@ export default function TerritoryMap({ locale = 'ru' }: Props) {
             inset: 0,
             width: '100%',
             aspectRatio: '2400 / 1475',
-            background: '#F5F0E8',
+            background: '#F5F3EF',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -451,9 +458,9 @@ export default function TerritoryMap({ locale = 'ru' }: Props) {
                   background: 'rgba(255,255,255,0.92)',
                   backdropFilter: 'blur(4px)',
                   padding: '6px 14px',
-                  borderRadius: '8px',
-                  fontSize: '14px',
-                  fontWeight: 600,
+                  borderRadius: 0,
+                  fontSize: '13px',
+                  fontWeight: 500,
                   color: '#3F4F55',
                   boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
                   pointerEvents: 'none',
@@ -573,9 +580,9 @@ export default function TerritoryMap({ locale = 'ru' }: Props) {
                     : { left: '50%', transform: 'translateX(-50%)' }),
                   background: '#fff',
                   padding: '6px 12px',
-                  borderRadius: '6px',
+                  borderRadius: 0,
                   fontSize: '12px',
-                  fontWeight: 600,
+                  fontWeight: 500,
                   color: '#1A1A1A',
                   boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
                   whiteSpace: 'nowrap',

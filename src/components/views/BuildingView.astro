@@ -1,0 +1,900 @@
+---
+/**
+ * Building page (Fidel / ANM × RU / EN) — one view, four thin page wrappers.
+ */
+import BuildingLayout from '@layouts/BuildingLayout.astro';
+import Img from '@components/Img.astro';
+import TypicalOfficePromo from '@components/TypicalOfficePromo.astro';
+import InteractiveMapIsland from '@components/InteractiveMapIsland.astro';
+import ContactCTA from '@components/ContactCTA.astro';
+import { getBuildingBySlug } from '@data/buildings';
+import { getBuildingEnBySlug } from '@data/buildings-en';
+import { getShowcase } from '@data/showcase';
+import { withBase } from '@utils/withBase';
+import type { Locale } from '@utils/locale';
+
+interface Props {
+  slug: 'fidel' | 'anm';
+  locale: Locale;
+}
+
+const { slug, locale } = Astro.props;
+const isEn = locale === 'en';
+const prefix = isEn ? '/en' : '';
+const b = getBuildingBySlug(slug)!;
+const en = getBuildingEnBySlug(slug)!;
+const show = getShowcase(locale).find((s) => s.slug === slug)!;
+const site = (Astro.site?.toString() || 'https://www.a-n-m.ru/').replace(/\/$/, '');
+
+// Localised building data (RU from buildings.ts, EN overrides from buildings-en.ts)
+const d = {
+  name: isEn ? en.name : b.name,
+  fullName: isEn ? en.fullName : (slug === 'fidel' ? 'Бизнес-лофт Фидель' : 'Бизнес-центр АНМ'),
+  kind: isEn ? (slug === 'fidel' ? 'Business loft' : 'Business center') : (slug === 'fidel' ? 'Бизнес-лофт' : 'Бизнес-центр'),
+  address: isEn ? en.address : b.address,
+  shortAddress: isEn ? en.shortAddress : b.shortAddress,
+  metro: isEn ? en.metro.name : b.metro[0].name,
+  metroLine: isEn ? en.metro.line : b.metro[0].line,
+  walk: b.metro[0].walkingMinutes,
+  stats: isEn ? en.stats : b.stats,
+  description: isEn ? en.description : b.description,
+  features: b.features.map((f, i) => ({ ...f, ...(isEn ? en.features[i] : {}) })),
+  parameters: isEn ? en.parameters : b.parameters,
+  infrastructure: b.infrastructure.map((f, i) => ({ ...f, ...(isEn ? en.infrastructure[i] : {}) })),
+  faq: isEn ? en.faq : b.faq,
+};
+
+const photos = [...show.collage, ...show.gallery];
+
+const promo = slug === 'fidel'
+  ? { plan: '/plans/fidel plan example.png', area: isEn ? 'from 45 to 200 m²' : 'от 45 до 200 м²', price: isEn ? 'from 1,050 ₽/m²' : 'от 1 050 ₽/м²', label: isEn ? 'Business Loft Fidel' : 'бизнес-лофте Фидель' }
+  : { plan: '/plans/anm plan example.png', area: isEn ? 'from 55 to 95 m²' : 'от 55 до 95 м²', price: isEn ? 'from 1,000 ₽/m²' : 'от 1 000 ₽/м²', label: isEn ? 'Business Center ANM' : 'бизнес-центре АНМ' };
+
+const t = isEn
+  ? {
+      title: `${d.fullName} — Class ${b.class} Office Rental in St. Petersburg | ANM`,
+      description: `${d.fullName} at ${d.shortAddress}: ${d.stats[1].value} m², ${d.stats[0].value} floors, ${d.walk} min walk from ${d.metro} metro. Office rental directly from the owner.`,
+      classLabel: 'class',
+      offices: 'Available offices',
+      route: 'How to get here',
+      walk: `${d.walk} min walk`,
+      detailsEyebrow: 'In detail',
+      detailsTitle: 'Architecture, engineering, service',
+      photosEyebrow: 'Photographs',
+      photosTitle: 'Inside the building',
+      prev: 'Previous', next: 'Next',
+      specsEyebrow: 'Specifications',
+      specsTitle: 'Technical parameters',
+      infraEyebrow: 'Infrastructure',
+      infraTitle: 'Everything you need, steps away',
+      locEyebrow: 'Location',
+      locTitle: 'On the Neva embankment',
+      byCar: 'By car',
+      car: ['Nevsky Prospekt — 15 min', 'Ring road (KAD) — 10 min'],
+      metroLabel: 'Metro',
+      directions: 'Detailed directions',
+      faqEyebrow: 'FAQ',
+      faqTitle: 'Frequently asked questions',
+    }
+  : {
+      title: `${d.fullName} — аренда офисов класса ${b.class} в Санкт-Петербурге | АНМ`,
+      description: `${d.fullName} на ${d.shortAddress}: ${d.stats[1].value} м², ${d.stats[0].value} этажей, ${d.walk} минут пешком от м. ${d.metro}. Аренда офисов напрямую от собственника.`,
+      classLabel: 'класс',
+      offices: 'Свободные офисы',
+      route: 'Как добраться',
+      walk: `${d.walk} минут пешком`,
+      detailsEyebrow: 'В деталях',
+      detailsTitle: 'Архитектура, инженерия, сервис',
+      photosEyebrow: 'Фотографии',
+      photosTitle: 'Внутри здания',
+      prev: 'Назад', next: 'Вперёд',
+      specsEyebrow: 'Характеристики',
+      specsTitle: 'Технические параметры',
+      infraEyebrow: 'Инфраструктура',
+      infraTitle: 'Всё необходимое — в шаге от офиса',
+      locEyebrow: 'Расположение',
+      locTitle: 'На набережной Невы',
+      byCar: 'На автомобиле',
+      car: ['Невский проспект — 15 минут', 'КАД — 10 минут'],
+      metroLabel: 'Метро',
+      directions: 'Подробная схема проезда',
+      faqEyebrow: 'Вопросы',
+      faqTitle: 'Частые вопросы',
+    };
+
+const jsonLd: object[] = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'OfficeSpace',
+    name: d.fullName,
+    description: d.description,
+    url: `${site}${withBase(`${prefix}/buildings/${slug}/`)}`,
+    image: `${site}${withBase(`/images/v2/${show.hero.name}.jpg`)}`,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: d.address,
+      addressLocality: isEn ? 'Saint Petersburg' : 'Санкт-Петербург',
+      addressCountry: 'RU',
+    },
+    geo: { '@type': 'GeoCoordinates', latitude: b.coordinates.lat, longitude: b.coordinates.lng },
+    openingHours: 'Mo-Su 00:00-23:59',
+  },
+];
+if (d.faq.length) {
+  jsonLd.push({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: d.faq.map((f) => ({
+      '@type': 'Question',
+      name: f.question,
+      acceptedAnswer: { '@type': 'Answer', text: f.answer },
+    })),
+  });
+}
+---
+
+<BuildingLayout
+  title={t.title}
+  description={t.description}
+  buildingName={d.fullName}
+  buildingSlug={slug}
+  ogImage={`/images/v2/${show.hero.name}.jpg`}
+  jsonLd={jsonLd}
+>
+  <!-- ===== Hero ===== -->
+  <header class="bh">
+    <div class="container bh__head">
+      <div class="bh__title-wrap" data-reveal>
+        <span class="eyebrow">{d.kind} · {t.classLabel} {b.class}</span>
+        <h1 class="bh__title">{d.name}</h1>
+      </div>
+      <div class="bh__aside" data-reveal style="--reveal-delay: 120ms">
+        <p class="bh__address">{d.address}</p>
+        <p class="bh__metro"><span class="bh__dot" aria-hidden="true"></span>{t.metroLabel} {d.metro} · {t.walk}</p>
+        <div class="bh__actions">
+          <a href={withBase(`${prefix}/buildings/${slug}/offices/`)} class="btn btn--primary btn--wide">{t.offices}</a>
+          <a href={withBase(`${prefix}/buildings/${slug}/how-to-get/`)} class="link-arrow">{t.route}</a>
+        </div>
+      </div>
+    </div>
+
+    <figure class={`bh__media container-wide bh__media--${slug}`} data-reveal>
+      <div class="bh__frame">
+        <Img name={show.hero.name} alt={show.hero.alt} sizes="100vw" loading="eager" fetchpriority="high" />
+        <span class="bh__class" aria-hidden="true">{b.class}</span>
+      </div>
+    </figure>
+
+    <div class="container bh__intro">
+      <p class="bh__lead" data-reveal>{d.description}</p>
+      <dl class="bh__stats" data-reveal style="--reveal-delay: 100ms">
+        {d.stats.map((s) => (
+          <div class="bh__stat">
+            <dt>{s.label}</dt>
+            <dd>{s.value}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </header>
+
+  <!-- ===== Details ===== -->
+  <section class="section details" id="details" aria-labelledby="details-title">
+    <div class="container">
+      <div class="block-head" data-reveal>
+        <span class="eyebrow">{t.detailsEyebrow}</span>
+        <h2 id="details-title">{t.detailsTitle}</h2>
+      </div>
+
+      {d.features.map((f, i) => (
+        <article class:list={['detail', { 'detail--rev': i % 2 === 1 }]}>
+          <div class="detail__media" data-reveal>
+            <Img src={f.image} alt={f.imageAlt} sizes="(min-width: 1024px) 58vw, 100vw" />
+          </div>
+          <div class="detail__text" data-reveal style="--reveal-delay: 120ms">
+            <span class="detail__num">{String(i + 1).padStart(2, '0')}</span>
+            <h3 class="detail__title">{f.title}</h3>
+            <p class="detail__desc">{f.description}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- ===== Photo strip ===== -->
+  <section class="strip section section--warm" aria-labelledby="strip-title" data-strip>
+    <div class="container strip__head">
+      <div data-reveal>
+        <span class="eyebrow">{t.photosEyebrow}</span>
+        <h2 id="strip-title">{t.photosTitle}</h2>
+      </div>
+      <div class="strip__controls">
+        <button type="button" class="strip__arrow strip__arrow--prev" data-strip-prev aria-label={t.prev}></button>
+        <button type="button" class="strip__arrow strip__arrow--next" data-strip-next aria-label={t.next}></button>
+      </div>
+    </div>
+    <ul class="strip__track" data-strip-track>
+      {photos.map((p) => (
+        <li class="strip__item">
+          <figure class="figure">
+            <div class="strip__frame">
+              <Img name={p.name} alt={p.alt} sizes="(min-width: 1024px) 34vw, 80vw" />
+            </div>
+            <figcaption class="figure__caption">{p.caption}</figcaption>
+          </figure>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <!-- ===== Specifications ===== -->
+  <section class="section specs" aria-labelledby="specs-title">
+    <div class="container specs__grid">
+      <div class="specs__head" data-reveal>
+        <span class="eyebrow">{t.specsEyebrow}</span>
+        <h2 id="specs-title">{t.specsTitle}</h2>
+      </div>
+      <dl class="specs__list" data-reveal>
+        {d.parameters.map((p) => (
+          <div class="specs__row">
+            <dt>{p.label}</dt>
+            <dd>{p.value}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
+
+  <!-- ===== Typical office ===== -->
+  <TypicalOfficePromo
+    buildingName={d.name}
+    buildingLabel={promo.label}
+    planImage={promo.plan}
+    area={promo.area}
+    buildingClass={b.class}
+    type={isEn ? 'Private offices / Open space' : 'Кабинеты / Open space'}
+    pricePerSqm={promo.price}
+    href={`${prefix}/buildings/${slug}/offices/`}
+  />
+
+  <!-- ===== Infrastructure ===== -->
+  <section class="section infra" aria-labelledby="infra-title">
+    <div class="container">
+      <div class="block-head" data-reveal>
+        <span class="eyebrow">{t.infraEyebrow}</span>
+        <h2 id="infra-title">{t.infraTitle}</h2>
+      </div>
+      <ul class="infra__list">
+        {d.infrastructure.map((it, i) => (
+          <li class="infra__item" data-reveal style={`--reveal-delay: ${i * 90}ms`}>
+            <div class="infra__media zoom">
+              <Img src={it.image} alt={it.imageAlt} sizes="(min-width: 1024px) 30vw, 100vw" />
+            </div>
+            <h3 class="infra__name">{it.name}</h3>
+            <p class="infra__desc">{it.description}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===== Location ===== -->
+  <section class="section section--warm loc-b" id="location" aria-labelledby="loc-b-title">
+    <div class="container loc-b__grid">
+      <div class="loc-b__text" data-reveal>
+        <span class="eyebrow">{t.locEyebrow}</span>
+        <h2 id="loc-b-title">{t.locTitle}</h2>
+        <dl class="loc-b__rows">
+          <div class="loc-b__row">
+            <dt>{t.metroLabel}</dt>
+            <dd><span class="bh__dot" aria-hidden="true"></span>{d.metro} · {t.walk}</dd>
+          </div>
+          <div class="loc-b__row">
+            <dt>{t.byCar}</dt>
+            <dd>{t.car.map((c) => <span>{c}</span>)}</dd>
+          </div>
+          <div class="loc-b__row">
+            <dt>{isEn ? 'Address' : 'Адрес'}</dt>
+            <dd>{d.address}</dd>
+          </div>
+        </dl>
+        <a href={withBase(`${prefix}/buildings/${slug}/how-to-get/`)} class="link-arrow">{t.directions}</a>
+      </div>
+      <div class="loc-b__map" data-reveal>
+        <InteractiveMapIsland
+          markers={[{
+            lat: b.coordinates.lat,
+            lng: b.coordinates.lng,
+            title: d.fullName,
+            address: d.shortAddress,
+            href: `${prefix}/buildings/${slug}/`,
+          }]}
+          center={b.coordinates}
+          zoom={16}
+          height="440px"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FAQ ===== -->
+  {d.faq.length > 0 && (
+    <section class="section faq" aria-labelledby="faq-title">
+      <div class="container faq__grid">
+        <div class="faq__head" data-reveal>
+          <span class="eyebrow">{t.faqEyebrow}</span>
+          <h2 id="faq-title">{t.faqTitle}</h2>
+        </div>
+        <div class="faq__list">
+          {d.faq.map((f, i) => (
+            <details class="faq__item" open={i === 0}>
+              <summary class="faq__q">{f.question}</summary>
+              <p class="faq__a">{f.answer}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <ContactCTA />
+</BuildingLayout>
+
+<style>
+  /* ── Hero ── */
+  .bh__head {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--grid-gap);
+    row-gap: var(--space-xl);
+    align-items: end;
+    padding-top: clamp(1rem, 3vw, 2.5rem);
+    padding-bottom: clamp(2rem, 4vw, 3.5rem);
+  }
+
+  .bh__title-wrap {
+    grid-column: 1 / 8;
+  }
+
+  .bh__title-wrap .eyebrow {
+    margin-bottom: 0.75rem;
+  }
+
+  .bh__title {
+    font-size: clamp(3.5rem, 10vw, 10rem);
+    font-weight: var(--weight-thin);
+    letter-spacing: -0.055em;
+    line-height: 0.9;
+    margin-left: -0.05em;
+  }
+
+  .bh__aside {
+    grid-column: 8 / 13;
+    padding-bottom: 0.5rem;
+  }
+
+  .bh__address {
+    margin-bottom: 0.4rem;
+    font-size: var(--text-small);
+  }
+
+  .bh__metro {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: var(--space-lg);
+    font-size: var(--text-small);
+    color: var(--color-text-secondary);
+  }
+
+  .bh__dot {
+    display: inline-block;
+    flex-shrink: 0;
+    width: 0.55rem;
+    height: 0.55rem;
+    margin-right: 0.1rem;
+    border-radius: 50%;
+    background: #009A49;
+  }
+
+  .bh__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-md) var(--space-xl);
+  }
+
+  .bh__frame {
+    position: relative;
+    aspect-ratio: 21 / 9;
+    overflow: hidden;
+  }
+
+  .bh__media--anm .bh__frame {
+    aspect-ratio: 2.6 / 1;
+  }
+
+  .bh__frame :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .bh__class {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    padding: 1rem 1.4rem;
+    font-size: clamp(1.5rem, 2.6vw, 2.5rem);
+    font-weight: var(--weight-light);
+    letter-spacing: -0.03em;
+    line-height: 1;
+    color: #fff;
+    background: var(--color-cta);
+  }
+
+  .bh__intro {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--grid-gap);
+    row-gap: var(--space-xl);
+    padding-top: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .bh__lead {
+    grid-column: 1 / 7;
+    margin: 0;
+    font-size: var(--text-lead);
+    font-weight: var(--weight-light);
+    line-height: 1.65;
+    color: var(--color-text-secondary);
+  }
+
+  .bh__stats {
+    grid-column: 8 / 13;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-lg);
+  }
+
+  .bh__stat {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 0.4rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-line);
+  }
+
+  .bh__stat dd {
+    font-size: clamp(1.75rem, 2.6vw, 2.5rem);
+    font-weight: var(--weight-light);
+    letter-spacing: -0.03em;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .bh__stat dt {
+    font-size: var(--text-caption);
+    color: var(--color-text-muted);
+  }
+
+  /* ── Shared block heading ── */
+  .block-head {
+    margin-bottom: clamp(2.5rem, 5vw, 4.5rem);
+  }
+
+  .block-head .eyebrow,
+  .strip__head .eyebrow,
+  .specs__head .eyebrow,
+  .loc-b__text .eyebrow,
+  .faq__head .eyebrow {
+    margin-bottom: 1rem;
+  }
+
+  .block-head h2,
+  .strip__head h2,
+  .specs__head h2,
+  .loc-b__text h2,
+  .faq__head h2 {
+    max-width: 16ch;
+    font-size: var(--text-h2);
+  }
+
+  /* ── Details ── */
+  .detail {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--grid-gap);
+    row-gap: var(--space-lg);
+    align-items: end;
+  }
+
+  .detail + .detail {
+    margin-top: clamp(4rem, 9vw, 8rem);
+  }
+
+  .detail__media {
+    grid-column: 1 / 8;
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+  }
+
+  .detail__media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .detail__text {
+    grid-column: 9 / 13;
+  }
+
+  .detail--rev .detail__media {
+    grid-column: 6 / 13;
+    grid-row: 1;
+  }
+
+  .detail--rev .detail__text {
+    grid-column: 1 / 5;
+    grid-row: 1;
+  }
+
+  .detail__num {
+    display: block;
+    margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-line-strong);
+    font-size: var(--text-micro);
+    letter-spacing: 0.06em;
+    color: var(--color-cta);
+  }
+
+  .detail__title {
+    margin-bottom: 1rem;
+    font-size: clamp(1.5rem, 2.2vw, 2.25rem);
+    font-weight: var(--weight-light);
+    letter-spacing: -0.025em;
+  }
+
+  .detail__desc {
+    margin: 0;
+    font-size: var(--text-small);
+    line-height: 1.75;
+    color: var(--color-text-secondary);
+  }
+
+  /* ── Photo strip ── */
+  .strip__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: var(--space-lg);
+    margin-bottom: clamp(2rem, 4vw, 3rem);
+  }
+
+  .strip__controls {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .strip__arrow {
+    position: relative;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 1px solid var(--color-line-strong);
+    transition: background-color var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
+  }
+
+  .strip__arrow::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-top: 1.5px solid currentColor;
+    border-right: 1.5px solid currentColor;
+  }
+
+  .strip__arrow--prev::before { transform: translate(-30%, -50%) rotate(-135deg); }
+  .strip__arrow--next::before { transform: translate(-70%, -50%) rotate(45deg); }
+
+  .strip__arrow:hover {
+    background: var(--color-ink);
+    border-color: var(--color-ink);
+    color: #fff;
+  }
+
+  .strip__track {
+    display: flex;
+    gap: var(--grid-gap);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: max(var(--container-padding), calc((100vw - var(--max-width)) / 2));
+    padding-inline: max(var(--container-padding), calc((100vw - var(--max-width)) / 2));
+    padding-bottom: 2rem;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+  }
+
+  .strip__track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .strip__item {
+    flex: 0 0 auto;
+    width: clamp(16rem, 34vw, 32rem);
+    scroll-snap-align: start;
+  }
+
+  .strip__item:nth-child(3n + 2) {
+    width: clamp(14rem, 24vw, 22rem);
+  }
+
+  .strip__frame {
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: #e9e5de;
+  }
+
+  .strip__item:nth-child(3n + 2) .strip__frame {
+    aspect-ratio: 3 / 4;
+  }
+
+  .strip__frame :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* ── Specs ── */
+  .specs__grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--grid-gap);
+    row-gap: var(--space-2xl);
+  }
+
+  .specs__head {
+    grid-column: 1 / 5;
+  }
+
+  .specs__head > * {
+    position: sticky;
+    top: calc(var(--header-height) + 2rem);
+  }
+
+  .specs__list {
+    grid-column: 6 / 13;
+    border-top: 1px solid var(--color-line-strong);
+  }
+
+  .specs__row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+    gap: var(--space-lg);
+    padding-block: 1.05rem;
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .specs__row dt {
+    font-size: var(--text-caption);
+    color: var(--color-text-muted);
+    padding-top: 0.15rem;
+  }
+
+  .specs__row dd {
+    font-size: var(--text-small);
+    color: var(--color-ink);
+  }
+
+  /* ── Infrastructure ── */
+  .infra {
+    padding-top: 0;
+  }
+
+  .infra__list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--grid-gap);
+  }
+
+  .infra__item:nth-child(2) {
+    margin-top: clamp(0rem, 6vw, 5rem);
+  }
+
+  .infra__media {
+    aspect-ratio: 4 / 5;
+    margin-bottom: 1.25rem;
+  }
+
+  .infra__media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .infra__name {
+    margin-bottom: 0.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-line-strong);
+    font-size: var(--text-h3);
+    font-weight: var(--weight-light);
+    letter-spacing: -0.02em;
+  }
+
+  .infra__desc {
+    margin: 0;
+    font-size: var(--text-small);
+    line-height: 1.7;
+    color: var(--color-text-secondary);
+  }
+
+  /* ── Location ── */
+  .loc-b__grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--grid-gap);
+    row-gap: var(--space-2xl);
+    align-items: start;
+  }
+
+  .loc-b__text {
+    grid-column: 1 / 6;
+  }
+
+  .loc-b__rows {
+    margin: var(--space-xl) 0;
+    border-top: 1px solid var(--color-line-strong);
+  }
+
+  .loc-b__row {
+    display: grid;
+    grid-template-columns: 8rem 1fr;
+    gap: var(--space-md);
+    padding-block: 1rem;
+    border-bottom: 1px solid var(--color-line-strong);
+    font-size: var(--text-small);
+  }
+
+  .loc-b__row dt {
+    font-size: var(--text-caption);
+    color: var(--color-text-muted);
+    padding-top: 0.1rem;
+  }
+
+  .loc-b__row dd {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .loc-b__row dd:has(.bh__dot) {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .loc-b__map {
+    grid-column: 7 / 13;
+  }
+
+  /* ── FAQ ── */
+  .faq__grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--grid-gap);
+    row-gap: var(--space-2xl);
+  }
+
+  .faq__head {
+    grid-column: 1 / 5;
+  }
+
+  .faq__list {
+    grid-column: 6 / 13;
+    border-top: 1px solid var(--color-line-strong);
+  }
+
+  .faq__item {
+    border-bottom: 1px solid var(--color-line-strong);
+  }
+
+  .faq__q {
+    position: relative;
+    display: block;
+    padding: 1.4rem 3rem 1.4rem 0;
+    font-size: clamp(1.0625rem, 1.3vw, 1.25rem);
+    font-weight: var(--weight-regular);
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .faq__q::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq__q::before,
+  .faq__q::after {
+    content: '';
+    position: absolute;
+    right: 0.25rem;
+    top: 50%;
+    width: 0.9rem;
+    height: 1px;
+    background: currentColor;
+    transition: transform var(--transition-base);
+  }
+
+  .faq__q::after {
+    transform: rotate(90deg);
+  }
+
+  .faq__item[open] .faq__q::after {
+    transform: rotate(0deg);
+  }
+
+  .faq__a {
+    max-width: 44rem;
+    margin: 0;
+    padding-bottom: 1.5rem;
+    font-size: var(--text-small);
+    line-height: 1.75;
+    color: var(--color-text-secondary);
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 1023px) {
+    .bh__title-wrap,
+    .bh__aside,
+    .bh__lead,
+    .bh__stats,
+    .detail__media,
+    .detail__text,
+    .detail--rev .detail__media,
+    .detail--rev .detail__text,
+    .specs__head,
+    .specs__list,
+    .loc-b__text,
+    .loc-b__map,
+    .faq__head,
+    .faq__list {
+      grid-column: 1 / 13;
+      grid-row: auto;
+    }
+
+    .bh__frame,
+    .bh__media--anm .bh__frame {
+      aspect-ratio: 16 / 10;
+    }
+
+    .infra__list {
+      grid-template-columns: 1fr;
+    }
+
+    .infra__item:nth-child(2) {
+      margin-top: 0;
+    }
+
+    .infra__media {
+      aspect-ratio: 16 / 10;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .specs__row {
+      grid-template-columns: 1fr;
+      gap: 0.25rem;
+    }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-strip]').forEach((root) => {
+    const track = root.querySelector<HTMLElement>('[data-strip-track]');
+    if (!track) return;
+    const step = () => (track.querySelector<HTMLElement>('.strip__item')?.offsetWidth ?? 300) + 24;
+    root.querySelector('[data-strip-prev]')?.addEventListener('click', () => track.scrollBy({ left: -step(), behavior: 'smooth' }));
+    root.querySelector('[data-strip-next]')?.addEventListener('click', () => track.scrollBy({ left: step(), behavior: 'smooth' }));
+  });
+</script>

@@ -11,240 +11,225 @@ const isEn = locale === 'en';
 const routeLinks = buildings.map((b) => {
   const en = getBuildingEnBySlug(b.slug);
   return {
-    name: isEn && en ? en.name : b.name,
+    name: isEn ? (en?.fullName ?? b.name) : (b.slug === 'fidel' ? 'Бизнес-лофт Фидель' : 'Бизнес-центр АНМ'),
     twogis: `https://2gis.ru/spb/directions/points/~${b.coordinates.lng},${b.coordinates.lat}`,
     yandex: `https://yandex.ru/maps/?rtext=~${b.coordinates.lat},${b.coordinates.lng}&rtt=auto`,
   };
 });
+
+const t = isEn
+  ? {
+      eyebrow: 'Contacts',
+      title: 'We are always in touch',
+      getHere: 'How to get here',
+      metro: 'Elizarovskaya',
+      walk: '9 min walk',
+      address: 'Saint Petersburg, Obukhovskoy Oborony Ave. 70, bldg. 2, lit. A',
+      directions: 'The territory lies on the Neva embankment, a 9-minute walk from Elizarovskaya metro station (green line), with convenient car access from Obukhovskoy Oborony Avenue.',
+      rows: [
+        { label: 'Leasing department', value: contactInfo.commercial, href: contactInfo.commercialHref },
+        { label: 'Main line', value: contactInfo.phone, href: contactInfo.phoneHref },
+        { label: 'Reception', value: contactInfo.reception, href: contactInfo.receptionHref },
+        { label: 'Email', value: contactInfo.email, href: contactInfo.emailHref },
+      ],
+      yandex: 'Yandex Maps',
+    }
+  : {
+      eyebrow: 'Контакты',
+      title: 'Мы всегда на связи',
+      getHere: 'Как добраться',
+      metro: 'Елизаровская',
+      walk: '9 минут пешком',
+      address: contactInfo.address,
+      directions: 'Территория расположена на набережной Невы, в 9 минутах ходьбы от станции метро «Елизаровская» (зелёная линия). Удобный подъезд на автомобиле с проспекта Обуховской Обороны.',
+      rows: [
+        { label: 'Коммерческий отдел', value: contactInfo.commercial, href: contactInfo.commercialHref },
+        { label: 'Основной телефон', value: contactInfo.phone, href: contactInfo.phoneHref },
+        { label: 'Приёмная', value: contactInfo.reception, href: contactInfo.receptionHref },
+        { label: 'Email', value: contactInfo.email, href: contactInfo.emailHref },
+      ],
+      yandex: 'Яндекс Карты',
+    };
 ---
 
-<section class="location-contacts section">
+<section class="loc section" aria-labelledby="loc-title">
   <div class="container">
-    <div class="location-contacts__grid">
-      <div class="location-contacts__contacts">
-        <h2 class="location-contacts__heading">{isEn ? 'Contacts' : 'Контакты'}</h2>
-        <div class="location-contacts__items">
-          <div class="location-contacts__item">
-            <span class="location-contacts__label">{isEn ? 'Main phone' : 'Основной телефон'}</span>
-            <a href={contactInfo.phoneHref} class="location-contacts__value location-contacts__value--phone">
-              {contactInfo.phone}
-            </a>
-          </div>
-          <div class="location-contacts__item">
-            <span class="location-contacts__label">{isEn ? 'Commercial Dept.' : 'Коммерческий отдел'}</span>
-            <a href={contactInfo.commercialHref} class="location-contacts__value">
-              {contactInfo.commercial}
-            </a>
-          </div>
-          <div class="location-contacts__item">
-            <span class="location-contacts__label">{isEn ? 'Reception' : 'Приемная'}</span>
-            <a href={contactInfo.receptionHref} class="location-contacts__value">
-              {contactInfo.reception}
-            </a>
-          </div>
-          <div class="location-contacts__item">
-            <span class="location-contacts__label">Email</span>
-            <a href={contactInfo.emailHref} class="location-contacts__value">
-              {contactInfo.email}
-            </a>
-          </div>
-        </div>
+    <div class="loc__grid">
+      <div class="loc__head" data-reveal>
+        <span class="eyebrow">{t.eyebrow}</span>
+        <h2 class="loc__title" id="loc-title">{t.title}</h2>
       </div>
 
-      <div class="location-contacts__location">
-        <h2 class="location-contacts__heading">{isEn ? 'How to Get Here' : 'Как доехать'}</h2>
-        <div class="location-contacts__metro">
-          <span class="location-contacts__metro-dot" style="background-color: #009A49;"></span>
-          <span class="location-contacts__metro-name">{isEn ? 'Elizarovskaya metro' : 'м. Елизаровская'}</span>
-          <span class="location-contacts__metro-time">{isEn ? '9 min walk' : '9 мин пешком'}</span>
-        </div>
-        <p class="location-contacts__address">
-          {isEn ? 'Saint Petersburg, Obukhovskoy Oborony Ave. 70, Bldg. 2, Lit. A' : contactInfo.address}
+      <dl class="loc__rows" data-reveal>
+        {t.rows.map((r) => (
+          <div class="loc__row">
+            <dt>{r.label}</dt>
+            <dd><a href={r.href}>{r.value}</a></dd>
+          </div>
+        ))}
+      </dl>
+
+      <div class="loc__where" data-reveal style="--reveal-delay: 100ms">
+        <h3 class="loc__subtitle">{t.getHere}</h3>
+        <p class="loc__metro">
+          <span class="loc__metro-dot" aria-hidden="true"></span>
+          <span>{isEn ? 'Metro' : 'м.'} {t.metro}</span>
+          <span class="loc__metro-time">{t.walk}</span>
         </p>
-        <p class="location-contacts__directions">
-          {isEn
-            ? 'Aleksandro-Nevskaya Manufaktura is located on the Neva River embankment, a 9-minute walk from Elizarovskaya metro station (green line). Convenient access from Obukhovskoy Oborony Ave.'
-            : 'Территория Александро-Невской Мануфактуры расположена на набережной реки Невы, в 9 минутах ходьбы от станции метро Елизаровская (зелёная линия). Удобный подъезд с\u00a0Пр.\u00a0Обуховской\u00a0Обороны.'}
-        </p>
-        <div class="location-contacts__routes">
+        <p class="loc__address">{t.address}</p>
+        <p class="loc__directions">{t.directions}</p>
+
+        <ul class="loc__routes">
           {routeLinks.map((r) => (
-            <div class="route-group">
-              <span class="route-group__label">{isEn ? `Route to BC ${r.name}` : `Маршрут до ${r.name.startsWith('БЦ') ? r.name : `БЦ ${r.name}`}`}</span>
-              <div class="route-group__buttons">
-                <a href={r.twogis} target="_blank" rel="noopener noreferrer" class="route-btn route-btn--2gis">
-                  <svg class="route-btn__icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                    <circle cx="12" cy="10" r="3"/>
-                  </svg>
-                  2GIS
-                </a>
-                <a href={r.yandex} target="_blank" rel="noopener noreferrer" class="route-btn route-btn--yandex">
-                  <svg class="route-btn__icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polygon points="3 11 22 2 13 21 11 13 3 11"/>
-                  </svg>
-                  {isEn ? 'Yandex Maps' : 'Яндекс Карты'}
-                </a>
-              </div>
-            </div>
+            <li class="loc__route">
+              <span class="loc__route-name">{r.name}</span>
+              <span class="loc__route-links">
+                <a href={r.yandex} target="_blank" rel="noopener noreferrer">{t.yandex}</a>
+                <a href={r.twogis} target="_blank" rel="noopener noreferrer">2GIS</a>
+              </span>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
     </div>
   </div>
 </section>
 
 <style>
-  .location-contacts__grid {
+  .loc__grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-3xl);
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--grid-gap);
+    row-gap: var(--space-2xl);
   }
 
-  .location-contacts__heading {
-    font-size: var(--text-h3);
-    font-weight: var(--weight-bold);
-    color: var(--color-text-primary);
-    margin-bottom: var(--space-xl);
+  .loc__head {
+    grid-column: 1 / 13;
   }
 
-  .location-contacts__items {
+  .loc__head .eyebrow {
+    margin-bottom: 1rem;
+  }
+
+  .loc__title {
+    font-size: var(--text-h2);
+  }
+
+  .loc__rows {
+    grid-column: 1 / 7;
+    border-top: 1px solid var(--color-line-strong);
+  }
+
+  .loc__row {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
+    align-items: baseline;
     gap: var(--space-lg);
+    padding-block: 1.25rem;
+    border-bottom: 1px solid var(--color-line);
   }
 
-  .location-contacts__item {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-xs);
+  .loc__row dt {
+    font-size: var(--text-caption);
+    color: var(--color-text-muted);
   }
 
-  .location-contacts__label {
-    font-size: var(--text-small);
-    color: var(--color-text-secondary);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-
-  .location-contacts__value {
-    font-size: var(--text-body);
-    color: var(--color-text-primary);
-    font-weight: var(--weight-medium);
+  .loc__row dd a {
+    font-size: clamp(1.125rem, 1.6vw, 1.5rem);
+    font-weight: var(--weight-light);
+    letter-spacing: -0.01em;
+    color: var(--color-ink);
+    font-variant-numeric: tabular-nums;
     transition: color var(--transition-fast);
   }
 
-  .location-contacts__value:hover {
-    color: var(--color-primary);
+  .loc__row dd a:hover {
+    color: var(--color-cta);
   }
 
-  .location-contacts__value--phone {
-    font-size: var(--text-body);
-    font-weight: var(--weight-bold);
+  .loc__where {
+    grid-column: 8 / 13;
   }
 
-  .location-contacts__metro {
-    display: flex;
-    align-items: center;
-    gap: var(--space-sm);
-    margin-bottom: var(--space-lg);
-    padding: var(--space-md) var(--space-lg);
-    background-color: var(--color-surface-cream);
-    border-radius: var(--radius-md);
-  }
-
-  .location-contacts__metro-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-
-  .location-contacts__metro-name {
-    font-weight: var(--weight-semibold);
-    color: var(--color-text-primary);
-  }
-
-  .location-contacts__metro-time {
-    color: var(--color-text-secondary);
-    font-size: var(--text-caption);
-  }
-
-  .location-contacts__address {
-    font-weight: var(--weight-medium);
-    color: var(--color-text-primary);
-    margin-bottom: var(--space-md);
-  }
-
-  .location-contacts__directions {
-    color: var(--color-text-secondary);
-    line-height: var(--leading-relaxed);
-    margin-bottom: var(--space-lg);
-  }
-
-  .location-contacts__routes {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-lg);
-  }
-
-  .route-group__label {
-    display: block;
-    font-size: var(--text-caption);
-    font-weight: var(--weight-medium);
-    color: var(--color-text-primary);
-    margin-bottom: var(--space-sm);
-  }
-
-  .route-group__buttons {
-    display: flex;
-    gap: var(--space-sm);
-  }
-
-  .route-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-xs);
-    padding: var(--space-sm) var(--space-md);
-    border-radius: var(--radius-sm);
+  .loc__subtitle {
+    margin-bottom: 1.25rem;
     font-size: var(--text-small);
     font-weight: var(--weight-medium);
-    transition: background-color var(--transition-fast), color var(--transition-fast);
-    text-decoration: none;
-    border: 1px solid var(--color-border);
   }
 
-  .route-btn__icon {
-    flex-shrink: 0;
+  .loc__metro {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.0625rem;
   }
 
-  .route-btn--2gis {
-    color: #1a7640;
-    background-color: #e8f5ee;
-    border-color: #c3e6d1;
+  .loc__metro-dot {
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 50%;
+    background: #009A49;
   }
 
-  .route-btn--2gis:hover {
-    background-color: #1a7640;
-    color: #ffffff;
-    border-color: #1a7640;
+  .loc__metro-time {
+    font-size: var(--text-caption);
+    color: var(--color-text-muted);
   }
 
-  .route-btn--yandex {
-    color: #cc0000;
-    background-color: #fff3f3;
-    border-color: #ffd6d6;
+  .loc__address {
+    margin-bottom: 0.75rem;
+    font-size: var(--text-small);
   }
 
-  .route-btn--yandex:hover {
-    background-color: #cc0000;
-    color: #ffffff;
-    border-color: #cc0000;
+  .loc__directions {
+    font-size: var(--text-small);
+    line-height: 1.7;
+    color: var(--color-text-secondary);
   }
 
-  @media (max-width: 767px) {
-    .location-contacts__grid {
-      grid-template-columns: 1fr;
-      gap: var(--space-2xl);
+  .loc__routes {
+    margin-top: var(--space-lg);
+    border-top: 1px solid var(--color-line);
+  }
+
+  .loc__route {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+    padding-block: 0.9rem;
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .loc__route-name {
+    font-size: var(--text-small);
+  }
+
+  .loc__route-links {
+    display: flex;
+    gap: 1.25rem;
+  }
+
+  .loc__route-links a {
+    font-size: var(--text-caption);
+    font-weight: var(--weight-medium);
+    color: var(--color-ink);
+    border-bottom: 1px solid var(--color-line-strong);
+    padding-bottom: 2px;
+    transition: border-color var(--transition-fast), color var(--transition-fast);
+  }
+
+  .loc__route-links a:hover {
+    color: var(--color-cta);
+    border-color: var(--color-cta);
+  }
+
+  @media (max-width: 1023px) {
+    .loc__rows,
+    .loc__where {
+      grid-column: 1 / 13;
     }
   }
 </style>

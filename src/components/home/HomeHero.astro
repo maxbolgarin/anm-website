@@ -1,0 +1,427 @@
+---
+/**
+ * Home hero — pinned, scroll-scrubbed aerial film of the territory.
+ * Desktop: the section is ~2.6 viewports tall; the frame stays pinned while
+ * scrolling advances the drone flight. Mobile / reduced motion / slow
+ * connections: a normal full-height hero with a looping (or still) video.
+ */
+import { withBase } from '@utils/withBase';
+import type { Locale } from '@utils/locale';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const isEn = locale === 'en';
+const prefix = isEn ? '/en' : '';
+
+const poster = withBase('/territory/anm-top-poster.jpg');
+const scrubSrc = withBase('/territory/anm-top-scrub.mp4');
+const loopSrc = withBase('/territory/anm-top-mobile.mp4');
+
+const t = isEn
+  ? {
+      eyebrow: 'Business cluster on the historic Neva embankment',
+      title: ['Aleksandro-Nevskaya', 'Manufaktura'],
+      ctaPrimary: 'Find an office',
+      ctaSecondary: 'Our buildings',
+      facts: [
+        { value: '21,376', label: 'm² under management' },
+        { value: '2', label: 'business centers' },
+        { value: '20+', label: 'years on the market' },
+      ],
+      scroll: 'Scroll',
+    }
+  : {
+      eyebrow: 'Бизнес-кластер на исторической набережной Невы',
+      title: ['Александро‑Невская', 'Мануфактура'],
+      ctaPrimary: 'Подобрать офис',
+      ctaSecondary: 'Наши объекты',
+      facts: [
+        { value: '21 376', label: 'м² под управлением' },
+        { value: '2', label: 'бизнес-центра' },
+        { value: '20+', label: 'лет на рынке' },
+      ],
+      scroll: 'Листайте',
+    };
+---
+
+<section class="hero" id="hero" data-scrub={scrubSrc} data-loop={loopSrc}>
+  <div class="hero__sticky">
+    <div class="hero__media" aria-hidden="true">
+      <img class="hero__poster" src={poster} alt="" width="1920" height="1080" fetchpriority="high" decoding="async" />
+      <video class="hero__video" muted playsinline preload="none" poster={poster} tabindex="-1"></video>
+      <div class="hero__shade"></div>
+    </div>
+
+    <div class="hero__content container-wide">
+      <div class="hero__text" data-hero-fade>
+        <p class="hero__eyebrow">{t.eyebrow}</p>
+        <h1 class="hero__title">
+          <span class="hero__line"><span>{t.title[0]}</span></span>
+          <span class="hero__line"><span>{t.title[1]}</span></span>
+        </h1>
+        <div class="hero__actions">
+          <a href={withBase(`${prefix}/arenda/`)} class="btn btn--primary btn--wide">{t.ctaPrimary}</a>
+          <a href="#buildings" class="btn btn--light">{t.ctaSecondary}</a>
+        </div>
+      </div>
+
+      <div class="hero__bottom">
+        <dl class="hero__facts" data-hero-fade>
+          {t.facts.map((f) => (
+            <div class="hero__fact">
+              <dt class="sr-only">{f.label}</dt>
+              <dd>
+                <span class="hero__fact-value">{f.value}</span>
+                <span class="hero__fact-label">{f.label}</span>
+              </dd>
+            </div>
+          ))}
+        </dl>
+        <span class="hero__scroll" aria-hidden="true">
+          <span class="hero__scroll-line"></span>
+          {t.scroll}
+        </span>
+      </div>
+    </div>
+
+    <div class="hero__progress" aria-hidden="true"><span></span></div>
+  </div>
+</section>
+
+<script is:inline>
+  // Decide the hero mode before first paint so the page height never jumps.
+  (function () {
+    var c = navigator.connection;
+    var save = !!c && (c.saveData || /(^|-)2g|3g/.test(c.effectiveType || ''));
+    var ok = matchMedia('(min-width: 1024px) and (hover: hover) and (pointer: fine)').matches &&
+      !matchMedia('(prefers-reduced-motion: reduce)').matches && !save;
+    if (ok) document.getElementById('hero').classList.add('is-scrub');
+  })();
+</script>
+
+<style>
+  .hero {
+    --p: 0;
+    position: relative;
+    height: 100svh;
+    min-height: 36rem;
+    background: #1b1b1b;
+    color: #fff;
+  }
+
+  /* Pinned scroll-scrub mode (desktop only; toggled by the script) */
+  .hero.is-scrub {
+    height: 260vh;
+  }
+
+  .hero__sticky {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    min-height: 36rem;
+    overflow: hidden;
+  }
+
+  .hero__media,
+  .hero__poster,
+  .hero__video,
+  .hero__shade {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero__poster,
+  .hero__video {
+    object-fit: cover;
+    transform: scale(calc(1.06 - var(--p) * 0.06));
+    transform-origin: 50% 40%;
+  }
+
+  .hero__video {
+    opacity: 0;
+    transition: opacity 0.8s var(--ease-out);
+  }
+
+  .hero__video.is-ready {
+    opacity: 1;
+  }
+
+  .hero__shade {
+    background:
+      linear-gradient(180deg, rgba(10, 10, 10, 0.5) 0%, rgba(10, 10, 10, 0) 22%),
+      linear-gradient(0deg, rgba(10, 10, 10, 0.72) 0%, rgba(10, 10, 10, 0.25) 42%, rgba(10, 10, 10, 0) 64%),
+      linear-gradient(90deg, rgba(10, 10, 10, 0.35) 0%, rgba(10, 10, 10, 0) 55%);
+  }
+
+  .hero__content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 100%;
+    padding-top: calc(var(--header-height) + 2rem);
+    padding-bottom: clamp(1.75rem, 4vh, 3rem);
+  }
+
+  .hero__text {
+    max-width: 62rem;
+    opacity: calc(1 - var(--p) * 1.8);
+    transform: translate3d(0, calc(var(--p) * -80px), 0);
+    will-change: opacity, transform;
+  }
+
+  .hero.is-deep .hero__text,
+  .hero.is-deep .hero__facts {
+    pointer-events: none;
+  }
+
+  .hero__eyebrow {
+    margin-bottom: clamp(1rem, 2vh, 1.5rem);
+    font-size: var(--text-small);
+    font-weight: var(--weight-regular);
+    letter-spacing: 0.02em;
+    color: rgba(255, 255, 255, 0.82);
+  }
+
+  .hero__title {
+    font-size: clamp(2.75rem, 6.4vw, 7.25rem);
+    font-weight: var(--weight-thin);
+    line-height: 0.98;
+    letter-spacing: -0.045em;
+    color: #fff;
+  }
+
+  .hero__line {
+    display: block;
+    overflow: hidden;
+    padding-bottom: 0.06em;
+  }
+
+  .hero__line > span {
+    display: inline-block;
+    animation: hero-rise 1.3s var(--ease-out) both;
+  }
+
+  .hero__line:nth-child(2) > span {
+    animation-delay: 120ms;
+  }
+
+  @keyframes hero-rise {
+    from { transform: translateY(105%); }
+    to { transform: none; }
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: clamp(1.75rem, 4vh, 2.75rem);
+    animation: hero-fade 1s 450ms var(--ease-out) both;
+  }
+
+  @keyframes hero-fade {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: none; }
+  }
+
+  .hero__bottom {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-xl);
+    margin-top: clamp(2.5rem, 7vh, 5rem);
+    padding-top: 1.25rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.24);
+  }
+
+  .hero__facts {
+    display: flex;
+    gap: clamp(1.5rem, 4vw, 4rem);
+    opacity: calc(1 - var(--p) * 1.8);
+  }
+
+  .hero__fact dd {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+  }
+
+  .hero__fact-value {
+    font-size: clamp(1.25rem, 1.6vw, 1.625rem);
+    font-weight: var(--weight-light);
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .hero__fact-label {
+    font-size: var(--text-caption);
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .hero__scroll {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: var(--text-micro);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .hero__scroll-line {
+    position: relative;
+    width: 3rem;
+    height: 1px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.25);
+  }
+
+  .hero__scroll-line::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: #fff;
+    animation: hero-scroll 2.4s var(--ease-in-out) infinite;
+  }
+
+  @keyframes hero-scroll {
+    0% { transform: translateX(-100%); }
+    60%, 100% { transform: translateX(100%); }
+  }
+
+  .hero__progress {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 3;
+    height: 2px;
+    background: transparent;
+  }
+
+  .hero__progress span {
+    display: block;
+    height: 100%;
+    background: var(--color-cta);
+    transform: scaleX(var(--p));
+    transform-origin: left;
+  }
+
+  @media (max-width: 1023px) {
+    .hero__bottom {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .hero__scroll {
+      display: none;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .hero__title {
+      font-size: clamp(2rem, 8.6vw, 3rem);
+      letter-spacing: -0.04em;
+    }
+
+    .hero__facts {
+      flex-wrap: wrap;
+      gap: 0.75rem 1.5rem;
+    }
+
+    .hero__actions .btn {
+      flex: 1 1 100%;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero__line > span,
+    .hero__actions {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  const hero = document.getElementById('hero') as HTMLElement | null;
+  const video = hero?.querySelector<HTMLVideoElement>('.hero__video');
+
+  if (hero && video) {
+    const conn = (navigator as any).connection;
+    const saveData = !!conn && (conn.saveData || /(^|-)2g|3g/.test(conn.effectiveType || ''));
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const desktop = window.matchMedia('(min-width: 1024px) and (hover: hover) and (pointer: fine)').matches;
+
+    const reveal = () => video.classList.add('is-ready');
+
+    if (saveData) {
+      // Poster only
+    } else if (desktop && !reduced && hero.classList.contains('is-scrub')) {
+      // ── Scroll-scrub mode ──
+      video.preload = 'auto';
+      video.src = hero.dataset.scrub!;
+      video.load();
+
+      let duration = 0;
+      let current = 0;
+      let target = 0;
+      let raf = 0;
+
+      const progress = () => {
+        const range = hero.offsetHeight - window.innerHeight;
+        const p = range > 0 ? Math.min(Math.max(-hero.getBoundingClientRect().top / range, 0), 1) : 0;
+        hero.style.setProperty('--p', p.toFixed(4));
+        hero.classList.toggle('is-deep', p > 0.45);
+        return p;
+      };
+
+      const tick = () => {
+        raf = 0;
+        if (!duration) return;
+        current += (target - current) * 0.14;
+        if (Math.abs(target - current) < 0.002) current = target;
+        if (!video.seeking && Math.abs(video.currentTime - current) > 1 / 60) {
+          video.currentTime = current;
+        }
+        if (current !== target) raf = requestAnimationFrame(tick);
+      };
+
+      const onScroll = () => {
+        const p = progress();
+        target = p * Math.max(duration - 0.05, 0);
+        if (!raf) raf = requestAnimationFrame(tick);
+      };
+
+      video.addEventListener('loadedmetadata', () => {
+        duration = video.duration || 0;
+        onScroll();
+      }, { once: true });
+      video.addEventListener('loadeddata', reveal, { once: true });
+      video.addEventListener('error', () => hero.classList.remove('is-scrub'), { once: true });
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll);
+      progress();
+    } else if (!reduced) {
+      // ── Looping ambient mode (mobile / touch) ──
+      video.src = hero.dataset.loop!;
+      video.loop = true;
+      video.autoplay = true;
+      video.preload = 'auto';
+      video.addEventListener('playing', reveal, { once: true });
+      video.play().catch(() => { /* autoplay blocked — poster stays */ });
+
+      // Pause when off-screen to save battery
+      new IntersectionObserver(([e]) => {
+        if (e.isIntersecting) video.play().catch(() => {});
+        else video.pause();
+      }).observe(hero);
+    }
+  }
+</script>

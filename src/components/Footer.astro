@@ -8,182 +8,236 @@ const locale = getLocaleFromPath(currentPath);
 const isEn = locale === 'en';
 const bNav = isEn ? buildingNavEn : buildingNav;
 const prefix = isEn ? '/en' : '';
+const logoMask = `url('${withBase('/images/common/logo-icon.svg')}')`;
+
+const t = isEn
+  ? {
+      lead: 'A business cluster\non the historic Neva embankment',
+      commercial: 'Leasing department',
+      main: 'Main line',
+      buildings: 'Business centers',
+      company: 'Company',
+      about: 'About ANM',
+      history: 'Company & history',
+      location: 'Location',
+      rent: 'Office rental',
+      contacts: 'Contacts',
+      address: 'Saint Petersburg, Obukhovskoy Oborony Ave. 70, bldg. 2, lit. A',
+      rights: 'ANM. All rights reserved.',
+      legal: 'Information disclosure',
+      requisites: 'Company details',
+      names: { fidel: 'Business Loft Fidel', anm: 'Business Center ANM' } as Record<string, string>,
+    }
+  : {
+      lead: 'Бизнес-кластер\nна исторической набережной Невы',
+      commercial: 'Коммерческий отдел',
+      main: 'Основной телефон',
+      buildings: 'Бизнес-центры',
+      company: 'Компания',
+      about: 'О компании',
+      history: 'Компания и история',
+      location: 'Локация',
+      rent: 'Аренда офисов',
+      contacts: 'Контакты',
+      address: contactInfo.address,
+      rights: 'АНМ. Все права защищены.',
+      legal: 'Раскрытие информации',
+      requisites: 'Реквизиты',
+      names: { fidel: 'Бизнес-лофт Фидель', anm: 'Бизнес-центр АНМ' } as Record<string, string>,
+    };
 ---
 
-<footer class="footer section--dark">
-  <div class="footer__inner container">
-    <div class="footer__grid">
-      <div class="footer__brand">
-        <a href={withBase(isEn ? '/en/' : '/')} aria-label={isEn ? 'ANM — Home' : 'АНМ — Главная'}>
-          <img
-            src={withBase('/logo/logo vert2.svg')}
-            alt={isEn ? 'Aleksandro-Nevskaya Manufaktura' : 'Александро-Невская Мануфактура'}
-            class="footer__logo-img"
-            loading="lazy"
-          />
-        </a>
-        <p class="footer__desc">
-          {isEn
-            ? 'Property management company. Office rental in St. Petersburg business centers on the territory of Aleksandro-Nevskaya Manufaktura.'
-            : 'Управляющая компания. Аренда офисов в бизнес-центрах Санкт-Петербурга на территории Александро-Невской Мануфактуры.'}
-        </p>
+<footer class="footer">
+  <div class="container">
+    <div class="footer__top">
+      <div class="footer__contact">
+        <p class="footer__lead">{t.lead}</p>
+        <span class="footer__label">{t.commercial}</span>
+        <a href={contactInfo.commercialHref} class="footer__phone">{contactInfo.commercial}</a>
+        <div class="footer__meta">
+          <a href={contactInfo.emailHref} class="footer__meta-link">{contactInfo.email}</a>
+          <a href={contactInfo.phoneHref} class="footer__meta-link">{contactInfo.phone}</a>
+          <span class="footer__address">{t.address}</span>
+        </div>
       </div>
 
-      <div class="footer__col">
-        <h4 class="footer__heading">{isEn ? 'Business Centers' : 'Бизнес-центры'}</h4>
-        <ul class="footer__list">
-          {bNav.map((b) => (
-            <li><a href={withBase(b.href)} class="footer__link">{b.name}</a></li>
-          ))}
-        </ul>
-      </div>
-
-      <div class="footer__col">
-        <h4 class="footer__heading">{isEn ? 'Navigation' : 'Навигация'}</h4>
-        <ul class="footer__list">
-          <li><a href={withBase(`${prefix}/about/`)} class="footer__link">{isEn ? 'About' : 'О компании'}</a></li>
-          <li><a href={withBase(`${prefix}/about/#territory`)} class="footer__link">{isEn ? 'Location' : 'Локация'}</a></li>
-          <li><a href={withBase(`${prefix}/contacts/`)} class="footer__link">{isEn ? 'Contacts' : 'Контакты'}</a></li>
-          <li><a href={withBase(`${prefix}/legal/`)} class="footer__link">{isEn ? 'Legal Information' : 'Раскрытие информации'}</a></li>
-        </ul>
-      </div>
-
-      <div class="footer__col">
-        <h4 class="footer__heading">{isEn ? 'Contacts' : 'Контакты'}</h4>
-        <ul class="footer__list footer__list--contacts">
-          <li>
-            <span class="footer__contact-label">{isEn ? 'Main' : 'Основной'}</span>
-            <a href={contactInfo.phoneHref} class="footer__link footer__link--phone">{contactInfo.phone}</a>
-          </li>
-          <li>
-            <span class="footer__contact-label">{isEn ? 'Commercial Dept.' : 'Коммерческий отдел'}</span>
-            <a href={contactInfo.commercialHref} class="footer__link">{contactInfo.commercial}</a>
-          </li>
-          <li>
-            <span class="footer__contact-label">Email</span>
-            <a href={contactInfo.emailHref} class="footer__link">{contactInfo.email}</a>
-          </li>
-        </ul>
-        <p class="footer__address">{isEn ? 'Saint Petersburg, Obukhovskoy Oborony Ave. 70, Bldg. 2, Lit. A' : contactInfo.address}</p>
-      </div>
+      <a href={withBase(isEn ? '/en/' : '/')} class="footer__mark" aria-label={isEn ? 'ANM — Home' : 'АНМ — Главная'} style={`--logo-mask: ${logoMask}`}></a>
     </div>
 
-    <div class="footer__bottom">
-      <span class="footer__copyright">&copy; {new Date().getFullYear()} {isEn ? 'ANM. All rights reserved.' : 'АНМ. Все права защищены.'}</span>
-      <div class="footer__legal">
-        <a href={withBase(`${prefix}/legal/`)} class="footer__link">{isEn ? 'Legal Information' : 'Раскрытие информации'}</a>
-        <a href={withBase(`${prefix}/legal/#requisites`)} class="footer__link">{isEn ? 'Requisites' : 'Реквизиты'}</a>
+    <nav class="footer__nav" aria-label={isEn ? 'Footer navigation' : 'Навигация в подвале'}>
+      <div class="footer__col">
+        <h2 class="footer__heading">{t.buildings}</h2>
+        <ul class="footer__list">
+          {bNav.map((b) => (
+            <li><a href={withBase(b.href)} class="footer__link">{t.names[b.slug] ?? b.name}</a></li>
+          ))}
+          <li><a href={withBase(`${prefix}/arenda/`)} class="footer__link">{t.rent}</a></li>
+        </ul>
       </div>
+
+      <div class="footer__col">
+        <h2 class="footer__heading">{t.company}</h2>
+        <ul class="footer__list">
+          <li><a href={withBase(`${prefix}/about/`)} class="footer__link">{t.about}</a></li>
+          <li><a href={withBase(`${prefix}/about/company/`)} class="footer__link">{t.history}</a></li>
+          <li><a href={withBase(`${prefix}/territory/`)} class="footer__link">{t.location}</a></li>
+          <li><a href={withBase(`${prefix}/contacts/`)} class="footer__link">{t.contacts}</a></li>
+        </ul>
+      </div>
+
+      <div class="footer__col">
+        <h2 class="footer__heading">{isEn ? 'Legal' : 'Документы'}</h2>
+        <ul class="footer__list">
+          <li><a href={withBase(`${prefix}/legal/`)} class="footer__link">{t.legal}</a></li>
+          <li><a href={withBase(`${prefix}/legal/#requisites`)} class="footer__link">{t.requisites}</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="footer__bottom">
+      <span>&copy; {new Date().getFullYear()} {t.rights}</span>
+      <span>{isEn ? 'Aleksandro-Nevskaya Manufaktura' : 'Александро-Невская Мануфактура'}</span>
     </div>
   </div>
 </footer>
 
 <style>
   .footer {
-    padding-block: var(--space-3xl) var(--space-xl);
-    background-color: #161616;
+    background-color: var(--color-surface-dark);
+    color: rgba(255, 255, 255, 0.85);
+    padding-block: clamp(4rem, 8vw, 7rem) var(--space-xl);
   }
 
-  .footer__grid {
+  .footer__top {
     display: grid;
-    grid-template-columns: 1.5fr 1fr 1fr 1.5fr;
+    grid-template-columns: 1fr auto;
+    align-items: end;
     gap: var(--space-2xl);
-    padding-bottom: var(--space-2xl);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    padding-bottom: clamp(3rem, 6vw, 5rem);
   }
 
-  .footer__brand img {
-    height: 180px;
-    width: auto;
-    margin-bottom: var(--space-lg);
+  .footer__lead {
+    max-width: 30ch;
+    margin-bottom: clamp(2rem, 4vw, 3.5rem);
+    font-size: var(--text-h3);
+    font-weight: var(--weight-light);
+    line-height: 1.35;
+    color: #fff;
+    white-space: pre-line;
   }
 
-  .footer__desc {
+  .footer__label {
+    display: block;
+    margin-bottom: 0.5rem;
     font-size: var(--text-caption);
-    color: rgba(255, 255, 255, 0.65);
-    line-height: var(--leading-relaxed);
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .footer__phone {
+    display: inline-block;
+    font-size: clamp(2rem, 4.2vw, 3.75rem);
+    font-weight: var(--weight-thin);
+    letter-spacing: -0.03em;
+    line-height: 1;
+    color: #fff;
+    font-variant-numeric: tabular-nums;
+    transition: opacity var(--transition-fast);
+  }
+
+  .footer__phone:hover {
+    color: #fff;
+    opacity: 0.7;
+  }
+
+  .footer__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 2rem;
+    margin-top: var(--space-lg);
+    font-size: var(--text-small);
+  }
+
+  .footer__meta-link {
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  .footer__meta-link:hover {
+    color: #fff;
+  }
+
+  .footer__address {
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  /* Oversized grey brand mark — echoes the brand layout */
+  .footer__mark {
+    display: block;
+    width: clamp(7rem, 16vw, 13rem);
+    aspect-ratio: 1;
+    background-color: #5a5a5a;
+    -webkit-mask: var(--logo-mask) center / contain no-repeat;
+    mask: var(--logo-mask) center / contain no-repeat;
+    transition: background-color var(--transition-slow);
+  }
+
+  .footer__mark:hover {
+    background-color: var(--color-cta);
+  }
+
+  .footer__nav {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-xl);
+    padding-block: var(--space-2xl);
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
   }
 
   .footer__heading {
+    margin-bottom: var(--space-md);
     font-size: var(--text-caption);
-    font-weight: var(--weight-bold);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: rgba(255, 255, 255, 0.6);
-    margin-bottom: var(--space-lg);
+    font-weight: var(--weight-regular);
+    letter-spacing: 0.02em;
+    color: rgba(255, 255, 255, 0.45);
   }
 
   .footer__list {
     display: flex;
     flex-direction: column;
-    gap: var(--space-sm);
-  }
-
-  .footer__list--contacts li {
-    margin-bottom: var(--space-md);
-  }
-
-  .footer__contact-label {
-    display: block;
-    font-size: var(--text-small);
-    color: rgba(255, 255, 255, 0.45);
-    margin-bottom: var(--space-xs);
+    gap: 0.6rem;
   }
 
   .footer__link {
-    font-size: var(--text-caption);
+    font-size: var(--text-small);
     color: rgba(255, 255, 255, 0.85);
-    transition: color var(--transition-fast);
   }
 
   .footer__link:hover {
-    color: var(--color-text-inverse);
-  }
-
-  .footer__link--phone {
-    font-size: var(--text-body);
-    font-weight: var(--weight-semibold);
-  }
-
-  .footer__address {
-    font-size: var(--text-small);
-    color: rgba(255, 255, 255, 0.5);
-    margin-top: var(--space-md);
-    line-height: var(--leading-relaxed);
+    color: #fff;
   }
 
   .footer__bottom {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
-    align-items: center;
+    gap: var(--space-sm) var(--space-lg);
     padding-top: var(--space-lg);
-  }
-
-  .footer__copyright {
-    font-size: var(--text-small);
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    font-size: var(--text-micro);
     color: rgba(255, 255, 255, 0.4);
   }
 
-  .footer__legal {
-    display: flex;
-    gap: var(--space-lg);
-  }
-
-  @media (max-width: 1023px) {
-    .footer__grid {
-      grid-template-columns: 1fr 1fr;
-    }
-  }
-
   @media (max-width: 767px) {
-    .footer__grid {
+    .footer__top {
       grid-template-columns: 1fr;
     }
 
-    .footer__bottom {
-      flex-direction: column;
-      gap: var(--space-md);
-      text-align: center;
+    .footer__mark {
+      width: 5rem;
+      order: -1;
+    }
+
+    .footer__nav {
+      grid-template-columns: 1fr 1fr;
     }
   }
 </style>

@@ -1,0 +1,50 @@
+---
+/**
+ * Responsive image backed by the optimised v2 set (public/images/v2, built by
+ * scripts/build-v2-images.mjs). Emits srcset + intrinsic size to avoid CLS.
+ *
+ *   <Img name="fidel-lounge" alt="…" />           — curated name
+ *   <Img src="/фото бц/web (119).jpg" alt="…" />   — original path; uses the
+ *       optimised copy when the manifest has one, otherwise the file as-is.
+ */
+import media from '@data/media-v2.json';
+import { withBase } from '@utils/withBase';
+
+interface Props {
+  name?: string;
+  src?: string;
+  alt: string;
+  sizes?: string;
+  class?: string;
+  loading?: 'lazy' | 'eager';
+  fetchpriority?: 'high' | 'low' | 'auto';
+  style?: string;
+}
+
+type Entry = { w: number; h: number; smW: number; src: string };
+const manifest = media as Record<string, Entry>;
+const bySrc = new Map(Object.entries(manifest).map(([k, v]) => [v.src, k]));
+
+const { name, src: original, alt, sizes = '100vw', class: className, loading = 'lazy', fetchpriority, style } = Astro.props;
+const key = name ?? (original ? bySrc.get(original) : undefined);
+const m = key ? manifest[key] : undefined;
+
+if (name && !m) throw new Error(`Img: unknown image "${name}" — add it to scripts/build-v2-images.mjs`);
+
+const src = m ? withBase(`/images/v2/${key}.jpg`) : withBase(original ?? '');
+const srcset = m && m.smW < m.w ? `${withBase(`/images/v2/${key}-sm.jpg`)} ${m.smW}w, ${src} ${m.w}w` : undefined;
+---
+
+<img
+  src={src}
+  srcset={srcset}
+  sizes={srcset ? sizes : undefined}
+  width={m?.w}
+  height={m?.h}
+  alt={alt}
+  loading={loading}
+  decoding="async"
+  fetchpriority={fetchpriority}
+  class={className}
+  style={style}
+/>

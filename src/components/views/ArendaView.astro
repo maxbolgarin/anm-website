@@ -1,0 +1,146 @@
+---
+/**
+ * Office rental page (RU + EN).
+ */
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PageHeader from '@components/PageHeader.astro';
+import OfficeFilterIsland from '@components/OfficeFilterIsland.astro';
+import ContactCTA from '@components/ContactCTA.astro';
+import type { Locale } from '@utils/locale';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const isEn = locale === 'en';
+
+const t = isEn
+  ? {
+      title: 'Office Rental — Available Spaces in ANM Business Centers',
+      description: 'Current office rental offers in Business Loft Fidel and Business Center ANM on the Neva embankment in St. Petersburg. Direct lease from the owner, from 11 months.',
+      crumbs: [{ label: 'Home', href: '/en/' }, { label: 'Office Rental' }],
+      eyebrow: 'Available now',
+      h1: 'Office rental',
+      lead: 'Available spaces in Business Loft Fidel and Business Center ANM on the territory of Aleksandro-Nevskaya Manufaktura. Direct lease from the owner.',
+      stepsEyebrow: 'How it works',
+      stepsTitle: 'From request to move-in',
+      steps: [
+        { title: 'Request', text: 'Call or write to us and tell us about your team and the space you need.' },
+        { title: 'Viewing', text: 'We show you the office at a convenient time and walk you around the territory.' },
+        { title: 'Agreement', text: 'A direct lease with the building owner, for a term from 11 months.' },
+        { title: 'Move-in', text: 'We help with passes, telecom providers and everything your team needs to start.' },
+      ],
+    }
+  : {
+      title: 'Аренда офисов — свободные помещения в бизнес-центрах АНМ',
+      description: 'Актуальные предложения аренды офисов в бизнес-лофте Фидель и бизнес-центре АНМ на набережной Невы в Санкт-Петербурге. Прямая аренда от собственника, от 11 месяцев.',
+      crumbs: [{ label: 'Главная', href: '/' }, { label: 'Аренда' }],
+      eyebrow: 'Свободные помещения',
+      h1: 'Аренда офисов',
+      lead: 'Актуальные предложения в бизнес-лофте Фидель и бизнес-центре АНМ на территории Александро-Невской Мануфактуры. Прямая аренда от собственника.',
+      stepsEyebrow: 'Как мы работаем',
+      stepsTitle: 'От заявки до переезда',
+      steps: [
+        { title: 'Заявка', text: 'Позвоните или напишите нам — расскажите о команде и задачах офиса.' },
+        { title: 'Просмотр', text: 'Покажем помещение в удобное время и проведём по территории.' },
+        { title: 'Договор', text: 'Прямой договор с собственником здания на срок от 11 месяцев.' },
+        { title: 'Переезд', text: 'Поможем с пропусками, подключением связи и всем, что нужно для старта.' },
+      ],
+    };
+---
+
+<BaseLayout title={t.title} description={t.description}>
+  <PageHeader breadcrumbs={t.crumbs} eyebrow={t.eyebrow} title={t.h1} lead={t.lead} />
+
+  <section class="arenda">
+    <div class="container">
+      <OfficeFilterIsland />
+    </div>
+  </section>
+
+  <section class="steps section section--warm" aria-labelledby="steps-title">
+    <div class="container">
+      <div class="steps__head" data-reveal>
+        <span class="eyebrow">{t.stepsEyebrow}</span>
+        <h2 class="steps__title" id="steps-title">{t.stepsTitle}</h2>
+      </div>
+      <ol class="steps__list">
+        {t.steps.map((s, i) => (
+          <li class="steps__item" data-reveal style={`--reveal-delay: ${i * 80}ms`}>
+            <span class="steps__num">{String(i + 1).padStart(2, '0')}</span>
+            <h3 class="steps__name">{s.title}</h3>
+            <p class="steps__text">{s.text}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <ContactCTA />
+</BaseLayout>
+
+<style>
+  .arenda {
+    padding-bottom: var(--section-space);
+  }
+
+  .steps__head {
+    margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .steps__head .eyebrow {
+    margin-bottom: 1rem;
+  }
+
+  .steps__title {
+    font-size: var(--text-h2);
+  }
+
+  .steps__list {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--grid-gap);
+    counter-reset: step;
+  }
+
+  .steps__item {
+    padding-top: var(--space-lg);
+    border-top: 1px solid var(--color-line-strong);
+  }
+
+  .steps__num {
+    display: block;
+    margin-bottom: clamp(2rem, 4vw, 3.5rem);
+    font-size: var(--text-micro);
+    letter-spacing: 0.06em;
+    color: var(--color-cta);
+  }
+
+  .steps__name {
+    margin-bottom: 0.75rem;
+    font-size: clamp(1.375rem, 2vw, 1.875rem);
+    font-weight: var(--weight-light);
+    letter-spacing: -0.02em;
+  }
+
+  .steps__text {
+    margin: 0;
+    font-size: var(--text-small);
+    line-height: 1.7;
+    color: var(--color-text-secondary);
+  }
+
+  @media (max-width: 1023px) {
+    .steps__list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      row-gap: var(--space-2xl);
+    }
+  }
+
+  @media (max-width: 560px) {
+    .steps__list {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

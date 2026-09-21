@@ -34,40 +34,45 @@ const title = titleProp || (isEn ? 'Key Parameters' : 'Основные пара
 
 <style>
   .param-grid {
-    padding-top: 0;
-    padding-bottom: var(--space-3xl);
+    padding-block: var(--section-space);
+    background: var(--color-surface-warm);
   }
 
   .param-grid__title {
-    margin-bottom: var(--space-2xl);
+    margin-bottom: clamp(2rem, 4vw, 3rem);
+    font-size: var(--text-h2);
   }
 
   .param-grid__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
-    gap: var(--space-lg);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: clamp(2rem, 5vw, 5rem);
+    border-top: 1px solid var(--color-line-strong);
   }
 
   .param-grid__item {
     display: flex;
-    flex-direction: column;
-    padding: var(--space-lg);
-    background-color: var(--color-surface-white);
-    border-radius: var(--radius-md);
-    border: 1px solid var(--color-border);
-    overflow-wrap: break-word;
-    word-break: break-word;
-  }
-
-  .param-grid__value {
-    font-family: var(--font-heading);
-    font-size: var(--text-body);
-    font-weight: var(--weight-bold);
-    margin-bottom: var(--space-xs);
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-lg);
+    padding-block: 1.1rem;
+    border-bottom: 1px solid var(--color-line-strong);
   }
 
   .param-grid__label {
     font-size: var(--text-caption);
-    color: var(--color-text-secondary);
+    color: var(--color-text-muted);
+  }
+
+  .param-grid__value {
+    font-size: var(--text-small);
+    text-align: right;
+    color: var(--color-ink);
+  }
+
+  @media (max-width: 767px) {
+    .param-grid__grid {
+      grid-template-columns: 1fr;
+    }
   }
 </style>

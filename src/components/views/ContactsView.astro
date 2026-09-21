@@ -1,0 +1,328 @@
+---
+/**
+ * Contacts page (RU + EN).
+ */
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PageHeader from '@components/PageHeader.astro';
+import InteractiveMapIsland from '@components/InteractiveMapIsland.astro';
+import ContactCTA from '@components/ContactCTA.astro';
+import { contactInfo } from '@data/navigation';
+import { buildings } from '@data/buildings';
+import { withBase } from '@utils/withBase';
+import type { Locale } from '@utils/locale';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const isEn = locale === 'en';
+const prefix = isEn ? '/en' : '';
+const site = (Astro.site?.toString() || 'https://www.a-n-m.ru/').replace(/\/$/, '');
+
+const t = isEn
+  ? {
+      title: 'Contacts — ANM Business Centers | Office Rental in St. Petersburg',
+      description: 'Contact ANM: leasing department +7 (812) 336-55-64, main line +7 (812) 313-18-04, arenda@ukanm.ru. Obukhovskoy Oborony Ave. 70, St. Petersburg.',
+      crumbs: [{ label: 'Home', href: '/en/' }, { label: 'Contacts' }],
+      eyebrow: 'Contacts',
+      h1: 'Let’s talk about your next office',
+      lead: 'Ask a question, request a viewing or discuss a partnership — we are happy to help.',
+      groups: [
+        { name: 'Leasing department', note: 'Office rental and viewings', phones: [[contactInfo.commercial, contactInfo.commercialHref], [contactInfo.phone, contactInfo.phoneHref]], email: true },
+        { name: 'Reception', note: 'General questions', phones: [[contactInfo.reception, contactInfo.receptionHref]], email: true },
+      ],
+      addressTitle: 'Address',
+      address: 'Saint Petersburg, Obukhovskoy Oborony Ave. 70, bldg. 2, lit. A',
+      access: '24/7 access for tenants',
+      metro: 'Elizarovskaya metro · 9 min walk',
+      route: 'Build a route',
+      yandex: 'Yandex Maps',
+      reqTitle: 'Company details',
+      show: 'Show', hide: 'Hide',
+      req: [
+        ['Full name', 'LLC “Aleksandro-Nevskaya Manufaktura”'],
+        ['TIN (INN)', '7811185789'],
+        ['KPP', '781101001'],
+        ['OKPO', '74770280'],
+        ['Legal address', '192029, St. Petersburg, Obukhovskoy Oborony Ave. 70, bldg. 2, lit. A'],
+      ],
+      reqNote: 'Full bank details are provided on request.',
+      more: 'More',
+      bc: (n: string) => `Business center ${n}`,
+    }
+  : {
+      title: 'Контакты АНМ — телефон, адрес, карта | Аренда офисов в Санкт-Петербурге',
+      description: 'Контакты АНМ: коммерческий отдел +7 (812) 336-55-64, основной +7 (812) 313-18-04, arenda@ukanm.ru. Санкт-Петербург, пр. Обуховской Обороны, 70.',
+      crumbs: [{ label: 'Главная', href: '/' }, { label: 'Контакты' }],
+      eyebrow: 'Контакты',
+      h1: 'Обсудим ваш будущий офис',
+      lead: 'Задайте вопрос, запишитесь на просмотр или предложите сотрудничество — мы готовы помочь.',
+      groups: [
+        { name: 'Коммерческий отдел', note: 'Аренда офисов и просмотры', phones: [[contactInfo.commercial, contactInfo.commercialHref], [contactInfo.phone, contactInfo.phoneHref]], email: true },
+        { name: 'Приёмная', note: 'Общие вопросы', phones: [[contactInfo.reception, contactInfo.receptionHref]], email: true },
+      ],
+      addressTitle: 'Адрес',
+      address: contactInfo.address,
+      access: 'Круглосуточный доступ для арендаторов',
+      metro: 'м. Елизаровская · 9 минут пешком',
+      route: 'Построить маршрут',
+      yandex: 'Яндекс Карты',
+      reqTitle: 'Реквизиты',
+      show: 'Показать', hide: 'Скрыть',
+      req: [
+        ['Полное наименование', 'ООО «Александро-Невская Мануфактура»'],
+        ['ИНН', '7811185789'],
+        ['КПП', '781101001'],
+        ['ОКПО', '74770280'],
+        ['Юридический адрес', '192029, г. Санкт-Петербург, пр. Обуховской Обороны, дом 70, корпус 2, литер А'],
+      ],
+      reqNote: 'Полные банковские реквизиты предоставляются по запросу.',
+      more: 'Подробнее',
+      bc: (n: string) => (n.startsWith('БЦ') ? n : `БЦ ${n}`),
+    };
+
+const mapMarkers = buildings.map((b) => ({
+  lat: b.coordinates.lat,
+  lng: b.coordinates.lng,
+  title: t.bc(b.name),
+  address: b.shortAddress,
+  href: `${prefix}/buildings/${b.slug}/`,
+}));
+
+const center = buildings[0].coordinates;
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ContactPage',
+  url: `${site}${withBase(`${prefix}/contacts/`)}`,
+  mainEntity: {
+    '@type': 'Organization',
+    name: isEn ? 'Aleksandro-Nevskaya Manufaktura (ANM)' : 'Александро-Невская Мануфактура (АНМ)',
+    email: contactInfo.email,
+    contactPoint: [
+      { '@type': 'ContactPoint', telephone: '+7-812-336-55-64', contactType: 'sales', areaServed: 'RU', availableLanguage: ['Russian'] },
+      { '@type': 'ContactPoint', telephone: '+7-812-313-18-04', contactType: 'customer service', areaServed: 'RU' },
+    ],
+  },
+};
+---
+
+<BaseLayout title={t.title} description={t.description} jsonLd={jsonLd}>
+  <PageHeader breadcrumbs={t.crumbs} eyebrow={t.eyebrow} title={t.h1} lead={t.lead} />
+
+  <section class="contacts">
+    <div class="container contacts__grid">
+      {t.groups.map((g, i) => (
+        <div class="contacts__col" data-reveal style={`--reveal-delay: ${i * 90}ms`}>
+          <h2 class="contacts__name">{g.name}</h2>
+          <p class="contacts__note">{g.note}</p>
+          <div class="contacts__phones">
+            {g.phones.map(([label, href]) => <a href={href} class="contacts__phone">{label}</a>)}
+          </div>
+          {g.email && <a href={contactInfo.emailHref} class="contacts__email">{contactInfo.email}</a>}
+        </div>
+      ))}
+      <div class="contacts__col" data-reveal style="--reveal-delay: 180ms">
+        <h2 class="contacts__name">{t.addressTitle}</h2>
+        <p class="contacts__note">{t.access}</p>
+        <p class="contacts__address">{t.address}</p>
+        <p class="contacts__metro"><span aria-hidden="true"></span>{t.metro}</p>
+        <a
+          href={`https://yandex.ru/maps/?rtext=~${center.lat},${center.lng}&rtt=auto`}
+          class="link-arrow"
+          target="_blank"
+          rel="noopener noreferrer"
+        >{t.route}</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="contacts-map container-wide" data-reveal>
+    <InteractiveMapIsland markers={mapMarkers} center={{ lat: 59.9010, lng: 30.4295 }} zoom={16} height="480px" />
+  </section>
+
+  <section class="section" id="requisites">
+    <div class="container">
+      <details class="requisites">
+        <summary class="requisites__summary">
+          <h2 class="requisites__heading">{t.reqTitle}</h2>
+          <span class="requisites__toggle" data-show={t.show} data-hide={t.hide}></span>
+        </summary>
+        <dl class="requisites__list">
+          {t.req.map(([label, value]) => (
+            <div class="requisites__row">
+              <dt>{label}</dt>
+              <dd>{value}</dd>
+            </div>
+          ))}
+        </dl>
+        <p class="requisites__note">{t.reqNote} <a href={withBase(`${prefix}/legal/`)}>{t.more}</a></p>
+      </details>
+    </div>
+  </section>
+
+  <ContactCTA />
+</BaseLayout>
+
+<style>
+  .contacts {
+    padding-bottom: clamp(3rem, 6vw, 5rem);
+  }
+
+  .contacts__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--grid-gap);
+  }
+
+  .contacts__col {
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--color-line-strong);
+  }
+
+  .contacts__name {
+    margin-bottom: 0.25rem;
+    font-size: var(--text-small);
+    font-weight: var(--weight-medium);
+    letter-spacing: 0;
+  }
+
+  .contacts__note {
+    margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+    font-size: var(--text-caption);
+    color: var(--color-text-muted);
+  }
+
+  .contacts__phones {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    margin-bottom: 1rem;
+  }
+
+  .contacts__phone {
+    font-size: clamp(1.5rem, 2.4vw, 2.25rem);
+    font-weight: var(--weight-thin);
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    color: var(--color-ink);
+    font-variant-numeric: tabular-nums;
+    transition: color var(--transition-fast);
+  }
+
+  .contacts__phone:hover,
+  .contacts__email:hover {
+    color: var(--color-cta);
+  }
+
+  .contacts__email {
+    font-size: var(--text-small);
+    color: var(--color-ink);
+    border-bottom: 1px solid var(--color-line-strong);
+    padding-bottom: 2px;
+  }
+
+  .contacts__address {
+    margin-bottom: 0.75rem;
+    font-size: 1.0625rem;
+    line-height: 1.5;
+  }
+
+  .contacts__metro {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    font-size: var(--text-small);
+    color: var(--color-text-secondary);
+  }
+
+  .contacts__metro span {
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 50%;
+    background: #009A49;
+  }
+
+  /* Requisites */
+  .requisites {
+    border-top: 1px solid var(--color-line-strong);
+  }
+
+  .requisites__summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-lg);
+    padding-block: 1.5rem;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .requisites__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .requisites__heading {
+    font-size: clamp(1.5rem, 2.4vw, 2.25rem);
+  }
+
+  .requisites__toggle {
+    font-size: var(--text-small);
+    font-weight: var(--weight-medium);
+    border-bottom: 1px solid var(--color-line-strong);
+    padding-bottom: 2px;
+  }
+
+  .requisites__toggle::before {
+    content: attr(data-show);
+  }
+
+  .requisites[open] .requisites__toggle::before {
+    content: attr(data-hide);
+  }
+
+  .requisites__list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: clamp(2rem, 5vw, 5rem);
+  }
+
+  .requisites__row {
+    display: grid;
+    grid-template-columns: 11rem 1fr;
+    gap: var(--space-md);
+    padding-block: 1rem;
+    border-top: 1px solid var(--color-line);
+    font-size: var(--text-small);
+  }
+
+  .requisites__row dt {
+    font-size: var(--text-caption);
+    color: var(--color-text-muted);
+  }
+
+  .requisites__note {
+    margin-top: var(--space-lg);
+    font-size: var(--text-caption);
+    color: var(--color-text-secondary);
+  }
+
+  @media (max-width: 1023px) {
+    .contacts__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .contacts__grid,
+    .requisites__list {
+      grid-template-columns: 1fr;
+    }
+
+    .requisites__row {
+      grid-template-columns: 1fr;
+      gap: 0.25rem;
+    }
+  }
+</style>

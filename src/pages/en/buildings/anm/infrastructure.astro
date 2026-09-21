@@ -1,6 +1,6 @@
 ---
 import BuildingLayout from '@layouts/BuildingLayout.astro';
-import SectionHeading from '@components/SectionHeading.astro';
+import PageHeader from '@components/PageHeader.astro';
 import FacilityCard from '@components/FacilityCard.astro';
 import ContactCTA from '@components/ContactCTA.astro';
 import { getBuildingBySlug } from '@data/buildings';
@@ -19,12 +19,10 @@ const description = `Infrastructure of ${en.name} Business Center: cafes, parkin
   buildingName={en.name}
   buildingSlug={building.slug}
 >
-  <section class="section">
+  <PageHeader eyebrow="Infrastructure" title={`Infrastructure of BC ${en.name}`} lead="Everything you need for comfortable work on-site" />
+
+  <section class="section section--flush">
     <div class="container">
-      <SectionHeading
-        title={`Infrastructure of BC ${en.name}`}
-        subtitle="Everything you need for comfortable work on-site"
-      />
       <div class="grid grid--3">
         {building.infrastructure.map((item, index) => {
           const enItem = en.infrastructure[index];

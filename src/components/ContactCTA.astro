@@ -1,91 +1,147 @@
 ---
-import { contactInfo } from '@data/navigation';
+/**
+ * Closing call-to-action band — aerial photograph, one clear action.
+ * Sits directly above the dark footer on every page.
+ */
+import Img from '@components/Img.astro';
 import { withBase } from '@utils/withBase';
 import { getLocaleFromPath } from '@utils/locale';
+
+interface Props {
+  title?: string;
+  text?: string;
+}
 
 const currentPath = Astro.url.pathname;
 const locale = getLocaleFromPath(currentPath);
 const isEn = locale === 'en';
 const prefix = isEn ? '/en' : '';
+
+const t = isEn
+  ? {
+      eyebrow: 'Office rental',
+      title: 'Let’s find the right office for your team',
+      text: 'Tell us how many people and what layout you need — we will offer the current options and arrange a viewing.',
+      primary: 'View available offices',
+      secondary: 'Contact us',
+    }
+  : {
+      eyebrow: 'Аренда офисов',
+      title: 'Подберём офис под вашу команду',
+      text: 'Расскажите, сколько сотрудников и какая планировка нужны, — предложим актуальные варианты и организуем просмотр.',
+      primary: 'Смотреть свободные офисы',
+      secondary: 'Связаться с нами',
+    };
+
+const { title = t.title, text = t.text } = Astro.props;
+// On rental pages the visitor is already looking at the offices — offer direct contact instead
+const onRental = currentPath.includes('/arenda') || currentPath.includes('/offices');
+const primary = onRental
+  ? { href: 'mailto:arenda@ukanm.ru', label: isEn ? 'Write to us' : 'Написать нам' }
+  : { href: withBase(`${prefix}/arenda/`), label: t.primary };
 ---
 
-<section class="cta">
+<section class="cta" aria-labelledby="cta-title">
+  <div class="cta__bg" aria-hidden="true">
+    <Img name="territory-aerial-4" alt="" sizes="100vw" />
+  </div>
   <div class="cta__inner container">
-    <h2 class="cta__heading">{isEn ? 'Discover Available Spaces' : 'Узнайте о свободных площадях'}</h2>
-    <p class="cta__subtitle">{isEn ? 'Contact us to learn about available offices or discuss lease terms' : 'Свяжитесь с нами, чтобы узнать о доступных офисах или обсудить условия аренды'}</p>
-    <div class="cta__contacts">
-      <a href={contactInfo.phoneHref} class="cta__phone">{contactInfo.phone}</a>
-      <a href={contactInfo.emailHref} class="cta__email">{contactInfo.email}</a>
+    <div class="cta__text" data-reveal>
+      <span class="cta__eyebrow">{t.eyebrow}</span>
+      <h2 class="cta__title" id="cta-title">{title}</h2>
+      <p class="cta__lead">{text}</p>
     </div>
-    <a href={withBase(`${prefix}/contacts/`)} class="btn btn--primary cta__btn">{isEn ? 'Contact Us' : 'Связаться с нами'}</a>
-    <p class="cta__address">{isEn ? 'Saint Petersburg, Obukhovskoy Oborony Ave. 70, Bldg. 2, Lit. A' : contactInfo.address}</p>
+    <div class="cta__actions" data-reveal style="--reveal-delay: 120ms">
+      <a href={primary.href} class="btn btn--primary btn--block">{primary.label}</a>
+      <a href={withBase(`${prefix}/contacts/`)} class="btn btn--light btn--block">{t.secondary}</a>
+    </div>
   </div>
 </section>
 
 <style>
   .cta {
-    padding-block: var(--space-4xl);
-    text-align: center;
-    background-color: var(--color-surface-cream);
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding-block: clamp(5rem, 11vw, 9.5rem);
+    color: #fff;
+    background: var(--color-surface-dark);
   }
 
-  .cta__heading {
+  .cta__bg {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+  }
+
+  .cta__bg :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .cta__bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(90deg, rgba(14, 14, 14, 0.86) 0%, rgba(14, 14, 14, 0.55) 55%, rgba(14, 14, 14, 0.35) 100%),
+      linear-gradient(0deg, rgba(20, 20, 20, 1) 0%, rgba(20, 20, 20, 0) 30%);
+  }
+
+  .cta__inner {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--grid-gap);
+    row-gap: var(--space-2xl);
+    align-items: end;
+  }
+
+  .cta__text {
+    grid-column: 1 / 8;
+  }
+
+  .cta__eyebrow {
+    display: block;
+    margin-bottom: 1rem;
+    font-size: var(--text-small);
+    color: rgba(255, 255, 255, 0.72);
+  }
+
+  .cta__title {
+    max-width: 16ch;
+    margin-bottom: 1.25rem;
     font-size: var(--text-h1);
-    color: var(--color-red);
-    margin-bottom: var(--space-md);
+    font-weight: var(--weight-thin);
+    letter-spacing: -0.035em;
+    color: #fff;
   }
 
-  .cta__subtitle {
-    font-size: var(--text-body);
-    color: var(--color-text-secondary);
-    margin-bottom: var(--space-xl);
-    max-width: 32rem;
-    margin-inline: auto;
-    line-height: var(--leading-relaxed);
+  .cta__lead {
+    max-width: 34rem;
+    margin: 0;
+    font-size: var(--text-lead);
+    font-weight: var(--weight-light);
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.82);
   }
 
-  .cta__btn {
-    margin-bottom: var(--space-xl);
-  }
-
-  .cta__contacts {
+  .cta__actions {
+    grid-column: 9 / 13;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: var(--space-2xl);
-    flex-wrap: wrap;
-    margin-bottom: var(--space-lg);
+    flex-direction: column;
+    gap: 0.75rem;
   }
 
-  .cta__phone {
-    font-size: 1.125rem;
-    font-weight: var(--weight-semibold);
-    letter-spacing: -0.01em;
-    color: var(--color-text-secondary);
-    border-bottom: 1px solid var(--color-border);
-    padding-bottom: 2px;
-  }
 
-  .cta__phone:hover {
-    color: var(--color-red);
-    border-bottom-color: var(--color-red);
-  }
+  @media (max-width: 1023px) {
+    .cta__text,
+    .cta__actions {
+      grid-column: 1 / 13;
+    }
 
-  .cta__email {
-    font-size: var(--text-body);
-    font-weight: var(--weight-medium);
-    color: var(--color-text-secondary);
-    border-bottom: 1px solid var(--color-border);
-    padding-bottom: 2px;
-  }
-
-  .cta__email:hover {
-    color: var(--color-red);
-    border-bottom-color: var(--color-red);
-  }
-
-  .cta__address {
-    font-size: var(--text-caption);
-    color: var(--color-text-secondary);
+    .cta__actions {
+      max-width: 26rem;
+    }
   }
 </style>

@@ -80,12 +80,12 @@ export const offices: Office[] = [
     pricePerSqm: 1350,
     totalPrice: 136080,
     photos: [
-      '/images/buildings/anm/office-601/glass-partitions.png',
+      '/images/buildings/anm/office-601/glass-partitions.jpg',
       '/images/buildings/anm/office-601/floor-plan.png',
-      '/images/buildings/anm/office-601/main-room.png',
-      '/images/buildings/anm/office-601/corridor-glass.png',
-      '/images/buildings/anm/office-601/room-window.png',
-      '/images/buildings/anm/office-601/kitchen.png',
+      '/images/buildings/anm/office-601/main-room.jpg',
+      '/images/buildings/anm/office-601/corridor-glass.jpg',
+      '/images/buildings/anm/office-601/room-window.jpg',
+      '/images/buildings/anm/office-601/kitchen.jpg',
     ],
     available: true,
     description:

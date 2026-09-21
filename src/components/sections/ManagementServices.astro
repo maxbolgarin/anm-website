@@ -1,0 +1,159 @@
+---
+/**
+ * Management company services — dark editorial section
+ * (the "professionals for professionals" voice of the brand layout).
+ */
+import type { Locale } from '@utils/locale';
+
+interface Props {
+  locale: Locale;
+  title?: string;
+  lead?: string;
+}
+
+const { locale } = Astro.props;
+const isEn = locale === 'en';
+
+const t = isEn
+  ? {
+      eyebrow: 'Management company',
+      title: 'Professionals for professionals',
+      lead: 'Our own management company with 20+ years of experience takes care of every operational question — so your team can focus on work.',
+      items: [
+        { name: 'Maintenance', text: 'In-house facility team: electricians, plumbers and engineers on site 24/7.' },
+        { name: 'Cleaning', text: 'Professional cleaning of common areas and offices — daily and on request.' },
+        { name: 'Security', text: '24/7 guarding, CCTV and card-based access control.' },
+        { name: 'Access system', text: 'Electronic passes for employees and guests, ordered online.' },
+        { name: 'Tenant care', text: 'A single point of contact for any question, resolved quickly.' },
+        { name: 'Meeting rooms', text: 'Modern meeting rooms with online booking for tenants.' },
+      ],
+    }
+  : {
+      eyebrow: 'Управляющая компания',
+      title: 'Профессионалы\u00a0— профессионалам',
+      lead: 'Собственная управляющая компания с более чем 20-летним опытом берёт на себя все хозяйственные вопросы, чтобы ваша команда занималась делом.',
+      items: [
+        { name: 'Техническое обслуживание', text: 'Собственная служба эксплуатации: электрики, сантехники и инженеры на месте 24/7.' },
+        { name: 'Клининг', text: 'Профессиональная уборка общих зон и офисов — ежедневно и по запросу.' },
+        { name: 'Охрана и безопасность', text: 'Круглосуточная охрана, видеонаблюдение и контроль доступа по картам.' },
+        { name: 'Пропускная система', text: 'Электронные пропуска для сотрудников и гостей, заказ онлайн.' },
+        { name: 'Служба заботы', text: 'Одна точка контакта для любых вопросов и быстрое решение задач.' },
+        { name: 'Бронирование переговорных', text: 'Современные переговорные комнаты с онлайн-бронированием для арендаторов.' },
+      ],
+    };
+
+const { title = t.title, lead = t.lead } = Astro.props;
+---
+
+<section class="mgmt section section--dark" aria-labelledby="mgmt-title">
+  <div class="container">
+    <div class="mgmt__head">
+      <div data-reveal>
+        <span class="mgmt__eyebrow">{t.eyebrow}</span>
+        <h2 class="mgmt__title" id="mgmt-title">{title}</h2>
+      </div>
+      <p class="mgmt__lead" data-reveal style="--reveal-delay: 100ms">{lead}</p>
+    </div>
+
+    <ol class="mgmt__list">
+      {t.items.map((it, i) => (
+        <li class="mgmt__item" data-reveal style={`--reveal-delay: ${(i % 3) * 80}ms`}>
+          <span class="mgmt__num">{String(i + 1).padStart(2, '0')}</span>
+          <h3 class="mgmt__name">{it.name}</h3>
+          <p class="mgmt__text">{it.text}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .mgmt__head {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--grid-gap);
+    row-gap: var(--space-lg);
+    align-items: end;
+    margin-bottom: clamp(3rem, 6vw, 5rem);
+  }
+
+  .mgmt__head > div {
+    grid-column: 1 / 8;
+  }
+
+  .mgmt__eyebrow {
+    display: block;
+    margin-bottom: 1rem;
+    font-size: var(--text-small);
+    color: #c9a15a;
+  }
+
+  .mgmt__title {
+    max-width: 18ch;
+    font-size: var(--text-h1);
+    font-weight: var(--weight-thin);
+    letter-spacing: -0.04em;
+    color: #fff;
+  }
+
+  .mgmt__lead {
+    grid-column: 8 / 13;
+    margin: 0;
+    font-size: var(--text-small);
+    line-height: 1.75;
+    color: rgba(255, 255, 255, 0.66);
+  }
+
+  .mgmt__list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: var(--grid-gap);
+    row-gap: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .mgmt__item {
+    padding-top: 1.25rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
+  }
+
+  .mgmt__num {
+    display: block;
+    margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+    font-size: var(--text-micro);
+    letter-spacing: 0.06em;
+    color: rgba(255, 255, 255, 0.45);
+  }
+
+  .mgmt__name {
+    margin-bottom: 0.75rem;
+    font-size: clamp(1.25rem, 1.7vw, 1.625rem);
+    font-weight: var(--weight-light);
+    letter-spacing: -0.02em;
+    color: #fff;
+  }
+
+  .mgmt__text {
+    max-width: 22rem;
+    margin: 0;
+    font-size: var(--text-small);
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.62);
+  }
+
+  @media (max-width: 1023px) {
+    .mgmt__head > div,
+    .mgmt__lead {
+      grid-column: 1 / 13;
+    }
+
+    .mgmt__list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 560px) {
+    .mgmt__list {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

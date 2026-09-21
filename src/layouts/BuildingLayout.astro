@@ -9,7 +9,7 @@ interface Props {
   buildingName: string;
   buildingSlug: string;
   ogImage?: string;
-  jsonLd?: object;
+  jsonLd?: object | object[];
 }
 
 const { title, description, buildingName, buildingSlug, ogImage, jsonLd } = Astro.props;

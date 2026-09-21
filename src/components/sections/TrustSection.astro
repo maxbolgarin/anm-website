@@ -1,0 +1,166 @@
+---
+/**
+ * Tenants / trust — key figures and a quiet logo wall.
+ */
+import { withBase } from '@utils/withBase';
+import type { Locale } from '@utils/locale';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const isEn = locale === 'en';
+
+const t = isEn
+  ? {
+      eyebrow: 'Tenants',
+      title: 'Companies that chose us',
+      stats: [
+        { value: '80+', label: 'tenant companies' },
+        { value: '10+', label: 'years average lease term' },
+        { value: '98%', label: 'renew their lease' },
+      ],
+    }
+  : {
+      eyebrow: 'Арендаторы',
+      title: 'Нам доверяют',
+      stats: [
+        { value: '80+', label: 'компаний-арендаторов' },
+        { value: '10+', label: 'лет — средний срок аренды' },
+        { value: '98%', label: 'продлевают договор' },
+      ],
+    };
+
+const tenants = [
+  { name: 'Ренессанс страхование', logo: '/companies/1.svg' },
+  { name: 'ЮЕ ТЕХ', logo: '/companies/2.svg' },
+  { name: 'Элита', logo: '/companies/3.svg' },
+  { name: 'Silmar Group', logo: '/companies/4.svg' },
+  { name: 'Progress', logo: '/companies/5.png' },
+  { name: 'Lichi', logo: '/companies/6.png' },
+  { name: 'Marstar', logo: '/companies/marstar.png' },
+];
+---
+
+<section class="trust section" aria-labelledby="trust-title">
+  <div class="container">
+    <div class="trust__head">
+      <div data-reveal>
+        <span class="eyebrow">{t.eyebrow}</span>
+        <h2 class="trust__title" id="trust-title">{t.title}</h2>
+      </div>
+      <dl class="trust__stats" data-reveal style="--reveal-delay: 100ms">
+        {t.stats.map((s) => (
+          <div class="trust__stat">
+            <dt>{s.label}</dt>
+            <dd>{s.value}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+
+    <ul class="trust__logos" data-reveal>
+      {tenants.map((c) => (
+        <li class="trust__logo">
+          <img src={withBase(c.logo)} alt={c.name} loading="lazy" decoding="async" />
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .trust__head {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--grid-gap);
+    row-gap: var(--space-xl);
+    align-items: end;
+    margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .trust__head > div {
+    grid-column: 1 / 6;
+  }
+
+  .trust__head .eyebrow {
+    margin-bottom: 1rem;
+  }
+
+  .trust__title {
+    font-size: var(--text-h2);
+  }
+
+  .trust__stats {
+    grid-column: 7 / 13;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-lg);
+  }
+
+  .trust__stat {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 0.4rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-line);
+  }
+
+  .trust__stat dd {
+    font-size: clamp(2rem, 3.2vw, 3rem);
+    font-weight: var(--weight-thin);
+    letter-spacing: -0.04em;
+    line-height: 1;
+    color: var(--color-ink);
+  }
+
+  .trust__stat dt {
+    font-size: var(--text-caption);
+    color: var(--color-text-muted);
+  }
+
+  .trust__logos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+    border-top: 1px solid var(--color-line);
+    border-left: 1px solid var(--color-line);
+  }
+
+  .trust__logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 16 / 9;
+    padding: 0.75rem 1.25rem;
+    border-right: 1px solid var(--color-line);
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .trust__logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: grayscale(1);
+    opacity: 0.75;
+    transition: filter var(--transition-base), opacity var(--transition-base);
+  }
+
+  .trust__logo:hover img {
+    filter: none;
+    opacity: 1;
+  }
+
+  @media (max-width: 1023px) {
+    .trust__head > div,
+    .trust__stats {
+      grid-column: 1 / 13;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .trust__stats {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>

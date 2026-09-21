@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import OfficeCard from './OfficeCard';
+import Lightbox from 'yet-another-react-lightbox';
+import 'yet-another-react-lightbox/styles.css';
 import { withBase } from '@utils/withBase';
 
 interface Office {
@@ -526,11 +528,19 @@ function OfficeDetailView({
   contactPhone: string;
   contactEmail: string;
 }) {
-  const [activePhoto, setActivePhoto] = useState(0);
+  const [lightboxIndex, setLightboxIndex] = useState(-1);
 
+  const number = office.id.split('-').pop() ?? office.id;
+  const buildingName = isEn
+    ? (office.buildingSlug === 'anm' ? 'Business Center ANM' : 'Business Loft Fidel')
+    : office.buildingName;
+  const address = isEn
+    ? (office.buildingSlug === 'anm' ? 'Obukhovskoy Oborony Ave. 70, bldg. 2' : 'Obukhovskoy Oborony Ave. 70')
+    : office.address;
+  const title = isEn ? `Office ${number}` : `Офис №${number}`;
   const typeLabel = office.type === 'cabinet'
-    ? (isEn ? 'Private Office' : 'Кабинет')
-    : (isEn ? 'Open Space' : 'Открытое пространство');
+    ? (isEn ? 'Private offices' : 'Кабинетная')
+    : (isEn ? 'Open space' : 'Open space');
   const description = isEn ? office.descriptionEn : office.description;
   const features = isEn ? office.featuresEn : office.features;
   const terms = office.leaseTerms;
@@ -538,153 +548,146 @@ function OfficeDetailView({
   const deposit = isEn ? terms?.depositEn : terms?.deposit;
   const includes = isEn ? terms?.includesEn : terms?.includes;
   const extra = isEn ? terms?.extraEn : terms?.extra;
+  const area = String(office.area).replace('.', isEn ? '.' : ',');
+  const sqm = isEn ? 'm²' : 'м²';
+
+  // Photos first, floor plan last (like a presentation sheet)
+  const isPlan = (p: string) => /plan/i.test(p);
+  const photos = [...office.photos.filter((p) => !isPlan(p)), ...office.photos.filter(isPlan)];
+  const planIndex = photos.findIndex(isPlan);
+  const tiles = photos.slice(0, 6);
+  const hiddenCount = photos.length - tiles.length;
+
+  const specs: { label: string; value: string }[] = [
+    { label: isEn ? 'Area, m²' : 'Площадь, м²', value: area },
+    { label: isEn ? 'Rent per month' : 'Цена за месяц', value: `${formatNumber(office.totalPrice)} ₽` },
+    { label: isEn ? 'Floor' : 'Этаж', value: String(office.floor) },
+    { label: isEn ? 'Layout' : 'Планировка', value: typeLabel },
+    { label: isEn ? 'Class' : 'Класс', value: office.class },
+    ...(office.ceilingHeight ? [{ label: isEn ? 'Ceiling height' : 'Высота потолков', value: `${String(office.ceilingHeight).replace('.', isEn ? '.' : ',')} ${isEn ? 'm' : 'м'}` }] : []),
+    { label: isEn ? `Rate per ${sqm}` : `Ставка за ${sqm}`, value: `${formatNumber(office.pricePerSqm)} ₽` },
+    ...(minTerm ? [{ label: isEn ? 'Lease term' : 'Срок аренды', value: minTerm }] : []),
+    ...(deposit ? [{ label: isEn ? 'Security deposit' : 'Обеспечительный платёж', value: deposit }] : []),
+  ];
+
+  const subject = encodeURIComponent(isEn
+    ? `Viewing request: ${title}, ${buildingName}`
+    : `Запрос на просмотр: ${title}, ${buildingName}`);
+  const mailHref = `mailto:${contactEmail}?subject=${subject}`;
+  const telHref = `tel:${contactPhone.replace(/[\s()-]/g, '')}`;
 
   return (
-    <div className="office-detail">
-      <div className="office-detail__layout">
-        <div className="office-detail__gallery-wrap">
-          <div className="office-detail__gallery">
-            {office.photos.length > 0 ? (
-              <img
-                src={withBase(office.photos[activePhoto])}
-                alt={`${office.buildingName} — ${isEn ? 'photo' : 'фото'} ${activePhoto + 1}`}
-                className="office-detail__hero-img"
-              />
-            ) : (
-              <div className="office-detail__hero-placeholder">
-                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1">
-                  <rect x="2" y="2" width="20" height="20" rx="2" />
-                  <path d="M2 17l5-5 4 4 4-6 7 7" />
-                  <circle cx="8.5" cy="8.5" r="1.5" />
-                </svg>
-                <span>{isEn ? 'Photos coming soon' : 'Фото скоро появятся'}</span>
-              </div>
-            )}
-          </div>
-
-          {office.photos.length > 1 && (
-            <div className="office-detail__thumbs">
-              {office.photos.map((photo, i) => (
-                <button
-                  key={i}
-                  className={`office-detail__thumb ${activePhoto === i ? 'office-detail__thumb--active' : ''}`}
-                  onClick={() => setActivePhoto(i)}
-                  aria-label={`${isEn ? 'Photo' : 'Фото'} ${i + 1}`}
-                >
-                  <img src={withBase(photo)} alt="" className="office-detail__thumb-img" />
-                </button>
-              ))}
-            </div>
-          )}
+    <article className="office-detail">
+      <header className="office-detail__head">
+        <div>
+          <p className="office-detail__eyebrow">
+            <span className="office-detail__status">{isEn ? 'Available' : 'Свободно'}</span>
+            <span>{buildingName}</span>
+            <span aria-hidden="true">·</span>
+            <span>{address}</span>
+          </p>
+          <h2 className="office-detail__title">{title}</h2>
         </div>
+      </header>
 
+      <div className="office-detail__layout">
         <div className="office-detail__info">
-          <div className="office-detail__badges">
-            <span className="office-detail__badge office-detail__badge--building">
-              {office.buildingName}
-            </span>
-            <span className="office-detail__badge office-detail__badge--available">
-              {isEn ? 'Available' : 'Свободно'}
-            </span>
-            <span className="office-detail__badge office-detail__badge--class">
-              {isEn ? 'Class' : 'Класс'} {office.class}
-            </span>
-            <span className="office-detail__badge office-detail__badge--type">
-              {typeLabel}
-            </span>
-          </div>
-
-          <div className="office-detail__stats">
-            <div className="office-detail__stat">
-              <span className="office-detail__stat-value">{office.area}</span>
-              <span className="office-detail__stat-unit">{isEn ? 'm²' : 'м²'}</span>
-              <span className="office-detail__stat-label">{isEn ? 'area' : 'площадь'}</span>
-            </div>
-            <div className="office-detail__stat">
-              <span className="office-detail__stat-value">{office.floor}</span>
-              <span className="office-detail__stat-label">{isEn ? 'floor' : 'этаж'}</span>
-            </div>
-            {office.ceilingHeight && (
-              <div className="office-detail__stat">
-                <span className="office-detail__stat-value">{office.ceilingHeight}</span>
-                <span className="office-detail__stat-unit">{isEn ? 'm' : 'м'}</span>
-                <span className="office-detail__stat-label">{isEn ? 'ceiling' : 'потолки'}</span>
+          <dl className="office-detail__specs">
+            {specs.map((s) => (
+              <div key={s.label} className="office-detail__spec">
+                <dt>{s.label}</dt>
+                <dd>{s.value}</dd>
               </div>
-            )}
-          </div>
+            ))}
+          </dl>
 
-          {description && (
-            <p className="office-detail__description">{description}</p>
-          )}
+          {description && <p className="office-detail__description">{description}</p>}
 
           {features && features.length > 0 && (
-            <div className="office-detail__features">
-              {features.map((f, i) => (
-                <span key={i} className="office-detail__feature">{f}</span>
-              ))}
-            </div>
+            <ul className="office-detail__features">
+              {features.map((f, i) => <li key={i}>{f}</li>)}
+            </ul>
           )}
-        </div>
-      </div>
 
-      <div className="office-detail__bottom">
-        <div className="office-detail__pricing-block">
-          <div className="office-detail__price-row">
-            <div className="office-detail__price-main">
-              <span className="office-detail__price-value">{formatNumber(office.totalPrice)}</span>
-              <span className="office-detail__price-currency">{isEn ? '₽/month' : '₽/мес'}</span>
-            </div>
-            <div className="office-detail__price-per-sqm">
-              {formatNumber(office.pricePerSqm)} {isEn ? '₽/m²' : '₽/м²'}
-            </div>
-          </div>
-
-          {terms && (
-            <div className="office-detail__terms">
-              {minTerm && (
-                <div className="office-detail__term">
-                  <span className="office-detail__term-label">{isEn ? 'Lease term' : 'Срок аренды'}</span>
-                  <span className="office-detail__term-value">{minTerm}</span>
-                </div>
-              )}
-              {deposit && (
-                <div className="office-detail__term">
-                  <span className="office-detail__term-label">{isEn ? 'Deposit' : 'Обеспечительный платёж'}</span>
-                  <span className="office-detail__term-value">{deposit}</span>
-                </div>
-              )}
+          {(includes?.length || extra?.length) ? (
+            <dl className="office-detail__terms">
               {includes && includes.length > 0 && (
                 <div className="office-detail__term">
-                  <span className="office-detail__term-label">{isEn ? 'Included' : 'Включено'}</span>
-                  <span className="office-detail__term-value">{includes.join(', ')}</span>
+                  <dt>{isEn ? 'Included in the rent' : 'Включено в стоимость'}</dt>
+                  <dd>{includes.join(', ')}</dd>
                 </div>
               )}
               {extra && extra.length > 0 && (
                 <div className="office-detail__term">
-                  <span className="office-detail__term-label">{isEn ? 'Separately' : 'Отдельно'}</span>
-                  <span className="office-detail__term-value">{extra.join(', ')}</span>
+                  <dt>{isEn ? 'Paid separately' : 'Оплачивается отдельно'}</dt>
+                  <dd>{extra.join(', ')}</dd>
                 </div>
               )}
-            </div>
+            </dl>
+          ) : null}
+
+          {planIndex >= 0 && (
+            <button type="button" className="office-detail__doc" onClick={() => setLightboxIndex(planIndex)}>
+              <span>{isEn ? 'Floor plan' : 'Планировка помещения'}</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" aria-hidden="true">
+                <path d="M4 4h16v16H4z" /><path d="M4 12h9v8M13 4v5h7" />
+              </svg>
+            </button>
           )}
         </div>
 
-        <div className="office-detail__cta">
-          <p className="office-detail__cta-text">
-            {isEn
-              ? 'Direct lease from the building owner. Contact us to schedule a viewing:'
-              : 'Прямая аренда от собственника здания. Свяжитесь с нами для просмотра:'}
-          </p>
-          <div className="office-detail__cta-contacts">
-            <a href={`tel:${contactPhone.replace(/[\s()-]/g, '')}`} className="office-detail__cta-phone">
-              {contactPhone}
-            </a>
-            <a href={`mailto:${contactEmail}`} className="office-detail__cta-email">
-              {contactEmail}
-            </a>
-          </div>
+        <div className="office-detail__media">
+          {tiles.length > 0 ? (
+            <div className={`office-detail__mosaic office-detail__mosaic--${Math.min(tiles.length, 6)}`}>
+              {tiles.map((p, i) => (
+                <button
+                  key={p}
+                  type="button"
+                  className={`office-detail__tile${isPlan(p) ? ' office-detail__tile--plan' : ''}`}
+                  onClick={() => setLightboxIndex(i)}
+                  aria-label={`${isEn ? 'Open photo' : 'Открыть фото'} ${i + 1}`}
+                >
+                  <img
+                    src={withBase(p)}
+                    alt={`${title}, ${buildingName} — ${isPlan(p) ? (isEn ? 'floor plan' : 'планировка') : `${isEn ? 'photo' : 'фото'} ${i + 1}`}`}
+                    loading={i === 0 ? 'eager' : 'lazy'}
+                    decoding="async"
+                  />
+                  {i === tiles.length - 1 && hiddenCount > 0 && (
+                    <span className="office-detail__more">+{hiddenCount}</span>
+                  )}
+                </button>
+              ))}
+            </div>
+          ) : (
+            <div className="office-detail__placeholder">
+              <span>{isEn ? 'Photos coming soon' : 'Фото скоро появятся'}</span>
+            </div>
+          )}
         </div>
       </div>
-    </div>
+
+      <footer className="office-detail__cta">
+        <div className="office-detail__price">
+          <span className="office-detail__price-label">{isEn ? 'Monthly rent' : 'Аренда в месяц'}</span>
+          <span className="office-detail__price-value">{formatNumber(office.totalPrice)} ₽</span>
+          <span className="office-detail__price-note">
+            {formatNumber(office.pricePerSqm)} ₽/{sqm} · {isEn ? 'direct lease from the owner' : 'прямая аренда от собственника'}
+          </span>
+        </div>
+        <div className="office-detail__actions">
+          <a href={telHref} className="office-detail__phone">{contactPhone}</a>
+          <a href={mailHref} className="btn btn--primary btn--wide">{isEn ? 'Request a viewing' : 'Оставить заявку'}</a>
+        </div>
+      </footer>
+
+      <Lightbox
+        open={lightboxIndex >= 0}
+        close={() => setLightboxIndex(-1)}
+        index={Math.max(lightboxIndex, 0)}
+        slides={photos.map((p) => ({ src: withBase(p) }))}
+        controller={{ closeOnBackdropClick: true }}
+      />
+    </article>
   );
 }

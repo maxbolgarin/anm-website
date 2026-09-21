@@ -1,5 +1,5 @@
 ---
-import { withBase } from '@utils/withBase';
+import Img from '@components/Img.astro';
 
 interface Props {
   name: string;
@@ -13,7 +13,7 @@ const { name, description, image, imageAlt } = Astro.props;
 
 <div class="facility-card">
   <div class="facility-card__image-wrap">
-    <img src={withBase(image)} alt={imageAlt} class="facility-card__image" loading="lazy" />
+    <Img src={image} alt={imageAlt} class="facility-card__image" sizes="(min-width: 1024px) 33vw, 100vw" />
   </div>
   <div class="facility-card__content">
     <h3 class="facility-card__name">{name}</h3>
@@ -23,74 +23,44 @@ const { name, description, image, imageAlt } = Astro.props;
 
 <style>
   .facility-card {
-    position: relative;
-    border-radius: var(--radius-md);
-    overflow: hidden;
-    background-color: var(--color-text-primary);
-    border-bottom: 3px solid var(--color-primary);
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-    transition: box-shadow var(--transition-base);
-    isolation: isolate;
-  }
-
-  .facility-card:hover {
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.14);
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
   }
 
   .facility-card__image-wrap {
-    position: relative;
+    aspect-ratio: 4 / 3;
     overflow: hidden;
+    background: var(--color-surface-warm);
   }
 
-  .facility-card__image-wrap::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      to top,
-      rgba(0, 0, 0, 0.85) 0%,
-      rgba(0, 0, 0, 0.45) 25%,
-      rgba(0, 0, 0, 0.10) 50%,
-      transparent 65%
-    );
-    pointer-events: none;
-    z-index: 1;
-  }
-
-  .facility-card__image {
-    display: block;
+  .facility-card__image-wrap :global(img) {
     width: 100%;
-    aspect-ratio: 3 / 2;
+    height: 100%;
     object-fit: cover;
-    transition: transform var(--transition-slow);
+    transition: transform 1.2s var(--ease-out);
   }
 
-  .facility-card:hover .facility-card__image {
-    transform: scale(1.03);
+  .facility-card:hover .facility-card__image-wrap :global(img) {
+    transform: scale(1.04);
   }
 
   .facility-card__content {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 2;
-    padding: var(--space-md) var(--space-lg) var(--space-sm);
-    color: var(--color-text-inverse);
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-line-strong);
   }
 
   .facility-card__name {
-    font-size: var(--text-body);
-    font-weight: var(--weight-semibold);
-    color: var(--color-text-inverse);
-    margin-bottom: var(--space-xs);
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+    margin-bottom: 0.5rem;
+    font-size: var(--text-h3);
+    font-weight: var(--weight-light);
+    letter-spacing: -0.02em;
   }
 
   .facility-card__desc {
-    font-size: var(--text-caption);
-    color: rgba(255, 255, 255, 0.90);
-    line-height: var(--leading-relaxed);
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+    margin: 0;
+    font-size: var(--text-small);
+    line-height: 1.7;
+    color: var(--color-text-secondary);
   }
 </style>

@@ -1,5 +1,5 @@
 ---
-import { withBase } from '@utils/withBase';
+import Img from '@components/Img.astro';
 
 interface Props {
   title: string;
@@ -14,7 +14,7 @@ const { title, description, image, imageAlt, reversed = false } = Astro.props;
 
 <div class:list={['feature-block', { 'feature-block--reversed': reversed }]}>
   <div class="feature-block__image-wrap">
-    <img src={withBase(image)} alt={imageAlt} class="feature-block__image" loading="lazy" />
+    <Img src={image} alt={imageAlt} class="feature-block__image" sizes="(min-width: 1024px) 55vw, 100vw" />
   </div>
   <div class="feature-block__content">
     <h3 class="feature-block__title">{title}</h3>
@@ -25,47 +25,65 @@ const { title, description, image, imageAlt, reversed = false } = Astro.props;
 <style>
   .feature-block {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-2xl);
-    align-items: center;
-    padding-block: var(--space-2xl);
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--grid-gap);
+    row-gap: var(--space-lg);
+    align-items: end;
   }
 
-  .feature-block--reversed {
-    direction: rtl;
-  }
-
-  .feature-block--reversed > * {
-    direction: ltr;
+  .feature-block + .feature-block {
+    margin-top: clamp(4rem, 8vw, 7rem);
   }
 
   .feature-block__image-wrap {
-    border-radius: var(--radius-md);
+    grid-column: 1 / 8;
+    aspect-ratio: 3 / 2;
     overflow: hidden;
   }
 
-  .feature-block__image {
+  .feature-block__image-wrap :global(img) {
     width: 100%;
-    aspect-ratio: 16 / 10;
+    height: 100%;
     object-fit: cover;
   }
 
+  .feature-block__content {
+    grid-column: 9 / 13;
+    padding-bottom: var(--space-md);
+  }
+
+  .feature-block--reversed .feature-block__image-wrap {
+    grid-column: 6 / 13;
+    grid-row: 1;
+  }
+
+  .feature-block--reversed .feature-block__content {
+    grid-column: 1 / 5;
+    grid-row: 1;
+  }
+
   .feature-block__title {
-    margin-bottom: var(--space-md);
+    margin-bottom: 1rem;
+    font-size: clamp(1.5rem, 2.2vw, 2.25rem);
+    font-weight: var(--weight-light);
+    letter-spacing: -0.025em;
+    line-height: 1.15;
   }
 
   .feature-block__desc {
+    margin: 0;
+    font-size: var(--text-small);
+    line-height: 1.75;
     color: var(--color-text-secondary);
-    line-height: var(--leading-relaxed);
   }
 
-  @media (max-width: 767px) {
-    .feature-block {
-      grid-template-columns: 1fr;
-    }
-
-    .feature-block--reversed {
-      direction: ltr;
+  @media (max-width: 1023px) {
+    .feature-block__image-wrap,
+    .feature-block__content,
+    .feature-block--reversed .feature-block__image-wrap,
+    .feature-block--reversed .feature-block__content {
+      grid-column: 1 / 13;
+      grid-row: auto;
     }
   }
 </style>

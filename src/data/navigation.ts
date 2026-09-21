@@ -14,27 +14,28 @@ export interface BuildingNavItem {
 }
 
 export const mainNav: NavItem[] = [
+  { label: 'Аренда', href: '/arenda/' },
   {
-    label: 'Бизнес-Центры',
+    label: 'Бизнес-центры',
     href: '/buildings/',
     children: [
-      { label: 'Бизнес-Лофт Фидель', href: '/buildings/fidel/' },
-      { label: 'Бизнес-Центр АНМ', href: '/buildings/anm/' },
+      { label: 'Бизнес-лофт Фидель', href: '/buildings/fidel/' },
+      { label: 'Бизнес-центр АНМ', href: '/buildings/anm/' },
     ],
   },
   {
     label: 'О компании',
     href: '/about/',
     children: [
-      { label: 'Локация', href: '/territory/' },
-      { label: 'Подробнее', href: '/about/company/' },
+      { label: 'Компания и история', href: '/about/company/' },
+      { label: 'Локация и территория', href: '/territory/' },
     ],
   },
-  { label: 'Аренда', href: '/arenda/' },
   { label: 'Контакты', href: '/contacts/' },
 ];
 
 export const mainNavEn: NavItem[] = [
+  { label: 'Office Rental', href: '/en/arenda/' },
   {
     label: 'Business Centers',
     href: '/en/buildings/',
@@ -47,11 +48,10 @@ export const mainNavEn: NavItem[] = [
     label: 'About',
     href: '/en/about/',
     children: [
-      { label: 'Location', href: '/en/territory/' },
       { label: 'Company & History', href: '/en/about/company/' },
+      { label: 'Location & Territory', href: '/en/territory/' },
     ],
   },
-  { label: 'Office Rental', href: '/en/arenda/' },
   { label: 'Contacts', href: '/en/contacts/' },
 ];
 

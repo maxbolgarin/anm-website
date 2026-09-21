@@ -1,5 +1,6 @@
 ---
 import BuildingLayout from '@layouts/BuildingLayout.astro';
+import PageHeader from '@components/PageHeader.astro';
 import OfficeFilter from '@components/islands/OfficeFilter';
 import '@components/islands/OfficeFilter.css';
 import ContactCTA from '@components/ContactCTA.astro';
@@ -30,9 +31,10 @@ const typicalOffices = [
   buildingName={building.name}
   buildingSlug={building.slug}
 >
+  <PageHeader eyebrow="Свободные помещения" title="Аренда офисов в бизнес-лофте Фидель" />
+
   <section class="offices-section">
     <div class="container">
-      <h1 class="offices-section__title">Аренда офисов в бизнес-лофте Фидель</h1>
 
       <OfficeFilter
         client:visible
@@ -51,8 +53,7 @@ const typicalOffices = [
 
 <style>
   .offices-section {
-    padding-top: var(--space-xl);
-    padding-bottom: var(--space-3xl);
+    padding-bottom: var(--section-space);
   }
 
   .offices-section__title {

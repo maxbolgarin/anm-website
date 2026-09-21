@@ -18,32 +18,42 @@ const Tag = tag;
 
 <style>
   .section-heading {
-    margin-bottom: var(--space-2xl);
+    margin-bottom: clamp(2rem, 4vw, 3.5rem);
   }
 
   .section-heading--center {
     text-align: center;
   }
 
-  .section-heading__title {
-    margin-bottom: var(--space-sm);
-  }
-
-  .section-heading__subtitle {
-    font-size: var(--text-body);
-    color: var(--color-text-secondary);
-    max-width: 56rem;
-  }
-
   .section-heading--center .section-heading__subtitle {
     margin-inline: auto;
   }
 
+  .section-heading__title {
+    max-width: 20ch;
+    font-size: var(--text-h2);
+    font-weight: var(--weight-light);
+    letter-spacing: -0.03em;
+  }
+
+  .section-heading--center .section-heading__title {
+    margin-inline: auto;
+  }
+
+  .section-heading__subtitle {
+    max-width: 38rem;
+    margin: 1rem 0 0;
+    font-size: var(--text-lead);
+    font-weight: var(--weight-light);
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+  }
+
   .section-heading--inverted .section-heading__title {
-    color: var(--color-text-inverse);
+    color: #fff;
   }
 
   .section-heading--inverted .section-heading__subtitle {
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(255, 255, 255, 0.72);
   }
 </style>

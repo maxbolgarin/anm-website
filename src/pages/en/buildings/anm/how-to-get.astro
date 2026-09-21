@@ -1,6 +1,6 @@
 ---
 import BuildingLayout from '@layouts/BuildingLayout.astro';
-import SectionHeading from '@components/SectionHeading.astro';
+import PageHeader from '@components/PageHeader.astro';
 import ContactCTA from '@components/ContactCTA.astro';
 import InteractiveMapIsland from '@components/InteractiveMapIsland.astro';
 import { getBuildingBySlug } from '@data/buildings';
@@ -19,12 +19,10 @@ const description = `How to get to ${en.name} Business Center. Metro ${en.metro.
   buildingName={en.name}
   buildingSlug={building.slug}
 >
-  <section class="section">
+  <PageHeader eyebrow="Getting here" title={`How to Get to BC ${en.name}`} lead={en.address} />
+
+  <section class="section section--flush">
     <div class="container">
-      <SectionHeading
-        title={`How to Get to BC ${en.name}`}
-        subtitle={en.address}
-      />
 
       <div class="how-to-get-grid">
         <div class="how-to-get-grid__info">
@@ -101,103 +99,113 @@ const description = `How to get to ${en.name} Business Center. Metro ${en.metro.
 <style>
   .how-to-get-grid {
     display: grid;
-    grid-template-columns: 1fr 1.5fr;
-    gap: var(--space-2xl);
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--grid-gap);
+    row-gap: var(--space-2xl);
+    align-items: stretch;
+  }
+
+  .how-to-get-grid__info {
+    grid-column: 1 / 6;
+    border-top: 1px solid var(--color-line-strong);
+  }
+
+  .how-to-get-grid__map {
+    grid-column: 7 / 13;
+    min-height: 32rem;
   }
 
   .direction-block {
-    margin-bottom: var(--space-2xl);
+    padding-block: 1.5rem;
+    border-bottom: 1px solid var(--color-line);
   }
 
   .direction-block h3 {
-    margin-bottom: var(--space-md);
+    margin-bottom: 1rem;
+    font-size: var(--text-caption);
+    font-weight: var(--weight-regular);
+    color: var(--color-text-muted);
+    letter-spacing: 0.01em;
+  }
+
+  .direction-block p {
+    font-size: var(--text-small);
+    line-height: 1.7;
+    color: var(--color-text-secondary);
   }
 
   .direction-item {
     display: flex;
-    align-items: flex-start;
-    gap: var(--space-md);
-    margin-bottom: var(--space-md);
+    flex-direction: column;
+    gap: 0.25rem;
+    margin-bottom: 0.9rem;
+    font-size: 1.0625rem;
+  }
+
+  .direction-item:has(.direction-dot) {
+    flex-direction: row;
+    align-items: baseline;
+    gap: 0.6rem;
+  }
+
+  .direction-item strong {
+    font-weight: var(--weight-regular);
+  }
+
+  .direction-item p {
+    margin: 0.25rem 0 0;
   }
 
   .direction-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
     flex-shrink: 0;
-    margin-top: 4px;
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 50%;
+    transform: translateY(-1px);
   }
 
   .direction-detail {
-    color: var(--color-text-secondary);
-    line-height: var(--leading-relaxed);
-    margin-top: var(--space-md);
-  }
-
-  .how-to-get-grid__map {
-    height: 500px;
-    border-radius: var(--radius-md);
-    overflow: hidden;
-    background-color: var(--color-surface-cream);
-    position: sticky;
-    top: 8rem;
+    margin: 0.5rem 0 0;
   }
 
   .route-buttons {
     display: flex;
-    gap: var(--space-sm);
     flex-wrap: wrap;
+    gap: 0.5rem;
   }
 
   .route-btn {
     display: inline-flex;
     align-items: center;
-    gap: var(--space-xs);
-    padding: var(--space-sm) var(--space-md);
-    border-radius: var(--radius-sm);
+    gap: 0.6rem;
+    min-height: 3rem;
+    padding: 0 1.25rem;
     font-size: var(--text-small);
     font-weight: var(--weight-medium);
-    transition: background-color var(--transition-fast), color var(--transition-fast);
-    text-decoration: none;
-    border: 1px solid var(--color-border);
+    color: var(--color-ink);
+    border: 1px solid var(--color-line-strong);
+    transition: background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
+  }
+
+  .route-btn:hover {
+    color: #fff;
+    background: var(--color-ink);
+    border-color: var(--color-ink);
   }
 
   .route-btn__icon {
-    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
   }
 
-  .route-btn--2gis {
-    color: #1a7640;
-    background-color: #e8f5ee;
-    border-color: #c3e6d1;
-  }
-
-  .route-btn--2gis:hover {
-    background-color: #1a7640;
-    color: #ffffff;
-    border-color: #1a7640;
-  }
-
-  .route-btn--yandex {
-    color: #cc0000;
-    background-color: #fff3f3;
-    border-color: #ffd6d6;
-  }
-
-  .route-btn--yandex:hover {
-    background-color: #cc0000;
-    color: #ffffff;
-    border-color: #cc0000;
-  }
-
-  @media (max-width: 767px) {
-    .how-to-get-grid {
-      grid-template-columns: 1fr;
+  @media (max-width: 1023px) {
+    .how-to-get-grid__info,
+    .how-to-get-grid__map {
+      grid-column: 1 / 13;
     }
 
     .how-to-get-grid__map {
-      height: 350px;
-      position: static;
+      min-height: 22rem;
     }
   }
 </style>

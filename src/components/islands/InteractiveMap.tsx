@@ -86,7 +86,7 @@ export default function InteractiveMap({
           hintContent: marker.title,
           balloonContentHeader: `<strong>${marker.title}</strong>`,
           balloonContentBody: marker.address,
-          balloonContentFooter: `<a href="${withBase(marker.href)}" style="color:#B8003C">Подробнее →</a>`,
+          balloonContentFooter: `<a href="${withBase(marker.href)}" style="color:#8A1538">Подробнее</a>`,
         },
         {
           preset: 'islands#redDotIcon',
@@ -110,19 +110,33 @@ export default function InteractiveMap({
   }, [mapLoaded, markers, mapCenter, zoom]);
 
   if (error) {
+    // Graceful fallback: a quiet panel with a direct link to Yandex Maps
+    const yandexHref = `https://yandex.ru/maps/?pt=${mapCenter.lng},${mapCenter.lat}&z=${zoom ?? 16}&l=map`;
     return (
       <div style={{
         width: '100%',
         height,
         minHeight: '300px',
         display: 'flex',
+        flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#f5f0e8',
-        color: '#6b6b6b',
+        gap: '14px',
+        backgroundColor: '#F5F3EF',
+        color: '#5C5C5C',
         fontSize: '0.875rem',
+        textAlign: 'center',
+        padding: '24px',
       }}>
-        Не удалось загрузить карту
+        <span>Пр. Обуховской Обороны, 70 · м. Елизаровская</span>
+        <a
+          href={yandexHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ color: '#141414', fontWeight: 500, borderBottom: '1px solid #CFCBC4', paddingBottom: '4px' }}
+        >
+          Открыть в Яндекс Картах
+        </a>
       </div>
     );
   }

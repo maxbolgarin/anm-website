@@ -1,0 +1,351 @@
+---
+/**
+ * Company & history page (RU + EN).
+ */
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PageHeader from '@components/PageHeader.astro';
+import Img from '@components/Img.astro';
+import FeatureBlock from '@components/FeatureBlock.astro';
+import TrustSection from '@components/sections/TrustSection.astro';
+import ContactCTA from '@components/ContactCTA.astro';
+import type { Locale } from '@utils/locale';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const isEn = locale === 'en';
+
+const images = [
+  '/history/3D_Isometric_Map_In_a_vintage_industrial_style_a_large_textile_Z2ehCCb2.png',
+  '/history/3D_Isometric_Map_A_large_brick_building_is_undergoing_demolition.png',
+  '/history/3D_Isometric_Map_MoUcVrn8.png',
+  '/history/_DSC3708.jpg',
+  '/history/3D_Isometric_Map_In_a_architectural_visualization_style_this_7tyc4192.png',
+  '/history/вид слева.JPG',
+  '/history/image_2026-03-24_17-51-39.png',
+];
+
+const t = isEn
+  ? {
+      title: 'Company & History — ANM, Aleksandro-Nevskaya Manufaktura',
+      description: 'ANM — a development and management company with 20+ years of experience. From an 1837 textile factory to a modern business quarter on the Neva in St. Petersburg.',
+      crumbs: [{ label: 'Home', href: '/en/' }, { label: 'About', href: '/en/about/' }, { label: 'Company & History' }],
+      eyebrow: 'Company & history',
+      h1: 'From a textile factory to a business quarter',
+      lead: 'ANM is a development and management company that has been working in St. Petersburg’s commercial real estate market for over 20 years.',
+      stats: [
+        { value: '20+', label: 'years on the market' },
+        { value: '21,376', label: 'm² under management' },
+        { value: '80+', label: 'tenant companies' },
+      ],
+      alt: 'The territory of Aleksandro-Nevskaya Manufaktura from above',
+      text: [
+        'Our mission is to create a comfortable environment for the business community through the redevelopment of industrial territories.',
+        'The company’s core project is the development and management of a former industrial zone on Obukhovskoy Oborony Avenue. The redevelopment concept was designed by the British architectural practice Horan Keoghan Ryan Limited and turns historic industrial buildings into modern business centers while preserving their unique character.',
+        'The management company takes care of every operational matter and provides comfortable conditions for doing business.',
+      ],
+      approachEyebrow: 'Our approach',
+      approachTitle: 'How we work',
+      blocks: [
+        { title: 'European-level service', description: 'A professional tenant-care team provides a high level of comfort: 24/7 support, fast resolution of issues and an individual approach to every client.', image: '/images/buildings/fidel/interior-1.jpg', imageAlt: 'Open-plan office with brick walls in Business Loft Fidel' },
+        { title: 'Engineering solutions', description: 'Modern engineering systems ensure reliability and energy efficiency: Category II power supply, central air conditioning, our own gas boiler plant and 6 telecom providers.', image: '/фото бц/web (27).jpg', imageAlt: 'Engineering systems of the business center' },
+        { title: 'Redevelopment of industrial sites', description: 'Our expertise is transforming former industrial buildings into modern business spaces — keeping the character of historic architecture and filling it with modern technology and comfort.', image: '/images/about/territory-drone.jpg', imageAlt: 'The territory of Aleksandro-Nevskaya Manufaktura from above' },
+      ],
+      historyEyebrow: 'History',
+      historyTitle: 'Key milestones',
+      events: [
+        { year: '1837', title: 'The factory is founded', description: 'The Pal calico-printing factory is founded on the site — one of the largest textile producers in St. Petersburg.' },
+        { year: '1855', title: 'The main building', description: 'The building of today’s Business Loft Fidel (Liter A, bldg. 3) is built as part of the Pal textile factory.' },
+        { year: '1976', title: 'The administrative building', description: 'A six-storey administrative building (Liter A, bldg. 2) is erected — it later becomes Business Center ANM.' },
+        { year: '2004', title: 'The company is established', description: 'ZAO Aleksandro-Nevskaya Manufaktura is founded and acquires the property complex on Obukhovskoy Oborony Avenue for redevelopment.' },
+        { year: '2006', title: 'Reconstruction begins', description: 'The decision is made to preserve the historic 1855 building; together with INTERCOLUMNIUM architects a business-loft reconstruction project is developed.' },
+        { year: '2009', title: 'Business Loft Fidel opens', description: 'Reconstruction is completed and the class B+ business loft opens. Since then occupancy has stayed at 100%.' },
+        { year: '2019', title: 'A new stage of redevelopment', description: 'Work begins on redeveloping the territory for new commercial real estate, alongside modernisation of engineering systems.' },
+      ],
+    }
+  : {
+      title: 'Компания и история — АНМ, Александро-Невская Мануфактура',
+      description: 'АНМ — девелоперская и управляющая компания с 20-летним опытом. От текстильной фабрики 1837 года до современного делового квартала на Неве в Санкт-Петербурге.',
+      crumbs: [{ label: 'Главная', href: '/' }, { label: 'О компании', href: '/about/' }, { label: 'Компания и история' }],
+      eyebrow: 'Компания и история',
+      h1: 'От текстильной фабрики до делового квартала',
+      lead: 'АНМ — девелоперская и управляющая компания, работающая на рынке коммерческой недвижимости Санкт-Петербурга более 20 лет.',
+      stats: [
+        { value: '20+', label: 'лет на рынке' },
+        { value: '21 376', label: 'м² под управлением' },
+        { value: '80+', label: 'компаний-арендаторов' },
+      ],
+      alt: 'Территория Александро-Невской Мануфактуры с высоты',
+      text: [
+        'Наша миссия — создание комфортной среды для бизнес-сообщества через редевелопмент промышленных территорий.',
+        'Основной проект компании — развитие и управление территорией бывшей промышленной зоны на проспекте Обуховской Обороны. Концепция редевелопмента разработана британским архитектурным бюро Horan Keoghan Ryan Limited и предусматривает превращение исторических промышленных зданий в современные бизнес-центры с сохранением их уникального характера.',
+        'Управляющая компания берёт на себя решение всех хозяйственных вопросов и обеспечивает комфортные условия для ведения бизнеса.',
+      ],
+      approachEyebrow: 'Наш подход',
+      approachTitle: 'Принципы работы',
+      blocks: [
+        { title: 'Европейский уровень обслуживания', description: 'Профессиональная служба заботы обеспечивает высокий уровень комфорта для арендаторов: круглосуточная поддержка, оперативное решение вопросов, индивидуальный подход к каждому клиенту.', image: '/images/buildings/fidel/interior-1.jpg', imageAlt: 'Офис открытой планировки с кирпичными стенами в бизнес-лофте Фидель' },
+        { title: 'Инженерные решения', description: 'Современные инженерные системы обеспечивают надёжность и энергоэффективность: электроснабжение II категории, централизованное кондиционирование, собственная газовая котельная, 6 телеком-операторов.', image: '/фото бц/web (27).jpg', imageAlt: 'Инженерные системы бизнес-центра' },
+        { title: 'Редевелопмент промышленных территорий', description: 'Наша экспертиза — трансформация бывших промышленных зданий в современные бизнес-пространства. Мы сохраняем характер исторической архитектуры, наполняя её современными технологиями и комфортом.', image: '/images/about/territory-drone.jpg', imageAlt: 'Территория Александро-Невской Мануфактуры с высоты' },
+      ],
+      historyEyebrow: 'История',
+      historyTitle: 'Ключевые этапы',
+      events: [
+        { year: '1837', title: 'Основание фабрики', description: 'На территории нынешнего имущественного комплекса основана ситце-печатная фабрика Паля — одно из крупнейших текстильных производств Санкт-Петербурга.' },
+        { year: '1855', title: 'Строительство главного здания', description: 'Построено здание нынешнего бизнес-лофта «Фидель» (литер А, корп. 3) как часть производственных помещений ткацкой фабрики Паля.' },
+        { year: '1976', title: 'Строительство АБК', description: 'Возведено шестиэтажное административное здание (литер А, корп. 2), которое впоследствии стало бизнес-центром АНМ.' },
+        { year: '2004', title: 'Создание компании', description: 'Основано ЗАО «Александро-Невская мануфактура». Приобретён имущественный комплекс на проспекте Обуховской Обороны для редевелопмента территории.' },
+        { year: '2006', title: 'Начало реконструкции', description: 'Принято решение о сохранении исторического здания 1855 года. Совместно с архитектурным бюро «INTERCOLUMNIUM» разработан проект реконструкции бизнес-лофта.' },
+        { year: '2009', title: 'Открытие бизнес-лофта «Фидель»', description: 'Завершена реконструкция и введён в эксплуатацию бизнес-лофт класса B+. С момента открытия заполняемость поддерживается на уровне 100%.' },
+        { year: '2019', title: 'Новый этап редевелопмента', description: 'Начало работ по редевелопменту территории с целью возведения новых объектов коммерческой недвижимости, реконструкция и модернизация инженерных систем.' },
+      ],
+    };
+---
+
+<BaseLayout title={t.title} description={t.description} ogImage="/images/v2/territory-aerial-2.jpg">
+  <PageHeader breadcrumbs={t.crumbs} eyebrow={t.eyebrow} title={t.h1} lead={t.lead} />
+
+  <figure class="co-media container-wide" data-reveal>
+    <div class="co-media__frame">
+      <Img src="/territory/DJI_0739 (1) (1).jpg" alt={t.alt} sizes="100vw" loading="eager" fetchpriority="high" />
+    </div>
+  </figure>
+
+  <section class="section co-intro">
+    <div class="container co-intro__grid">
+      <dl class="co-intro__stats" data-reveal>
+        {t.stats.map((s) => (
+          <div class="co-intro__stat">
+            <dt>{s.label}</dt>
+            <dd>{s.value}</dd>
+          </div>
+        ))}
+      </dl>
+      <div class="co-intro__text" data-reveal style="--reveal-delay: 100ms">
+        {t.text.map((p, i) => <p class:list={{ 'co-intro__first': i === 0 }}>{p}</p>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--warm" aria-labelledby="approach-title">
+    <div class="container">
+      <div class="co-head" data-reveal>
+        <span class="eyebrow">{t.approachEyebrow}</span>
+        <h2 id="approach-title">{t.approachTitle}</h2>
+      </div>
+      {t.blocks.map((block, i) => (
+        <FeatureBlock title={block.title} description={block.description} image={block.image} imageAlt={block.imageAlt} reversed={i % 2 !== 0} />
+      ))}
+    </div>
+  </section>
+
+  <section class="section" id="history" aria-labelledby="history-title">
+    <div class="container">
+      <div class="co-head" data-reveal>
+        <span class="eyebrow">{t.historyEyebrow}</span>
+        <h2 id="history-title">{t.historyTitle}</h2>
+      </div>
+      <ol class="timeline">
+        {t.events.map((e, i) => (
+          <li class="timeline__item" data-reveal>
+            <span class="timeline__year">{e.year}</span>
+            <div class="timeline__body">
+              <h3 class="timeline__title">{e.title}</h3>
+              <p class="timeline__desc">{e.description}</p>
+            </div>
+            <div class="timeline__media">
+              <Img src={images[i]} alt={e.title} sizes="(min-width: 1024px) 30vw, 100vw" />
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <TrustSection locale={locale} />
+
+  <ContactCTA />
+</BaseLayout>
+
+<style>
+  .co-media__frame {
+    aspect-ratio: 21 / 9;
+    overflow: hidden;
+  }
+
+  .co-media__frame :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .co-intro__grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--grid-gap);
+    row-gap: var(--space-2xl);
+  }
+
+  .co-intro__stats {
+    grid-column: 1 / 5;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+  }
+
+  .co-intro__stat {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 0.4rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-line-strong);
+  }
+
+  .co-intro__stat dd {
+    font-size: clamp(2.25rem, 4vw, 3.75rem);
+    font-weight: var(--weight-thin);
+    letter-spacing: -0.045em;
+    line-height: 1;
+  }
+
+  .co-intro__stat dt {
+    font-size: var(--text-caption);
+    color: var(--color-text-muted);
+  }
+
+  .co-intro__text {
+    grid-column: 6 / 13;
+  }
+
+  .co-intro__text p {
+    font-size: var(--text-small);
+    line-height: 1.85;
+    color: var(--color-text-secondary);
+  }
+
+  .co-intro__text .co-intro__first {
+    margin-bottom: 1.5rem;
+    font-size: clamp(1.375rem, 2vw, 1.875rem);
+    font-weight: var(--weight-light);
+    letter-spacing: -0.02em;
+    line-height: 1.35;
+    color: var(--color-ink);
+  }
+
+  .co-head {
+    margin-bottom: clamp(2.5rem, 5vw, 4.5rem);
+  }
+
+  .co-head .eyebrow {
+    margin-bottom: 1rem;
+  }
+
+  .co-head h2 {
+    font-size: var(--text-h2);
+  }
+
+  /* Timeline */
+  .timeline {
+    border-top: 1px solid var(--color-line-strong);
+  }
+
+  .timeline__item {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--grid-gap);
+    row-gap: var(--space-lg);
+    padding-block: clamp(2rem, 4vw, 3rem);
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .timeline__year {
+    grid-column: 1 / 4;
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    font-weight: var(--weight-thin);
+    letter-spacing: -0.05em;
+    line-height: 0.9;
+    color: var(--color-ink);
+    font-variant-numeric: lining-nums;
+  }
+
+  .timeline__body {
+    grid-column: 4 / 8;
+  }
+
+  .timeline__title {
+    margin-bottom: 0.75rem;
+    font-size: clamp(1.25rem, 1.8vw, 1.625rem);
+    font-weight: var(--weight-light);
+    letter-spacing: -0.02em;
+  }
+
+  .timeline__desc {
+    margin: 0;
+    font-size: var(--text-small);
+    line-height: 1.75;
+    color: var(--color-text-secondary);
+  }
+
+  .timeline__media {
+    grid-column: 9 / 13;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background: var(--color-surface-warm);
+  }
+
+  .timeline__media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(0.35);
+    transition: filter var(--transition-slow);
+  }
+
+  .timeline__item:hover .timeline__media :global(img) {
+    filter: none;
+  }
+
+  @media (max-width: 1023px) {
+    .co-intro__stats {
+      grid-column: 1 / 13;
+      flex-direction: row;
+    }
+
+    .co-intro__stat {
+      flex: 1;
+    }
+
+    .co-intro__text {
+      grid-column: 1 / 13;
+    }
+
+    .timeline__year {
+      grid-column: 1 / 13;
+    }
+
+    .timeline__body {
+      grid-column: 1 / 8;
+    }
+
+    .timeline__media {
+      grid-column: 8 / 13;
+    }
+
+    .co-media__frame {
+      aspect-ratio: 16 / 10;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .co-intro__stats {
+      flex-direction: column;
+    }
+
+    .timeline__body,
+    .timeline__media {
+      grid-column: 1 / 13;
+    }
+  }
+</style>

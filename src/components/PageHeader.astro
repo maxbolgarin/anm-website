@@ -1,0 +1,95 @@
+---
+/**
+ * Inner-page header: breadcrumbs, gold eyebrow, large thin title, lead.
+ * Optional `aside` slot sits on the right (key figures, links…).
+ */
+import Breadcrumbs from '@components/Breadcrumbs.astro';
+
+interface Props {
+  title: string;
+  eyebrow?: string;
+  lead?: string;
+  breadcrumbs?: { label: string; href?: string }[];
+  size?: 'default' | 'xl';
+}
+
+const { title, eyebrow, lead, breadcrumbs, size = 'default' } = Astro.props;
+const hasAside = Astro.slots.has('aside');
+---
+
+{breadcrumbs && <Breadcrumbs items={breadcrumbs} />}
+
+<header class:list={['page-header', `page-header--${size}`, { 'page-header--aside': hasAside }]}>
+  <div class="container page-header__grid">
+    <div class="page-header__main" data-reveal>
+      {eyebrow && <span class="eyebrow page-header__eyebrow">{eyebrow}</span>}
+      <h1 class="page-header__title">{title}</h1>
+      {lead && <p class="page-header__lead">{lead}</p>}
+    </div>
+    {hasAside && (
+      <div class="page-header__aside" data-reveal style="--reveal-delay: 120ms">
+        <slot name="aside" />
+      </div>
+    )}
+  </div>
+</header>
+
+<style>
+  .page-header {
+    padding-top: clamp(1.5rem, 4vw, 3.5rem);
+    padding-bottom: clamp(2.5rem, 5vw, 4.5rem);
+  }
+
+  .page-header__grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--grid-gap);
+    row-gap: var(--space-xl);
+    align-items: end;
+  }
+
+  .page-header__main {
+    grid-column: 1 / 13;
+  }
+
+  .page-header--aside .page-header__main {
+    grid-column: 1 / 8;
+  }
+
+  .page-header__aside {
+    grid-column: 9 / 13;
+  }
+
+  .page-header__eyebrow {
+    margin-bottom: 1rem;
+  }
+
+  .page-header__title {
+    max-width: 18ch;
+    font-size: var(--text-h1);
+    font-weight: var(--weight-light);
+    letter-spacing: -0.04em;
+    line-height: 1.02;
+  }
+
+  .page-header--xl .page-header__title {
+    font-size: var(--text-display);
+    font-weight: var(--weight-thin);
+  }
+
+  .page-header__lead {
+    max-width: 38rem;
+    margin: 1.5rem 0 0;
+    font-size: var(--text-lead);
+    font-weight: var(--weight-light);
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+  }
+
+  @media (max-width: 1023px) {
+    .page-header--aside .page-header__main,
+    .page-header__aside {
+      grid-column: 1 / 13;
+    }
+  }
+</style>

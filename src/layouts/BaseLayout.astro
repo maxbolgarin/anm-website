@@ -10,16 +10,21 @@ interface Props {
   description: string;
   ogImage?: string;
   canonicalUrl?: string;
-  jsonLd?: object;
+  jsonLd?: object | object[];
+  /** Header floats transparently over a full-bleed hero (home page) */
+  headerOverlay?: boolean;
 }
 
 const {
   title,
   description,
-  ogImage = '/images/common/og-default.jpg',
+  ogImage = '/territory/anm-top-poster.jpg',
   canonicalUrl,
   jsonLd,
+  headerOverlay = false,
 } = Astro.props;
+
+const jsonLdList = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
 
 const currentPath = Astro.url.pathname;
 const locale = getLocaleFromPath(currentPath);
@@ -57,7 +62,8 @@ const orgJsonLd = {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="theme-color" content="#141414" />
+  <script is:inline>document.documentElement.classList.add('js');</script>
 
   <title>{title}</title>
   <meta name="description" content={description} />
@@ -77,23 +83,46 @@ const orgJsonLd = {
   <!-- Favicon -->
   <link rel="icon" type="image/x-icon" href={withBase('/favicon.ico')} />
 
-  <!-- Fonts: Manrope loaded via @font-face in typography.css -->
+  <!-- Fonts: Montserrat (variable) via @font-face in typography.css — preload the primary subsets -->
+  <link rel="preload" href={withBase('/fonts/Montserrat-cyrillic.woff2')} as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href={withBase('/fonts/Montserrat-latin.woff2')} as="font" type="font/woff2" crossorigin />
+  <meta property="og:site_name" content={locale === 'en' ? 'Aleksandro-Nevskaya Manufaktura' : 'Александро-Невская Мануфактура'} />
+  <meta name="twitter:card" content="summary_large_image" />
 
   <!-- JSON-LD: Organization -->
   <script type="application/ld+json" set:html={JSON.stringify(orgJsonLd)} />
 
   <!-- JSON-LD: Page-specific -->
-  {jsonLd && (
-    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
-  )}
+  {jsonLdList.map((item) => (
+    <script type="application/ld+json" set:html={JSON.stringify(item)} />
+  ))}
 </head>
-<body>
-  <Header currentPath={currentPath} />
+<body class:list={{ 'has-header-overlay': headerOverlay }}>
+  <a href="#main" class="skip-link">{locale === 'en' ? 'Skip to content' : 'Перейти к содержанию'}</a>
+  <Header currentPath={currentPath} overlay={headerOverlay} />
 
-  <main>
+  <main id="main">
     <slot />
   </main>
 
   <Footer />
+
+  <script>
+    // Scroll reveal — fades [data-reveal] elements in once as they enter the viewport
+    const els = document.querySelectorAll<HTMLElement>('[data-reveal]');
+    if ('IntersectionObserver' in window && els.length) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add('is-revealed');
+            io.unobserve(e.target);
+          }
+        });
+      }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+      els.forEach((el) => io.observe(el));
+    } else {
+      els.forEach((el) => el.classList.add('is-revealed'));
+    }
+  </script>
 </body>
 </html>

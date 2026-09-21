@@ -10,13 +10,15 @@
 
 html {
   scroll-behavior: smooth;
-  overflow-x: hidden;
+  overflow-x: clip;
+  scroll-padding-top: calc(var(--header-height) + 1rem);
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
   background-color: var(--color-surface-white);
   min-height: 100vh;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 img, picture, video, canvas, svg {
@@ -27,6 +29,7 @@ img, picture, video, canvas, svg {
 
 button {
   font: inherit;
+  color: inherit;
   cursor: pointer;
   border: none;
   background: none;
@@ -36,31 +39,56 @@ ul, ol {
   list-style: none;
 }
 
-/* ── Utility classes ── */
+:focus-visible {
+  outline: 2px solid var(--color-cta);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ── Layout ── */
 .container {
   width: 100%;
-  max-width: var(--max-width);
+  max-width: calc(var(--max-width) + var(--container-padding) * 2);
   margin-inline: auto;
   padding-inline: var(--container-padding);
 }
 
 .container-wide {
   width: 100%;
-  max-width: var(--max-width-wide);
+  max-width: calc(var(--max-width-wide) + var(--container-padding) * 2);
   margin-inline: auto;
   padding-inline: var(--container-padding);
 }
 
 .section {
-  padding-block: var(--space-4xl);
+  padding-block: var(--section-space);
 }
 
-.section--cream {
-  background-color: var(--color-surface-cream);
+.section--tight {
+  padding-block: var(--section-space-sm);
+}
+
+.section--cream,
+.section--warm {
+  background-color: var(--color-surface-warm);
 }
 
 .section--dark {
   background-color: var(--color-surface-dark);
+  color: var(--color-text-inverse);
+}
+
+.section--dark h1,
+.section--dark h2,
+.section--dark h3,
+.section--dark h4 {
   color: var(--color-text-inverse);
 }
 
@@ -77,98 +105,176 @@ ul, ol {
   gap: var(--grid-gap);
 }
 
-.grid--2 {
-  grid-template-columns: repeat(2, 1fr);
-}
-
-.grid--3 {
-  grid-template-columns: repeat(3, 1fr);
-}
-
-.grid--4 {
-  grid-template-columns: repeat(4, 1fr);
-}
+.grid--2 { grid-template-columns: repeat(2, 1fr); }
+.grid--3 { grid-template-columns: repeat(3, 1fr); }
+.grid--4 { grid-template-columns: repeat(4, 1fr); }
 
 @media (max-width: 1023px) {
-  .grid--3, .grid--4 {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  .grid--3, .grid--4 { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 767px) {
-  .grid--2, .grid--3, .grid--4 {
-    grid-template-columns: 1fr;
-  }
-
-  .section {
-    padding-block: var(--space-3xl);
-  }
-
-  :root {
-    --container-padding: var(--space-md);
-  }
+  .grid--2, .grid--3, .grid--4 { grid-template-columns: 1fr; }
 }
 
-/* ── Button styles ── */
+/* Hairline rule */
+.rule {
+  border: 0;
+  border-top: 1px solid var(--color-line);
+}
+
+/* ── Buttons ──
+   Rectangular, label left / chevron right — the brand layout's CTA. */
 .btn {
+  --btn-h: 3.5rem;
+  position: relative;
   display: inline-flex;
   align-items: center;
-  gap: var(--space-sm);
-  padding: var(--space-md) var(--space-xl);
+  justify-content: space-between;
+  gap: 2.5rem;
+  min-height: var(--btn-h);
+  padding: 0 1.5rem;
   font-family: var(--font-body);
-  font-size: var(--text-body);
-  font-weight: var(--weight-semibold);
+  font-size: 0.9375rem;
+  font-weight: var(--weight-medium);
   letter-spacing: 0.01em;
-  border-radius: var(--radius-sm);
-  transition: all var(--transition-base);
+  line-height: 1.2;
+  border-radius: 0;
+  border: 1px solid transparent;
   text-decoration: none;
   white-space: nowrap;
+  cursor: pointer;
+  transition: background-color var(--transition-base), color var(--transition-base),
+    border-color var(--transition-base);
+}
+
+/* Chevron — drawn in CSS so every .btn gets it without extra markup */
+.btn--primary::after,
+.btn--outline::after,
+.btn--dark::after,
+.btn--light::after,
+.btn--chevron::after {
+  content: '';
+  flex-shrink: 0;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-top: 1.5px solid currentColor;
+  border-right: 1.5px solid currentColor;
+  transform: rotate(45deg);
+  transition: transform var(--transition-base);
+}
+
+.btn:hover::after {
+  transform: translateX(4px) rotate(45deg);
+}
+
+.btn--wide {
+  min-width: min(20rem, 100%);
+}
+
+.btn--block {
+  display: flex;
+  width: 100%;
 }
 
 .btn--primary {
-  background-color: var(--color-primary);
+  background-color: var(--color-cta);
   color: var(--color-text-inverse);
 }
 
 .btn--primary:hover {
-  background-color: var(--color-primary-dark);
+  background-color: var(--color-cta-hover);
   color: var(--color-text-inverse);
 }
 
 .btn--outline {
-  border: 2px solid var(--color-primary);
-  color: var(--color-primary);
+  border-color: var(--color-ink);
+  color: var(--color-ink);
   background: transparent;
 }
 
 .btn--outline:hover {
-  background-color: var(--color-primary);
+  background-color: var(--color-ink);
   color: var(--color-text-inverse);
 }
 
 .btn--dark {
-  background-color: var(--color-surface-dark);
+  background-color: var(--color-ink);
   color: var(--color-text-inverse);
 }
 
 .btn--dark:hover {
-  background-color: #2a2a3e;
+  background-color: #000;
   color: var(--color-text-inverse);
 }
 
-.btn--link {
-  padding: 0;
-  color: var(--color-primary);
+/* For dark / photo backgrounds */
+.btn--light {
+  border-color: rgba(255, 255, 255, 0.55);
+  color: var(--color-text-inverse);
+  background: transparent;
+}
+
+.btn--light:hover {
+  background-color: #fff;
+  border-color: #fff;
+  color: var(--color-ink);
+}
+
+/* Text link with a quiet hairline and chevron */
+.btn--link,
+.link-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0 0 0.35rem;
+  min-height: 0;
+  font-size: 0.9375rem;
   font-weight: var(--weight-medium);
-  background: none;
+  color: var(--color-ink);
+  background:
+    linear-gradient(currentColor, currentColor) left bottom / 0 1px no-repeat,
+    linear-gradient(var(--color-line-strong), var(--color-line-strong)) left bottom / 100% 1px no-repeat;
+  border: 0;
+  transition: background-size var(--transition-base), color var(--transition-fast);
 }
 
-.btn--link:hover {
-  color: var(--color-primary-dark);
+.btn--link::after,
+.link-arrow::after {
+  content: '';
+  width: 0.4rem;
+  height: 0.4rem;
+  border-top: 1.5px solid currentColor;
+  border-right: 1.5px solid currentColor;
+  transform: rotate(45deg);
+  transition: transform var(--transition-base);
 }
 
-.btn--link::after {
-  content: ' →';
+.btn--link:hover,
+.link-arrow:hover {
+  color: var(--color-ink);
+  background-size: 100% 1px, 100% 1px;
+}
+
+.btn--link:hover::after,
+.link-arrow:hover::after {
+  transform: translateX(3px) rotate(45deg);
+}
+
+.section--dark .btn--link,
+.section--dark .link-arrow,
+.link-arrow--light {
+  color: #fff;
+  background:
+    linear-gradient(#fff, #fff) left bottom / 0 1px no-repeat,
+    linear-gradient(rgba(255,255,255,0.3), rgba(255,255,255,0.3)) left bottom / 100% 1px no-repeat;
+}
+
+.section--dark .btn--link:hover,
+.section--dark .link-arrow:hover,
+.link-arrow--light:hover {
+  color: #fff;
+  background-size: 100% 1px, 100% 1px;
 }
 
 /* ── Badge ── */
@@ -176,25 +282,99 @@ ul, ol {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: var(--space-xs) var(--space-sm);
-  font-size: var(--text-caption);
-  font-weight: var(--weight-semibold);
+  padding: 0.3rem 0.6rem;
+  font-size: var(--text-micro);
+  font-weight: var(--weight-medium);
   letter-spacing: 0.04em;
-  border-radius: var(--radius-sm);
+  border-radius: 0;
 }
 
-/* Building class badge — large decorative overlay on building photo */
 .badge--class {
-  background-color: var(--color-primary);
+  background-color: var(--color-cta);
   color: var(--color-text-inverse);
-  font-size: clamp(2rem, 4vw, 3.5rem);   /* Big but controlled, not using --text-display */
-  font-weight: var(--weight-bold);
-  letter-spacing: -0.01em;
-  padding: var(--space-lg) var(--space-xl);
+  font-size: clamp(1.5rem, 2.4vw, 2.25rem);
+  font-weight: var(--weight-light);
+  letter-spacing: -0.02em;
+  padding: 0.9rem 1.2rem;
   line-height: 1;
 }
 
-/* ── Visually hidden (for accessibility) ── */
+/* ── Key / value spec (label above value) ── */
+.spec {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.spec__label {
+  font-size: var(--text-caption);
+  color: var(--color-text-muted);
+  letter-spacing: 0.01em;
+}
+
+.spec__value {
+  font-size: 1.0625rem;
+  font-weight: var(--weight-regular);
+  color: var(--color-text-primary);
+  line-height: 1.35;
+}
+
+/* ── Figures with the small editorial caption ── */
+.figure {
+  position: relative;
+  margin: 0;
+}
+
+.figure img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.figure__caption {
+  margin-top: 0.6rem;
+  font-size: var(--text-micro);
+  color: var(--color-text-muted);
+  letter-spacing: 0.02em;
+  text-transform: lowercase;
+}
+
+/* Subtle zoom on hover for linked imagery */
+.zoom {
+  overflow: hidden;
+}
+
+.zoom img {
+  transition: transform 1.2s var(--ease-out);
+}
+
+.zoom:hover img {
+  transform: scale(1.035);
+}
+
+/* ── Scroll reveal ──
+   Elements with [data-reveal] fade up once when they enter the viewport.
+   Without JS (or with reduced motion) everything is simply visible. */
+.js [data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 28px, 0);
+  transition: opacity 0.9s var(--ease-out), transform 1.1s var(--ease-out);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.js [data-reveal].is-revealed {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ── Visually hidden ── */
 .sr-only {
   position: absolute;
   width: 1px;
@@ -205,4 +385,24 @@ ul, ol {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  z-index: 1000;
+  padding: 0.75rem 1rem;
+  background: var(--color-ink);
+  color: #fff;
+  font-size: var(--text-small);
+}
+
+.skip-link:focus {
+  top: 1rem;
+  color: #fff;
+}
+
+.section--flush {
+  padding-top: 0;
 }

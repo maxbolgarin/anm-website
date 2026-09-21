@@ -1,0 +1,214 @@
+---
+/**
+ * Location & territory page (RU + EN).
+ */
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PageHeader from '@components/PageHeader.astro';
+import Img from '@components/Img.astro';
+import TerritoryMapIsland from '@components/TerritoryMapIsland.astro';
+import InteractiveMapIsland from '@components/InteractiveMapIsland.astro';
+import AmenitiesIndex from '@components/home/AmenitiesIndex.astro';
+import ManagementServices from '@components/sections/ManagementServices.astro';
+import LocationContacts from '@components/LocationContacts.astro';
+import ContactCTA from '@components/ContactCTA.astro';
+import { buildings } from '@data/buildings';
+import type { Locale } from '@utils/locale';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const isEn = locale === 'en';
+const prefix = isEn ? '/en' : '';
+
+const t = isEn
+  ? {
+      title: 'Location & Territory — Aleksandro-Nevskaya Manufaktura | ANM',
+      description: 'Two business centers on the historic Neva embankment in St. Petersburg: 9 minutes from Elizarovskaya metro, 328 parking spaces, cafés, fitness and 24/7 security on site.',
+      crumbs: [{ label: 'Home', href: '/en/' }, { label: 'About', href: '/en/about/' }, { label: 'Location' }],
+      eyebrow: 'Location',
+      h1: 'A historic territory on the Neva',
+      lead: 'Aleksandro-Nevskaya Manufaktura brings together two business centers on the Neva embankment, with everything your team needs within a few steps.',
+      facts: [
+        { value: '9 min', label: 'walk from Elizarovskaya metro' },
+        { value: '328', label: 'parking spaces' },
+        { value: '24/7', label: 'access and security' },
+      ],
+      caption: 'the territory from above, golden hour',
+      alt: 'Aerial view of the territory with the Neva and the city skyline',
+      mapEyebrow: 'Interactive map',
+      mapTitle: 'Explore the territory',
+      mapLead: 'Filter by category to find cafés, parking, fitness, recreation areas and building entrances.',
+      cityEyebrow: 'In the city',
+      cityTitle: 'On the map of St. Petersburg',
+      bc: (n: string) => `Business center ${n}`,
+    }
+  : {
+      title: 'Локация и территория — Александро-Невская Мануфактура | АНМ',
+      description: 'Два бизнес-центра на исторической набережной Невы в Санкт-Петербурге: 9 минут от м. Елизаровская, 328 машиномест, кафе, фитнес и охрана 24/7 на территории.',
+      crumbs: [{ label: 'Главная', href: '/' }, { label: 'О компании', href: '/about/' }, { label: 'Локация' }],
+      eyebrow: 'Локация',
+      h1: 'Историческая территория на Неве',
+      lead: 'Александро-Невская Мануфактура — два бизнес-центра на набережной Невы и всё необходимое для работы в шаговой доступности.',
+      facts: [
+        { value: '9 мин', label: 'пешком от м. Елизаровская' },
+        { value: '328', label: 'машиномест' },
+        { value: '24/7', label: 'доступ и охрана' },
+      ],
+      caption: 'территория с высоты, закат',
+      alt: 'Территория Александро-Невской Мануфактуры и Нева с высоты',
+      mapEyebrow: 'Интерактивная карта',
+      mapTitle: 'Изучите территорию',
+      mapLead: 'Фильтруйте по категориям: кафе, паркинг, фитнес, зоны отдыха и входы в здания.',
+      cityEyebrow: 'В городе',
+      cityTitle: 'На карте Санкт-Петербурга',
+      bc: (n: string) => (n.startsWith('БЦ') ? n : `БЦ ${n}`),
+    };
+
+const mapMarkers = buildings.map((b) => ({
+  lat: b.coordinates.lat,
+  lng: b.coordinates.lng,
+  title: t.bc(b.name),
+  address: b.shortAddress,
+  href: `${prefix}/buildings/${b.slug}/`,
+}));
+---
+
+<BaseLayout title={t.title} description={t.description} ogImage="/images/v2/territory-aerial-3.jpg">
+  <PageHeader breadcrumbs={t.crumbs} eyebrow={t.eyebrow} title={t.h1} lead={t.lead}>
+    <dl class="facts" slot="aside">
+      {t.facts.map((f) => (
+        <div class="facts__item">
+          <dt>{f.label}</dt>
+          <dd>{f.value}</dd>
+        </div>
+      ))}
+    </dl>
+  </PageHeader>
+
+  <figure class="aerial container-wide figure" data-reveal>
+    <div class="aerial__frame">
+      <Img name="territory-aerial-3" alt={t.alt} sizes="100vw" loading="eager" fetchpriority="high" />
+    </div>
+    <figcaption class="figure__caption">{t.caption}</figcaption>
+  </figure>
+
+  <section class="section" id="map" aria-labelledby="tmap-title">
+    <div class="container">
+      <div class="split-head" data-reveal>
+        <div>
+          <span class="eyebrow">{t.mapEyebrow}</span>
+          <h2 id="tmap-title">{t.mapTitle}</h2>
+        </div>
+        <p>{t.mapLead}</p>
+      </div>
+      <TerritoryMapIsland />
+    </div>
+  </section>
+
+  <AmenitiesIndex locale={locale} />
+
+  <ManagementServices locale={locale} />
+
+  <section class="section" aria-labelledby="city-title">
+    <div class="container">
+      <div class="split-head" data-reveal>
+        <div>
+          <span class="eyebrow">{t.cityEyebrow}</span>
+          <h2 id="city-title">{t.cityTitle}</h2>
+        </div>
+      </div>
+    </div>
+    <div class="container-wide">
+      <InteractiveMapIsland markers={mapMarkers} center={{ lat: 59.9010, lng: 30.4295 }} zoom={15} height="480px" />
+    </div>
+  </section>
+
+  <LocationContacts />
+
+  <ContactCTA />
+</BaseLayout>
+
+<style>
+  .facts {
+    display: grid;
+    gap: 0;
+    border-top: 1px solid var(--color-line-strong);
+  }
+
+  .facts__item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    padding-block: 0.9rem;
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .facts__item dt {
+    font-size: var(--text-caption);
+    color: var(--color-text-muted);
+  }
+
+  .facts__item dd {
+    font-size: 1.5rem;
+    font-weight: var(--weight-light);
+    letter-spacing: -0.02em;
+  }
+
+  .aerial__frame {
+    aspect-ratio: 21 / 9;
+    overflow: hidden;
+  }
+
+  .aerial__frame :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .aerial .figure__caption {
+    text-align: right;
+  }
+
+  .split-head {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--grid-gap);
+    row-gap: var(--space-md);
+    align-items: end;
+    margin-bottom: clamp(2rem, 4vw, 3rem);
+  }
+
+  .split-head > div {
+    grid-column: 1 / 8;
+  }
+
+  .split-head .eyebrow {
+    margin-bottom: 1rem;
+  }
+
+  .split-head h2 {
+    font-size: var(--text-h2);
+  }
+
+  .split-head p {
+    grid-column: 8 / 13;
+    margin: 0;
+    font-size: var(--text-small);
+    line-height: 1.7;
+    color: var(--color-text-secondary);
+  }
+
+  @media (max-width: 1023px) {
+    .split-head > div,
+    .split-head p {
+      grid-column: 1 / 13;
+    }
+
+    .aerial__frame {
+      aspect-ratio: 16 / 10;
+    }
+  }
+</style>

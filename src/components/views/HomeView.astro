@@ -1,0 +1,192 @@
+---
+/**
+ * Home page (RU + EN share this view — pages/index.astro and pages/en/index.astro).
+ */
+import BaseLayout from '@layouts/BaseLayout.astro';
+import HomeHero from '@components/home/HomeHero.astro';
+import BuildingShowcase from '@components/home/BuildingShowcase.astro';
+import AmenitiesIndex from '@components/home/AmenitiesIndex.astro';
+import CompanyTeaser from '@components/home/CompanyTeaser.astro';
+import TerritoryMapIsland from '@components/TerritoryMapIsland.astro';
+import LocationContacts from '@components/LocationContacts.astro';
+import SEOKeywords from '@components/SEOKeywords.astro';
+import ContactCTA from '@components/ContactCTA.astro';
+import { getShowcase } from '@data/showcase';
+import { buildings } from '@data/buildings';
+import { withBase } from '@utils/withBase';
+import type { Locale } from '@utils/locale';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const isEn = locale === 'en';
+const prefix = isEn ? '/en' : '';
+const showcase = getShowcase(locale);
+const site = (Astro.site?.toString() || 'https://www.a-n-m.ru/').replace(/\/$/, '');
+
+const t = isEn
+  ? {
+      title: 'Office Rental in St. Petersburg Business Centers on the Neva — ANM',
+      description: 'Offices for rent in Business Loft Fidel (class B+) and Business Center ANM in St. Petersburg: a 9-minute walk from Elizarovskaya metro, 328 parking spaces, 24/7 access. ANM — 20+ years on the market.',
+      mapEyebrow: 'Territory',
+      mapTitle: 'One territory — two business centers',
+      mapLead: 'Explore the site: cafés, parking, fitness, the embankment and building entrances.',
+      mapLink: 'More about the location',
+      disclosure: 'Information disclosure',
+      disclosureText: 'Information subject to disclosure in accordance with the legislation of the Russian Federation.',
+      disclosureLink: 'Full information',
+    }
+  : {
+      title: 'Аренда офисов в бизнес-центрах на Неве в Санкт-Петербурге — АНМ',
+      description: 'Офисы в аренду в бизнес-лофте Фидель (класс B+) и бизнес-центре АНМ в Санкт-Петербурге: 9 минут от м. Елизаровская, 328 машиномест, доступ 24/7. АНМ — более 20 лет на рынке.',
+      mapEyebrow: 'Территория',
+      mapTitle: 'Одна территория — два бизнес-центра',
+      mapLead: 'Изучите территорию: кафе, паркинг, фитнес, набережная и входы в здания.',
+      mapLink: 'Подробнее о локации',
+      disclosure: 'Раскрытие информации',
+      disclosureText: 'Информация, подлежащая раскрытию в соответствии с законодательством Российской Федерации.',
+      disclosureLink: 'Полная информация',
+    };
+
+// Structured data: the two buildings as places offering office space
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: isEn ? 'ANM business centers' : 'Бизнес-центры АНМ',
+  itemListElement: buildings.map((b, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    item: {
+      '@type': 'Place',
+      name: showcase.find((s) => s.slug === b.slug)?.title ?? b.name,
+      url: `${site}${withBase(`${prefix}/buildings/${b.slug}/`)}`,
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: b.address,
+        addressLocality: isEn ? 'Saint Petersburg' : 'Санкт-Петербург',
+        addressCountry: 'RU',
+      },
+      geo: { '@type': 'GeoCoordinates', latitude: b.coordinates.lat, longitude: b.coordinates.lng },
+    },
+  })),
+};
+---
+
+<BaseLayout title={t.title} description={t.description} jsonLd={jsonLd} headerOverlay>
+  <HomeHero locale={locale} />
+
+  <div id="buildings" class="buildings-anchor">
+    {showcase.map((b, i) => (
+      <BuildingShowcase locale={locale} building={b} first={i === 0} />
+    ))}
+  </div>
+
+  <div class="spacer" aria-hidden="true"></div>
+
+  <AmenitiesIndex locale={locale} />
+
+  <section class="section map-block" id="territory-map" aria-labelledby="map-title">
+    <div class="container">
+      <div class="map-block__head" data-reveal>
+        <div>
+          <span class="eyebrow">{t.mapEyebrow}</span>
+          <h2 class="map-block__title" id="map-title">{t.mapTitle}</h2>
+        </div>
+        <div class="map-block__aside">
+          <p class="map-block__lead">{t.mapLead}</p>
+          <a href={withBase(`${prefix}/territory/`)} class="link-arrow">{t.mapLink}</a>
+        </div>
+      </div>
+      <TerritoryMapIsland />
+    </div>
+  </section>
+
+  <CompanyTeaser locale={locale} />
+
+  <LocationContacts />
+
+  <SEOKeywords />
+
+  <section class="disclosure" id="disclosure">
+    <div class="container">
+      <details class="disclosure__details">
+        <summary class="disclosure__summary">{t.disclosure}</summary>
+        <p class="disclosure__content">
+          {t.disclosureText} <a href={withBase(`${prefix}/legal/`)}>{t.disclosureLink}</a>
+        </p>
+      </details>
+    </div>
+  </section>
+
+  <ContactCTA />
+</BaseLayout>
+
+<style>
+  .buildings-anchor {
+    scroll-margin-top: var(--header-height);
+  }
+
+  .spacer {
+    height: var(--section-space);
+  }
+
+  .map-block__head {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--grid-gap);
+    row-gap: var(--space-lg);
+    align-items: end;
+    margin-bottom: clamp(2rem, 4vw, 3rem);
+  }
+
+  .map-block__head > div:first-child {
+    grid-column: 1 / 8;
+  }
+
+  .map-block__head .eyebrow {
+    margin-bottom: 1rem;
+  }
+
+  .map-block__title {
+    max-width: 16ch;
+    font-size: var(--text-h2);
+  }
+
+  .map-block__aside {
+    grid-column: 8 / 13;
+  }
+
+  .map-block__lead {
+    font-size: var(--text-small);
+    line-height: 1.7;
+    color: var(--color-text-secondary);
+    margin-bottom: 1rem;
+  }
+
+  .disclosure {
+    padding-block: var(--space-lg);
+    border-top: 1px solid var(--color-line);
+  }
+
+  .disclosure__summary {
+    cursor: pointer;
+    font-size: var(--text-caption);
+    color: var(--color-text-muted);
+    list-style-position: inside;
+  }
+
+  .disclosure__content {
+    margin: var(--space-md) 0 0;
+    font-size: var(--text-caption);
+    color: var(--color-text-secondary);
+  }
+
+  @media (max-width: 1023px) {
+    .map-block__head > div:first-child,
+    .map-block__aside {
+      grid-column: 1 / 13;
+    }
+  }
+</style>
