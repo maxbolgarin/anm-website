@@ -107,7 +107,7 @@ const ru: BuildingShowcase[] = [
     collage: [
       { name: 'anm-reception', caption: 'ресепшн', alt: 'Ресепшн и турникеты бизнес-центра АНМ' },
       { name: 'anm-arch', caption: 'коридоры', alt: 'Светлый коридор с арочным проёмом' },
-      { name: 'anm-coworking', caption: 'офисы', alt: 'Офис открытой планировки в бизнес-центре АНМ' },
+      { name: 'anm-office', caption: 'офисы', alt: 'Светлый кабинет с панорамными окнами в бизнес-центре АНМ' },
       { name: 'anm-cafe', caption: 'кафе', alt: 'Кафе в холле бизнес-центра АНМ' },
     ],
     spaceTitle: 'Место, где можно создавать и созидать',
@@ -116,8 +116,8 @@ const ru: BuildingShowcase[] = [
       'Светлые коридоры, просторные лифтовые холлы и переговорные: всё, чтобы работа шла без лишних забот.',
     ],
     gallery: [
-      { name: 'anm-office', caption: 'офис', alt: 'Светлый кабинет с панорамными окнами' },
       { name: 'anm-conference', caption: 'переговорная', alt: 'Конференц-зал с круглым столом' },
+      { name: 'anm-coworking', caption: 'офис', alt: 'Офис открытой планировки в бизнес-центре АНМ' },
       { name: 'anm-lobby', caption: 'холл', alt: 'Вестибюль бизнес-центра АНМ' },
       { name: 'anm-corridor', caption: 'коридоры', alt: 'Коридор офисного этажа' },
       { name: 'anm-lift', caption: 'лифтовой холл', alt: 'Лифтовой холл с кирпичной стеной' },
@@ -211,7 +211,7 @@ const en: BuildingShowcase[] = [
     collage: [
       { ...ru[1].collage[0], caption: 'reception', alt: 'Reception and turnstiles at Business Center ANM' },
       { ...ru[1].collage[1], caption: 'corridors', alt: 'Bright corridor with an arched opening' },
-      { ...ru[1].collage[2], caption: 'offices', alt: 'Open-plan office at Business Center ANM' },
+      { ...ru[1].collage[2], caption: 'offices', alt: 'Bright private office with large windows at Business Center ANM' },
       { ...ru[1].collage[3], caption: 'café', alt: 'Café in the lobby of Business Center ANM' },
     ],
     spaceTitle: 'A place to create and build',
@@ -221,10 +221,10 @@ const en: BuildingShowcase[] = [
     ],
     gallery: ru[1].gallery.map((g, i) => ({
       ...g,
-      caption: ['office', 'meeting room', 'lobby', 'corridors', 'elevator hall', 'canteen', 'courtyard', 'facade'][i],
+      caption: ['meeting room', 'office', 'lobby', 'corridors', 'elevator hall', 'canteen', 'courtyard', 'facade'][i],
       alt: [
-        'Bright private office with large windows',
         'Conference room with a round table',
+        'Open-plan office at Business Center ANM',
         'Lobby of Business Center ANM',
         'Office floor corridor',
         'Elevator hall with a brick wall',
