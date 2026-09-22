@@ -35,7 +35,7 @@ const t = isEn
     }
   : {
       eyebrow: 'Бизнес-кластер на исторической набережной Невы',
-      title: ['Александро‑Невская', 'Мануфактура'],
+      title: ['Александро-Невская', 'Мануфактура'],
       ctaPrimary: 'Подобрать офис',
       ctaSecondary: 'Наши объекты',
       facts: [
@@ -153,9 +153,9 @@ const t = isEn
 
   .hero__shade {
     background:
-      linear-gradient(180deg, rgba(10, 10, 10, 0.5) 0%, rgba(10, 10, 10, 0) 22%),
-      linear-gradient(0deg, rgba(10, 10, 10, 0.72) 0%, rgba(10, 10, 10, 0.25) 42%, rgba(10, 10, 10, 0) 64%),
-      linear-gradient(90deg, rgba(10, 10, 10, 0.35) 0%, rgba(10, 10, 10, 0) 55%);
+      linear-gradient(180deg, rgba(10, 10, 10, 0.62) 0%, rgba(10, 10, 10, 0.3) 34%, rgba(10, 10, 10, 0) 58%),
+      linear-gradient(0deg, rgba(10, 10, 10, 0.55) 0%, rgba(10, 10, 10, 0) 20%),
+      linear-gradient(90deg, rgba(10, 10, 10, 0.3) 0%, rgba(10, 10, 10, 0) 50%);
   }
 
   .hero__content {
@@ -163,14 +163,14 @@ const t = isEn
     z-index: 2;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    justify-content: space-between;
     height: 100%;
-    padding-top: calc(var(--header-height) + 2rem);
+    padding-top: calc(var(--header-height) + clamp(1.5rem, 5vh, 3.5rem));
     padding-bottom: clamp(1.75rem, 4vh, 3rem);
   }
 
   .hero__text {
-    max-width: 62rem;
+    max-width: 100%;
     opacity: calc(1 - var(--p) * 1.8);
     transform: translate3d(0, calc(var(--p) * -80px), 0);
     will-change: opacity, transform;
@@ -190,7 +190,7 @@ const t = isEn
   }
 
   .hero__title {
-    font-size: clamp(2.75rem, 6.4vw, 7.25rem);
+    font-size: clamp(2.75rem, min(6.4vw, 10vh), 7.25rem);
     font-weight: var(--weight-thin);
     line-height: 0.98;
     letter-spacing: -0.045em;
@@ -205,6 +205,7 @@ const t = isEn
 
   .hero__line > span {
     display: inline-block;
+    white-space: nowrap;
     animation: hero-rise 1.3s var(--ease-out) both;
   }
 
@@ -235,7 +236,6 @@ const t = isEn
     align-items: flex-end;
     justify-content: space-between;
     gap: var(--space-xl);
-    margin-top: clamp(2.5rem, 7vh, 5rem);
     padding-top: 1.25rem;
     border-top: 1px solid rgba(255, 255, 255, 0.24);
   }
