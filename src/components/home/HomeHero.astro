@@ -62,28 +62,31 @@ const t = isEn
           <span class="hero__line"><span>{t.title[0]}</span></span>
           <span class="hero__line"><span>{t.title[1]}</span></span>
         </h1>
+      </div>
+
+      <div class="hero__foot">
         <div class="hero__actions">
           <a href={withBase(`${prefix}/arenda/`)} class="btn btn--primary btn--wide">{t.ctaPrimary}</a>
           <a href="#buildings" class="btn btn--light">{t.ctaSecondary}</a>
         </div>
-      </div>
 
-      <div class="hero__bottom">
-        <dl class="hero__facts" data-hero-fade>
-          {t.facts.map((f) => (
-            <div class="hero__fact">
-              <dt class="sr-only">{f.label}</dt>
-              <dd>
-                <span class="hero__fact-value">{f.value}</span>
-                <span class="hero__fact-label">{f.label}</span>
-              </dd>
-            </div>
-          ))}
-        </dl>
-        <span class="hero__scroll" aria-hidden="true">
-          <span class="hero__scroll-line"></span>
-          {t.scroll}
-        </span>
+        <div class="hero__bottom">
+          <dl class="hero__facts" data-hero-fade>
+            {t.facts.map((f) => (
+              <div class="hero__fact">
+                <dt class="sr-only">{f.label}</dt>
+                <dd>
+                  <span class="hero__fact-value">{f.value}</span>
+                  <span class="hero__fact-label">{f.label}</span>
+                </dd>
+              </div>
+            ))}
+          </dl>
+          <span class="hero__scroll" aria-hidden="true">
+            <span class="hero__scroll-line"></span>
+            {t.scroll}
+          </span>
+        </div>
       </div>
     </div>
 
@@ -154,7 +157,7 @@ const t = isEn
   .hero__shade {
     background:
       linear-gradient(180deg, rgba(10, 10, 10, 0.62) 0%, rgba(10, 10, 10, 0.3) 34%, rgba(10, 10, 10, 0) 58%),
-      linear-gradient(0deg, rgba(10, 10, 10, 0.55) 0%, rgba(10, 10, 10, 0) 20%),
+      linear-gradient(0deg, rgba(10, 10, 10, 0.6) 0%, rgba(10, 10, 10, 0.2) 22%, rgba(10, 10, 10, 0) 34%),
       linear-gradient(90deg, rgba(10, 10, 10, 0.3) 0%, rgba(10, 10, 10, 0) 50%);
   }
 
@@ -177,6 +180,7 @@ const t = isEn
   }
 
   .hero.is-deep .hero__text,
+  .hero.is-deep .hero__actions,
   .hero.is-deep .hero__facts {
     pointer-events: none;
   }
@@ -222,7 +226,11 @@ const t = isEn
     display: flex;
     flex-wrap: wrap;
     gap: 0.75rem;
-    margin-top: clamp(1.75rem, 4vh, 2.75rem);
+    margin-bottom: clamp(1.5rem, 3.5vh, 2.25rem);
+    opacity: calc(1 - var(--p) * 1.8);
+  }
+
+  .hero__actions .btn {
     animation: hero-fade 1s 450ms var(--ease-out) both;
   }
 
@@ -325,6 +333,19 @@ const t = isEn
   }
 
   @media (max-width: 767px) {
+    /* Portrait phones: the building fills the lower half, so the buttons stay under the heading */
+    .hero__foot {
+      display: contents;
+    }
+
+    .hero__actions {
+      margin: clamp(1.5rem, 3.5vh, 2rem) 0 0;
+    }
+
+    .hero__bottom {
+      margin-top: auto;
+    }
+
     .hero__title {
       font-size: clamp(2rem, 8.6vw, 3rem);
       letter-spacing: -0.04em;
@@ -342,7 +363,7 @@ const t = isEn
 
   @media (prefers-reduced-motion: reduce) {
     .hero__line > span,
-    .hero__actions {
+    .hero__actions .btn {
       animation: none;
     }
   }
