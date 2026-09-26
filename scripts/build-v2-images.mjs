@@ -39,7 +39,7 @@ const SOURCES = {
   'anm-panorama':     'abk/Group 9 (1).png',
   'anm-exterior':     'abk/img_4844_mini.jpg',
   'anm-reception':    'abk/abk2.jpg',
-  'anm-cafe':         'abk/abk3.jpg',
+  'anm-cafe':         'abk/3D_Isometric_Map_In_a_modern_cafe_style_a_dark_wood_counter_RvClOnr.png',
   'anm-coworking':    'abk/park_1.jpg',
   'anm-conference':   'abk/park_2.jpg',
   'anm-lift':         'abk/abk_lift3.jpg',

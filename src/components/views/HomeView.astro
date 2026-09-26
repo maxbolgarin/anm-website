@@ -133,8 +133,15 @@ const jsonLd = {
   }
 
   .map-block__title {
-    max-width: 24ch;
     font-size: var(--text-h2);
+  }
+
+  /* From tablet up the heading runs across the full container width on one line */
+  @media (min-width: 768px) {
+    .map-block__title {
+      white-space: nowrap;
+      font-size: min(4.6vw, 4.2rem);
+    }
   }
 
   .map-block__foot {
