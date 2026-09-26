@@ -29,8 +29,8 @@ const t = isEn
   ? {
       title: 'Office Rental near Elizarovskaya Metro, St. Petersburg — Business Centers on the Neva | ANM',
       description: 'Office rental near Elizarovskaya metro in St. Petersburg: Business Loft Fidel (class B+) and Business Center ANM on the Neva, a 9-minute walk, 328 parking spaces, 24/7 access. Direct lease from the owner.',
-      mapEyebrow: 'Territory',
-      mapTitle: 'One territory — two business centers',
+      mapEyebrow: 'Territory map',
+      mapTitle: 'A nine-minute walk from Elizarovskaya metro',
       mapLink: 'More about the location',
       disclosure: 'Information disclosure',
       disclosureText: 'Information subject to disclosure in accordance with the legislation of the Russian Federation.',
@@ -39,8 +39,8 @@ const t = isEn
   : {
       title: 'Аренда офисов у м. Елизаровская — бизнес-центры на Неве в Санкт-Петербурге | АНМ',
       description: 'Аренда офисов у метро Елизаровская: бизнес-лофт Фидель (класс B+) и бизнес-центр АНМ на набережной Невы, 9 минут пешком, 328 машиномест, доступ 24/7. Прямая аренда от собственника.',
-      mapEyebrow: 'Территория',
-      mapTitle: 'Одна территория — два бизнес-центра',
+      mapEyebrow: 'Карта территории',
+      mapTitle: '9 минут пешком от метро Елизаровская',
       mapLink: 'Подробнее о локации',
       disclosure: 'Раскрытие информации',
       disclosureText: 'Информация, подлежащая раскрытию в соответствии с законодательством Российской Федерации.',
@@ -88,7 +88,7 @@ const jsonLd = {
     <div class="container">
       <div class="map-block__head" data-reveal>
         <span class="eyebrow">{t.mapEyebrow}</span>
-        <h2 class="map-block__title" id="map-title">{t.mapTitle}</h2>
+        <h2 class="map-block__title" id="map-title" style={isEn ? '--map-title-fs: min(4.25vw, 3.85rem)' : undefined}>{t.mapTitle}</h2>
       </div>
       <TerritoryMapIsland />
       <div class="map-block__foot">
@@ -140,7 +140,7 @@ const jsonLd = {
   @media (min-width: 768px) {
     .map-block__title {
       white-space: nowrap;
-      font-size: min(4.6vw, 4.2rem);
+      font-size: var(--map-title-fs, min(4.6vw, 4.2rem));
     }
   }
 

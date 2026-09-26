@@ -51,7 +51,7 @@ const SOURCES = {
   'anm-dining':       'abk/3D_Isometric_Map_An_empty_restaurant_dining_area_is_depicted_with.png',
   // ── Territory ──
   'territory-parking':   'фото бц/web (81).jpg',
-  'territory-neva':      'фото бц/Нева 3.jpg',
+  'territory-neva':      'фото бц/Нева 3 (без водяного знака).jpg',
   'territory-aerial':    'images/home/aerial-12.jpg',
   'territory-aerial-2':  'images/home/aerial-17_5.jpg',
   'territory-aerial-3':  'images/home/aerial-6.jpg',
