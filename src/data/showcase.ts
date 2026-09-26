@@ -10,6 +10,8 @@ export interface ShowcaseImage {
   alt: string;
   /** CSS object-position for cropped tiles, e.g. '50% 20%' (default: centre) */
   focus?: string;
+  /** Alternative image used on inner pages, so the same shot isn't repeated everywhere */
+  innerName?: string;
 }
 
 export interface ShowcaseFeature {
@@ -58,7 +60,7 @@ const ru: BuildingShowcase[] = [
     hero: { name: 'fidel-exterior', caption: 'фасад, 1855', alt: 'Исторический кирпичный корпус бизнес-лофта Фидель' },
     collage: [
       { name: 'fidel-lounge', caption: 'лаунж', alt: 'Лаунж-зона с зелёными диванами и кирпичной стеной в Фиделе' },
-      { name: 'fidel-kitchen', caption: 'столовая', alt: 'Столовая для арендаторов в бизнес-лофте Фидель', focus: '50% 24%' },
+      { name: 'fidel-kitchen', innerName: 'fidel-canteen-2', caption: 'столовая', alt: 'Столовая для арендаторов в бизнес-лофте Фидель', focus: '50% 24%' },
       { name: 'fidel-openspace', caption: 'офисы', alt: 'Офис открытой планировки с кирпичными стенами' },
       { name: 'fidel-staircase', caption: 'лестница', alt: 'Лестница с кирпичной кладкой и арочным окном' },
     ],

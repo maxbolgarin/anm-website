@@ -45,7 +45,8 @@ const d = {
   faq: isEn ? en.faq : b.faq,
 };
 
-const photos = [...show.collage, ...show.gallery];
+// Inner pages use the alternative shot where one is set, to avoid repeating the home page
+const photos = [...show.collage, ...show.gallery].map((p) => ({ ...p, name: p.innerName ?? p.name }));
 
 const promo = slug === 'fidel'
   ? { plan: '/plans/fidel plan example.png', area: isEn ? 'from 45 to 200 m²' : 'от 45 до 200 м²', price: isEn ? 'from 1,050 ₽/m²' : 'от 1 050 ₽/м²', label: isEn ? 'Business Loft Fidel' : 'бизнес-лофте Фидель' }
