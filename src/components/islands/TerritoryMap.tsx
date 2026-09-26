@@ -76,7 +76,7 @@ const facilities: FacilityPin[] = [
 
   // === Building labels (no icon, text only) ===
   { id: 'label-fidel',    label: 'БЦ Фидель',        icon: '',               x: 36, y: 33, building: 1, category: 'admin' },
-  { id: 'label-anm',      label: 'БЦ АНМ',           icon: '',               x: 67, y: 31, building: 2, category: 'admin' },
+  { id: 'label-anm',      label: 'БЦ АНМ',           icon: '',               x: 65, y: 29, building: 2, category: 'admin' },
 
   // === Second walking zone ===
   { id: 'walk-south',     label: 'Прогулочная зона',  icon: ICONS.walk,       x: 43, y: 89, building: 0, category: 'fitness' },

@@ -31,7 +31,6 @@ const t = isEn
       description: 'Office rental near Elizarovskaya metro in St. Petersburg: Business Loft Fidel (class B+) and Business Center ANM on the Neva, a 9-minute walk, 328 parking spaces, 24/7 access. Direct lease from the owner.',
       mapEyebrow: 'Territory',
       mapTitle: 'One territory — two business centers',
-      mapLead: 'Explore the site: cafés, parking, fitness, the embankment and building entrances.',
       mapLink: 'More about the location',
       disclosure: 'Information disclosure',
       disclosureText: 'Information subject to disclosure in accordance with the legislation of the Russian Federation.',
@@ -42,7 +41,6 @@ const t = isEn
       description: 'Аренда офисов у метро Елизаровская: бизнес-лофт Фидель (класс B+) и бизнес-центр АНМ на набережной Невы, 9 минут пешком, 328 машиномест, доступ 24/7. Прямая аренда от собственника.',
       mapEyebrow: 'Территория',
       mapTitle: 'Одна территория — два бизнес-центра',
-      mapLead: 'Изучите территорию: кафе, паркинг, фитнес, набережная и входы в здания.',
       mapLink: 'Подробнее о локации',
       disclosure: 'Раскрытие информации',
       disclosureText: 'Информация, подлежащая раскрытию в соответствии с законодательством Российской Федерации.',
@@ -89,16 +87,13 @@ const jsonLd = {
   <section class="section map-block" id="territory-map" aria-labelledby="map-title">
     <div class="container">
       <div class="map-block__head" data-reveal>
-        <div>
-          <span class="eyebrow">{t.mapEyebrow}</span>
-          <h2 class="map-block__title" id="map-title">{t.mapTitle}</h2>
-        </div>
-        <div class="map-block__aside">
-          <p class="map-block__lead">{t.mapLead}</p>
-          <a href={withBase(`${prefix}/territory/`)} class="link-arrow">{t.mapLink}</a>
-        </div>
+        <span class="eyebrow">{t.mapEyebrow}</span>
+        <h2 class="map-block__title" id="map-title">{t.mapTitle}</h2>
       </div>
       <TerritoryMapIsland />
+      <div class="map-block__foot">
+        <a href={withBase(`${prefix}/territory/`)} class="link-arrow">{t.mapLink}</a>
+      </div>
     </div>
   </section>
 
@@ -130,16 +125,7 @@ const jsonLd = {
   }
 
   .map-block__head {
-    display: grid;
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    column-gap: var(--grid-gap);
-    row-gap: var(--space-lg);
-    align-items: end;
     margin-bottom: clamp(2rem, 4vw, 3rem);
-  }
-
-  .map-block__head > div:first-child {
-    grid-column: 1 / 8;
   }
 
   .map-block__head .eyebrow {
@@ -147,19 +133,14 @@ const jsonLd = {
   }
 
   .map-block__title {
-    max-width: 16ch;
+    max-width: 24ch;
     font-size: var(--text-h2);
   }
 
-  .map-block__aside {
-    grid-column: 8 / 13;
-  }
-
-  .map-block__lead {
-    font-size: var(--text-small);
-    line-height: 1.7;
-    color: var(--color-text-secondary);
-    margin-bottom: 1rem;
+  .map-block__foot {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: clamp(1.5rem, 3vw, 2.25rem);
   }
 
   .disclosure {
@@ -180,10 +161,9 @@ const jsonLd = {
     color: var(--color-text-secondary);
   }
 
-  @media (max-width: 1023px) {
-    .map-block__head > div:first-child,
-    .map-block__aside {
-      grid-column: 1 / 13;
+  @media (max-width: 767px) {
+    .map-block__foot {
+      justify-content: flex-start;
     }
   }
 </style>
