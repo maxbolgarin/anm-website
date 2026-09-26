@@ -58,7 +58,7 @@ const ru: BuildingShowcase[] = [
     hero: { name: 'fidel-exterior', caption: 'фасад, 1855', alt: 'Исторический кирпичный корпус бизнес-лофта Фидель' },
     collage: [
       { name: 'fidel-lounge', caption: 'лаунж', alt: 'Лаунж-зона с зелёными диванами и кирпичной стеной в Фиделе' },
-      { name: 'fidel-kitchen', caption: 'столовая', alt: 'Столовая для арендаторов в бизнес-лофте Фидель', focus: '50% 8%' },
+      { name: 'fidel-kitchen', caption: 'столовая', alt: 'Столовая для арендаторов в бизнес-лофте Фидель', focus: '50% 16%' },
       { name: 'fidel-openspace', caption: 'офисы', alt: 'Офис открытой планировки с кирпичными стенами' },
       { name: 'fidel-staircase', caption: 'лестница', alt: 'Лестница с кирпичной кладкой и арочным окном' },
     ],
