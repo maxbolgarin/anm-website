@@ -8,6 +8,8 @@ export interface ShowcaseImage {
   name: string;
   caption: string;
   alt: string;
+  /** CSS object-position for cropped tiles, e.g. '50% 20%' (default: centre) */
+  focus?: string;
 }
 
 export interface ShowcaseFeature {
@@ -56,7 +58,7 @@ const ru: BuildingShowcase[] = [
     hero: { name: 'fidel-exterior', caption: 'фасад, 1855', alt: 'Исторический кирпичный корпус бизнес-лофта Фидель' },
     collage: [
       { name: 'fidel-lounge', caption: 'лаунж', alt: 'Лаунж-зона с зелёными диванами и кирпичной стеной в Фиделе' },
-      { name: 'fidel-kitchen', caption: 'столовая', alt: 'Столовая для арендаторов в бизнес-лофте Фидель' },
+      { name: 'fidel-kitchen', caption: 'столовая', alt: 'Столовая для арендаторов в бизнес-лофте Фидель', focus: '50% 8%' },
       { name: 'fidel-openspace', caption: 'офисы', alt: 'Офис открытой планировки с кирпичными стенами' },
       { name: 'fidel-staircase', caption: 'лестница', alt: 'Лестница с кирпичной кладкой и арочным окном' },
     ],
@@ -106,7 +108,7 @@ const ru: BuildingShowcase[] = [
     hero: { name: 'anm-panorama', caption: 'фасад', alt: 'Фасад бизнес-центра АНМ на пр. Обуховской Обороны' },
     collage: [
       { name: 'anm-reception', caption: 'ресепшн', alt: 'Ресепшн и турникеты бизнес-центра АНМ' },
-      { name: 'anm-arch', caption: 'коридоры', alt: 'Светлый коридор с арочным проёмом' },
+      { name: 'anm-arch', caption: 'коридоры', alt: 'Светлый коридор с арочным проёмом', focus: '50% 78%' },
       { name: 'anm-office', caption: 'офисы', alt: 'Светлый кабинет с панорамными окнами в бизнес-центре АНМ' },
       { name: 'anm-cafe', caption: 'кафе', alt: 'Кафе в холле бизнес-центра АНМ' },
     ],

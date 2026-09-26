@@ -85,7 +85,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
     <div class="showcase__collage">
       {b.collage.map((img, i) => (
         <figure class={`showcase__tile showcase__tile--${i + 1} figure`} data-reveal style={`--reveal-delay: ${i * 90}ms`}>
-          <div class="showcase__tile-media zoom">
+          <div class="showcase__tile-media zoom" style={img.focus ? `--focus: ${img.focus}` : undefined}>
             <Img name={img.name} alt={img.alt} sizes="(min-width: 1024px) 40vw, 50vw" />
           </div>
           <figcaption class="figure__caption">{img.caption}</figcaption>
@@ -305,6 +305,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: var(--focus, 50% 50%);
   }
 
   .showcase__tile .figure__caption {
