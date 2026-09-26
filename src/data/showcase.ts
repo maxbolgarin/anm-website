@@ -56,7 +56,7 @@ const ru: BuildingShowcase[] = [
     hero: { name: 'fidel-exterior', caption: 'фасад, 1855', alt: 'Исторический кирпичный корпус бизнес-лофта Фидель' },
     collage: [
       { name: 'fidel-lounge', caption: 'лаунж', alt: 'Лаунж-зона с зелёными диванами и кирпичной стеной в Фиделе' },
-      { name: 'fidel-kitchen', caption: 'кухня', alt: 'Кухня-столовая с граффити в бизнес-лофте Фидель' },
+      { name: 'fidel-kitchen', caption: 'столовая', alt: 'Столовая для арендаторов в бизнес-лофте Фидель' },
       { name: 'fidel-openspace', caption: 'офисы', alt: 'Офис открытой планировки с кирпичными стенами' },
       { name: 'fidel-staircase', caption: 'лестница', alt: 'Лестница с кирпичной кладкой и арочным окном' },
     ],
@@ -156,7 +156,7 @@ const en: BuildingShowcase[] = [
     hero: { ...ru[0].hero, caption: 'facade, 1855', alt: 'Historic red-brick building of Business Loft Fidel' },
     collage: [
       { ...ru[0].collage[0], caption: 'lounge', alt: 'Lounge with green sofas and a brick wall at Fidel' },
-      { ...ru[0].collage[1], caption: 'kitchen', alt: 'Kitchen and dining area with graffiti at Fidel' },
+      { ...ru[0].collage[1], caption: 'canteen', alt: 'Canteen for tenants at Business Loft Fidel' },
       { ...ru[0].collage[2], caption: 'offices', alt: 'Open-plan office with brick walls' },
       { ...ru[0].collage[3], caption: 'staircase', alt: 'Staircase with brickwork and an arched window' },
     ],

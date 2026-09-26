@@ -20,7 +20,7 @@ const SOURCES = {
   'fidel-lobby':      'фото бц/холл БЦ.jpg',
   'fidel-staircase':  'фото бц/3B8P7698.JPG',
   'fidel-lounge':     'фото бц/web (128).jpg',
-  'fidel-kitchen':    'фото бц/web (134).jpg',
+  'fidel-kitchen':    'fidel/3D_Isometric_Map_QIz-MPRJ.png',
   'fidel-kitchen-2':  'фото бц/web (135).jpg',
   'fidel-openspace':  'фото бц/web (108).jpg',
   'fidel-openspace-2':'фото бц/web (112).jpg',

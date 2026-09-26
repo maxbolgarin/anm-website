@@ -12,7 +12,7 @@ const logoMask = `url('${withBase('/images/common/logo-icon.svg')}')`;
 
 const t = isEn
   ? {
-      lead: 'A business cluster\non the historic Neva embankment',
+      lead: 'Offices near\u00a0Elizarovskaya\u00a0metro\non the historic Neva embankment',
       commercial: 'Leasing department',
       main: 'Main line',
       buildings: 'Business centers',
@@ -29,7 +29,7 @@ const t = isEn
       names: { fidel: 'Business Loft Fidel', anm: 'Business Center ANM' } as Record<string, string>,
     }
   : {
-      lead: 'Бизнес-кластер\nна исторической набережной Невы',
+      lead: 'Аренда офисов у\u00a0метро\u00a0Елизаровская\nна исторической набережной Невы',
       commercial: 'Коммерческий отдел',
       main: 'Основной телефон',
       buildings: 'Бизнес-центры',
@@ -117,7 +117,7 @@ const t = isEn
   }
 
   .footer__lead {
-    max-width: 30ch;
+    max-width: 36ch;
     margin-bottom: clamp(2rem, 4vw, 3.5rem);
     font-size: var(--text-h3);
     font-weight: var(--weight-light);
