@@ -57,7 +57,7 @@ const ru: BuildingShowcase[] = [
       { value: '4,2 м', label: 'высота потолков' },
       { value: '218', label: 'машиномест' },
     ],
-    hero: { name: 'fidel-exterior', caption: 'фасад, 1855', alt: 'Исторический кирпичный корпус бизнес-лофта Фидель' },
+    hero: { name: 'fidel-exterior', innerName: 'fidel-facade', caption: 'фасад, 1855', alt: 'Исторический кирпичный корпус бизнес-лофта Фидель' },
     collage: [
       { name: 'fidel-lounge', caption: 'лаунж', alt: 'Лаунж-зона с зелёными диванами и кирпичной стеной в Фиделе' },
       { name: 'fidel-kitchen', innerName: 'fidel-canteen-2', caption: 'столовая', alt: 'Столовая для арендаторов в бизнес-лофте Фидель', focus: '50% 24%' },
@@ -107,7 +107,7 @@ const ru: BuildingShowcase[] = [
       { value: '6', label: 'этажей' },
       { value: '110', label: 'машиномест' },
     ],
-    hero: { name: 'anm-panorama', caption: 'фасад', alt: 'Фасад бизнес-центра АНМ на пр. Обуховской Обороны' },
+    hero: { name: 'anm-facade-autumn', innerName: 'anm-main-view', caption: 'фасад', alt: 'Фасад бизнес-центра АНМ на пр. Обуховской Обороны' },
     collage: [
       { name: 'anm-reception', caption: 'ресепшн', alt: 'Ресепшн и турникеты бизнес-центра АНМ' },
       { name: 'anm-arch', caption: 'коридоры', alt: 'Светлый коридор с арочным проёмом', focus: '50% 78%' },
@@ -128,6 +128,7 @@ const ru: BuildingShowcase[] = [
       { name: 'anm-dining', caption: 'столовая', alt: 'Столовая для арендаторов' },
       { name: 'anm-courtyard', caption: 'двор', alt: 'Благоустроенный двор с елями' },
       { name: 'anm-exterior', caption: 'фасад', alt: 'Фасад бизнес-центра АНМ осенью' },
+      { name: 'anm-panorama', caption: 'главный корпус', alt: 'Главный корпус бизнес-центра АНМ со стороны проспекта' },
     ],
   },
 ];
@@ -225,7 +226,7 @@ const en: BuildingShowcase[] = [
     ],
     gallery: ru[1].gallery.map((g, i) => ({
       ...g,
-      caption: ['meeting room', 'office', 'lobby', 'corridors', 'elevator hall', 'canteen', 'courtyard', 'facade'][i],
+      caption: ['meeting room', 'office', 'lobby', 'corridors', 'elevator hall', 'canteen', 'courtyard', 'facade', 'main building'][i],
       alt: [
         'Conference room with a round table',
         'Open-plan office at Business Center ANM',
@@ -235,6 +236,7 @@ const en: BuildingShowcase[] = [
         'Canteen for tenants',
         'Landscaped courtyard with fir trees',
         'Facade of Business Center ANM in autumn',
+        'Main building of Business Center ANM seen from the avenue',
       ][i],
     })),
   },

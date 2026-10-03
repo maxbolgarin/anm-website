@@ -15,7 +15,8 @@ mkdirSync(OUT, { recursive: true });
 const SOURCES = {
   // ── Fidel ──
   'fidel-exterior':   'images/buildings/fidel/exterior-autumn.jpg',
-  'fidel-facade':     'фото бц/IMG_4955_1.jpg',
+  'fidel-facade':     'New photos/SME_5685.jpg',
+  'fidel-exterior-2': 'New photos/SME_5654.jpg',
   'fidel-entrance':   'фото бц/вход в БЦ.jpg',
   'fidel-lobby':      'фото бц/холл БЦ.jpg',
   'fidel-staircase':  'фото бц/3B8P7698.JPG',
@@ -38,6 +39,8 @@ const SOURCES = {
   'fidel-courtyard':  'images/buildings/fidel/courtyard-garden.jpg',
   // ── ANM (АБК) ──
   'anm-panorama':     'abk/Group 9 (1).png',
+  'anm-facade-autumn':'New photos/Anm_shadows_remove2.png',
+  'anm-main-view':    'New photos/ANM_shadow_ABK_fix.png',
   'anm-exterior':     'abk/img_4844_mini.jpg',
   'anm-reception':    'abk/abk2.jpg',
   'anm-cafe':         'abk/3D_Isometric_Map_In_a_modern_cafe_style_a_dark_wood_counter_RvClOnr.png',
@@ -53,6 +56,8 @@ const SOURCES = {
   // ── Territory ──
   'territory-parking':   'фото бц/web (81).jpg',
   'territory-neva':      'фото бц/Нева 3 (без водяного знака).jpg',
+  'territory-aerial-morning':    'New photos/DJI_20260915071350_0007_D-HDR.jpg',
+  'territory-aerial-embankment': 'New photos/DJI_20260915074229_0047_D-HDR.jpg',
   'territory-aerial':    'images/home/aerial-12.jpg',
   'territory-aerial-2':  'images/home/aerial-17_5.jpg',
   'territory-aerial-3':  'images/home/aerial-6.jpg',

@@ -47,6 +47,7 @@ const d = {
 
 // Inner pages use the alternative shot where one is set, to avoid repeating the home page
 const photos = [...show.collage, ...show.gallery].map((p) => ({ ...p, name: p.innerName ?? p.name }));
+const heroName = show.hero.innerName ?? show.hero.name;
 
 const promo = slug === 'fidel'
   ? { plan: '/plans/fidel plan example.png', area: isEn ? 'from 45 to 200 m²' : 'от 45 до 200 м²', price: isEn ? 'from 1,050 ₽/m²' : 'от 1 050 ₽/м²', label: isEn ? 'Business Loft Fidel' : 'бизнес-лофте Фидель' }
@@ -111,7 +112,7 @@ const jsonLd: object[] = [
     name: d.fullName,
     description: d.description,
     url: absoluteUrl(`${prefix}/buildings/${slug}/`),
-    image: absoluteUrl(`/images/v2/${show.hero.name}.jpg`),
+    image: absoluteUrl(`/images/v2/${heroName}.jpg`),
     address: {
       '@type': 'PostalAddress',
       streetAddress: d.address,
@@ -129,7 +130,7 @@ const jsonLd: object[] = [
   description={t.description}
   buildingName={d.fullName}
   buildingSlug={slug}
-  ogImage={`/images/v2/${show.hero.name}.jpg`}
+  ogImage={`/images/v2/${heroName}.jpg`}
   jsonLd={jsonLd}
 >
   <!-- ===== Hero ===== -->
@@ -151,7 +152,7 @@ const jsonLd: object[] = [
 
     <figure class={`bh__media container-wide bh__media--${slug}`} data-reveal>
       <div class="bh__frame">
-        <Img name={show.hero.name} alt={show.hero.alt} sizes="100vw" loading="eager" fetchpriority="high" />
+        <Img name={heroName} alt={show.hero.alt} sizes="100vw" loading="eager" fetchpriority="high" />
         <span class="bh__class" aria-hidden="true">{b.class}</span>
       </div>
     </figure>

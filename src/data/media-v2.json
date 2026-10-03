@@ -7,9 +7,15 @@
   },
   "fidel-facade": {
     "w": 2000,
-    "h": 1333,
+    "h": 1334,
     "smW": 1000,
-    "src": "/фото бц/IMG_4955_1.jpg"
+    "src": "/New photos/SME_5685.jpg"
+  },
+  "fidel-exterior-2": {
+    "w": 2000,
+    "h": 1334,
+    "smW": 1000,
+    "src": "/New photos/SME_5654.jpg"
   },
   "fidel-entrance": {
     "w": 2000,
@@ -137,6 +143,18 @@
     "smW": 1000,
     "src": "/abk/Group 9 (1).png"
   },
+  "anm-facade-autumn": {
+    "w": 2000,
+    "h": 1493,
+    "smW": 1000,
+    "src": "/New photos/Anm_shadows_remove2.png"
+  },
+  "anm-main-view": {
+    "w": 2000,
+    "h": 1493,
+    "smW": 1000,
+    "src": "/New photos/ANM_shadow_ABK_fix.png"
+  },
   "anm-exterior": {
     "w": 2000,
     "h": 2360,
@@ -220,6 +238,18 @@
     "h": 1238,
     "smW": 1000,
     "src": "/фото бц/Нева 3 (без водяного знака).jpg"
+  },
+  "territory-aerial-morning": {
+    "w": 2000,
+    "h": 1500,
+    "smW": 1000,
+    "src": "/New photos/DJI_20260915071350_0007_D-HDR.jpg"
+  },
+  "territory-aerial-embankment": {
+    "w": 2000,
+    "h": 1500,
+    "smW": 1000,
+    "src": "/New photos/DJI_20260915074229_0047_D-HDR.jpg"
   },
   "territory-aerial": {
     "w": 1920,
