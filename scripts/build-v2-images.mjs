@@ -22,7 +22,7 @@ const SOURCES = {
   'fidel-staircase':  'фото бц/3B8P7698.JPG',
   'fidel-lounge':     'фото бц/web (128).jpg',
   'fidel-kitchen':    'fidel/3D_Isometric_Map_QIz-MPRJ.png',
-  'fidel-canteen-2':   'fidel/3D_Isometric_Map_CZ6LDjms.png',
+  'fidel-canteen-2':   'fidel/3D_Isometric_Map_CZ6LDjms.jpeg',
   'fidel-kitchen-2':  'фото бц/web (135).jpg',
   'fidel-openspace':  'фото бц/web (108).jpg',
   'fidel-openspace-2':'фото бц/web (112).jpg',
