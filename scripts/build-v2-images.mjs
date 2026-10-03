@@ -38,7 +38,7 @@ const SOURCES = {
   'fidel-fitness':    'фото бц/image_2026-04-23_13-54-55 (1).png',
   'fidel-courtyard':  'images/buildings/fidel/courtyard-garden.jpg',
   // ── ANM (АБК) ──
-  'anm-panorama':     'abk/Group 9 (1).png',
+  'anm-panorama':     'New photos/better quality front.png',
   'anm-facade-autumn':'New photos/Anm_shadows_remove2.png',
   'anm-main-view':    'New photos/ANM_shadow_ABK_fix.png',
   'anm-exterior':     'abk/img_4844_mini.jpg',
