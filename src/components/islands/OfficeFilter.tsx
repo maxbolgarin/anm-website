@@ -54,6 +54,8 @@ interface OfficeFilterProps {
   otherBuildingOfficesUrl?: string;
   /** Offices baked in at build time so listings are in the static HTML (SEO); refreshed from offices.json on the client */
   initialOffices?: Office[];
+  /** Every business centre, so the switcher can show one with no free spaces as a disabled "0" */
+  buildings?: { slug: string; name: string }[];
 }
 
 function scopeOffices(data: Office[], buildingSlug?: string): Office[] {
@@ -80,6 +82,7 @@ export default function OfficeFilter({
   otherBuildingName,
   otherBuildingOfficesUrl,
   initialOffices,
+  buildings = [],
 }: OfficeFilterProps) {
   const isEn = locale === 'en';
   const officesDataUrl = withBase('/data/offices.json');
@@ -161,200 +164,69 @@ export default function OfficeFilter({
     return <div className="office-filter__loading">{isEn ? 'Loading offices...' : 'Загрузка предложений...'}</div>;
   }
 
-  // ─── FULL CAPACITY STATE (0 offices) ───
+  // ─── Switcher data: every business centre, with its number of free spaces ───
+  const counts = new Map<string, number>();
+  offices.forEach((o) => counts.set(o.buildingSlug, (counts.get(o.buildingSlug) ?? 0) + 1));
+
+  const centres = (buildings.length
+    ? buildings
+    : [...new Map(offices.map((o) => [o.buildingSlug, { slug: o.buildingSlug, name: o.buildingName }])).values()]
+  ).map((b) => ({ ...b, count: counts.get(b.slug) ?? 0 }));
+
+  const telHref = `tel:${contactPhone.replace(/[\s()-]/g, '')}`;
+
+  const switcher = (!buildingSlug && centres.length > 1) ? (
+    <div className="office-browse__switch" role="group" aria-label={isEn ? 'Business centre' : 'Бизнес-центр'}>
+      <button
+        type="button"
+        className={`office-browse__chip${selectedBuilding === 'all' && offices.length > 0 ? ' is-active' : ''}`}
+        onClick={() => { setSelectedBuilding('all'); setCurrentIndex(0); }}
+        disabled={offices.length === 0}
+      >
+        {isEn ? 'All' : 'Все'}<span className="office-browse__chip-count">{offices.length}</span>
+      </button>
+      {centres.map((b) => (
+        <button
+          key={b.slug}
+          type="button"
+          className={`office-browse__chip${selectedBuilding === b.slug ? ' is-active' : ''}`}
+          onClick={() => { setSelectedBuilding(b.slug); setCurrentIndex(0); }}
+          disabled={b.count === 0}
+          title={b.count === 0 ? (isEn ? 'No free spaces at the moment' : 'Сейчас свободных помещений нет') : undefined}
+        >
+          {b.name}<span className="office-browse__chip-count">{b.count}</span>
+        </button>
+      ))}
+    </div>
+  ) : null;
+
+  // ─── Nothing free anywhere ───
   if (offices.length === 0) {
-    const isSingleBuilding = typicalOffices.length === 1;
-
-    const typicalCard = (office: TypicalOffice) => (
-      <div key={office.label} className="office-typical__card">
-        <div className="office-typical__image-wrap">
-          {office.planImage ? (
-            <img src={office.planImage} alt={office.label} className="office-typical__image" />
-          ) : (
-            <div className="office-typical__image-placeholder">
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ccc" strokeWidth="1.5">
-                <rect x="3" y="3" width="7" height="7" rx="1" />
-                <rect x="14" y="3" width="7" height="7" rx="1" />
-                <rect x="3" y="14" width="7" height="7" rx="1" />
-                <rect x="14" y="14" width="7" height="7" rx="1" />
-              </svg>
-              <span>План помещения</span>
-            </div>
-          )}
-        </div>
-        <div className="office-typical__info">
-          <h4 className="office-typical__label">{office.label}</h4>
-          <div className="office-typical__params">
-            <div className="office-typical__param">
-              <span className="office-typical__param-label">{isEn ? 'Area' : 'Площадь'}</span>
-              <span className="office-typical__param-value">{office.area}</span>
-            </div>
-            <div className="office-typical__param">
-              <span className="office-typical__param-label">{isEn ? 'Class' : 'Класс'}</span>
-              <span className="office-typical__param-value">{office.buildingClass}</span>
-            </div>
-            <div className="office-typical__param">
-              <span className="office-typical__param-label">{isEn ? 'Type' : 'Тип'}</span>
-              <span className="office-typical__param-value">{office.type}</span>
-            </div>
-            <div className="office-typical__param">
-              <span className="office-typical__param-label">{isEn ? 'Price' : 'Стоимость'}</span>
-              <span className="office-typical__param-value">{office.pricePerSqm}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-
-    if (isSingleBuilding && typicalOffices.length > 0) {
-      return (
-        <div className="office-capacity office-capacity--with-suggestion">
-          {otherBuildingName && otherBuildingOfficesUrl && (
-            <div className="office-capacity__other">
-              <div className="office-capacity__other-inner">
-                <div className="office-capacity__other-text">
-                  <span className="office-capacity__other-badge">
-                    {isEn ? 'Available Now' : 'Есть свободные'}
-                  </span>
-                  <p className="office-capacity__other-desc">
-                    {isEn
-                      ? `There are available offices in ${otherBuildingName}. View current options:`
-                      : `В ${otherBuildingName} есть свободные помещения. Посмотрите актуальные предложения:`}
-                  </p>
-                </div>
-                <a href={otherBuildingOfficesUrl} className="office-capacity__other-link">
-                  {isEn
-                    ? `Offices in ${otherBuildingName}`
-                    : `Офисы в ${otherBuildingName}`}
-                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M5 10h10M11 6l4 4-4 4" />
-                  </svg>
-                </a>
-              </div>
-            </div>
-          )}
-
-          <div className="office-capacity--split">
-            <div className="office-capacity__card">
-              <div className="office-capacity__header">
-                <span className="office-capacity__badge">{isEn ? '100% Occupancy' : 'Заполняемость 100%'}</span>
-                <h2 className="office-capacity__title">{isEn ? 'All Spaces Occupied' : 'Все помещения заняты'}</h2>
-                <p className="office-capacity__text">
-                  {isEn ? 'Submit a request — we\'ll contact you when spaces become available' : 'Оставьте заявку — мы свяжемся с вами при появлении свободных помещений'}
-                </p>
-              </div>
-              <div className="office-capacity__contacts">
-                <a href={`tel:${contactPhone.replace(/[\s()-]/g, '')}`} className="office-capacity__phone">
-                  {contactPhone}
-                </a>
-                <a href={`mailto:${contactEmail}`} className="office-capacity__email">
-                  {contactEmail}
-                </a>
-              </div>
-            </div>
-            <div className="office-typical office-typical--single">
-              {typicalCard(typicalOffices[0])}
-            </div>
-          </div>
-        </div>
-      );
-    }
-
     return (
-      <div className="office-capacity">
-        <div className="office-capacity__card">
-          <div className="office-capacity__header">
-            <span className="office-capacity__badge">{isEn ? '100% Occupancy' : 'Заполняемость 100%'}</span>
-            <h2 className="office-capacity__title">{isEn ? 'All Spaces Occupied' : 'Все помещения заняты'}</h2>
-            <p className="office-capacity__text">
-              {isEn ? 'Submit a request — we\'ll contact you when spaces become available' : 'Оставьте заявку — мы свяжемся с вами при появлении свободных помещений'}
-            </p>
-          </div>
-          <div className="office-capacity__contacts">
-            <a href={`tel:${contactPhone.replace(/[\s()-]/g, '')}`} className="office-capacity__phone">
-              {contactPhone}
-            </a>
-            <a href={`mailto:${contactEmail}`} className="office-capacity__email">
-              {contactEmail}
-            </a>
+      <div className="office-filter">
+        <div className="office-browse">{switcher}</div>
+        <div className="office-note">
+          <h2 className="office-note__title">
+            {isEn ? 'All spaces are currently let' : 'Сейчас все помещения заняты'}
+          </h2>
+          <p className="office-note__text">
+            {isEn
+              ? 'Call the leasing department — we will tell you what is coming up for renewal and add you to the waiting list.'
+              : 'Позвоните в коммерческий отдел — расскажем, что освобождается в ближайшее время, и внесём вас в лист ожидания.'}
+          </p>
+          <div className="office-note__contacts">
+            <a href={telHref} className="office-note__phone">{contactPhone}</a>
+            <a href={`mailto:${contactEmail}`} className="office-note__email">{contactEmail}</a>
           </div>
         </div>
-
-        {typicalOffices.length > 0 && (
-          <div className="office-typical">
-            <h3 className="office-typical__title">{isEn ? 'Typical Office Examples' : 'Примеры типовых офисов'}</h3>
-            <div className="office-typical__grid">
-              {typicalOffices.map((office) => (
-                <a key={office.label} href={office.href} className="office-typical__card">
-                  <div className="office-typical__image-wrap">
-                    {office.planImage ? (
-                      <img src={office.planImage} alt={office.label} className="office-typical__image" />
-                    ) : (
-                      <div className="office-typical__image-placeholder">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ccc" strokeWidth="1.5">
-                          <rect x="3" y="3" width="7" height="7" rx="1" />
-                          <rect x="14" y="3" width="7" height="7" rx="1" />
-                          <rect x="3" y="14" width="7" height="7" rx="1" />
-                          <rect x="14" y="14" width="7" height="7" rx="1" />
-                        </svg>
-                        <span>{isEn ? 'Floor Plan' : 'План помещения'}</span>
-                      </div>
-                    )}
-                  </div>
-                  <div className="office-typical__info">
-                    <h4 className="office-typical__label">{office.label}</h4>
-                    <div className="office-typical__params">
-                      <div className="office-typical__param">
-                        <span className="office-typical__param-label">{isEn ? 'Area' : 'Площадь'}</span>
-                        <span className="office-typical__param-value">{office.area}</span>
-                      </div>
-                      <div className="office-typical__param">
-                        <span className="office-typical__param-label">{isEn ? 'Class' : 'Класс'}</span>
-                        <span className="office-typical__param-value">{office.buildingClass}</span>
-                      </div>
-                      <div className="office-typical__param">
-                        <span className="office-typical__param-label">{isEn ? 'Type' : 'Тип'}</span>
-                        <span className="office-typical__param-value">{office.type}</span>
-                      </div>
-                      <div className="office-typical__param">
-                        <span className="office-typical__param-label">{isEn ? 'Price' : 'Стоимость'}</span>
-                        <span className="office-typical__param-value">{office.pricePerSqm}</span>
-                      </div>
-                    </div>
-                    <span className="office-typical__link">{isEn ? 'More about the building →' : 'Подробнее о здании →'}</span>
-                  </div>
-                </a>
-              ))}
-            </div>
-          </div>
-        )}
       </div>
     );
   }
 
-  // ─── BROWSE: summary + building switcher + list of spaces + the selected sheet ───
-  const grouped = useMemo(() => {
-    const map = new Map<string, { slug: string; name: string; count: number }>();
-    offices.forEach((o) => {
-      const prev = map.get(o.buildingSlug);
-      if (prev) prev.count += 1;
-      else map.set(o.buildingSlug, { slug: o.buildingSlug, name: o.buildingName, count: 1 });
-    });
-    return [...map.values()];
-  }, [offices]);
-
+  // ─── Browse: switcher (+ list when there is more than one space) + the sheet ───
   const visible = filteredOffices;
   const current = visible[Math.min(currentIndex, visible.length - 1)] ?? visible[0];
-
-  const spacesWord = (n: number) =>
-    isEn
-      ? (n === 1 ? 'space' : 'spaces')
-      : (n % 10 === 1 && n % 100 !== 11 ? 'помещение' : (n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? 'помещения' : 'помещений'));
-
-  const summary = grouped.length > 1
-    ? `${isEn ? 'Available now' : 'Свободно'} ${offices.length} ${spacesWord(offices.length)}: ` +
-      grouped.map((g) => `${g.count} — ${g.name}`).join(', ')
-    : `${isEn ? 'Available now' : 'Свободно'} ${offices.length} ${spacesWord(offices.length)} — ${grouped[0]?.name ?? ''}`;
+  const showList = visible.length > 1;
 
   const select = (i: number) => {
     setCurrentIndex(i);
@@ -364,35 +236,10 @@ export default function OfficeFilter({
     }
   };
 
-  const showSwitcher = !buildingSlug && grouped.length > 1;
-  const showList = offices.length > 1;
-
   return (
     <div className="office-filter">
       <div className="office-browse">
-        <p className="office-browse__summary">{summary}</p>
-
-        {showSwitcher && (
-          <div className="office-browse__switch" role="group" aria-label={isEn ? 'Business centre' : 'Бизнес-центр'}>
-            <button
-              type="button"
-              className={`office-browse__chip${selectedBuilding === 'all' ? ' is-active' : ''}`}
-              onClick={() => { setSelectedBuilding('all'); setCurrentIndex(0); }}
-            >
-              {isEn ? 'All' : 'Все'}<span className="office-browse__chip-count">{offices.length}</span>
-            </button>
-            {grouped.map((g) => (
-              <button
-                key={g.slug}
-                type="button"
-                className={`office-browse__chip${selectedBuilding === g.slug ? ' is-active' : ''}`}
-                onClick={() => { setSelectedBuilding(g.slug); setCurrentIndex(0); }}
-              >
-                {g.name}<span className="office-browse__chip-count">{g.count}</span>
-              </button>
-            ))}
-          </div>
-        )}
+        {switcher}
 
         {showList && (
           <div className="office-browse__list" role="list">
@@ -401,7 +248,7 @@ export default function OfficeFilter({
               <span>{isEn ? 'Area' : 'Площадь'}</span>
               <span>{isEn ? 'Floor' : 'Этаж'}</span>
               <span>{isEn ? 'Layout' : 'Планировка'}</span>
-              <span>{isEn ? `Rate / ${isEn ? 'm²' : 'м²'}` : 'Ставка'}</span>
+              <span>{isEn ? 'Rate' : 'Ставка'}</span>
               <span>{isEn ? 'Per month' : 'В месяц'}</span>
             </div>
             {visible.map((o, i) => (
@@ -443,10 +290,6 @@ export default function OfficeFilter({
             ))}
           </div>
         )}
-
-        {showList && visible.length === 0 && (
-          <p className="office-browse__empty">{isEn ? 'No spaces match the selection.' : 'По выбранным условиям помещений нет.'}</p>
-        )}
       </div>
 
       {current && (
@@ -462,6 +305,7 @@ export default function OfficeFilter({
     </div>
   );
 }
+
 
 
 

@@ -1079,3 +1079,60 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ─── Disabled centre in the switcher (no free spaces) ─── */
+.office-browse__chip:disabled {
+  border-color: var(--color-line);
+  color: var(--color-text-muted);
+  cursor: default;
+}
+
+.office-browse__chip:disabled .office-browse__chip-count {
+  color: var(--color-text-muted);
+  opacity: 0.7;
+}
+
+/* ─── Note shown when nothing is free ─── */
+.office-note {
+  max-width: 44rem;
+  padding: clamp(2rem, 4vw, 3rem) 0 0;
+  border-top: 1px solid var(--color-line-strong);
+}
+
+.office-note__title {
+  font-size: var(--text-h3);
+  font-weight: var(--weight-light);
+  letter-spacing: -0.01em;
+}
+
+.office-note__text {
+  margin: 1rem 0 0;
+  font-size: var(--text-small);
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+}
+
+.office-note__contacts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.75rem 2rem;
+  margin-top: clamp(1.5rem, 3vw, 2rem);
+}
+
+.office-note__phone {
+  font-size: clamp(1.5rem, 2.6vw, 2.25rem);
+  font-weight: var(--weight-light);
+  letter-spacing: -0.02em;
+  color: var(--color-ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.office-note__phone:hover {
+  color: var(--color-cta);
+}
+
+.office-note__email {
+  font-size: var(--text-small);
+  color: var(--color-text-secondary);
+}

@@ -3,6 +3,8 @@ import OfficeFilter from './islands/OfficeFilter';
 import './islands/OfficeFilter.css';
 import { withBase } from '@utils/withBase';
 import { getLocaleFromPath } from '@utils/locale';
+import { buildings as allBuildings } from '@data/buildings';
+import { getBuildingEnBySlug } from '@data/buildings-en';
 // Same file the island refreshes from at runtime — baked into the HTML so listings are indexable
 import officesData from '../../public/data/offices.json';
 
@@ -74,5 +76,6 @@ const typicalOfficesWithBase = typicalOffices.map((office) => ({
   contactEmail="arenda@ukanm.ru"
   typicalOffices={typicalOfficesWithBase}
   locale={locale}
+  buildings={allBuildings.map((b) => ({ slug: b.slug, name: isEn ? (getBuildingEnBySlug(b.slug)?.fullName ?? b.slug) : (b.slug === 'fidel' ? 'Бизнес-лофт Фидель' : 'БЦ АНМ') }))}
   initialOffices={officesData as any}
 />
