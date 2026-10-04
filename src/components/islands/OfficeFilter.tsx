@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import OfficeCard from './OfficeCard';
 import Lightbox from 'yet-another-react-lightbox';
 import 'yet-another-react-lightbox/styles.css';
 import { withBase } from '@utils/withBase';
@@ -333,204 +332,137 @@ export default function OfficeFilter({
     );
   }
 
-  // ─── SINGLE OFFICE DETAIL VIEW ───
-  if (offices.length === 1) {
-    return (
-      <OfficeDetailView
-        office={offices[0]}
-        isEn={isEn}
-        contactPhone={contactPhone}
-        contactEmail={contactEmail}
-      />
-    );
-  }
+  // ─── BROWSE: summary + building switcher + list of spaces + the selected sheet ───
+  const grouped = useMemo(() => {
+    const map = new Map<string, { slug: string; name: string; count: number }>();
+    offices.forEach((o) => {
+      const prev = map.get(o.buildingSlug);
+      if (prev) prev.count += 1;
+      else map.set(o.buildingSlug, { slug: o.buildingSlug, name: o.buildingName, count: 1 });
+    });
+    return [...map.values()];
+  }, [offices]);
 
-  // ─── MULTIPLE OFFICES — FILTER + GRID (2+) ───
-  // When there are few offices (2-3), show a simpler nav instead of full filter panel
-  const showFullFilters = offices.length > 3;
+  const visible = filteredOffices;
+  const current = visible[Math.min(currentIndex, visible.length - 1)] ?? visible[0];
+
+  const spacesWord = (n: number) =>
+    isEn
+      ? (n === 1 ? 'space' : 'spaces')
+      : (n % 10 === 1 && n % 100 !== 11 ? 'помещение' : (n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? 'помещения' : 'помещений'));
+
+  const summary = grouped.length > 1
+    ? `${isEn ? 'Available now' : 'Свободно'} ${offices.length} ${spacesWord(offices.length)}: ` +
+      grouped.map((g) => `${g.count} — ${g.name}`).join(', ')
+    : `${isEn ? 'Available now' : 'Свободно'} ${offices.length} ${spacesWord(offices.length)} — ${grouped[0]?.name ?? ''}`;
+
+  const select = (i: number) => {
+    setCurrentIndex(i);
+    if (typeof document !== 'undefined') {
+      const el = document.getElementById('office-sheet');
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
+  const showSwitcher = !buildingSlug && grouped.length > 1;
+  const showList = offices.length > 1;
 
   return (
     <div className="office-filter">
-      {showFullFilters && (
-        <div className="office-filter__controls">
-          {!buildingSlug && buildingOptions.length > 1 && (
-            <div className="office-filter__group">
-              <label className="office-filter__label">{isEn ? 'Business Center' : 'Бизнес-центр'}</label>
-              <div className="office-filter__toggles">
-                <button
-                  className={`office-filter__toggle ${selectedBuilding === 'all' ? 'office-filter__toggle--active' : ''}`}
-                  onClick={() => setSelectedBuilding('all')}
-                >
-                  {isEn ? 'All' : 'Все'}
-                </button>
-                {buildingOptions.map((b) => (
-                  <button
-                    key={b.slug}
-                    className={`office-filter__toggle ${selectedBuilding === b.slug ? 'office-filter__toggle--active' : ''}`}
-                    onClick={() => setSelectedBuilding(b.slug)}
-                  >
-                    {b.name}
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
+      <div className="office-browse">
+        <p className="office-browse__summary">{summary}</p>
 
-          <div className="office-filter__group">
-            <label className="office-filter__label">{isEn ? 'Floor' : 'Этаж'}</label>
-            <div className="office-filter__toggles">
-              {floorOptions.map((floor) => (
-                <button
-                  key={floor}
-                  className={`office-filter__toggle ${selectedFloors.includes(floor) ? 'office-filter__toggle--active' : ''}`}
-                  onClick={() => toggleFloor(floor)}
-                >
-                  {floor}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="office-filter__group">
-            <label className="office-filter__label">{isEn ? 'Area, m²' : 'Площадь, м²'}</label>
-            <div className="office-filter__range">
-              <input
-                type="number"
-                className="office-filter__input"
-                value={areaMin}
-                min={dataAreaMin}
-                max={dataAreaMax}
-                onChange={(e) => setAreaMin(Number(e.target.value))}
-                placeholder="от"
-              />
-              <span className="office-filter__range-sep">—</span>
-              <input
-                type="number"
-                className="office-filter__input"
-                value={areaMax}
-                min={dataAreaMin}
-                max={dataAreaMax}
-                onChange={(e) => setAreaMax(Number(e.target.value))}
-                placeholder="до"
-              />
-            </div>
-          </div>
-
-          <div className="office-filter__group">
-            <label className="office-filter__label">{isEn ? 'Price, ₽/m²' : 'Цена, ₽/м²'}</label>
-            <div className="office-filter__range">
-              <input
-                type="number"
-                className="office-filter__input"
-                value={priceMin}
-                min={dataPriceMin}
-                max={dataPriceMax}
-                onChange={(e) => setPriceMin(Number(e.target.value))}
-                placeholder="от"
-              />
-              <span className="office-filter__range-sep">—</span>
-              <input
-                type="number"
-                className="office-filter__input"
-                value={priceMax}
-                min={dataPriceMin}
-                max={dataPriceMax}
-                onChange={(e) => setPriceMax(Number(e.target.value))}
-                placeholder="до"
-              />
-            </div>
-          </div>
-
-          <div className="office-filter__group">
-            <label className="office-filter__label">{isEn ? 'Type' : 'Тип'}</label>
-            <div className="office-filter__toggles">
-              <button
-                className={`office-filter__toggle ${selectedType === 'all' ? 'office-filter__toggle--active' : ''}`}
-                onClick={() => setSelectedType('all')}
-              >
-                {isEn ? 'All' : 'Все'}
-              </button>
-              <button
-                className={`office-filter__toggle ${selectedType === 'cabinet' ? 'office-filter__toggle--active' : ''}`}
-                onClick={() => setSelectedType('cabinet')}
-              >
-                {isEn ? 'Private Office' : 'Кабинет'}
-              </button>
-              <button
-                className={`office-filter__toggle ${selectedType === 'open-space' ? 'office-filter__toggle--active' : ''}`}
-                onClick={() => setSelectedType('open-space')}
-              >
-                Open Space
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* For small sets (2-3), show a simple tab-like nav */}
-      {!showFullFilters && offices.length > 1 && (
-        <div className="office-filter__tabs">
-          {offices.map((o, i) => (
+        {showSwitcher && (
+          <div className="office-browse__switch" role="group" aria-label={isEn ? 'Business centre' : 'Бизнес-центр'}>
             <button
-              key={o.id}
-              className={`office-filter__tab ${currentIndex === i ? 'office-filter__tab--active' : ''}`}
-              onClick={() => setCurrentIndex(i)}
+              type="button"
+              className={`office-browse__chip${selectedBuilding === 'all' ? ' is-active' : ''}`}
+              onClick={() => { setSelectedBuilding('all'); setCurrentIndex(0); }}
             >
-              <span className="office-filter__tab-floor">
-                {isEn ? 'Floor' : 'Этаж'} {o.floor}
-              </span>
-              <span className="office-filter__tab-area">{o.area} {isEn ? 'm²' : 'м²'}</span>
+              {isEn ? 'All' : 'Все'}<span className="office-browse__chip-count">{offices.length}</span>
             </button>
-          ))}
-        </div>
-      )}
-
-      {showFullFilters && (
-        <div className="office-filter__results-count">
-          {isEn ? 'Found: ' : 'Найдено: '}<strong>{filteredOffices.length}</strong> {filteredOffices.length === 1 ? (isEn ? 'space' : 'помещение') : (isEn ? 'spaces' : 'помещений')}
-        </div>
-      )}
-
-      {/* If using tabs (2-3 offices), show detail view for selected office */}
-      {!showFullFilters && offices.length > 1 ? (
-        <OfficeDetailView
-          office={offices[currentIndex]}
-          isEn={isEn}
-          contactPhone={contactPhone}
-          contactEmail={contactEmail}
-        />
-      ) : (
-        /* Grid mode for 4+ offices */
-        filteredOffices.length > 0 ? (
-          <div className="office-filter__grid">
-            {filteredOffices.map((office) => (
-              <OfficeCard
-                key={office.id}
-                id={office.id}
-                buildingName={office.buildingName}
-                area={office.area}
-                floor={office.floor}
-                classRating={office.class}
-                type={office.type}
-                address={office.address}
-                pricePerSqm={office.pricePerSqm}
-                totalPrice={office.totalPrice}
-                photoCount={office.photos.length}
-                locale={locale}
-              />
+            {grouped.map((g) => (
+              <button
+                key={g.slug}
+                type="button"
+                className={`office-browse__chip${selectedBuilding === g.slug ? ' is-active' : ''}`}
+                onClick={() => { setSelectedBuilding(g.slug); setCurrentIndex(0); }}
+              >
+                {g.name}<span className="office-browse__chip-count">{g.count}</span>
+              </button>
             ))}
           </div>
-        ) : (
-          <div className="office-filter__no-results">
-            <p>{isEn ? 'No spaces found matching your criteria.' : 'По выбранным фильтрам помещений не найдено.'}</p>
-            <p>{isEn ? 'Try adjusting your filters or contact us:' : 'Попробуйте изменить параметры поиска или свяжитесь с нами:'}</p>
-            <a href={`tel:${contactPhone.replace(/[\s()-]/g, '')}`}>{contactPhone}</a>
+        )}
+
+        {showList && (
+          <div className="office-browse__list" role="list">
+            <div className="office-browse__head" aria-hidden="true">
+              <span>{isEn ? 'Space' : 'Помещение'}</span>
+              <span>{isEn ? 'Area' : 'Площадь'}</span>
+              <span>{isEn ? 'Floor' : 'Этаж'}</span>
+              <span>{isEn ? 'Layout' : 'Планировка'}</span>
+              <span>{isEn ? `Rate / ${isEn ? 'm²' : 'м²'}` : 'Ставка'}</span>
+              <span>{isEn ? 'Per month' : 'В месяц'}</span>
+            </div>
+            {visible.map((o, i) => (
+              <button
+                key={o.id}
+                type="button"
+                role="listitem"
+                className={`office-browse__row${current && o.id === current.id ? ' is-active' : ''}`}
+                onClick={() => select(i)}
+                aria-current={current && o.id === current.id ? 'true' : undefined}
+              >
+                <span className="office-browse__cell office-browse__cell--name">
+                  <span className="office-browse__office">
+                    {isEn ? `Office ${o.id.split('-').pop()}` : `Офис №${o.id.split('-').pop()}`}
+                  </span>
+                  <span className="office-browse__building">{o.buildingName}</span>
+                </span>
+                <span className="office-browse__cell">
+                  <span className="office-browse__mob-label">{isEn ? 'Area' : 'Площадь'}</span>
+                  {String(o.area).replace('.', isEn ? '.' : ',')} {isEn ? 'm²' : 'м²'}
+                </span>
+                <span className="office-browse__cell">
+                  <span className="office-browse__mob-label">{isEn ? 'Floor' : 'Этаж'}</span>
+                  {o.floor}
+                </span>
+                <span className="office-browse__cell">
+                  <span className="office-browse__mob-label">{isEn ? 'Layout' : 'Планировка'}</span>
+                  {o.type === 'cabinet' ? (isEn ? 'Private office' : 'Кабинетная') : 'Open space'}
+                </span>
+                <span className="office-browse__cell">
+                  <span className="office-browse__mob-label">{isEn ? 'Rate' : 'Ставка'}</span>
+                  {formatNumber(o.pricePerSqm)} ₽/{isEn ? 'm²' : 'м²'}
+                </span>
+                <span className="office-browse__cell office-browse__cell--price">
+                  <span className="office-browse__mob-label">{isEn ? 'Per month' : 'В месяц'}</span>
+                  {formatNumber(o.totalPrice)} ₽
+                </span>
+              </button>
+            ))}
           </div>
-        )
+        )}
+
+        {showList && visible.length === 0 && (
+          <p className="office-browse__empty">{isEn ? 'No spaces match the selection.' : 'По выбранным условиям помещений нет.'}</p>
+        )}
+      </div>
+
+      {current && (
+        <div id="office-sheet" className="office-browse__sheet">
+          <OfficeDetailView
+            office={current}
+            isEn={isEn}
+            contactPhone={contactPhone}
+            contactEmail={contactEmail}
+          />
+        </div>
       )}
     </div>
   );
 }
+
 
 
 // ─── Reusable detail view for a single office (used in both single and tab modes) ───
@@ -626,31 +558,6 @@ function OfficeDetailView({
             </ul>
           )}
 
-          {(includes?.length || extra?.length) ? (
-            <dl className="office-detail__terms">
-              {includes && includes.length > 0 && (
-                <div className="office-detail__term">
-                  <dt>{isEn ? 'Included in the rent' : 'Включено в стоимость'}</dt>
-                  <dd>{includes.join(', ')}</dd>
-                </div>
-              )}
-              {extra && extra.length > 0 && (
-                <div className="office-detail__term">
-                  <dt>{isEn ? 'Paid separately' : 'Оплачивается отдельно'}</dt>
-                  <dd>{extra.join(', ')}</dd>
-                </div>
-              )}
-            </dl>
-          ) : null}
-
-          {planIndex >= 0 && (
-            <button type="button" className="office-detail__doc" onClick={() => setLightboxIndex(planIndex)}>
-              <span>{isEn ? 'Floor plan' : 'Планировка помещения'}</span>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" aria-hidden="true">
-                <path d="M4 4h16v16H4z" /><path d="M4 12h9v8M13 4v5h7" />
-              </svg>
-            </button>
-          )}
         </div>
 
         <div className="office-detail__media">
@@ -683,6 +590,36 @@ function OfficeDetailView({
           )}
         </div>
       </div>
+
+      {(includes?.length || extra?.length || planIndex >= 0) ? (
+        <div className="office-detail__terms-band">
+          {includes && includes.length > 0 && (
+            <div className="office-detail__term">
+              <dt>{isEn ? 'Included in the rent' : 'Включено в стоимость'}</dt>
+              <dd>{includes.join(', ')}</dd>
+            </div>
+          )}
+          {extra && extra.length > 0 && (
+            <div className="office-detail__term">
+              <dt>{isEn ? 'Paid separately' : 'Оплачивается отдельно'}</dt>
+              <dd>{extra.join(', ')}</dd>
+            </div>
+          )}
+          {planIndex >= 0 && (
+            <div className="office-detail__term office-detail__term--doc">
+              <dt>{isEn ? 'Floor plan' : 'Планировка'}</dt>
+              <dd>
+                <button type="button" className="office-detail__doc" onClick={() => setLightboxIndex(planIndex)}>
+                  <span>{isEn ? 'Open the plan' : 'Открыть планировку'}</span>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" aria-hidden="true">
+                    <path d="M4 4h16v16H4z" /><path d="M4 12h9v8M13 4v5h7" />
+                  </svg>
+                </button>
+              </dd>
+            </div>
+          )}
+        </div>
+      ) : null}
 
       <footer className="office-detail__cta">
         <div className="office-detail__price">
