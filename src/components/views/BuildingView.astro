@@ -52,6 +52,7 @@ const photos = [...show.collage, ...show.gallery].map((p) => ({
   zoom: p.innerName ? p.innerZoom : undefined,
 }));
 const heroName = show.hero.innerName ?? show.hero.name;
+const heroFocus = show.hero.innerName ? show.hero.innerFocus : undefined;
 
 const promo = slug === 'fidel'
   ? { plan: '/plans/fidel plan example.png', area: isEn ? 'from 45 to 200 m²' : 'от 45 до 200 м²', price: isEn ? 'from 1,050 ₽/m²' : 'от 1 050 ₽/м²', label: isEn ? 'Business Loft Fidel' : 'бизнес-лофте Фидель' }
@@ -155,7 +156,7 @@ const jsonLd: object[] = [
     </div>
 
     <figure class={`bh__media container-wide bh__media--${slug}`} data-reveal>
-      <div class="bh__frame">
+      <div class="bh__frame" style={heroFocus ? `--focus: ${heroFocus}` : undefined}>
         <Img name={heroName} alt={show.hero.alt} sizes="100vw" loading="eager" fetchpriority="high" />
         <span class="bh__class" aria-hidden="true">{b.class}</span>
       </div>
@@ -397,6 +398,7 @@ const jsonLd: object[] = [
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: var(--focus, 50% 50%);
   }
 
   .bh__class {

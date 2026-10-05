@@ -14,6 +14,8 @@ export interface ShowcaseImage {
   innerName?: string;
   /** Slight zoom (scale) for the inner-page variant when its frame crop needs tightening */
   innerZoom?: number;
+  /** object-position for the inner-page variant (building page hero / strip) */
+  innerFocus?: string;
 }
 
 export interface ShowcaseFeature {
@@ -109,7 +111,7 @@ const ru: BuildingShowcase[] = [
       { value: '6', label: 'этажей' },
       { value: '110', label: 'машиномест' },
     ],
-    hero: { name: 'anm-facade-autumn', innerName: 'anm-main-view', caption: 'фасад', alt: 'Фасад бизнес-центра АНМ на пр. Обуховской Обороны' },
+    hero: { name: 'anm-facade-autumn', innerName: 'anm-main-view', innerFocus: '50% 78%', caption: 'фасад', alt: 'Фасад бизнес-центра АНМ на пр. Обуховской Обороны' },
     collage: [
       { name: 'anm-reception', caption: 'ресепшн', alt: 'Ресепшн и турникеты бизнес-центра АНМ' },
       { name: 'anm-arch', caption: 'коридоры', alt: 'Светлый коридор с арочным проёмом', focus: '50% 78%' },
