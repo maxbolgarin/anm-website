@@ -15,6 +15,7 @@ interface Props {
 
 const { title, eyebrow, lead, breadcrumbs, size = 'default' } = Astro.props;
 const hasAside = Astro.slots.has('aside');
+const hasMeta = Astro.slots.has('default');
 ---
 
 {breadcrumbs && <Breadcrumbs items={breadcrumbs} />}
@@ -25,6 +26,11 @@ const hasAside = Astro.slots.has('aside');
       {eyebrow && <span class="eyebrow page-header__eyebrow">{eyebrow}</span>}
       <h1 class="page-header__title">{title}</h1>
       {lead && <p class="page-header__lead">{lead}</p>}
+      {hasMeta && (
+        <div class="page-header__meta">
+          <slot />
+        </div>
+      )}
     </div>
     {hasAside && (
       <div class="page-header__aside" data-reveal style="--reveal-delay: 120ms">
@@ -84,6 +90,10 @@ const hasAside = Astro.slots.has('aside');
     font-weight: var(--weight-light);
     line-height: 1.6;
     color: var(--color-text-secondary);
+  }
+
+  .page-header__meta {
+    margin-top: clamp(1.5rem, 2.5vw, 2.25rem);
   }
 
   @media (max-width: 1023px) {

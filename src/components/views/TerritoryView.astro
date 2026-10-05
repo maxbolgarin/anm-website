@@ -39,8 +39,9 @@ const t = isEn
       caption: 'the territory from above, golden hour',
       alt: 'Aerial view of the territory with the Neva and the city skyline',
       mapEyebrow: 'Interactive map',
-      mapTitle: 'Explore the territory',
-      mapLead: 'Filter by category to find cafés, parking, fitness, recreation areas and building entrances.',
+      mapTitle: 'Everything the working day needs',
+      address: 'St. Petersburg, Obukhovskoy Oborony Ave. 70, bldg. 2, lit. A',
+      addressLink: 'Open in maps',
       cityEyebrow: 'In the city',
       cityTitle: 'On the map of St. Petersburg',
       bc: (n: string) => `Business center ${n}`,
@@ -92,8 +93,9 @@ const t = isEn
       caption: 'территория с высоты, закат',
       alt: 'Территория Александро-Невской Мануфактуры и Нева с высоты',
       mapEyebrow: 'Интерактивная карта',
-      mapTitle: 'Изучите территорию',
-      mapLead: 'Фильтруйте по категориям: кафе, паркинг, фитнес, зоны отдыха и входы в здания.',
+      mapTitle: 'Оптимальная инфраструктура',
+      address: 'Санкт-Петербург, пр. Обуховской Обороны, 70, корпус 2, лит. А',
+      addressLink: 'Открыть в картах',
       cityEyebrow: 'В городе',
       cityTitle: 'На карте Санкт-Петербурга',
       bc: (n: string) => (n.startsWith('БЦ') ? n : `БЦ ${n}`),
@@ -142,6 +144,15 @@ const mapMarkers = buildings.map((b) => ({
 
 <BaseLayout title={t.title} description={t.description} ogImage="/images/v2/territory-aerial-3.jpg">
   <PageHeader breadcrumbs={t.crumbs} eyebrow={t.eyebrow} title={t.h1} lead={t.lead}>
+    <p class="address">
+      <span class="address__text">{t.address}</span>
+      <a
+        class="link-arrow address__link"
+        href="https://yandex.ru/maps/?pt=30.4295,59.9010&z=16"
+        target="_blank"
+        rel="noopener noreferrer"
+      >{t.addressLink}</a>
+    </p>
     <dl class="facts" slot="aside">
       {t.facts.map((f) => (
         <div class="facts__item">
@@ -166,7 +177,6 @@ const mapMarkers = buildings.map((b) => ({
           <span class="eyebrow">{t.mapEyebrow}</span>
           <h2 id="tmap-title">{t.mapTitle}</h2>
         </div>
-        <p>{t.mapLead}</p>
       </div>
       <TerritoryMapIsland />
     </div>
@@ -198,6 +208,21 @@ const mapMarkers = buildings.map((b) => ({
 </BaseLayout>
 
 <style>
+  .address {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.75rem 2rem;
+    margin: 0;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--color-line-strong);
+    font-size: var(--text-small);
+  }
+
+  .address__text {
+    color: var(--color-text-primary);
+  }
+
   .facts {
     display: grid;
     gap: 0;
