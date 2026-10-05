@@ -45,7 +45,7 @@ const SOURCES = {
   'anm-reception':    'abk/abk2.jpg',
   'anm-cafe-counter': 'abk/photo_2026-03-16 21.24.20.jpeg',
   'anm-cafe':         'abk/3D_Isometric_Map_In_a_modern_cafe_style_a_dark_wood_counter_RvClOnr.png',
-  'anm-coworking':    'abk/composite (2).png',
+  'anm-coworking':    'New photos/composite (2) 2.png',
   'anm-conference':   'abk/park_2.jpg',
   'anm-lift':         'abk/abk_lift3.jpg',
   'anm-arch':         'abk/sme_6510.png',
