@@ -9,6 +9,7 @@ import AmenitiesIndex from '@components/home/AmenitiesIndex.astro';
 import CompanyTeaser from '@components/home/CompanyTeaser.astro';
 import TerritoryMapIsland from '@components/TerritoryMapIsland.astro';
 import LocationContacts from '@components/LocationContacts.astro';
+import TrustSection from '@components/sections/TrustSection.astro';
 import ContactCTA from '@components/ContactCTA.astro';
 import { getShowcase } from '@data/showcase';
 import { buildings } from '@data/buildings';
@@ -97,9 +98,11 @@ const jsonLd = {
     </div>
   </section>
 
+  <LocationContacts />
+
   <CompanyTeaser locale={locale} />
 
-  <LocationContacts />
+  <TrustSection locale={locale} />
 
   <section class="disclosure" id="disclosure">
     <div class="container">
