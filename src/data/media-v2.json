@@ -167,6 +167,12 @@
     "smW": 1000,
     "src": "/abk/abk2.jpg"
   },
+  "anm-cafe-counter": {
+    "w": 923,
+    "h": 595,
+    "smW": 923,
+    "src": "/abk/photo_2026-03-16 21.24.20.jpeg"
+  },
   "anm-cafe": {
     "w": 2000,
     "h": 1493,
@@ -223,7 +229,7 @@
   },
   "anm-dining": {
     "w": 2000,
-    "h": 1493,
+    "h": 1335,
     "smW": 1000,
     "src": "/abk/3D_Isometric_Map_An_empty_restaurant_dining_area_is_depicted_with.png"
   },
