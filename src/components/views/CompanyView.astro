@@ -17,14 +17,15 @@ interface Props {
 const { locale } = Astro.props;
 const isEn = locale === 'en';
 
-const images = [
-  '/history/3D_Isometric_Map_In_a_vintage_industrial_style_a_large_textile_Z2ehCCb2.png',
-  '/history/3D_Isometric_Map_A_large_brick_building_is_undergoing_demolition.png',
-  '/history/3D_Isometric_Map_MoUcVrn8.png',
-  '/history/_DSC3708.jpg',
-  '/history/3D_Isometric_Map_In_a_architectural_visualization_style_this_7tyc4192.png',
-  '/history/вид слева.JPG',
-  '/history/image_2026-03-24_17-51-39.png',
+// Optional `focus` = object-position when the default centre crop sits awkwardly
+const images: { src: string; focus?: string }[] = [
+  { src: '/history/3D_Isometric_Map_In_a_vintage_industrial_style_a_large_textile_Z2ehCCb2.png', focus: '50% 64%' },
+  { src: '/history/3D_Isometric_Map_A_large_brick_building_is_undergoing_demolition.png' },
+  { src: '/history/3D_Isometric_Map_MoUcVrn8.png' },
+  { src: '/history/_DSC3708.jpg' },
+  { src: '/history/3D_Isometric_Map_In_a_architectural_visualization_style_this_7tyc4192.png' },
+  { src: '/history/вид слева.JPG' },
+  { src: '/history/image_2026-03-24_17-51-39.png' },
 ];
 
 const t = isEn
@@ -155,8 +156,8 @@ const t = isEn
               <h3 class="timeline__title">{e.title}</h3>
               <p class="timeline__desc">{e.description}</p>
             </div>
-            <div class="timeline__media">
-              <Img src={images[i]} alt={e.title} sizes="(min-width: 1024px) 30vw, 100vw" />
+            <div class="timeline__media" style={images[i]?.focus ? `--focus: ${images[i].focus}` : undefined}>
+              <Img src={images[i].src} alt={e.title} sizes="(min-width: 1024px) 30vw, 100vw" />
             </div>
           </li>
         ))}
@@ -299,6 +300,7 @@ const t = isEn
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: var(--focus, 50% 50%);
     filter: grayscale(0.35);
     transition: filter var(--transition-slow);
   }
