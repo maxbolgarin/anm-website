@@ -76,7 +76,7 @@ const PATHS = [
   '/fidel/3D_Isometric_Map_QIz-MPRJ.png',
   '/fidel/dsc00480.jpg',
   '/images/infrastructure/neva-embankment.jpg',
-  '/фото бц/Нева 3.jpg',
+  '/фото бц/Нева 3 (без водяного знака).jpg',
   '/abk/3D_Isometric_Map_The_scene_depicts_a_modern_conference_room_pNryGLWH.png',
   '/abk/photo_2026-03-16 21.24.20.jpeg',
   '/abk/abk_reception.jpg',
