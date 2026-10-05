@@ -12,6 +12,8 @@ export interface ShowcaseImage {
   focus?: string;
   /** Alternative image used on inner pages, so the same shot isn't repeated everywhere */
   innerName?: string;
+  /** Slight zoom (scale) for the inner-page variant when its frame crop needs tightening */
+  innerZoom?: number;
 }
 
 export interface ShowcaseFeature {
@@ -60,7 +62,7 @@ const ru: BuildingShowcase[] = [
     hero: { name: 'fidel-exterior', innerName: 'fidel-facade', caption: 'фасад, 1855', alt: 'Исторический кирпичный корпус бизнес-лофта Фидель' },
     collage: [
       { name: 'fidel-lounge', caption: 'лаунж', alt: 'Лаунж-зона с зелёными диванами и кирпичной стеной в Фиделе' },
-      { name: 'fidel-kitchen', innerName: 'fidel-canteen-2', caption: 'столовая', alt: 'Столовая для арендаторов в бизнес-лофте Фидель', focus: '50% 24%' },
+      { name: 'fidel-kitchen', innerName: 'fidel-canteen-2', innerZoom: 1.12, caption: 'столовая', alt: 'Столовая для арендаторов в бизнес-лофте Фидель', focus: '50% 24%' },
       { name: 'fidel-openspace', caption: 'офисы', alt: 'Офис открытой планировки с кирпичными стенами' },
       { name: 'fidel-staircase', caption: 'лестница', alt: 'Лестница с кирпичной кладкой и арочным окном' },
     ],

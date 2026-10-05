@@ -46,7 +46,11 @@ const d = {
 };
 
 // Inner pages use the alternative shot where one is set, to avoid repeating the home page
-const photos = [...show.collage, ...show.gallery].map((p) => ({ ...p, name: p.innerName ?? p.name }));
+const photos = [...show.collage, ...show.gallery].map((p) => ({
+  ...p,
+  name: p.innerName ?? p.name,
+  zoom: p.innerName ? p.innerZoom : undefined,
+}));
 const heroName = show.hero.innerName ?? show.hero.name;
 
 const promo = slug === 'fidel'
@@ -209,7 +213,7 @@ const jsonLd: object[] = [
       {photos.map((p) => (
         <li class="strip__item">
           <figure class="figure">
-            <div class="strip__frame">
+            <div class="strip__frame" style={p.zoom ? `--zoom: ${p.zoom}` : undefined}>
               <Img name={p.name} alt={p.alt} sizes="(min-width: 1024px) 34vw, 80vw" />
             </div>
             <figcaption class="figure__caption">{p.caption}</figcaption>
@@ -615,6 +619,7 @@ const jsonLd: object[] = [
   }
 
   .strip__frame :global(img) {
+    transform: scale(var(--zoom, 1));
     width: 100%;
     height: 100%;
     object-fit: cover;
