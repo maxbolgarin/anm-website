@@ -149,3 +149,6 @@ public/territory/ANM_Top_1080_*.mp4
 
 # Temporary files — safe to delete
 _to_delete/
+
+# Scratch previews written by Claude
+Claude outputs/
