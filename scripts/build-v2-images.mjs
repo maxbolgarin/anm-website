@@ -40,7 +40,7 @@ const SOURCES = {
   // ── ANM (АБК) ──
   'anm-panorama':     'New photos/better quality front.png',
   'anm-facade-autumn':'New photos/Anm_shadows_remove2.png',
-  'anm-main-view':    'New photos/ANM_shadow_ABK_fix.png',
+  'anm-main-view':    'New photos/ANM_shadow_ABK_fix2.png',
   'anm-exterior':     'abk/img_4844_mini.jpg',
   'anm-reception':    'abk/abk2.jpg',
   'anm-cafe-counter': 'abk/photo_2026-03-16 21.24.20.jpeg',
@@ -78,6 +78,7 @@ const PATHS = [
   '/fidel/dsc00480.jpg',
   '/images/infrastructure/neva-embankment.jpg',
   '/фото бц/Нева 3 (без водяного знака).jpg',
+  '/New photos/new road2.png',
   '/abk/3D_Isometric_Map_The_scene_depicts_a_modern_conference_room_pNryGLWH.png',
   '/abk/photo_2026-03-16 21.24.20.jpeg',
   '/abk/abk_reception.jpg',
