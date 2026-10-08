@@ -54,7 +54,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
 
   <!-- Lead: hero photograph + overlapping card + key figures -->
   <div class="showcase__lead container-wide">
-    <figure class="showcase__hero" style={`--ratio: ${heroRatio}`} data-reveal>
+    <figure class="showcase__hero" style={`--ratio: ${heroRatio}${b.hero.focus ? `; --focus: ${b.hero.focus}` : ''}`} data-reveal>
       <Img name={b.hero.name} alt={b.hero.alt} sizes="(min-width: 1024px) 80vw, 100vw" />
     </figure>
 
@@ -210,6 +210,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: var(--focus, 50% 50%);
   }
 
   .showcase__card {
