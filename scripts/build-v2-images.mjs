@@ -59,7 +59,7 @@ const SOURCES = {
   'territory-neva':      'фото бц/Нева 3 (без водяного знака).jpg',
   'territory-aerial-morning':    'New photos/DJI_20260915071350_0007_D-HDR.jpg',
   'territory-aerial-embankment': 'New photos/DJI_20260915074229_0047_D-HDR.jpg',
-  'territory-aerial':    'images/home/aerial-12.jpg',
+  'territory-aerial':    'New photos/anm-aerial-golden.jpg',
   'territory-aerial-2':  'images/home/aerial-17_5.jpg',
   'territory-aerial-3':  'images/home/aerial-6.jpg',
   'territory-aerial-4':  'images/home/aerial-20_4.jpg',
