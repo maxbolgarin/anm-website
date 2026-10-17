@@ -9,7 +9,7 @@ interface Props {
   title: string;
   eyebrow?: string;
   lead?: string;
-  /** Second half of the lead; kept on a line of its own from 1024px up. */
+  /** Second half of the lead; kept on a line of its own from 820px up. */
   leadTail?: string;
   breadcrumbs?: { label: string; href?: string }[];
   size?: 'default' | 'xl';
@@ -102,7 +102,8 @@ const hasMeta = Astro.slots.has('default');
     display: inline;
   }
 
-  @media (min-width: 1024px) {
+  /* 820px is the narrowest width at which the tail still fits on one line. */
+  @media (min-width: 820px) {
     .page-header__lead-tail {
       display: block;
     }
