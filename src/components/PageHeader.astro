@@ -9,11 +9,13 @@ interface Props {
   title: string;
   eyebrow?: string;
   lead?: string;
+  /** Second half of the lead; kept on a line of its own from 1024px up. */
+  leadTail?: string;
   breadcrumbs?: { label: string; href?: string }[];
   size?: 'default' | 'xl';
 }
 
-const { title, eyebrow, lead, breadcrumbs, size = 'default' } = Astro.props;
+const { title, eyebrow, lead, leadTail, breadcrumbs, size = 'default' } = Astro.props;
 const hasAside = Astro.slots.has('aside');
 const hasMeta = Astro.slots.has('default');
 ---
@@ -25,7 +27,11 @@ const hasMeta = Astro.slots.has('default');
     <div class="page-header__main" data-reveal>
       {eyebrow && <span class="eyebrow page-header__eyebrow">{eyebrow}</span>}
       <h1 class="page-header__title">{title}</h1>
-      {lead && <p class="page-header__lead">{lead}</p>}
+      {lead && (
+        <p class="page-header__lead">
+          {lead}{leadTail && <> <span class="page-header__lead-tail">{leadTail}</span></>}
+        </p>
+      )}
       {hasMeta && (
         <div class="page-header__meta">
           <slot />
@@ -90,6 +96,16 @@ const hasMeta = Astro.slots.has('default');
     font-weight: var(--weight-light);
     line-height: 1.6;
     color: var(--color-text-secondary);
+  }
+
+  .page-header__lead-tail {
+    display: inline;
+  }
+
+  @media (min-width: 1024px) {
+    .page-header__lead-tail {
+      display: block;
+    }
   }
 
   .page-header__meta {

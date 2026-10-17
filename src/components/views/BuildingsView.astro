@@ -26,7 +26,8 @@ const t = isEn
       crumbs: [{ label: 'Home', href: '/en/' }, { label: 'Business Centers' }],
       eyebrow: 'Business centers',
       h1: 'Two business centers on one territory',
-      lead: 'A historic loft with character and a classic business center — both on the Neva embankment, both managed by our own team.',
+      lead: 'A historic loft with character and a classic business center \u2014',
+      leadTail: 'both on the Neva embankment, both managed by our own team.',
       more: 'About the building',
       offices: 'Available offices',
       metro: 'Metro',
@@ -39,7 +40,8 @@ const t = isEn
       crumbs: [{ label: 'Главная', href: '/' }, { label: 'Бизнес-центры' }],
       eyebrow: 'Бизнес-центры',
       h1: 'Два бизнес-центра на одной территории',
-      lead: 'Исторический лофт с характером и классический бизнес-центр — оба на набережной Невы и под управлением нашей собственной команды.',
+      lead: 'Исторический лофт с характером и классический бизнес-центр \u2014',
+      leadTail: 'оба на набережной Невы и под управлением нашей собственной команды.',
       more: 'Подробнее о здании',
       offices: 'Свободные офисы',
       metro: 'м.',
@@ -69,7 +71,7 @@ const items = buildings.map((b) => {
 ---
 
 <BaseLayout title={t.title} description={t.description}>
-  <PageHeader breadcrumbs={t.crumbs} eyebrow={t.eyebrow} title={t.h1} lead={t.lead} />
+  <PageHeader breadcrumbs={t.crumbs} eyebrow={t.eyebrow} title={t.h1} lead={t.lead} leadTail={t.leadTail} />
 
   <section class="bl">
     <div class="container">
@@ -129,6 +131,19 @@ const items = buildings.map((b) => {
     position: relative;
     grid-column: 1 / 8;
     aspect-ratio: 4 / 3;
+  }
+
+  /* From the laptop breakpoint up the photo matches the text column's height
+     instead of sitting short of it. */
+  @media (min-width: 1024px) {
+    .bl__item {
+      align-items: stretch;
+    }
+
+    .bl__media {
+      aspect-ratio: auto;
+      min-height: 100%;
+    }
   }
 
   .bl__media :global(img) {
